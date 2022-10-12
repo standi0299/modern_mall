@@ -1,0 +1,909 @@
+{ # header }
+<!--inter_card.htm-->
+
+<script type="text/javascript">  
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+
+<!--{ ? print_img }-->
+var print_img = JSON.parse('{print_img}');
+<!--{ : }-->
+var print_img = "";
+<!--{ / }-->
+
+var r_ipro_print_code = {=json_encode(_r_ipro_print_code)};
+var r_ipro_print_sub_item = {=json_encode(_r_ipro_print_sub_item)};
+</script>
+
+<link rel="stylesheet" href="/skin/modern/assets/interpro/css/common.css">
+<link rel="stylesheet" href="/skin/modern/assets/interpro/css/layout.css">
+<script src="//code.jquery.com/jquery-latest.min.js"></script>
+<script src="/skin/modern/assets/interpro/js/interpro_local.js"></script>
+    
+<script src="/skin/modern/assets/print_js/print_common.js"></script>
+<script src="/skin/modern/assets/print_js/print_{print_goods_type}.js"></script>
+
+<form name="fm_print" id="fm_print" method="post" onsubmit="return false;">
+	<input type="hidden" name="mode" />
+	<input type="hidden" name="goodsno" value="{goodsno}" />
+	<input type="hidden" name="goodsnm" value="{goodsnm}" />
+	<input type="hidden" name="print_goods_type" value="{print_goods_type}" />
+	
+	<input type="hidden" name="ea" value="1" />
+	<input type="hidden" name="storageid" />
+	<input type="hidden" name="est_order_type" />
+	<input type="hidden" name="est_goodsnm" />
+	<input type="hidden" name="est_file_upload_json" />	
+
+	<!--/*
+	결제금액 : 공급가격: 3,000원 ( 할인가: 2,700원 ) + 부가세: 270원 = 2,970
+	공급가격 : opt_price
+	할인가격 : dc_price
+	부가세 : vat_price
+	판매가격 : sale_price
+	*/-->
+	
+    <input type="hidden" name="option_json" id="option_json" />
+    <input type="hidden" name="est_opt_price" id="est_opt_price" />
+    <input type="hidden" name="est_dc_price" id="est_dc_price" />
+    <input type="hidden" name="est_vat_price" id="est_vat_price" />
+	<input type="hidden" name="est_sale_price" id="est_sale_price" />
+	
+	<input type="hidden" name="order_direct" />
+	
+	<input type="hidden" name="real_cover_size" id="real_cover_size" />
+
+    <div class="order_content">
+        <div class="order_top_img">
+            <div class="img_txt">
+                <h2>{goodsnm}</h2>
+                <p>{summary}</p>
+            </div>
+        </div>
+        <!--{ @ f_banner_s2('view_print_product_cat_' + goodsno)}-->{.banner}<!--{ / }-->
+        <!--<div class="product_cat">
+            <ul>
+                <li><a href="#">일반명함</a></li>
+                <li><a href="#">고급명함</a></li>
+                <li><a href="#">백색인쇄명함</a></li>
+                <li><a href="#">PET명함</a></li>
+            </ul>
+        </div>-->
+        <div class="order_left">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>제목</th>
+                        <td class="title">
+                            <label for="" style="display: none;">제목</label>
+                            <input type="text" name="est_title" id="est_title" placeholder="제목입력" style="width: 360px;">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>규격</th>
+                        <td>
+                            <ul>
+                                <li class="size">
+                                    <div>
+                                        <select name="opt_size" id="opt_size" class="option_sel" onchange="dynamicImgChange(this);" style="width: 360px;">
+                                        </select>
+                                        <div class="btn">
+                                            <a href="javascript:optionSize();">규격보기</a>
+                                            <!--{ ? print_data.tip['규격보기'] }-->
+                                            <div class="balloon" data-tooltip-text="{print_data.tip['규격보기']}">
+                                                <img src="/skin/modern/assets/interpro/img/balloon.png" alt="" >
+                                            </div>
+                                            <!--{ / }-->
+                                        </div>
+                                    </div>
+                                </li>
+                                <li class="rowSizeBox">
+                                    <div><div class="sub_option1">재단사이즈</div>가로 <input type="text" name="cut_width" id="opt_size_cut_x" size="4" maxlength="3" style="width: 68px;" pt="_pt_num" onkeyup="getWorkUserSize(this,'opt_size_work_x');" disabled="disabled"> mm X 세로 <input type="text" name="cut_height" id="opt_size_cut_y" size="4" maxlength="3" style="width: 68px;" pt="_pt_num" onkeyup="getWorkUserSize(this,'opt_size_work_y');" disabled="disabled"> mm</div>
+                                </li>
+                                <li class="rowSizeBox">
+                                    <div><div class="sub_option1">작업사이즈</div>가로 <input type="text" name="work_width" id="opt_size_work_x" size="4" maxlength="3" style="width: 68px;" readonly="readonly"> mm X 세로 <input type="text" name="work_height" id="opt_size_work_y" size="4" maxlength="3" style="width: 68px;" readonly="readonly"> mm</div>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>수량</th>
+                        <td class="num" >
+                        	<!--{? print_goods_type == "DG01" || print_goods_type == "DG02" || print_goods_type == "OS01" }-->
+                            <select name="opt_page" id="opt_page" style="width: 68px; vertical-align: middle;">
+                            	<!--{ @ print_page }-->
+                            		<option value="{.value_}">{.value_}</option>
+                            	<!--{ / }-->
+                            </select>
+                            <div>매</div>
+                            <!--{: print_goods_type == "DG03" }-->
+                                <input type="text" name="opt_page" id="opt_page" style="width: 68px; vertical-align: bottom;">
+                                <div>부</div>
+
+                            <!--{: print_goods_type == "DG04" || print_goods_type == "DG06" }-->
+                                <input type="text" name="opt_page" id="opt_page" style="width: 68px;">
+                                <div>부</div> 
+							<!--{/}--> <span class="cnt_use">X</span>  
+                                                        
+                            <input type="text" name="cnt" class="cnt_use" value="1" size="4" style="width: 68px; vertical-align: bottom;">
+                            <div class="cnt_use">건</div>
+                            
+                        </td>
+                    </tr>
+                </tbody>
+                <tbody>
+                    <tr>
+                        <th>용지선택</th>
+                        <td class="num" >
+                            <select name="opt_paper_group" id="opt_paper_group" style="width: 120px;">
+                            </select>
+                            <select name="opt_paper" id="opt_paper" style="width: 120px;" onchange="dynamicImgChange(this);">
+                            </select>
+                            <select name="opt_paper_gram" id="opt_paper_gram"></select>
+                            <div class="btn">
+                                <a href="javascript:optionPaper();">용지보기</a>
+                                <div class="balloon" data-tooltip-text="<!--{ ? print_data.tip['용지보기'] }-->{print_data.tip['용지보기']}<!--{ / }-->">
+                                    <img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                    <!--{? print_data.print }-->
+                    <!--{? print_goods_type == "OS01" }-->
+                    <tr>
+                        <th>인쇄(앞면)</th>
+                        <td class="num" >
+                            <div class="main_color" id="opt_print1">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="spot_color_sec">
+                        <th>별색추가</th>
+                        <td class="num h_fix" >
+                            <div class="spot_color" id="opt_print3">
+                            </div>
+                            <!--{ ? print_data.tip['별색추가'] }-->
+                            <div class="balloon" data-tooltip-text="<!--{ ? print_data.tip['별색추가'] }-->{print_data.tip['별색추가']}<!--{ / }-->">
+                                <img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+                            </div>
+                            <!--{ / }-->
+                        </td>
+                    </tr>
+                    <tr class="side_sec sec00" style="display: none;">
+                        <th>양면/단면</th>
+                        <td class="num h_fix">
+                            <div class="side" id="opt_print2">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>인쇄(뒷면)</th>
+                        <td class="num" >
+                            <div class="main_color" id="opt_print4">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr id="spot_color_sec_opt_0" style="display: none;">
+                        <th>별색추가</th>
+                        <td class="num h_fix" >
+                            <div class="spot_color" id="opt_print6">
+                            </div>
+                            <!--{ ? print_data.tip['별색추가'] }-->
+                            <div class="balloon" data-tooltip-text="<!--{ ? print_data.tip['별색추가'] }-->{print_data.tip['별색추가']}<!--{ / }-->">
+                                <img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+                            </div>
+                            <!--{ / }-->
+                        </td>
+                    </tr>
+                    <tr class="side_sec sec00" style="display: none;">
+                        <th>양면/단면</th>
+                        <td class="num h_fix">
+                            <div class="side" id="opt_print5">
+                            </div>
+                        </td>
+                    </tr>
+                    <!--{ : }-->
+                    <tr>
+                        <th>인쇄컬러</th>
+                        <td class="num" >
+                            <div class="main_color" id="opt_print1">
+                            </div>
+                        </td>
+                    </tr>
+                    <tr class="spot_color_sec">
+                        <th>별색추가</th>
+                        <td class="num h_fix" >
+                            <div class="spot_color" id="opt_print3">
+                            </div>
+                            <!--{ ? print_data.tip['별색추가'] }-->
+                            <div class="balloon" data-tooltip-text="<!--{ ? print_data.tip['별색추가'] }-->{print_data.tip['별색추가']}<!--{ / }-->">
+                                <img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+                            </div>
+                            <!--{ / }-->
+                        </td>
+                    </tr>
+                    <tr class="side_sec sec00">
+                        <th>양면/단면</th>
+                        <td class="num h_fix">
+                            <div class="side" id="opt_print2">
+                            </div>
+                        </td>
+                    </tr>
+                    <!--{ / }-->                    
+                    <!--{ / }-->
+                </tbody>
+                <tbody>
+                	<!--{? print_data.instant }-->
+                    <tr>
+                        <th>즉석명함</th>
+                        <td class="num" >
+                            <select name="opt_instant" id="opt_instant" style="width: 170px;">
+                            </select>
+                            <div>접수 후 2~3시간 이내 출고</div>
+                        </td>
+                    </tr>
+                    <!--{ / }-->
+                    <tr class="proc">
+                        <th>후가공</th>
+                        <td>
+
+<!--{? print_data.gloss }-->
+<input type="checkbox" id="pr01" name="opt_gloss_check" value="Y"><label for="pr01" class="first"><div>코팅</div></label>
+<!--{ / }-->
+<!--{? print_data.punch }-->
+<input type="checkbox" id="pr02" name="opt_punch_check" value="Y"><label for="pr02"><div>타공</div></label>
+<!--{ / }-->
+<!--{? print_data.oshi }-->
+<input type="checkbox" id="pr03" name="opt_oshi_check" value="Y"><label for="pr03"><div>오시</div></label>
+<!--{ / }-->
+<!--{? print_data.miss }-->
+<input type="checkbox" id="pr04" name="opt_missing_check" value="Y"><label for="pr04"><div>미싱</div></label>
+<!--{ / }-->
+<!--{? print_data.round }-->
+<input type="checkbox" id="pr05" name="opt_round_check" value="Y"><label for="pr05"><div>귀도리</div></label>
+<!--{ / }-->
+<!--{? print_data.domoo }-->
+<input type="checkbox" id="pr06" name="opt_domoo_check" value="Y"><label for="pr06"><div>도무송</div></label>
+<!--{ / }-->
+<!--{? print_data.barcode }-->
+<input type="checkbox" id="pr07" name="opt_barcode_check" value="Y"><label for="pr07"><div>바코드</div></label>
+<!--{ / }-->
+<!--{? print_data.number }-->
+<input type="checkbox" id="pr08" name="opt_number_check" value="Y"><label for="pr08"><div>넘버링</div></label>
+<!--{ / }-->
+<!--{? print_data.stand }-->
+<input type="checkbox" id="pr09" name="opt_stand_check" value="Y"><label for="pr09"><div>스탠드(미니배너)</div></label>
+<!--{ / }-->
+<!--{? print_data.dangle }-->
+<input type="checkbox" id="pr10" name="opt_dangle_check" value="Y"><label for="pr10"><div>댕글(와블러)</div></label>
+<!--{ / }-->
+<!--{? print_data.tape }-->
+<input type="checkbox" id="pr11" name="opt_tape_check" value="Y"><label for="pr11"><div>양면테잎(봉투)</div></label>
+<!--{ / }-->
+<!--{? print_data.address }-->
+<input type="checkbox" id="pr12" name="opt_address_check" value="Y"><label for="pr12"><div>주소인쇄(봉투)</div></label>
+<!--{ / }-->
+<!--{? print_data.sc }-->
+<input type="checkbox" id="pr13" name="opt_sc_check" value="Y"><label for="pr13"><div>스코딕스</div></label>
+<!--{ / }-->
+<!--{? print_data.scb }-->
+<input type="checkbox" id="pr14" name="opt_scb_check" value="Y"><label for="pr14"><div>스코딕스 박</div></label>
+<!--{ / }-->
+<!--{? print_data.wing }-->
+<input type="checkbox" id="pr15" name="opt_wing_check" value="Y"><label for="pr15"><div>날개(책자)</div></label>
+<!--{ / }-->
+<!--{? print_data.bind }-->
+<input type="checkbox" id="pr16" name="opt_bind_check" value="Y"><label for="pr16"><div>제본(책자)</div></label>
+<!--{ / }-->
+<!--{? print_data.bind_type }-->
+<input type="checkbox" id="pr17" name="opt_bindtype_check" value="Y"><label for="pr17"><div>제본 방향(책자)</div></label>
+<!--{ / }-->
+<!--{? print_data.cutting }-->
+<input type="checkbox" id="pr18" name="opt_cutting_check" value="Y"><label for="pr18"><div>재단</div></label>
+<!--{ / }-->
+
+<!--{? print_data.foil }-->
+<input type="checkbox" id="pr30" name="opt_foil_check" value="Y"><label for="pr30"><div>박</div></label>
+<!--{ / }-->
+<!--{? print_data.holding }-->
+<input type="checkbox" id="pr31" name="opt_holding_check" value="Y"><label for="pr31"><div>접지</div></label>
+<!--{ / }-->
+<!--{? print_data.press }-->
+<input type="checkbox" id="pr32" name="opt_press_check" value="Y"><label for="pr32"><div>형압</div></label>
+<!--{ / }-->
+<!--{? print_data.uvc }-->
+<input type="checkbox" id="pr33" name="opt_uvc_check" value="Y"><label for="pr33"><div>부분UV</div></label>
+<!--{ / }-->
+
+                            <!--{ ? print_data.tip['후가공'] }-->
+                            <div class="balloon" data-tooltip-text="{print_data.tip['후가공']}">
+                                <img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+                            </div>
+                            <!--{ / }-->
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="order_right">
+            <div id="dynamic_img" class="order_img">
+                <img src="//via.placeholder.com/421x480" alt="">
+            </div>
+            <div class="guide_btn">
+                <button type="button" class="btn1">용지보기</button>
+                <button type="button" class="btn1">판형보기</button>
+                <button type="button" class="btn1">인쇄가이드</button>
+            </div>
+        </div>
+
+<!--{? print_data.gloss }-->
+<div id="div_pr01" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 코팅</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "GLOSS" }-->
+		<a class="balloon btn-example" href="#layer_gloss">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>코팅</p>
+			<span name="opt_gloss" id="opt_gloss"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.punch }-->
+<div id="div_pr02" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 타공</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "PUNCH" }-->
+		<a class="balloon btn-example" href="#layer_punch">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>타공</p>
+			<span name="opt_punch" id="opt_punch"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.oshi }-->
+<div id="div_pr03" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 오시</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "OSHI" }-->
+		<a class="balloon btn-example" href="#layer_oshi">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>오시</p>
+			<span name="opt_oshi" id="opt_oshi"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.miss }-->
+<div id="div_pr04" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 미싱</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "MISS" }-->
+		<a class="balloon btn-example" href="#layer_miss">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>미싱</p>
+			<span name="opt_miss" id="opt_miss"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.round }-->
+<div id="div_pr05" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 귀도리</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "ROUND" }-->
+		<a class="balloon btn-example" href="#layer_round">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>귀도리</p>
+			<span name="opt_round" id="opt_round"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.domoo }-->
+<div id="div_pr06" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 도무송</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "DOMOO" }-->
+		<a class="balloon btn-example" href="#layer_domoo">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>도무송</p>
+			<span name="opt_domoo" id="opt_domoo"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.barcode }-->
+<div id="div_pr07" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 바코드</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "BARCODE" }-->
+		<a class="balloon btn-example" href="#layer_barcode">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>바코드</p>
+			<span name="opt_barcode" id="opt_barcode"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.number }-->
+<div id="div_pr08" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 넘버링</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "NUMBER" }-->
+		<a class="balloon btn-example" href="#layer_number">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>넘버링</p>
+			<span name="opt_number" id="opt_number"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.stand }-->
+<div id="div_pr09" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 스탠드(미니배너)</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "STAND" }-->
+		<a class="balloon btn-example" href="#layer_stand">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>스탠드(미니배너)</p>
+			<span name="opt_stand" id="opt_stand"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.dangle }-->
+<div id="div_pr10" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 댕글(와블러)</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "DANGLE" }-->
+		<a class="balloon btn-example" href="#layer_dangle">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>댕글(와블러)</p>
+			<span name="opt_dangle" id="opt_dangle"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.tape }-->
+<div id="div_pr11" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 양면테잎(봉투)</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "TAPE" }-->
+		<a class="balloon btn-example" href="#layer_tape">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>양면테잎(봉투)</p>
+			<span name="opt_tape" id="opt_tape"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.address }-->
+<div id="div_pr12" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 주소인쇄(봉투)</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "ADDRESS" }-->
+		<a class="balloon btn-example" href="#layer_address">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>주소인쇄(봉투)</p>
+			<span name="opt_address" id="opt_address"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.sc }-->
+<div id="div_pr13" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 스코딕스</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "SC" }-->
+		<a class="balloon btn-example" href="#layer_sc">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>스코딕스</p>
+			<span name="opt_sc" id="opt_sc"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.scb }-->
+<div id="div_pr14" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 스코딕스 박</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "SCB" }-->
+		<a class="balloon btn-example" href="#layer_scb">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>스코딕스 박</p>
+			<span name="opt_scb" id="opt_scb"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.wing }-->
+<div id="div_pr15" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 날개(책자)</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "WING" }-->
+		<a class="balloon btn-example" href="#layer_wing">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>날개(책자)</p>
+			<span name="opt_wing" id="opt_wing"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.bind }-->
+<div id="div_pr16" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 제본(책자)</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "BIND" }-->
+		<a class="balloon btn-example" href="#layer_bind">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>제본(책자)</p>
+			<span name="opt_bind" id="opt_bind"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.bind_type }-->
+<div id="div_pr17" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 제본 방향(책자)</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "BINDTYPE" }-->
+		<a class="balloon btn-example" href="#layer_bindtype">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>제본 방향(책자)</p>
+			<span name="opt_bind_type" id="opt_bind_type"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.cutting }-->
+<div id="div_pr18" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 재단</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "CUTTING" }-->
+		<a class="balloon btn-example" href="#layer_cutting">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>재단</p>
+			<span name="opt_cutting" id="opt_cutting"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+
+<!--{? print_data.foil }-->
+<div id="div_pr30" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 박</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "FOIL" }-->
+		<a class="balloon btn-example" href="#layer_foil">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>박</p>
+			<span name="opt_foil" id="opt_foil"> </span>
+			<!--{? print_goods_type == "OS01" || print_goods_type == "OS02" }-->
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p>가로</p> <input type="text" name="opt_foil_width" size="3"> <p>mm X 세로</p> <input type="text" name="opt_foil_height" size="3"> <p>mm</p>
+			<!--{ / }-->
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.holding }-->
+<div id="div_pr31" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 접지</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "HOLDING" }-->
+		<a class="balloon btn-example" href="#layer_holding">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>접지</p>
+			<span name="opt_holding" id="opt_holding"> </span>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.press }-->
+<div id="div_pr32" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 형압</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "PRESS" }-->
+		<a class="balloon btn-example" href="#layer_press">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>형압</p>
+			<span name="opt_press" id="opt_press"> </span>
+			<!--{? print_goods_type == "OS01" || print_goods_type == "OS02" }-->
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p>가로</p> <input type="text" name="opt_press_width" size="3"> <p>mm X 세로</p> <input type="text" name="opt_press_height" size="3"> <p>mm</p>
+			<!--{ / }-->
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+<!--{? print_data.uvc }-->
+<div id="div_pr33" class="cb proc_div">
+	<div class="proc_title cf">
+		<div class="remove_proc cf">
+			<h3><a href="javascript:void(0);"><img src="/skin/modern/assets/interpro/img/remove_btn.png"></a> 부분UV</h3>
+		</div>
+		<!--{ @ print_data.desc }-->
+		<!--{? .key_ == "UVC" }-->
+		<a class="balloon btn-example" href="#layer_press">
+			<img src="/skin/modern/assets/interpro/img/balloon.png" alt="">
+		</a>
+		<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	<div class="proc_cont">
+		<div>
+			<p>부분UV</p>
+			<span name="opt_uvc" id="opt_uvc"> </span>
+			<!--{? print_goods_type == "OS01" || print_goods_type == "OS02" }-->
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<p>가로</p> <input type="text" name="opt_uvc_width" size="3"> <p>mm X 세로</p> <input type="text" name="opt_uvc_height" size="3"> <p>mm</p>
+			<!--{ / }-->
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+
+        <div class="total_price_wrap cb">
+            <div class="total_price_title">
+                <h3>결제금액</h3>
+            </div>
+            <div class="total_price">
+                <p>
+                	<span class="small">결제금액</span> : 공급가격: <span class="small" id="opt_price">0</span>원 
+                	<span class="dc" style="display: none;">( 할인가: <span class="small" id="dc_price">0</span>원 )</span>
+                	<span class="vat" style="display: none;">+ 부가세: <span class="small" id="vat_price">0</span>원</span>
+                	= <span class="big" id="sale_price">0</span>원<span id="sale_price_detail"></span>
+                </p>
+            </div>
+        </div>
+        <div class="cb um_wrap">
+            {p.i->inc('/print/_inter_upload_memo.htm')}
+        </div>
+        <div class="order_btn cf">
+            <div class="btn_set">
+                <button type="button" class="btn1" onclick="printOrder();">견적서출력</button>
+                <button type="button" class="btn1" onclick="goPrintCart();">장바구니</button>
+                <button type="button" class="btn1" onclick="submitPrintOrder();">주문하기</button>
+            </div>
+        </div>
+    </div>
+
+	<div style="text-align: center; padding-bottom: 15px; padding-top: 10px;">{desc}</div>
+
+	{p.i->inc('/print/_inter_desc_layer.htm')}
+</form>
+
+<script type="text/javascript">
+;(function($) {
+	//규격 선택.
+	$('#opt_size').change(function(){
+		/*if ($('#opt_size :selected').val() == "USER") {
+			$('.rowSizeBox').show();
+		} else {
+			$('.rowSizeBox').hide();
+		}*/
+	});
+
+	$('#opt_paper_group').change(function(){
+		$("#opt_paper_gram").html('');
+		getList();
+	});
+	
+	$('#opt_paper').change(function(){
+		$("#opt_paper_gram").html('');
+		getList();
+	});
+	
+	$('#opt_paper_gram').change(function(){
+		//getList();
+		calcuPrice();
+	});
+
+	$('#opt_size').change(function(){
+		calcuPrice();
+	});
+	
+	$('#opt_instant').change(function(){
+		calcuPrice();
+	});
+	
+	getList();
+	
+	var d_img = "{default_img}";
+	//console.log(d_img);
+
+    var imgHtml = "<img width='421' height='480' src='"+d_img+"' onerror=\"$(this).attr('src','/skin/modern/img/noimg.png')\">";
+    $("#dynamic_img").html(imgHtml);
+	
+})(jQuery1_11_0);
+</script>
+
+{ # footer }

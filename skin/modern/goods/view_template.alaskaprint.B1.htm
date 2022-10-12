@@ -1,0 +1,238 @@
+{ # header }
+
+<!-- view_template.alaskaprint.B1.htm -->
+
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/mypage_20190110.css">
+<script src="/skin/modern/assets/B1/js/script_20190110.js"></script>
+<!-- 팝업시작 -->
+<script src="/skin/modern/assets/B1/js/jquery.simplePopup.js" type="text/javascript"></script>
+<div id="templateDetails" class="simplePopup" style="background:#f2f4f7; width:auto;">
+    <div class="tmpltImageview">
+
+        <div class="image one">
+            <img src="img/temp3.jpg" width="300">
+        </div>
+
+        <!--
+        <div class="image two">
+            <div class="left"><img src="/skin/modern/assets/B1/img/temp3.jpg" width="300"></div>
+            <div class="right"><img src="/skin/modern/assets/B1/img/temp3.jpg" width="300"></div>
+            <div class="clear"></div>
+        </div>
+        -->
+        <div class="btn">
+            <button class="left" onclick="viewImg(-1)"><img src="/skin/modern/assets/B1/img/ico_left.png"></button>
+            <button class="right" onclick="viewImg(1)"><img src="/skin/modern/assets/B1/img/ico_right.png"></button>
+        </div>
+    </div>
+    <!--<div class="bfrTmplt"><button class="on">앞면</button>&nbsp;|&nbsp;<button>뒷면</button></div>-->
+    <div class="tmpltNmtag">템플릿명을표기합니다.</div>
+    <div class="tplBtn">
+        <button class="simplePopupClose">닫기</button>
+        <button class="blue tmpltButton">이 템플릿을 선택</button>
+    </div>
+</div>
+
+<!-- 팝업끝 -->
+
+<div class="listTemplates template_mod">
+    <h1>{_category.catnm} 템플릿 목록</h1>
+    <div class="filterTemplate aaa">
+        <!--<a href="#" class="on">A4</a>-->
+        <!--{ @ _templateTags }-->
+            <!--{? strpos(searchtext_B1,"searchtext")}-->
+        	<a href="#" class="button_effect" onclick="searchTags('{.value_}')">{.value_}</a>
+         	<!--{:}-->
+         	<a href="#" onclick="searchTags('{.value_}')">{.value_}</a>
+         <!--{/}-->
+        <!--{ / }-->
+    </div>
+    <ul class="tmpltLi">
+
+        <!--{ @ loop[_editor[0].podsno] }-->
+        <li class="tmpltli_mod">
+            <div class="Tempimage" templateSetIdx="{.templateSetIdx}" templateIdx="{.templateIdx}" templateName="{.templateName}" templateURL="{.templateURL}">
+                <div class="temimOver" onclick="viewImgDirect({.index_});"><span>미리보기</span></div>
+                <img src="{.templateURL}" width="130">
+            </div>
+            <button>{.templateName}</button>
+            <!--{ ? come_back == "web_view" }-->
+            <button class="blue Tempbutton" onclick="selectTemplate('{.templateSetIdx}','{.templateIdx}', '{.templateName}', '{.templateURL}');">이 템플릿을 선택</button>
+            <!--{ : }-->
+            <!--{ ? data.pods_editor_type.editor_active_exe == "active" || data.pods_editor_type.editor_active_exe == "exe" }-->
+            <button class="blue Tempbutton" onclick="call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{.templateSetIdx}', '{.templateIdx}','');">이 템플릿을 선택</button>
+            <!--{ : data.pods_editor_type.editor_web == "web" }-->
+            <button class="blue Tempbutton" onclick="call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{.templateSetIdx}', '{.templateIdx}','{data.pods_editor_type.editor_web}');">이 템플릿을 선택</button>
+            <!--{ / }-->
+            <!--{ / }-->
+        </li>
+        <!--{ / }-->
+
+    </ul>
+</div>
+
+<script>
+    var num = 0;
+
+    function viewImg(dir) {
+        num = num + dir;
+        if (num < 0) {
+            num = 0;
+        }
+        if (num > $(".Tempimage").length - 1) {
+            num = $(".Tempimage").length - 1;
+        }
+
+        var img = $(".Tempimage:eq(" + num + ")").attr("templateURL");
+        $(".image img").attr("src", img);
+        //$("span",$("#page_td")).text($(".Tempimage:eq("+num+")").attr("templateName"));
+
+        $(".tmpltNmtag").html($(".Tempimage:eq(" + num + ")").attr("templateName"));
+        $(".tmpltButton").attr("onclick", $(".Tempbutton:eq(" + num + ")").attr("onclick"));
+    }
+
+    function viewImgDirect(no) {
+        num = no;
+        var img = $(".Tempimage:eq(" + num + ")").attr("templateURL");
+        $(".image img").attr("src", img);
+        //$("span",$("#page_td")).text($(".Tempimage:eq("+num+")").attr("templateName"));
+
+        $(".tmpltNmtag").html($(".Tempimage:eq(" + num + ")").attr("templateName"));
+        $(".tmpltButton").attr("onclick", $(".Tempbutton").attr("onclick"));
+    }
+</script>
+
+<script type="text/javascript">
+    var cid = '{_cid}';
+    var center_id = '{_cfg_center.center_cid}';
+    var pod_signed = "{_pod_signed}"; //### 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+
+<form name="fm_print" id="fm_print">
+    <input type="hidden" name="mode" value="{_POST.mode}" />
+    <input type="hidden" name="catno" value="{_POST.catno}" />
+    <input type="hidden" name="goodsno" value="{_POST.goodsno}" />
+    <input type="hidden" name="goodsnm" value="{_POST.goodsnm}" />
+    <input type="hidden" name="goods_group_code" value="{_POST.goods_group_code}" />
+    <input type="hidden" name="print_goods_type" value="{_POST.print_goods_type}" />
+    <input type="hidden" name="productid" value="{_POST.productid}" />
+    <input type="hidden" name="podoptno" value="{_POST.podoptno}" />
+    <input type="hidden" name="ea" value="{_POST.ea}" />
+    <input type="hidden" name="storageid" />
+    <input type="hidden" name="est_order_type" value="{_POST.est_order_type}" />
+    <input type="hidden" name="est_goodsnm" value="{_POST.est_goodsnm}" />
+    <input type="hidden" name="est_file_upload_json" value="{_POST.est_file_upload_json}" />
+    <input type="hidden" name="option_json" value='{_POST.option_json}' />
+    <input type="hidden" name="preset" value="{_POST.preset}" />
+    <input type="hidden" name="select_option_supply_price" value="{_POST.select_option_supply_price}" />
+    <input type="hidden" name="select_option_sum_price" value="{_POST.select_option_sum_price}" />
+    
+    <input type="hidden" name="editor_type" value="{_GET.editor_type}" />
+    <input type="hidden" name="categoryidx" value="{_GET.categoryidx}" />
+    <input type="hidden" name="searchtype" />
+    <input type="hidden" name="searchtext" value="{_GET.searchtext}" />
+    <input type="hidden" name="searchjson" value="{_GET.searchjson}" />    
+</form>
+
+<form name="fmView">
+    <input type="hidden" name="mode" />
+    <input type="hidden" name="goodsno" value="{_GET.goodsno}" />
+    <input type="hidden" name="productid" value="" />
+    <input type="hidden" name="podoptno" />
+    <input type="hidden" name="storageid" />
+    <input type="hidden" name="mid" value="{_sess.mid}" />
+    <input type="hidden" name="ea" value="1" />
+
+    <input type="hidden" name="ret" value='{_ret}' />
+</form>
+
+<!--검색-->
+<form name="searchFm">
+    <input type="hidden" name="catno" value="{_GET.catno}" />
+    <input type="hidden" name="goodsno" value="{_GET.goodsno}" />
+    <input type="hidden" name="editor_type" value="{_GET.editor_type}" />
+    <input type="hidden" name="categoryidx" value="{_GET.categoryidx}" />
+    <input type="hidden" name="searchtype" />
+    <input type="hidden" name="searchtext" value="{_GET.searchtext}" />
+    <input type="hidden" name="searchjson" value="{_GET.searchjson}" />
+</form>
+<!--검색-->
+
+<form name="fmTemp" method="post">
+    <input type="hidden" name="templateSetIdx" />
+    <input type="hidden" name="templateIdx" />
+    <input type="hidden" name="templateName" />
+    <input type="hidden" name="templateURL" />
+</form>
+
+<script src="/js/plugin/jquery.cycle.js"></script>
+<script>
+    //템플릿을 선택하고 상품 상세 페이지로 이동.
+    function selectTemplate(tsidx, tidx, tname, turl) {
+        //상품 상세 페이지 이동	
+        var fm = document.fmTemp;
+        fm.action = "/goods/view.php?catno={_GET.catno}&goodsno={_GET.goodsno}";
+        fm.target = "_self";
+        fm.templateSetIdx.value = tsidx;
+        fm.templateIdx.value = tidx;
+        fm.templateName.value = tname;
+        fm.templateURL.value = turl;
+        fm.submit();
+    }
+
+    //iframe에서 받은 sid를 전달하기 위해 부모 창 함수 호출.
+    function frameRetValue(sid) {
+        //alert("framaRetWpodAction sid:"+ sid);
+        try {
+            window.opener.retWpodAction(sid);
+            self.close();
+        } catch (e) {
+            alert("Error:" + e);
+        }
+    }
+
+    $(function() {
+        $("div", "#goods_sort").each(function() {
+            if ("{_GET.orderby}" == $(this).attr("sort")) $(this).css({
+                "color": "#5F87D1",
+                "font-weight": "bold"
+            });
+        });
+        $("a", "#goods_sort").click(function() {
+            $("input[name=orderby]").val($(this).attr("sort"));
+            document.searchFm.submit();
+        });
+
+        if ("{_GET.searchtext}" != "") {
+            $(".temp_menu li > a").each(function() {
+
+                var st = "{_GET.searchtext}";
+                var ht = $(this).html();
+
+                if (ht.indexOf(st) > -1) {
+                    //console.log($(this).html() +":"+ "{_GET.searchtext}");
+                    $(this).toggleClass('active').next('ul').slideToggle();
+                    $(this).parent().siblings().children('ul').slideUp();
+                    $(this).parent().siblings().children('.active').removeClass('active');
+                }
+            });
+        }
+
+        //템플릿 이미지 크기에 맞추어 설정함.
+        if ("{temp_atc_class}" == "") {
+            $(".temp_atc").css("width", "{_css_img_w}");
+            $(".temp_atc").css("height", "{_css_img_h}");
+            $(".temp_atc").css("background", "#fff");
+            $(".temp_atc").css("box-sizing", "border-box");
+        }
+    });
+
+    function searchTags(tag) {
+        $("input[name=searchtype]").val("tags");
+        $("input[name=searchtext]").val(tag);
+        //document.searchFm.submit();
+        document.fm_print.method = "POST";
+        document.fm_print.submit();
+    }
+</script>
+{ # footer }

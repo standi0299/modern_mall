@@ -1,0 +1,68 @@
+{ # header }
+
+<section class="section-container">
+	<div class="tab-container tab-default">
+		<ul class="h-group tab-menu">
+			<li class="col active" rel="tab1">{=__text("아이디찾기")}</li>
+			<li class="col" rel="tab1" id="reminderpw">{=__text("비밀번호찾기")}</li>
+		</ul>
+		<!--{ ? _POST.mode == "reminderid" }-->
+		<div class="tab-content-wrap" id="find-account-done">
+			<div id="tab1" class="tab-content">
+				<h3 class="text-center text-primary">
+					{=__text("가입하신 아이디는")} <b>{=substr(_data.mid,0,-3)}***</b> {=__text("입니다.")}
+				</h3>
+			</div>
+		</div>
+		<!--{ : }-->
+		<div class="tab-content-wrap" id="find-account-form">
+			<div id="tab1" class="tab-content">
+				<form method="post" onsubmit="return form_encode_submit(this);">
+					<input type="hidden" name="mode" value="reminderid">
+					
+					<input type="hidden" name="email_en">
+					
+					<div class="form-horizontal">
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("이름")}</label>
+							<div class="col">
+								<input type="text" class="form-control" name="name" required {=__placeholder("이름")}>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("이메일")}</label>
+							<div class="col">
+								<input type="text" class="form-control" name="email" required {=__placeholder("이메일")}>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<div class="col"></div>
+							<div class="col right">
+								<button type="submit" class="btn btn-primary btn-block btn-lg">{=__text("찾기")}</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!--{ / }-->
+	</div>
+	<div class="text-right" id="join-link">
+		<span>{=__text("아직 회원이 아니신가요?")}</span>
+		<a href="../member/register.php">{=__text("회원가입")}</a>
+		<a href="../member/login.php">{=__text("로그인")}</a>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j("#reminderpw").click(function() {
+	location.href = "reminderpw.php";
+});
+
+$j(function() {
+	$j("body").attr("id", "find-account-page");
+	$j("body").attr("class", "");
+});
+</script>
+
+{ # footer }

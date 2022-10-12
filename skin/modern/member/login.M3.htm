@@ -1,0 +1,114 @@
+{ # header }
+
+<script>
+	$j(document).ready(function(){
+		$j('[name="mid"]').val('');
+	});
+</script>
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<div class="membership-wrap">
+			<h3>로그인</h3>
+			<div class="input-wrap">
+				<form name="fmLogin" method="post" <!--{ ? _cfg.ssl_use == 'Y' }--> action="{ssl_action}" <!--{ : }--> action="indb.php" <!--{ / }--> onsubmit="return form_encode_submit(this);">
+					<input type="hidden" name="mode" value="login">	
+					<input type="hidden" name="rurl" value="{rurl}">
+					<!--{ ? _GET.mode == "order" }-->
+					<input type="hidden" name="mode2" value="{_GET.mode}">
+					<input type="hidden" name="cartno" value="{_GET.cartno}">
+					<!--{ / }-->
+					
+					<input type="hidden" name="mid_en">
+					<input type="hidden" name="password_en">
+					
+					<input type="text" name="mid" placeholder="아이디 또는 이메일을 입력하세요." />
+					<input type="password" name="password" class="mt6" placeholder="비밀번호를 입력하세요." />
+					<button class="membership_btn btn_login"><span>로그인</span></button>
+				</form>
+
+				<!--{ ? _cfg.sns_login.sns_login_use == "Y"}-->
+				<form id="login">
+					<input type="hidden" name="sns_code">
+				</form>
+				
+				<ul class="sns-login">
+					<!--{ ? _cfg.sns_login.naver_login_use == "Y" }-->
+					<li><a href="javascript:fnSnsLoginPop('naver');" id="api-login"></a></li>
+					<!--{ / }-->
+
+					<!--{ ? _cfg.sns_login.kakao_login_use == "Y" }-->
+					<li><a href="javascript:fnSnsLoginPop('kakao');" id="api-login"></a></li>
+					<!--{ / }-->
+
+					<!--{ ? _cfg.sns_login.facebook_login_use == "Y" }-->
+					<li><a href="javascript:fnSnsLoginPop('facebook');" id="api-login"></a></li>
+					<!--{ / }-->
+				</ul>
+				<!--{ / }-->
+
+				<!--{ ? _cid == 'slrphoto' }-->
+				<ul class="membership-shortcut">
+					<li><a href="http://www.slrclub.com/service/registration/registration.php">{=__text("회원가입")}</a></li>
+					<li><a href="https://www.slrclub.com/login/com.ipin_verification.php">아이디/비밀번호 찾기</a></li>
+				</ul>
+				<!--{ : }-->
+				<ul class="membership-shortcut">
+					<li><a href="../member/register.php">{=__text("회원가입")}</a></li>
+					<li><a href="/member/reminderidpw.php">아이디/비밀번호 찾기</a></li>
+				</ul>
+				<!--{ / }-->
+			</div>
+		</div>
+
+		<!--{ ? _cfg.member_system.order_system != "close" }-->
+			<!--{ ? _GET.mode == "order" }-->
+				<!--{ ? !_cfg.design[_cfg.skin].nonmember_order }-->
+				<div class="membership-wrap">
+					<h3>{=__text("비회원 주문")}</h3>
+					<div class="input-wrap">
+						<form name="fmNomemberOrder" action="../order/order.php">
+							<!--{ ? _GET.cartno }-->
+							<input type="hidden" name="cartno" value="{_GET.cartno}">
+							<!--{ / }-->
+							<input type="hidden" name="buyGuest" value="1">
+						
+							<button type="submit" class="membership_btn"><span>비회원으로 주문하기</span></button>
+						</form>
+					</div>
+				</div>
+			
+				<section class="content-container login-content">
+					<h3>{=__text("비회원 주문")}</h3>
+					<form name="fmNomemberOrder" action="../order/order.php">
+						<!--{ ? _GET.cartno }-->
+						<input type="hidden" name="cartno" value="{_GET.cartno}">
+						<!--{ / }-->
+						<input type="hidden" name="buyGuest" value="1">
+						
+						<button type="submit" class="btn btn-primary btn-lg btn-block">{=__text("비회원으로 주문하기")}</button>
+					</form>
+				</section>
+			<!--{ / }-->
+		<!--{ / }-->
+	
+		
+		<!--{ ? _GET.rurl == "/mypage/orderlist.php" }-->
+		<div class="membership-wrap">
+			<h3>{=__text("비회원 주문조회")}</h3>
+			<div class="input-wrap">
+				<form name="fmLogin" method="post" onsubmit="return form_chk(this);" action="indb.php">
+					<input type="hidden" name="mode" value="guest">	
+											
+					<input type="text" name="payno" placeholder="주문번호" />
+					<input type="text" name="email" placeholder="이메일" />
+					<button type="submit" class="membership_btn"><span>주문조회</span></button>
+				</form>
+			</div>
+		</div>
+		<!--{ / }-->
+	<!--{ / }-->			
+	</div>
+</div><!-- container-pupa End -->
+
+{ # footer }

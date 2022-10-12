@@ -1,0 +1,272 @@
+{ # header_popup }
+
+<!--bootstrap-->
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<!--bootstrap-->
+
+	<div class="col-md-10 col-xs-10" style="position: relative">
+		
+		<table width="100%" border="0">
+			<tr>
+				<td width="50%" valign="top">
+					
+					<div class="form-inline well2">
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("주문 제목")} : </span></td>
+								<td><span>{title}</span></td>
+							</tr>
+
+							<!--{ ? est_cnt }-->
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("수량")} : </span></td>
+								<td><!--{ @ est_cnt }--><span>{.value_}</span><!--{ / }--></td>
+							</tr>
+							<!--{ / }-->
+							<!--{ ? est_document }-->
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("규격")} : </span></td>
+								<td><!--{ @ est_document }--><span>{.value_}</span><!--{ / }--></td>
+							</tr>
+							<!--{ / }-->
+						</table>
+					</div>					
+	
+					<!--{ ? est_cover }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("표지")} : </span></td>
+								<td>
+									<!--{ @ est_cover }-->
+										<div>{.value_}</div>
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+	
+					<!--{ ? est_page }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("내지")} : </span></td>
+								<td>
+									<!--{ @ est_page }-->
+										<div>{.value_}</div>
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+	
+					<!--{ ? est_add_page }-->
+					<!--{ @ est_add_page }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("추가내지")} : </span></td>
+								<td>
+									<!--{ @ .value_ }-->
+										<div>{..value_}</div>
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+					<!--{ / }-->
+					
+					<!--{ ? est_m_page }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("면지")} : </span></td>
+								<td>
+									<!--{ @ est_m_page }-->
+										<div>{.value_}</div>
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+					
+					<!--{ ? est_g_page }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("간지")} : </span></td>
+								<td>
+									<!--{ @ est_g_page }-->
+										<div>{.value_}</div>
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+	
+					<!--{ ? est_fix_option }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("옵션")} : </span></td>
+								<td>
+									<!--{ @ est_fix_option }-->
+										<div>{.value_}</div>
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+	
+					<!--{ ? est_after_option }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("후가공")} : </span></td>
+								<td>
+									<!--{ @ est_after_option }-->
+										<div>{.value_}</div>
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+	
+					<!--{ ? files }-->
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("첨부파일")} : </span></td>
+								<td>
+									<!--{ @ files }-->
+										{.value_}
+									<!--{ / }-->								
+								</td>
+							</tr>					
+						</table>
+					</div>
+					<!--{ / }-->
+	
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%"><span class="option-sub-title2">{=__text("주문 메모")} : </span></td>
+								<td><span>{est_order_memo}</span></td>
+							</tr>						
+						</table>
+					</div>
+					
+				</td>
+				<td width="50%" valign="top">
+
+					<div class="form-inline well2">			
+						<table width="100%" border="0">
+							<tr>
+								<td width="15%" height="30px"><span class="option-sub-title2">{=__text("의뢰인")} : </span></td>
+								<td><span>{order_name}</span></td>
+							</tr>
+
+							<tr>
+								<td width="15%" height="30px"><span class="option-sub-title2">{=__text("회사명")} : </span></td>
+								<td><span>{order_cname}</span></td>
+							</tr>					
+							<tr>
+								<td width="15%" height="30px"><span class="option-sub-title2">{=__text("전화번호")} : </span></td>
+								<td><span>{order_phone}</span></td>
+							</tr>					
+							<tr>
+								<td width="15%" height="30px"><span class="option-sub-title2">{=__text("휴대전화")} : </span></td>
+								<td><span>{order_mobile}</span></td>
+							</tr>					
+							<tr>
+								<td width="15%" height="30px"><span class="option-sub-title2">{=__text("메일주소")} : </span></td>
+								<td><span>{order_email}</span></td>
+							</tr>				
+							<!--<tr>
+								<td width="15%" height="30px"><span class="option-sub-title2">카카오톡 : </span></td>
+								<td><span>{order_sns}</span></td>
+							</tr>-->				
+						</table>
+					</div>
+					
+				</td>
+			</tr>						
+			<tr>
+				<td colspan="2">
+					
+				</td>
+			</tr>			
+		</table>
+
+		<!--{ ? !est_order_datedt }-->
+		<div style="margin-bottom:10px" align="center">			
+			<img src="/admin/img/est_msg.png">
+		</div>
+		<div style="margin-bottom:10px" align="center">			
+			<span class="red">{extra_info}</span>			
+		</div>				
+		<!--{ : }-->		
+		<div class="option-title">&bull; {=__text("발행 내용")}</div>
+		<div class="form-inline well2">
+			<table width="100%" border="0">
+				<tr>
+					<td width="15%" height="30px;"><span class="option-sub-title2">{=__text("견적번호")} : </span></td>
+					<td><span>{est_order_no}</span></td>
+				</tr>
+				<tr>
+					<td width="15%" height="30px;"><span class="option-sub-title2">{=__text("견적일시")} : </span></td>
+					<td><span>{updatedt}</span></td>
+				</tr>			
+				<tr>
+					<td width="15%" height="30px;"><span class="option-sub-title2">{=__text("견적가격")} : </span></td>
+					<td><span><b>{=number_format(est_price)}</b></span></td>
+				</tr>		
+				<tr>
+					<td width="15%" height="30px;"><span class="option-sub-title2">{=__text("견적내용")} : </span></td>
+					<td>
+						<span>
+						<!--{ ? est_order_option_desc_fix }-->
+							{est_order_option_desc_fix}
+						<!--{ : }-->
+							{est_order_option_desc}
+						<!--{ / }-->
+						</span>
+					</td>
+				</tr>			
+				<tr>
+					<td width="15%" height="30px;"><span class="option-sub-title2">{=__text("비고")} : </span></td>
+					<td><span>{est_bigo}</span></td>
+				</tr>			
+			</table>
+		</div>
+		<!--{ / }-->
+
+	</div>
+
+<div style="margin-top:10px; margin-bottom: 10px;" align="center" class="cart_btns">
+<!--{ ? est_order_datedt }-->
+<a href="javascript:set_bill();"><img src="/admin/img/but_07.png"></a>
+<!--{ / }-->
+<a href="javascript:self.close();"><img src="/admin/img/but_08.png"></a>
+</div>
+
+<script>
+//견적서보기
+function set_bill() {
+
+	var cartno = "{cartno}";
+	if(cartno == "") {
+		alert({=__java("선택한 사항이 없습니다.")});
+	}
+	else {
+		window.open("../module/bill_proc_extra_cart_print.php?mode=view&no=" + cartno, "estimate", "width=750,height=850,scrollbars=yes");
+	}
+}
+</script>

@@ -1,0 +1,310 @@
+<?
+$viewpage = true;
+$podspage = true;
+
+include_once "../lib.php";
+include_once "../../lib/extra_option/extra_option_price_proc.php";
+include_once '../../lib/PHPExcel.php';
+include_once '../../lib/PHPExcel/Writer/Excel2007.php';
+
+set_time_limit(360);
+ini_set('memory_limit', '-1');
+//테스트용 임시 메모리 제한 풀기 2014.07.10 by kdk
+
+$editorLayer = 1;
+
+//책사상품이면...option_group_type 별로 처리한다.
+if ($_GET[goodsno]) {
+	//$data = $db -> fetch("select * from exm_goods where goodsno='$_GET[goodsno]'");
+	$mGoods = new M_goods();
+	$data = $mGoods->getInfo($_GET[goodsno]);
+	if ($data) {
+		$extra_option = explode('|', $data[extra_option]);
+		//항목 분리
+		if (count($extra_option) > 0) {
+			$extra_product = $extra_option[0];
+			$extra_preset = $extra_option[1];
+			$extra_price_type = $extra_option[2];
+		}
+	}
+}
+
+$downloadFilename = date('Y-m-d') . "-$cfg_center[center_cid]-$data[goodsno]-$data[goodsnm]-$_GET[filename]"._("옵션가격관리").".xls";
+
+$optionGroupType = $_GET[mode] . "OPTION";
+$addWhere = " and option_group_type = '" . $_GET[mode] . "OPTION' ";
+
+//후가공이면...
+if ($_GET[mode] == "AFTER") {
+	//후가공 코드가 있으면...
+	if ($_GET[kind]) {
+		$addWhere .= " and option_kind_code = '$_GET[kind]' ";
+		$optionKindCode = $_GET[kind];
+	}
+}
+//debug($optionGroupType);
+//debug($optionKindCode);
+//debug($addWhere);
+
+$extraOption = new ExtraOption();
+$extraOption -> SetPreset($extra_preset);
+//프리셋코드 넘김
+$extraOption -> SetGoodsKind($extra_product);
+//GoodsKind
+$extraOption -> SetOptionGroupType($optionGroupType);
+//OptionGroupType
+$extraOption -> getOptionDataInDB($_GET[goodsno], $optionGroupType, $extraOption -> GoodsKind, $_GET[kind]);
+
+if ($extraOption -> GoodsKind == "BOOK") {
+	include "../../lib/extra_option/_inc_option_book.php";
+} else {
+	include "../../lib/extra_option/_inc_option_card.php";
+}
+
+$OptionCnt = array();
+$FixOption = array();
+$rowIndex = 0;
+//엑셀정보를 읽기 위한 rowindex
+
+//옵션 주문 수량 테이블 만들기
+
+//내지의 경우 내지 출력 수량 규칙을 가격 기본 테이블로 셋팅
+$PrintCntRule = array();
+if ($_GET[mode] == "PAGE")
+	$PrintCntRule = $extraOption -> PrintPageCntRuleArr;
+else
+	$PrintCntRule = $extraOption -> PrintCntRuleArr;
+
+//debug($PrintCntRule);
+foreach ($PrintCntRule as $rootKey => $rootValue) {
+	if ($rootValue) {
+		$rootArr = split('~', $rootValue);
+		if (sizeof($rootArr) > 2) {
+			$rootArr = $rootArr[0] . "~" . $rootArr[1];
+		} else {
+			$rootArr = $rootValue;
+		}
+
+		$OptionCnt[0][$rootValue]['suply'] = "$rootArr $r_est_item_price_type_title[$extra_price_type]";
+		$OptionCnt[0][$rootValue]['sale'] = "";
+
+		if ($cid == $cfg_center[center_cid]) {
+			$OptionCnt[1][$rootValue]['suply'] = _("공급가격");
+			$OptionCnt[1][$rootValue]['sale'] = _("권장판매가");
+		} else {
+			$OptionCnt[1][$rootValue]['suply'] = _("공급원가");
+			$OptionCnt[1][$rootValue]['sale'] = _("판매가");
+		}
+
+	}
+}
+
+//debug($OptionCnt);
+//exit;
+
+foreach ($extraOption->PrintCntRuleArr as $rootKey => $rootValue) {
+	if ($rootValue) {
+		$tableCntArr[$rootValue] = "$rootValue";
+	}
+}
+
+//debug($tableCntArr);
+//exit;
+if ($cid == $cfg_center[center_cid]) {
+	$suply = _("공급가격");
+	$sale = _("권장판매가");
+} else {
+	$suply = _("공급원가");
+	$sale = _("판매가");
+}
+
+if ($_GET[mode] == "AFTER") {//후가공 옵션
+	$mode = $_GET[kind];
+} else {
+	$mode = $_GET[mode];
+}
+
+//$sql = "select * from tb_extra_option_price_info where cid = '$cid' and bid = '$cfg_center[center_cid]' and goodsno='$_GET[goodsno]' and option_group_type='$mode' order by id asc";
+//debug($sql);
+//$opt_data = $db -> listArray($sql);
+
+$addWhere = "and option_group_type='$mode' order by id asc";
+$mExtraOption = new M_extra_option();
+$opt_data = $mExtraOption->getOptionPriceList($cid, $cfg_center[center_cid], $_GET[goodsno], $addWhere);
+if ($opt_data) {
+	foreach ($opt_data as $key => $value) {
+		$tableContentArr[] = array('ItemKey' => $value[ID], 'ItemVal' => str_replace("|", "\r\n", $value[option_item]), 'ItemPrice' => $value[option_price]);
+	}
+}
+
+if ($_GET[mode] == "AFTER") {//후가공 옵션 테이블 구조 만들기.    후가공은 1차형태로만 존재함.
+	$saveFilename = 'after_option_price.xls';
+} else {
+	$saveFilename = 'fix_option_price.xls';
+}
+
+//debug($tableContentArr);
+//exit;
+//$FixOption[0][0] = "";
+//$FixOption[1][0] = "";
+
+$price_type_title = $r_est_item_price_type_title[$extra_price_type];
+$price_type_title = str_replace("(", "", $price_type_title);
+$price_type_title = str_replace(")", "", $price_type_title);
+
+$FixOption[0][0] = array('suply' => "$price_type_title/"._("옵션"), 'sale' => "");
+$FixOption[1][0] = array('suply' => "", 'sale' => "");
+foreach ($tableContentArr as $itemKey => $itemValue) {
+	//debug($itemKey);
+	//debug($itemValue);
+
+	$FixOption[0][] = array('suply' => $itemValue[ItemVal], );
+
+	$FixOption[1][] = array('suply' => $itemValue[ItemPrice], );
+}
+
+//debug($FixOption);
+//debug($tableContentArr);
+//exit;
+
+//debug($FixOption);
+//exit;
+$xlsSaveOpton = $FixOption;
+$objPHPExcel = new PHPExcel();
+
+// Set properties
+$objPHPExcel -> getProperties() -> setCreator("chunter");
+$objPHPExcel -> getProperties() -> setLastModifiedBy("chunter");
+$objPHPExcel -> getProperties() -> setTitle(_("블루팟 자동견적 옵션 가격 설정 문서"));
+$objPHPExcel -> getProperties() -> setSubject(_("블루팟 자동견적 옵션 가격 설정 문서"));
+//$objPHPExcel->getProperties()->setDescription("Test document for Office 2007 XLSX, generated using PHP classes.");
+
+$objPHPExcel -> getDefaultStyle() -> getAlignment() -> setHorizontal(PHPExcel_Style_Alignment::HORIZONTAL_CENTER);
+$objPHPExcel -> getDefaultStyle() -> getAlignment() -> setVertical(PHPExcel_Style_Alignment::VERTICAL_CENTER);
+
+//폰트 사이즈 10
+$objPHPExcel -> getDefaultStyle() -> getFont() -> setSize(10);
+
+// Add some data
+$objPHPExcel -> setActiveSheetIndex(0);
+
+if ($_GET[mode] == "AFTER") {
+	$rowHeight = 40;
+} else {
+	$rowHeight = 80;
+}
+
+$xlsRowIndex = 1;
+foreach ($xlsSaveOpton as $itemKey => $itemValue) {
+	$xlsColIndexChar = 0;
+	//debug($itemKey);
+	//debug($itemValue);
+
+	foreach ($itemValue as $key => $value) {
+		//debug($key);
+		//debug($value);
+
+		if ($itemKey == 0) {
+			$objPHPExcel -> getActiveSheet() -> SetCellValue(getExcelColName($xlsColIndexChar) . $xlsRowIndex, $value['suply']);
+			if ($key == 0) {
+				//A col width 20
+				$objPHPExcel -> getActiveSheet() -> getColumnDimension('A') -> setWidth(15);
+				$objPHPExcel -> getActiveSheet() -> mergeCells('A1:A2');
+			} else {
+				//내용 줄 바꿈
+				$objPHPExcel -> getActiveSheet() -> getStyle(getExcelColName($xlsColIndexChar) . $xlsRowIndex) -> getAlignment() -> setWrapText(TRUE);
+
+				$xlsColIndexChar++;
+				$objPHPExcel -> getActiveSheet() -> SetCellValue(getExcelColName($xlsColIndexChar) . $xlsRowIndex, "");
+
+				//B 이상 col width 20
+				$objPHPExcel -> getActiveSheet() -> getColumnDimension(getExcelColName($xlsColIndexChar - 1)) -> setWidth(10);
+				$objPHPExcel -> getActiveSheet() -> getColumnDimension(getExcelColName($xlsColIndexChar)) -> setWidth(10);
+
+				//1 row height
+				$objPHPExcel -> getActiveSheet() -> getRowDimension(1) -> setRowHeight($rowHeight);
+
+				$objPHPExcel -> getActiveSheet() -> mergeCells(getExcelColName($xlsColIndexChar - 1) . '1:' . getExcelColName($xlsColIndexChar) . '1');
+
+				$objPHPExcel -> getActiveSheet() -> SetCellValue(getExcelColName($xlsColIndexChar - 1) . 2, $suply);
+				$objPHPExcel -> getActiveSheet() -> SetCellValue(getExcelColName($xlsColIndexChar) . 2, $sale);
+			}
+		} else {
+			if ($key == 0) {
+				$xlsColIndexChar++;
+				continue;
+			}
+
+			$xlsPrintCntArr = $extraOption -> getPriceRuleDividePrintCnt($value['suply']);
+			if ($key == 1) {
+				$xlsRowIndexLocal = 3;
+				foreach ($xlsPrintCntArr as $cntKey => $cntValue) {
+					$objPHPExcel -> getActiveSheet() -> SetCellValue(getExcelColName(0) . $xlsRowIndexLocal, $cntValue[0]);
+					$xlsRowIndexLocal++;
+				}
+				$xlsRowIndex++;
+			}
+
+			//debug($xlsPrintCntArr);
+			$xlsRowIndexLocal = 3;
+			foreach ($xlsPrintCntArr as $cntKey => $cntValue) {
+				$objPHPExcel -> getActiveSheet() -> SetCellValue(getExcelColName($xlsColIndexChar) . $xlsRowIndexLocal, $cntValue[1]);
+				$objPHPExcel -> getActiveSheet() -> SetCellValue(getExcelColName($xlsColIndexChar + 1) . $xlsRowIndexLocal, $cntValue[2]);
+				$xlsRowIndexLocal++;
+			}
+			$xlsColIndexChar++;
+			//if ($xlsRowIndex == 10) break;
+			//exit;
+		}
+		$xlsColIndexChar++;
+	}
+
+	$xlsRowIndex++;
+	//echo "<BR>";
+}
+
+//exit;
+
+//파일 권한 바꾸기
+@chmod($saveFilename, 0777);
+
+// Rename sheet
+$objPHPExcel -> getActiveSheet() -> setTitle('Sheet1');
+
+// Save Excel 2003 file
+//$objWriter = new PHPExcel_Writer_Excel5($objPHPExcel);
+//$objWriter->save($saveFilename);
+
+// Save Excel 2007 file
+$filedir = '../../data/excel_temp/';
+
+//폴더가 없을 경우 오류가 발생한다.
+if (!is_dir($filedir)) {
+	mkdir($filedir, 0777);
+	chmod($filedir, 0777);
+}
+
+$downloadFilename = str_replace('.xls', '.xlsx', $downloadFilename);
+$saveFilename = str_replace('.xls', '.xlsx', $saveFilename);
+$objWriter = new PHPExcel_Writer_Excel2007($objPHPExcel);
+$objWriter -> save($filedir . $saveFilename);
+
+//$objWriter->save('php://output');
+//$objWriter->disconnectWorksheets();
+unset($objWriter);
+//exit;
+$downloadFilename = urlencode($downloadFilename);
+//iconv("UTF-8","cp949//IGNORE", $downloadFilename);
+if (file_exists($filedir . $saveFilename)) {
+	header('Content-Description: File Transfer');
+	header('Content-Transfer-Encoding: binary');
+	header('Content-Disposition: attachment;filename=' . $downloadFilename);
+	header('Content-Type: application/vnd.ms-excel;charset=UTF-8;');
+	header('Content-Length: ' . filesize($filedir . $saveFilename));
+	header('Pragma: no-cache');
+	header('Expires: 0');
+	ob_clean();
+	flush();
+	@readfile($filedir . $saveFilename);
+}
+?>

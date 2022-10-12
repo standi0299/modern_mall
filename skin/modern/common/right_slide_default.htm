@@ -1,0 +1,98 @@
+<div class="h-group" id="quick-menu-wrap" data-is-open="false">
+	<div id="quick-toggle-btn-wrap">
+		<button type="button" id="quick-toggle-btn"></button>
+		<button type="button" class="go-top-btn">
+			<div><img src="/skin/modern/assets/images/bullet-top.png" alt=""></div>
+			<p>TOP</p>
+		</button>
+	</div>
+	
+	<div id="quick-menu">
+		<div id="is-login">
+			<div class="text-center" id="quick-login">
+				
+				<!--{ ? !_sess }-->
+				<div id="is-login-user">
+					<div class="text-center"><a href="/member/login.php" id="is-login-user-name">{=__text("로그인해주세요")}</a></div>
+					<div><a href="/member/login.php" class="btn btn-lg btn-primary">{=__text("로그인")}</a></div>
+				</div>
+				<!--{ : }-->
+				<div id="is-login-user">
+					<div class="text-center"><a href="#" id="is-login-user-name">{_sess.name}</a><span>{=__text("님")}</span></div>
+					<div><a href="/member/logout.php" class="btn btn-lg btn-primary">{=__text("로그아웃")}</a></div>
+				</div>
+				<!--{ / }-->
+			</div>
+
+			<div class="tablize" id="quick-list">
+				<div class="table-row">
+					<div class="cell">
+						<a href="/mypage/orderlist.php" class="text-center">
+							<div><img src="/skin/modern/assets/images/quick-delivery.png" alt=""></div>
+							<p>{=__text("주문/배송조회")}</p>
+							<!--{ ? _sess }-->
+							<i class="alarm-button">{=f_getRightSlideCount('pay')}</i>
+							<!--{ / }-->
+						</a>
+					</div>
+					<div class="cell">
+						<a href="/order/editlist.php" class="text-center">
+							<div><img src="/skin/modern/assets/images/quick-edit.png" alt=""></div>
+							<p>{=__text("편집보관함")}</p>
+							<!--{ ? _sess }-->
+							<i class="alarm-button">{=f_getRightSlideCount('edit')}</i>
+							<!--{ / }-->
+						</a>
+					</div>
+				</div>
+				<div class="table-row">
+					<div class="cell">
+						<a href="/mypage/mycs.php" class="text-center">
+							<div><img src="/skin/modern/assets/images/quick-qna.png" alt=""></div>
+							<p>{=__text("문의하기")}</p>
+							<!--{ ? _sess }-->
+							<i class="alarm-button">{=f_getRightSlideCount('qna')}</i>
+							<!--{ / }-->
+						</a>
+					</div>
+					<div class="cell">
+						<a href="/goods/search.php" class="text-center">
+							<div><img src="/skin/modern/assets/images/quick-search.png" alt=""></div>
+							<p>{=__text("검색")}</p>
+						</a>
+					</div>
+				</div>
+			</div>
+
+			<div id="pick-item">
+				<a href="/mypage/wishlist.php">
+					{=__text("찜한 상품")}
+					<!--{ ? _sess }-->
+					<i class="alarm-button">{=f_getRightSlideCount('wish')}</i>
+					<!--{ / }-->
+				</a>
+			</div>
+
+			<div id="quick-item">
+				<p class="text-center">
+					<a href='/mypage/recent_goods_list.php'>{=__text("최근본상품")}<i class="alarm-button">{= f_getRightSlideCount('recent_goods', _GET.goodsno) }</i></a>
+				</p>
+				<ul class="bxslider">
+					<!--{ @ f_getToday(_GET.goodsno, _GET.catno) }-->
+					
+					<!--{ ? .index_ < 3 }-->
+						<li><a href="../goods/view.php?goodsno={.goodsno}&catno={.catno}"><img src="{.clistimg}" onerror="this.src='/data/noimg.png'" width="154" style="border:1px solid #CCCCCC;z-index:0"></a></li>
+					<!--{ / }-->	
+					<!--{ / }-->
+				</ul>
+			</div>
+
+			<div class="text-center" id="go-to-btn">
+				<button type="button" class="go-top-btn">
+					<div><img src="/skin/modern/assets/images/bullet-top.png" alt=""></div>
+					<p>TOP</p>
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

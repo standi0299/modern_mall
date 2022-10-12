@@ -1,0 +1,41 @@
+<!--main_block_03-->
+<section class="section section-primary section-padding">
+	<div class="content-container _admin_config" code="main_block_03">
+		{_blockDataArr.main_block_03.display}
+		<div class="list-container">
+			<ul class="h-group list-type-tile">				
+			<!--{ ? _blockDataArr.main_block_03.goods }-->
+				<!--{ @ _blockDataArr.main_block_03.goods }-->
+				<li class="col tile-content">
+					<div class="thumbnail-link">
+						<div class="zoom-focus">
+							<!--<a href="javascript:setWishlist('{_sess.mid}', '{.catno}', '{.goodsno}');" class="focus-btn pick-btn"></a>-->
+							<a class="focus-btn zoom-btn" href="/goods/view.php?goodsno={.goodsno}"></a>
+							<a class="thumbnail-click" href="../goods/view.php?goodsno={.goodsno}"></a>						
+						</div>
+						<div class="thumbnail" style="background: url('{.clistimg}'), url('/skin/modern/img/noimg.png')"></div>
+					</div>					
+					<div class="title text-center ellipsis">
+						<a href="/goods/view.php?goodsno={.goodsno}">{.goodsnm}</a>
+					</div>
+					<div class="price text-center">
+					<!--{ ? .cprice && .cprice > .price }-->
+					<s>{=number_format(.cprice)}{=__text("원")}</s> →
+					<!--{ / }-->
+					{=number_format(.price)}{=__text("원")}
+					</div>
+					<div class="tags text-center">
+						<!--{ ? .hash_tag }-->
+						{.hash_tag}
+					<!--{ : }-->
+						&nbsp;
+					<!--{ / }-->
+					</div>
+				</li>				
+				<!--{ / }-->
+			<!--{ / }-->				
+			</ul>
+		</div>
+	</div>
+</section>
+<!--main_block_03-->

@@ -1,0 +1,89 @@
+{ # header }
+
+<form id="fm" name="fm" method="post">
+	<input type="hidden" name="mode" value="reminderid" />
+	<input type="hidden" name="mobile_type" value="Y" />
+	<input type="hidden" name="page_move" value="N" />
+	
+	<input type="hidden" name="email_en">
+
+	<section class="contents bgArea">
+		<div class="loginCtn pwSrch">
+			<fieldset style="display:block;margin:0;padding:0;font:normal 12px/1 'Noto Regular', sans-serif;color:#666666;">				
+		 		<legend>{=__text("아이디 찾기")}</legend>
+		 		<div id="loginCtn">
+					<div class="loginBox">
+						<input type="text" id="userName" name="name" {=__title("이름")} {=__placeholder("이름")} />
+						<input type="text" id="userEamil" name="email" {=__title("이메일")} {=__placeholder("이메일")} />
+					</div>
+					<div class="discBox">
+						<ul style="margin-top:1px;">
+							<li>{=__text("본인의 이름과 이메일주소를 입력 후 확인 버튼을 터치해 주세요.")}</li>
+						</ul>
+					</div>
+					<div class="btnBox">
+						<a class="aBtn" href="#layerBox" id="member_searchid_banner"><!--{ @ f_banner_s2('btn_mobile_search_myinfo','img')}-->{.banner}<!--{ / }--></a>
+					</div>
+				</div>
+			</fieldset>
+		</div>
+	</section>
+</form>
+
+<script>
+$j(window).ready(function(){
+	$("#member_searchid_banner").viewimageresize2();
+	$j("#btn_mobile_search_myinfo").css("width","100%");
+});
+$(".btnBox a").on({
+	click : function(e){
+		e.preventDefault();
+		if (!$j(":input[name=name]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("이름을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if (!$j(":select[name=email]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("이메일을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else {
+			var enc_email = Base64.encode($j(":input[name=email]").val());
+			
+			$j(":input[name=email_en]").val(enc_email);
+			
+			$j(":input[name=email]").val('');
+			
+			$j.ajax({
+				type : "POST",
+				url : "reminderid.php",
+				data : $j("#fm").serialize(),
+				success : function(msg) {
+					if (msg) {					
+						$j("#layerBox").show();
+						$j(".noteTxt").html("<span>"+ msg +"</span>");
+						$("#wrap").addClass("dimed_on");
+						
+						if (msg.indexOf({=__java("가입하신 아이디는")}) > -1) {
+							$j(":select[name=page_move]").val("Y");
+							$j("#layerBox a").attr("href", "login.php");
+						}
+					}
+				}
+			});
+		}
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		if ($j(":select[name=page_move]").val() == "Y") {
+			$j(":select[name=page_move]").val("N");
+		} else {
+			e.preventDefault();
+			$(".pop").hide();
+			$("#wrap").removeClass("dimed_on");
+		}
+	}
+});
+</script>
+
+{ # footer }

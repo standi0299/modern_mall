@@ -1,0 +1,240 @@
+{ # header }
+<!--{ @ f_banner_s2('order_cart')}-->{.banner}<!--{ / }-->
+<div class="login-payment-page">
+	<div class="content-container" id="is-nonmember">
+		<form name="fm_cart" method="post" onsubmit="return isChked('cartno[]')" <!--{ ? _cfg.ssl_use == 'Y' && ssl_action}--> action="{ssl_action}" <!--{ : }--> action="order.php" <!--{ / }--> >
+		<input type="hidden" name="mode" value="order">
+		
+		<section class="content-container payment-section" id="items-info">
+			<div class="tablize">
+				<div class="table-row">
+					<div class="cell vertical-middle">
+						<h3 class="payment-title">{=__text("장바구니")}</h3>
+					</div>
+					<div class="cell right vertical-middle text-right">
+
+					</div>
+				</div>
+			</div>
+			
+			<div class="delete">
+                <input type="submit" {=__value("일괄삭제")} class="btn btn-primary" onclick="set_del();">
+                <input type="submit" {=__value("선택상품 삭제")} class="btn btn-primary" onclick="set_mode('truncate');">
+            </div>
+            <br>
+			<!--상품정보-->
+			{p.i->inc('/order/_cart_order_pay_info.htm')}
+			<!--상품정보-->
+			<br>
+			<div class="delete">
+                <input type="submit" {=__value("일괄삭제")} class="btn btn-primary" onclick="set_del();">
+                <input type="submit" {=__value("선택상품 삭제")} class="btn btn-primary" onclick="set_mode('truncate');">
+			</div>     
+			<!--{ ?cutmoney_flag == "1" }-->
+			<p class="total-cutmoney-price-caution">{=__text(cutmoney_text)}</p>
+			<!--{ / }-->       			
+		</section>
+
+		<section class="content-container payment-section" id="discount-info">
+			<h3 class="payment-title">{=__text("금액정보")}</h3>
+			<div class="h-group" id="discount-content">
+				<div class="col right" id="price">
+					<div class="text-right" id="price-text">{=__text("결제금액")}</div>
+					<div class="text-right text-primary" id="cart_totprice">
+						{=number_format(cart->itemprice + cart->totshipprice - cart->dc - cart->dc_coupon)}{=__text("원")}
+					</div>
+					<div class="h-group">
+						<div class="col">
+							<p>{=__text("판매가")}</p>
+						</div>
+						<div class="col right">
+							<p id="cart_itemprice">{=number_format(cart->itemprice)}{=__text("원")}</p>
+						</div>
+					</div>
+					<div class="h-group">
+						<div class="col">
+							<p>{=__text("할인금액")}</p>
+						</div>
+						<div class="col right">
+							<p id="cart_dcprice">{=number_format(cart->dc + cart->dc_coupon)}{=__text("원")}</p>
+						</div>
+					</div>
+					<div class="h-group">
+						<div class="col">
+							<p>{=__text("배송비")}</p>
+						</div>
+						<div class="col right">
+							<p id="cart_shipprice">{=number_format(cart->totshipprice)}{=__text("원")}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="content-container" id="payment-btn">
+
+<!--{ ? (_cfg.pg.npay_use=='1' && _cfg.pg.npay_test_flag!='1') || (_cfg.pg.npay_test_flag=='1' && _cfg.pg.npay_test_mid==_sess.mid) }-->
+<script type="text/javascript" src="//pay.naver.com/customer/js/naverPayButton.js" charset="UTF-8"></script>			
+<script type="text/javascript" src="/js/naverpay_lib.js" charset="UTF-8"></script>
+<script type="text/javascript" >//<![CDATA[
+	naver.NaverPayButton.apply({
+		BUTTON_KEY: "{_cfg.pg.npay_btnkey}",
+		TYPE: "{_cfg.pg.npay_button_type}",
+		COLOR: {_cfg.pg.npay_button_color},
+		COUNT: 1,
+		ENABLE: "Y",
+		BUY_BUTTON_HANDLER: buy_npay,
+		"":""
+	});
+//]]></script>			
+<!--{ / }-->
+			
+			<!--{ ? _cfg.bill_yn }--><input type="button" {=__value("견적서보기")} class="btn btn-primary btn-lg" onclick="set_bill();"><!--{ / }-->
+			<input type="button" {=__value("쇼핑 계속하기")} class="btn btn-primary btn-lg" onclick="set_mode('continue');">
+			<input type="submit" {=__value("주문하기")} class="btn btn-primary btn-lg" onclick="set_mode('order');">
+			<!--<input type="submit" {=__value("일괄삭제")} class="btn btn-primary" onclick="set_mode('truncate');">-->
+		</section>
+		</form>
+	</div>
+</div>
+
+
+<form name="cart_ea_fm">
+<input type="hidden" name="mode" value="mod"/>
+<input type="hidden" name="cartno"/>
+<input type="hidden" name="ea"/>
+</form>
+
+<script>
+function getCartPrice()
+{
+	var cartnoArr = [];
+	var cartno = "";
+	var cutmoney_arr = [];
+	var cutmoney_sum = 0;
+
+	$j(":input[name=cartno[]]:checked").each(function() {
+		cartnoArr.push($j(this).val());
+	});
+
+	if (cartnoArr.length > 0) {
+
+		cartno = cartnoArr.join(',');
+
+	    $j.ajax({
+			url : "indb.php",
+	      	type : "POST",
+	      	data: "mode=getcartprice&cartno=" + cartno,
+	      	async : false,
+	      	cache : false,
+	      	dataType : "json",
+	      	success : function(data) {
+	      		if(data.error) {
+	        		alert(data.error);
+	          		return false;
+	      		}
+
+	      		$j("#cart_totprice").text(data.totprice);
+    			$j("#cart_itemprice").text(data.itemprice);
+    			$j("#cart_dcprice").text(data.dcprice);
+    			$j("#cart_shipprice").text(data.shipprice);
+
+	  		}
+	  	});
+	}
+	else {
+  		$j("#cart_totprice").text("0원");
+		$j("#cart_itemprice").text("0원");
+		$j("#cart_dcprice").text("0원");
+		$j("#cart_shipprice").text("0원");
+	}
+}
+
+function set_del() {
+	$j("input[name=chkBoxAll]").attr("checked",true);
+	$j("input[name=cartno[]]").each(function(){
+		$j(this).attr("checked",true);
+	});
+	set_mode('truncate');
+}
+function set_mode(mode, cartno){
+	var fm = document.cart_ea_fm;
+	fm.mode.value = mode;
+	if (mode=="truncate"){
+		fm.action = 'cart.php';
+		//일괄삭제 클릭시 confirm값이 false일때 fm.mode.value값 초기화 / 14.11.13 / kjm
+		if(confirm({=__java("선택하신 장바구니상품을 삭제하시겠습니까?")}) == true) return true;
+		else fm.mode.value = '';
+	} else if (mode=="continue") {
+		location.href = "../main/index.php";
+	} else if (mode=="delete"){
+		if(confirm({=__java("해당상품을 삭제하시겠습니까?")}) == true){
+			location.href="?mode=del&cartno="+cartno;
+		}
+	} else if (mode == "orderpayment") {
+	{? _cfg.ssl_use == 'Y' && ssl_action}
+		fm.action='{ssl_action}';
+	{:}
+		fm.action = 'orderpayment.php';
+	{/}
+		return true;
+	}else {
+		fm.action = 'order.php';
+		return true;
+	}
+}
+
+//명세서/견적서 신청
+function set_bill() {
+	var cartnoArr = [];
+	var cartno = "";
+	
+	$j(":input[name=cartno[]]:checked").each(function() {
+		cartnoArr.push($j(this).val());
+	});
+	
+	if (cartnoArr.length > 0) {
+		//if (confirm({=__java("선택하신 상품에 대한 견적서를 확인하시겠습니까?")})) {
+			cartno = cartnoArr.join(',');
+			popup('../module/bill_cart_print.php?cartno=' + cartno, 800, 800);
+		//}
+	} else {
+		alert({=__java("선택한 상품이 없습니다.")});
+	}
+}
+
+function set_cart_ea(obj,cartno){
+	var ea = $j(obj).prev().val();
+	document.cart_ea_fm.cartno.value = cartno;
+	document.cart_ea_fm.ea.value = ea;
+	document.cart_ea_fm.submit();
+}
+
+function goods_view(goodsno, catno){
+	var url = "../goods/view.php?goodsno=" + goodsno + "&catno=" + catno;
+	location.href = url;
+}
+
+function pods_editor_itembox(goodsno,optno,storageid,productid,optionid,addopt,ea,podsuse){
+	if (!optionid){
+		optionid = 1;
+	}
+
+	if(podsuse == "3") {
+		CrossDomainCartOpenEditor(goodsno,optno,storageid,productid,optionid,addopt,ea,'');
+		return;
+	}
+	else {
+		popupLayer("../module/popup_calleditor.php?mode=edit&goodsno="+goodsno+"&productid="+productid+"&optionid="+optionid+"&addopt="+addopt+"&storageid="+storageid,"","","",1);
+	}
+}
+
+$j(document).ready(function() {
+   getCartPrice();
+});
+
+</script>
+<!--{? in_cart_script}-->
+	<!--{=in_cart_script}-->
+<!--{ / }-->
+{ # footer }

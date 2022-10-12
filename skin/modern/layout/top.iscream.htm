@@ -1,0 +1,463 @@
+<!--{ ? _cfg.dg_top_menu_fix == '1' }-->
+<script src="/skin/modern/assets/js/app.default.js" type="text/javascript"></script>
+<!--{ / }-->
+
+<!-- 헤더 색상 변경을 위해 필요 부분만 css 파일에서 별도 분리-->
+<style>
+a.pr {background: rgba(255, 255, 255, 0); color: rgb(48, 48, 48); padding-bottom:2px !important; font-size: 11px; margin-left: 15px; display: block;}
+a.pr:hover  {border-bottom:2px solid #f58b43;}
+
+
+.menu {
+  position: relative;
+  height: 34px;
+  background: #fff;
+}
+.menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  line-height: 1;
+}
+.menu > ul {
+  position: relative;
+  display: block; text-align:center;
+  background: #fff;
+  width: 100%;
+  z-index: 500;
+}
+.menu:after, .menu > ul:after {
+  content: "";
+  display: block;
+  clear: both;
+  visibility: hidden;
+  line-height: 0;
+  height: 0;
+}
+.menu.align-right > ul > li {
+  float: right;
+}
+.menu.align-center ul {
+  text-align: center;
+}
+.menu.align-center ul ul {
+  text-align: center;
+}
+.menu > ul > li {
+  display: inline-block;
+  position: relative;
+  margin: 0;
+  padding: 0;
+}
+.menu > ul > #menu-button {
+  display: none;
+}
+.menu ul li a {
+  display: block;
+  text-decoration: none;
+}
+.menu > ul > li > a {
+  font-size: 11px;
+  padding: 15px 5px;
+  color: #464646;
+  text-transform: uppercase;
+  -webkit-transition: color 0.25s ease-out;
+  -moz-transition: color 0.25s ease-out;
+  -ms-transition: color 0.25s ease-out;
+  -o-transition: color 0.25s ease-out;
+  transition: color 0.25s ease-out;
+}
+.menu > ul > li.sub > a {
+  padding-right: 12px;
+}
+.menu > ul > li:hover > a {
+  color: #000; border-bottom:2px solid #ff8b35; padding-bottom:8px;
+}
+.menu li.sub::after {
+  display: block;
+  content: "";
+  position: absolute;
+  width: 0;
+  height: 0;
+}
+.menu > ul > li.sub::after {
+  right: 1px;
+  top: 20px;
+  border: 3px solid transparent;
+  border-top-color: #7a8189;
+}
+.menu > ul > li:hover::after {
+  border-top-color: #000;
+}
+.menu ul ul {
+  position: absolute;
+  left: -9999px;
+  top: 70px;
+  opacity: 0;
+  -webkit-transition: opacity .3s ease, top .25s ease;
+  -moz-transition: opacity .3s ease, top .25s ease;
+  -ms-transition: opacity .3s ease, top .25s ease;
+  -o-transition: opacity .3s ease, top .25s ease;
+  transition: opacity .3s ease, top .25s ease;
+  z-index: 1000;
+}
+.menu ul ul ul {
+  top: 37px;
+  padding-left: 5px;
+}
+.menu ul ul li {
+  position: relative;
+}
+.menu > ul > li:hover > ul {
+  left: -30px;
+  top: 34px;
+  opacity: 1;border:1px solid #ddd;
+}
+.menu.align-right > ul > li:hover > ul {
+  left: auto;
+  right: 0;
+  opacity: 1;
+}
+.menu ul ul li:hover > ul {
+  left: 170px;
+  top: 0;
+  opacity: 1;
+}
+.menu.align-right ul ul li:hover > ul {
+  left: auto;
+  right: 170px;
+  top: 0;
+  opacity: 1;
+  padding-right: 5px;
+}
+.menu ul ul li a {
+  width: 130px;
+  border-bottom: 1px solid #eeeeee;
+  padding: 8px 20px;
+  font-size: 11px;
+  color: #464646;
+  background: #ffffff;
+  -webkit-transition: all .35s ease;
+  -moz-transition: all .35s ease;
+  -ms-transition: all .35s ease;
+  -o-transition: all .35s ease;
+  transition: all .35s ease;
+}
+.menu.align-right ul ul li a {
+  text-align: right;
+}
+.menu ul ul li:hover > a {
+  background: #f2f2f2;
+  color: #8c9195;
+}
+.menu ul ul li:last-child > a, .menu ul ul li.last > a {
+  border-bottom: 0;
+}
+.menu > ul > li > ul::after {
+  content: '';
+  border: 3px solid transparent;
+  width: 0;
+  height: 0;
+  border-bottom-color: #ffffff;
+  position: absolute;
+  top: -12px;
+  left: 30px;
+}
+.menu.align-right > ul > li > ul::after {
+  left: auto;
+  right: 30px;
+}
+.menu ul ul li.sub::after {
+  border: 4px solid transparent;
+  border-left-color: #9ea2a5;
+  right: 10px;
+  top: 12px;
+  -moz-transition: all .2s ease;
+  -ms-transition: all .2s ease;
+  -o-transition: all .2s ease;
+  transition: all .2s ease;
+  -webkit-transition: -webkit-transform 0.2s ease, right 0.2s ease;
+}
+.menu.align-right ul ul li.sub::after {
+  border-left-color: transparent;
+  border-right-color: #9ea2a5;
+  right: auto;
+  left: 10px;
+}
+.menu ul ul li.sub:hover::after {
+  border-left-color: #ffffff;
+  right: -5px;
+  -webkit-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+.menu.align-right ul ul li.sub:hover::after {
+  border-right-color: #ffffff;
+  border-left-color: transparent;
+  left: -5px;
+  -webkit-transform: rotateY(180deg);
+  -ms-transform: rotateY(180deg);
+  -moz-transform: rotateY(180deg);
+  -o-transform: rotateY(180deg);
+  transform: rotateY(180deg);
+}
+
+
+
+
+/*상단메뉴 0309*/
+#site-header {
+  width: 100%;
+  height: 178px !important;
+}
+  
+  
+#site-header #header-wrap #gnb_pr .gnb-item > a {        
+border-bottom: 0px solid #ffffff; 
+}
+
+#site-header #header-wrap #gnb_pr .gnb-item .snb {  
+background-color: #f3eee8; border-bottom: 0px solid #ddd; background:url(/skin/modern/assets/images/iscream/navi_bg.gif) repeat 0 0px;
+}
+
+#site-header #header-wrap #gnb_pr > ul {
+	margin: 0px auto 0px; width: 1200px; 
+}
+#site-header #header-wrap #gnb_pr .gnb-item {
+	display: inline-block; 
+}
+
+#site-header #header-wrap #gnb_pr .gnb-item > a {
+	color: #191919; font-size: 16px; font-weight:600; height:45px; width:140px; text-align:center; padding:10px 15px 0px; margin-right: 0px; display: inline-block;
+}
+
+#site-header #header-wrap #gnb_pr .gnb-item > a:hover {
+	border-bottom:3px solid #ff986e; 
+}
+
+#site-header #header-wrap #gnb_pr .gnb-item:hover .snb {
+	padding: 0px 0px 0px; height: auto; opacity: 1;border-bottom:1px solid #ddd;
+}
+#site-header #header-wrap #gnb_pr .gnb-item .snb {
+	padding: 0px;  transition:0.3s ease-in-out; left: 0px; margin: 0px auto; width: 100%; height: 0px; overflow: hidden; position: absolute; opacity: 0;
+}
+#site-header #header-wrap #gnb_pr .gnb-item .snb .h-group {
+	margin: -0px auto; width: 1200px;
+}
+#site-header #header-wrap #gnb_pr .gnb-item .snb .h-group .h-group-width {width: 850px;}
+#site-header #header-wrap #gnb_pr .gnb-item .snb .h-group .col {
+	width: 160px; margin-left: 0px; margin:0; 
+}
+
+#site-header #header-wrap #gnb_pr .gnb-item .snb .h-group .col h4 {margin:0px 0;padding:7px; diplay:inline-block;}
+#site-header #header-wrap #gnb_pr .gnb-item .snb .h-group .col h4 a{font-size: 12px; color:#4b4b4b; font-weight:bold; padding-left:17px;}
+#site-header #header-wrap #gnb_pr .gnb-item .snb .h-group .col h4 a:hover {background:url(/skin/modern/assets/images/iscream/ico_check_over.png) no-repeat 0 7px;}
+
+#site-header #header-wrap #gnb_pr .gnb-item .snb .h-group .col a {
+	padding: 6px 0px 7px; color: rgb(0, 0, 0); font-size: 16px; font-weight: normal; -ms-text-overflow: ellipsis;
+}
+
+/*상단검색 0309*/
+#headerSch {display:block;  max-width:1000px;margin:0 auto 15px;position:relative; }
+#headerSch:after {display:block;visibility:hidden;clear:both;content:""}
+#headerSch fieldset { overflow:hidden;width:321px;border:none;left:50%;margin:0 auto;top:0px; }
+#headerSch fieldset *   { vertical-align: middle; }
+#headerSch fieldset legend  { display:none; }
+#headerSch fieldset input   { box-sizing:border-box;float:left;-webkit-appearance:none;margin:0;padding:0;font-size:13px;color:#929292;line-height:32px;height:38px;border:3px solid #ff946a;border-right:0;background:#ffffff;width:255px;text-indent:16px;border-radius:19px 0 0 19px;outline:none;-webkit-transition:background-color 0.5s;transition:background-color 0.5s; }
+#headerSch fieldset input:focus   {  background-color:#f9f9f9;  }
+#headerSch fieldset button  { box-sizing:border-box;float:right;padding:0;line-height:32px;width:42px;height:38px;border-radius:0 19px 19px 0;border:3px solid #ff946a;border-left:0;background:url("/skin/modern/assets/images/iscream/searchIcon_orange.png") center 7px no-repeat;color:#fff;cursor:pointer;text-indent:-9999px;-webkit-transition:background-color 0.5s;transition:background-color 0.5s;  }
+#headerSch fieldset input:focus + button { background-color:#f9f9f9; } 
+
+#content {margin-top: 43px;}
+.menu > ul > li > a {font-size: 12px;}
+</style>
+
+
+
+<DIV id="site-header" style="background-color: white;">
+	<DIV id="header-wrap" style="background-color: white;">
+
+		<DIV id="header-top">
+			<DIV id="logo">
+				<!--{ ? _cfg.top_logo_type == "img" }-->
+					<a href="/"><img src = "/data/top_logo/{_cid}/top_logo.png"></a>
+				<!--{ : _cfg.top_logo_type == "txt" }-->
+					{_cfg.top_logo}
+				<!--{ : }-->
+					BLUEPOD
+				<!--{ / }-->					
+			</DIV>
+			
+			<UL id="cs-menu">
+			  <LI class="cs-item"> 
+			  	<div class='menu'>
+			   	<ul>
+			   		
+			   	<!--{ ? !_sess }-->
+						<li><a href="/member/login.php">{=__text("로그인")}</a></li>						
+						<!--{ ? _cfg.editlist_use != "N" }-->
+						<li><a href="/order/editlist.php">{=__text("편집보관함")}</a>	</li>
+						<!--{ / }-->
+		
+						<!--{ ? _cfg.local_storage_use == "Y"}-->
+						<li><a href="javascript:void(0)" {=__onclick_alert("로그인하여주시기 바랍니다.")}>{=__text("로컬보관함")}</a></li>
+						<!--{ / }-->
+					<!--{ : }-->
+
+						<li><a href="/member/logout.php">{=__text("로그아웃")}</a></li>
+						
+						<!-- 기본값을 모두 보임으로 설정, 사용안함 설정일 때만 나오지 않도록 수정 / 17.02.28 / kjm -->
+						<!--{ ? _cfg.editlist_use != "N" }-->
+						<li><a href="/order/editlist.php">{=__text("편집리스트")}</a>	</li>
+						<!--{ / }-->
+		
+						<!--{ ? _cfg.local_storage_use == "Y"}-->
+						<li><a href="javascript:popupLayer('/module/open_storage_new.php');">{=__text("로컬보관함")}</a></li>
+						<!--{ / }-->
+					<!--{ / }-->
+						<li class='sub'><A href="#">{=__text("마이샵")}</a>											 
+						  <UL>
+						    <LI class='sub'><A href="/mypage/orderlist.php">{=__text("주문조회")}</A></LI>
+						    <!--LI class='sub'><A href="#">배송조회</A></LI>
+						    <LI class='sub'><A href="#">구매목록</A></LI-->
+						    <LI class='sub'><A href="/mypage/mycs.php">{=__text("1:1문의")}</A></LI>
+							</UL>
+						</li>
+						
+						<!--{ ? !_sess }-->						
+						<li><a href="/member/register.php">{=__text("회원가입")}</a></li>
+						<!--{ / }-->
+						
+						
+						<li><a href="/order/cart.php">{=__text("장바구니")}</a></li>	
+						<LI class="active sub"><A href="//iscream.bluepod.co.kr/goods/search.php#">{=__text("고객센터")}</A>						    						 
+						  <UL>
+						    <LI class='sub'><A href="/board/list.php?board_id=notice">{=__text("공지사항")}</A></LI>
+						    <LI class='sub'><A href="/service/faq.php">{=__text("자주묻는질문")}</A></LI>
+						    <LI class='sub'><A href="/mypage/mycs.php">{=__text("문의하기")}</A></LI>
+						 	</UL>						 	
+						</LI>
+						<li class='last'><a href='/board/list.php?board_id=qna'>Q&A</a></li>
+			   </ul>
+			  </div>
+			  </li>
+		  </UL>
+
+
+
+			
+			
+			<UL id="cs-menu">
+	
+			<!--{ ? !_sess }-->
+				<li class="cs-item">
+					<a href="/member/login.php" class="nav-item pr">{=__text("로그인")}</a>
+				</li>
+				<li class="cs-item">
+					<a href="/member/register.php" class="nav-item pr">{=__text("회원가입")}</a>
+				</li>
+				<!--{ ? _cfg.editlist_use != "N" }-->
+				<li class="cs-item">
+					<a href="/order/editlist.php" class="nav-item pr">{=__text("편집보관함")}</a>
+				</li>
+				<!--{ / }-->
+
+				<!--{ ? _cfg.local_storage_use == "Y"}-->
+				<li class="cs-item">
+					<a href="javascript:void(0)" {=__onclick_alert("로그인하여주시기 바랍니다.")} class="nav-item pr">{=__text("로컬보관함")}</a>
+				</li>
+				<!--{ / }-->
+			<!--{ : }-->
+
+				<li class="cs-item">
+					<a href="/member/logout.php" class="nav-item pr">{=__text("로그아웃")}</a>
+				</li>
+				<li class="cs-item">
+					<A class="pr" href="#">{=__text("마이페이지")}</a>
+					<DIV class="cs-snb" style="margin-left:10px;">				 
+				  <UL>
+				    <LI><A href="#">{=__text("주문조회")}</A></LI>
+				    <LI><A href="#">{=__text("배송조회")}</A></LI>
+				    <LI><A href="#">{=__text("구매목록")}</A></LI>
+				    <LI><A href="#">{=__text("1:1문의")}</A></LI>
+					</UL>
+					</DIV>	
+				</li>
+				<!-- 기본값을 모두 보임으로 설정, 사용안함 설정일 때만 나오지 않도록 수정 / 17.02.28 / kjm -->
+				<!--{ ? _cfg.editlist_use != "N" }-->
+				<li class="cs-item">
+					<a href="/order/editlist.php" class="nav-item pr">{=__text("편집리스트")}</a>
+				</li>
+				<!--{ / }-->
+
+				<!--{ ? _cfg.local_storage_use == "Y"}-->
+				<li class="cs-item">
+					<a href="javascript:popupLayer('/module/open_storage_new.php');" class="nav-item pr">{=__text("로컬보관함")}</a>
+				</li>
+
+				<!--{ / }-->
+			<!--{ / }-->
+
+				<li class="cs-item">
+					<a href="/order/cart.php" class="nav-item pr">{=__text("장바구니")}</a>
+				</li>
+	
+				<LI class="cs-item"><A class="pr" href="//iscream.bluepod.co.kr/goods/search.php#">{=__text("고객센터")}</A>
+				  <DIV class="cs-snb"><IMG alt="" src="searchGSED55M2_files/snb-bullet.png">  						 
+					  <UL>
+					    <LI><A href="/board/list.php?board_id=notice">{=__text("공지사항")}</A></LI>
+					    <LI><A href="/service/faq.php">{=__text("자주묻는질문")}</A></LI>
+					    <LI><A href="/mypage/mycs.php">{=__text("문의하기")}</A></LI>
+					 	</UL>
+				 	</DIV>
+				</LI>			  
+  		</UL>				
+		</DIV>
+  
+	<!-- 검색창-->    
+	  <div id="headerSch">
+		<fieldset>
+			<legend>{=__text("검색")}</legend>
+			<form id="mainSearchForm" name="mainSearchForm"  method="get" action="/goods/search.php">
+				<input id="searchQuery" name="sw" type="search" {=__title("검색어")} class="placeholder" {=__placeholder("검색어를 입력하세요.")} accesskey="s" value="">
+			  <button type="button" onClick="document.mainSearchForm.submit();"><span class="blind">{=__text("검색")}</span></button>
+			</form>
+		</fieldset>
+	  </div>
+	
+		<!--상단 네비 -->  
+		<div style="display:block; border-top:1px solid #ddd;border-bottom:2px solid #ff986e;background:#fafafa;">  
+			<DIV id="gnb_pr">
+	
+				<UL>
+					<!--{ @ f_category() }-->
+				  <LI class="gnb-item">
+						{.category_link_tag}{.catnm}</a>
+				  	<DIV class="snb">
+				  		<DIV class="h-group">
+				  			<div class="h-group-width">
+				  
+				  			<!--{ ? .sub && !_cfg.top_category_sub_off }-->
+									<!--{ @ .sub }-->
+				  				<DIV class="col">
+										<h4>{..category_link_tag}{..catnm}</a></h4>										
+				  				</DIV>
+				  				<!--{ / }-->
+				  			<!--{ / }-->
+				  				
+				  			</DIV>
+				  		</DIV>
+				  	</div>
+				  </LI>
+				  <!--{ / }-->
+			  </UL>
+			</DIV>
+		</div>
+  
+		<!--//상단 네비 -->   
+ 
+	</DIV>
+</DIV>
+

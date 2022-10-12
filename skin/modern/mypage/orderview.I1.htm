@@ -1,0 +1,242 @@
+{ # header }
+
+<div class="login-payment-page">
+	<div class="content-container" id="payment-done">
+		<section class="h-group" id="payment-info">
+			<div class="col">
+				<h3 class="payment-title">{=__text("받는사람정보")}</h3>
+				<hr>
+				<div class="payment-content">
+					<p>{receiver_name}</p>
+					<p>{receiver_mobile}</p>
+					<p>[{receiver_zipcode}] {receiver_addr} {receiver_addr_sub}</p>
+					<!--{ ? request2 }-->
+					<p>{=__text("추가메모")}: <span class="text-primary text-bold">{request2}</span></p>
+					<!--{ / }-->
+					<!--{ ? request }-->
+					<p>{=__text("배송메모")}: <span class="text-primary text-bold">{request}</span></p>
+					<!--{ / }-->
+				</div>
+			</div>
+			<div class="col right">
+				<h3 class="payment-title">{=__text("결제정보")}</h3>
+				<hr>
+				<div class="payment-content">
+					<p>{=__text("결제방식")} : {_r_paymethod[paymethod]}
+					<!--{ ? paymethod=='c' && paystep > 1}-->
+						<!--{ ? _cfg.pg.module == "smartxpay" }-->
+							<script language="JavaScript" src="//pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js"></script>
+							<a href="javascript:showReceiptByTID('{_cfg.pg.lgd_mid}', '{pgcode}', '{authcode}')">[카드영수증발급]</a>
+						<!--{ : }-->
+							<a href="javascript:popup('{receipt_url}',465,855)"><span style="color: red;">[카드영수증발급]</span></a>
+						<!--{ / }-->
+					<!--{ / }-->					
+					</p>
+					<!--{ ? paymethod == "b" || paymethod == "v" }-->
+					<p>{=__text("계좌정보")} : <span class="text-primary text-bold">{bankinfo}</span></p>
+					<p>{=__text("입금자명")} : <span class="text-primary text-bold">{payer_name}</span></p>
+						<!--{ ? pg_module != 'no' && (paymethod == "b" || paymethod == "v") && cash_status != '02' }-->
+							<!--{ ? pg_module == 'kcp' }-->
+								<a onclick="popup('/pg/kcp/cash/request.php?payno={_GET.payno}', 650, 700);">
+							<!--{ : pg_module == 'inipaystdweb' }-->
+								<a onclick="popup('/pg/INIPayStdWeb/cash/request.php?payno={_GET.payno}', 650, 700);">
+							<!--{ / }-->
+								현금영수증 신청하기
+							</a>
+						<!--{ / }-->
+					<!--{ / }-->
+					
+					<p>{=__text("입금여부")} : <!--{ ? paystep > 1 || paystep < 90 }-->{=__text("입금")} {paydt}<!--{ / }--></p>
+					
+					<div class="h-group" id="payment-cost">
+						<div class="col">
+							{=__text("결제금액")} :
+						</div>
+						<div class="col">
+							<span class="text-primary text-bold">{=number_format(payprice)}{=__text("원")}</span>
+							<span class="text-readonly text-bold">({=__text("배송비")}{=number_format(shipprice)}{=__text("원 추가")})</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+
+		<section class="content-container payment-section" id="items-info">
+			<div class="tablize">
+				<div class="table-row">
+					<div class="cell vertical-middle">
+						<h3 class="payment-title">{=__text("상품정보")}</h3>
+					</div>
+					<div class="cell right vertical-middle text-right">
+	
+					</div>
+				</div>
+			</div>
+			<table class="set-table">
+				<thead>
+				<tr>
+					<td class="text-center item-orderno">{=__text("주문번호")}</td>
+					<td class="text-center item-cover">{=__text("주문순번")}</td>
+					<td class="text-center item-title">{=__text("상품")}</td>
+					<td class="text-center item-cover">{=__text("판매가/수량")}</td>
+					<td class="text-center item-cover">{=__text("할인액")}</td>
+					<td class="text-center item-cover">{=__text("적립예정액")}</td>
+					<td class="text-center item-cover">{=__text("출고처<br>배송비")}</td>
+					<td class="text-center item-cover">{=__text("주문상태")}</td>
+				</tr>
+				</thead>
+	
+				<tbody>
+					<!--{ @ ord }--><!--{ @ .item }-->
+					<tr>
+						<!--{ ? !..index_ }-->						
+						<td class="text-center item-cover" rowspan="{=count(.item)}"><b>{payno}_{.ordno}</b></td>						
+						<!--{ / }-->
+					
+						<td class="text-center item-cover">{..ordseq}</td>
+
+							<td class="order-title" align="left">
+								<div class="h-group">
+									<div class="col">{=goodsListImg(..goodsno, 115)}</div>
+									<div class="col">
+										<p>{..goodsnm}
+										<!--{ ? ..title }-->
+											<BR>- {..title}
+										<!--{ / }-->	
+										
+										<!--{ @ ..addopt }-->
+											<BR>{...addopt_bundle_name} : {...addoptnm} <span class="eng">(+{=number_format(...addopt_aprice)})</span>
+										<!--{ / }-->
+										</p>
+										
+										<!--{ ? ..storageid && !in_array(..podskind,array(8,9)) && ..goodsno!='-1' && ..est_order_type!='UPLOAD' && ..goods_group_code=='10' }-->
+										<a class="btn btn-primary btn-xs" style="margin:5px 5px 0 0;" href="#" onclick="popup('../module/preview.php?goodsno={..goodsno}&storageid={..storageid}',1000,650, 1);">{=__text("미리보기")}</a>											
+										<!--{ / }-->
+										
+									</div>
+								</div>
+							</td>
+						
+						<!--<td class="text-left item-title">
+							<div class="h-group">
+								<div class="col item-thumbnail" style="background: url({=goodsListImgSrc(..goodsno,'40','','border:1px solid #dedede')})"></div>
+	
+								<p class="ellipsis">{..goodsnm}</p>
+								<!--{ ? ..title }->
+									<span> - {..title}</span>
+								<!--{ / }->
+	
+								<!--{ ? ..opt }->
+									{=__text("옵션")} [ {..opt} ] <span>(+{..aprice})</span>
+								<!--{ / }->
+	
+								<!--{ ? ..error }->
+									- {=__text("구매가 불가능합니다.")} <br/>{=__text("사유")} : {..errmsg} {?..error==6}<br/>({=__text("주문가능량")} : {..enabled_ea} ){/}
+								<!--{ / }->
+	
+								<!--{ ? ..storageid && !in_array(..podskind,array(8,9)) && ..goodsno!='-1' && ..est_order_type!='UPLOAD' && ..goods_group_code=='10' }->
+									<a href="#" onclick="popup('../module/preview.php?goodsno={..goodsno}&storageid={..storageid}',1000,650, 1);">{=__text("미리보기")}</a>
+								<!--{ / }->
+	
+								<!--{ @ ..addopt }->
+									{...addopt_bundle_name} : {...addoptnm} <span class="eng">(+{=number_format(...addopt_aprice)})</span>
+								<!--{ / }->
+							</div>
+						</td>-->
+						
+						<td class="text-right item-cost">
+							<div><span class="stxt">{=__text("상품")}</span> : {=number_format(..goods_price)}</div>
+							<!--{ ? ..aprice }-->
+							<div class="blue"><span class="stxt">{=__text("옵션")}</span> : +{=number_format(..aprice)}</div>
+							<!--{ / }-->
+							<!--{ ? ..addopt_aprice }-->
+							<div class="green"><span class="stxt">{=__text("추가")}</span> : +{=number_format(..addopt_aprice)}</div>
+							<!--{ / }-->
+							<!--{ ? ..print_aprice }-->
+							<div class="red"><span class="stxt">{=__text("인화")}</span> : +{=number_format(..print_aprice)}</div>
+							<!--{ / }-->
+							<!--{ ? ..addpage_aprice }-->
+							<div class="orange desc">{=__text("페이지추가")} {..addpage}p : <span class="eng">(+{=number_format(..addpage_aprice)})</span></div>
+							<!--{ / }-->
+							<div style="border-top:1px solid #DEDEDE;margin-top:3px;padding-top:3px;"><b>{=number_format(..goods_price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_aprice)}</b></div>
+							× <b class="blue">{=number_format(..ea)}</b><br/>
+							<div style="border-top:1px solid #DEDEDE;margin-top:3px;padding-top:3px;"><b>{=number_format(..saleprice)}</b></div>
+						</td>
+						
+						<td class="text-right item-count">
+							<!--{ ? ..dc_member }-->
+							<div><span class="stxt">{=__text("회원")}</span> : -{=number_format(..dc_member * ..ea)}</div>
+							<!--{ / }-->
+							<!--{ ? ..dc_coupon }-->
+							<div onclick="$j(this).next().slideToggle()" class="hand"><span class="stxt">{=__text("쿠폰")}</span> : -{=number_format(..dc_coupon)}</div><div style="position:absolute;background:#FFFFFF;width:200px;font-size:8pt;border:1px solid #000000;padding:2px;display:none;" align="left">{..dc_coupon_name}</div>
+							<!--{ / }-->
+							<!--{ ? dc_emoney }-->
+							<div><span class="stxt">{=__text("적립금")}</span> : -{=number_format(dc_emoney)}</div>
+							<!--{ / }-->
+						</td>
+
+						<td class="text-right item-cover">
+							<div><span class="stxt">{=__text("상품")}</span> : {=number_format(..goods_reserve * ..ea)}</div>
+							<!--{ ? ..areserve }-->
+							<div class="blue"><span class="stxt">{=__text("옵션")}</span> : +{=number_format(..areserve * ..ea)}</div>
+							<!--{ / }-->
+							<!--{ ? ..addopt_areserve }-->
+							<div class="green"><span class="stxt">{=__text("추가")}</span> : +{=number_format(..addopt_areserve * ..ea)}</div>
+							<!--{ / }-->
+							<!--{ ? ..print_areserve }-->
+							<div class="red"><span class="stxt">{=__text("인화")}</span> : +{=number_format(..print_areserve * ..ea)}</div>
+							<!--{ / }-->
+							<!--{ ? ..addpage_areserve }-->
+							<div class="orange desc">{=__text("페이지추가")} {..addpage}p : <span class="eng">(+{=number_format(..addpage_areserve * ..ea)})</span></div>
+							<!--{ / }-->
+							<!--{ ? ..coupon_areserve }-->
+							<div onclick="$j(this).next().slideToggle()" class="hand"><span class="stxt">{=__text("쿠폰")}</span> : +{=number_format(..coupon_areserve)}</div><div style="position:absolute;background:#FFFFFF;width:200px;font-size:8pt;border:1px solid #000000;padding:2px;display:none;" align="left">{..reserve_coupon_name}</div>
+							<!--{ / }-->
+							<div style="border-top:1px solid #DEDEDE;margin-top:3px;padding-top:3px;"><b>{=number_format(..reserve)}</b></div>
+						</td>
+						
+						<!--{ ? !..index_ }-->
+						<td class="text-center item-cover" rowspan="{=count(.item)}">
+							{=_r_rid[.rid]}
+							<div class="eng">
+								
+							<!--{ ? .shipprice }-->
+							{=number_format(.shipprice)}
+							<!--{ : }-->
+								<!--{ ? .order_shiptype == '1' || .order_shiptype == '' }-->
+								<span class="stxt">{=__text("무료")}</span>
+								<!--{ / }-->
+							<!--{ / }-->
+							</div>
+						
+							<!--{ ? .order_shiptype != '1' && .order_shiptype != '' }-->
+								{ _r_order_shiptype[.order_shiptype]}
+							<!--{ / }-->
+						</td>
+						<!--{ / }-->
+						
+						<td class="text-center item-cover">
+							{=_r_step[..itemstep]}
+							{..strshipcode}
+						</td>
+						
+					</tr>
+					<!--{ / }--><!--{ / }-->
+				</tbody>
+			</table>
+
+			<div class="tablize">
+				<div class="table-row">
+					<div class="cell center vertical-middle text-center">
+						<div id="back-btn">
+							<a href="javascript:history.back()" class="btn btn-primary">{=__text("뒤로가기")}</a>
+						</div>
+					</div>
+				</div>
+			</div>			
+			
+		</section>
+	</div>
+</div>
+
+{ # footer }

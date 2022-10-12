@@ -1,0 +1,72 @@
+{ # header_popup }
+
+<table class="tb3">
+	<tr>
+		<th>{=__text("쿠폰코드")}</th>
+		<th>{=__text("쿠폰명")}</th>
+		<th>{=__text("혜택")}</th>
+	</tr>
+	<tr>
+		<td>{coupon_code}</td>
+		<td>{coupon_name}</td>
+		<td>
+		<!--{ ? coupon_way == "price" }-->
+		{=number_format(coupon_price)}{=__text("원")} 
+		<!--{ : coupon_way == "rate" }-->
+		{=number_format(coupon_rate)}% 
+		<!--{ / }-->
+		
+		<!--{ ? coupon_type == "discount" }-->
+		{=__text("할인")}
+		<!--{ : coupon_type == "saving" }-->
+		{=__text("추가적립")}
+		<!--{ / }-->
+		</td>
+	</tr>
+</table>
+
+<div style="margin:10px"><b>{=__text("적용대상")}</b></div>
+
+<!--{ ? coupon_range == 'category' }-->
+<table class="tb3">
+	<tr>
+		<th>{=__text("적용카테고리")}</th>
+	</tr>
+	<!--{ @ coupon_catno }-->
+	<tr>
+		<td>{=get_category_anchor(.value_,'_blank')}{=getCatnm(.value_)}</a></td>
+	</tr>
+	<!--{ / }-->
+</table>
+<!--{ : coupon_range == 'goods' }-->
+<table cellpadding="0" cellspacing="0" width="100%" class="tb3">
+	<tr>
+		<th>{=__text("이미지")}</th>
+		<th>{=__text("상품정보")}</th>
+		<th>{=__text("상품가")}</th>
+		<!--{ ? coupon_type == 'discount' }-->
+		<th>{=__text("적용가")}</th>
+		<!--{ / }-->
+	</tr>
+	<!--{ @ goods }-->
+	<tr>
+		<td align="center" valign="top" width="50" style="padding-top:10px">
+			<a href="../goods/view.php?catno={.catno}&goodsno={.goodsno}" target="_blank"><img src="http://{_cfg_center.host}/data/goods/{_cid}/s/{.goodsno}/{.clistimg}" width="50"></a>
+		</td>
+		<td>
+			<div><a href="../goods/view.php?catno={.catno}&goodsno={.goodsno}" target="_blank">{.goodsnm}</a></div>
+		</td>
+		<td align="right">
+			<b>{=number_format(.price)}{=__text("원")}</b>
+		</td>
+		<!--{ ? coupon_type == 'discount' }-->
+		<td align="right">
+			<b>{=number_format(.ret_price)}{=__text("원")}</b>
+		</td>
+		<!--{ / }-->
+	</tr>
+	<!--{ / }-->
+</table>
+<!--{ / }-->
+
+{ # footer_popup }

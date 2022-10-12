@@ -1,0 +1,197 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ko">	
+<head>
+    <meta charset="UTF-8">
+    <title>견적서</title>
+    <link href="/skin/modern/assets/interpro/css/common.css" type="text/css" rel="stylesheet">
+	<link href="/skin/modern/assets/interpro/css/layout.css" type="text/css" rel="stylesheet">
+</head>
+<body>
+	<!--사용보류-->
+    <div id="pre_estimate">
+        <h1>견적서</h1>
+        <div class="est_date fl">
+            <table width: 345px;>
+                <tbody>
+                    <tr>
+                        <th>견적일</th>
+                        <td>0000.00.00</td>
+                    </tr>
+
+                    <tr>
+                        <th>수신</th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+            <br><br>
+            <p>아래와 같이 견적합니다.</p>
+            <br>
+            <p>합계금액:</p>
+        </div>
+        <div class="est_business fl">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>공급자<br>(상호)</th>
+                        <td colspan="3" style="width: 250px;">(주)인터프로커뮤니케이션</td>
+                    </tr>
+                    <tr>
+                        <th>사업자 번호</th>
+                        <td colspan="3">201-86-23459</td>
+                    </tr>
+                    <tr>
+                        <th>주소</th>
+                        <td colspan="3">04619 서울특별시 중구 퇴계로50길 32 <br>석암빌딩</td>
+                    </tr>
+                    <tr>
+                        <th>대표자</th>
+                        <td colspan="3">김상회</td>
+                    </tr>
+                    <tr>
+                        <th>전화번호</th>
+                        <td>02-2275-2333</td>
+                        <th>팩스</th>
+                        <td>02-2276-1295</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--{ ? _POST.print_goods_type == "DG05" || _POST.print_goods_type == "OS02" }-->
+        <div class="pre_option fl">
+            <table>
+                <tbody>
+                    <tr>
+                        <th colspan="3">재질 및 규격</th>
+                    </tr>
+                    <tr>
+                        <th>품명</th>
+                        <td colspan="2">{_POST.goodsnm}</td>
+                    </tr>
+                    <tr>
+                        <th>규격</th>
+                        <td colspan="2">{_POST.opt_size}</td>
+                    </tr>
+                    <tr>
+                        <th>수량</th>
+                        <td colspan="2">{_POST.ea}</td>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>표지</th>
+                        <th>내지</th>
+                    </tr>
+                    <tr>
+                        <th>용지</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>인쇄컬러</th>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>후가공</th>
+                        <td colspan="2">{_optionArr['after']}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pre_price3 fl">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>금액</th>
+                        <td>{_POST.est_opt_price}</td>
+                    </tr>
+                    <tr>
+                        <th>추가금액</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>부가세</th>
+                        <td>{_POST.est_vat_price}</td>
+                    </tr>
+                    <tr>
+                        <th>합계금액</th>
+                        <td>{_POST.est_sale_price}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!--{ : }-->
+        <div class="pre_option fl">
+            <table>
+                <tbody>
+                    <tr>
+                        <th colspan="2">재질 및 규격</th>
+                    </tr>
+                    <tr>
+                        <th>품명</th>
+                        <td>고급명함</td>
+                    </tr>
+                    <tr>
+                        <th>용지</th>
+                        <td>뉴에이프릴</td>
+                    </tr>
+                    <tr>
+                        <th>규격</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>수량</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>인쇄컬러</th>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <th>후가공</th>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="pre_price fl">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>금액</th>
+                        <th>추가비용</th>
+                        <th>부가세</th>
+                        <th>합계금액</th>
+                    </tr>
+                    <tr>
+                        <td>5,000</td>
+                        <td>0</td>
+                        <td>500</td>
+                        <td>5,500</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>        
+        <!--{ / }-->
+        
+        <div class="pre_remarks cb">
+            <table>
+                <tbody>
+                    <tr>
+                        <th>비고</th>
+                    </tr>
+                    <tr>
+                        <td>{_POST.est_order_memo}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <p style="text-align: left; margin-left: 10px; margin-top: 20px;">본 견적의 유효기한은 견적일로부터 15일입니다.</p>
+        <p style="text-align: left; margin-left: 10px;">본 견적에서 배송비는 별도 입니다.</p>
+        <p style="text-align: left; margin-left: 10px;">본 견적은 사양과 작업의 난이도에 따라서 가격이 변동 될 수 있음을 알려드립니다.</p>
+        <br>
+        <br>
+        <div class="btn_print"><a href="javascript:window.print()">견적서인쇄</a></div>
+    </div>
+</body>
+</html>

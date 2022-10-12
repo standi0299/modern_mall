@@ -1,0 +1,59 @@
+{ # header }
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">공지사항</h2>
+
+		<table class="inquiry-table">
+			<colgroup>
+				<col width="120" />
+				<col width="*" />
+				<col width="120" />
+				<col width="120" />
+				<col width="120" />
+				<col width="120" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>제목</th>
+					<td>{subject}</td>
+					<th>문의일자</th>
+					<td class="tac">{regdt}</td>
+					<th>조회수</th>
+					<td class="tac">{=number_format(hit)}</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="6">
+						<div class="inquiry-view-content">
+							{content}
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="btn_wrap list_btn_wrap">
+			<a href="list.php?board_id={board_id}" class="btn_list">목록</a>
+		</div>
+	</div><!-- container_inner End -->
+</div>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "cs-layout");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	
+	$j("img","#contents").each(function() {
+		if ($j(this).attr("width") > 980) {
+			$j(this).attr("width",980);
+		}
+	});
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }

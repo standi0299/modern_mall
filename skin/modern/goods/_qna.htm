@@ -1,0 +1,55 @@
+<section class="content-container detail-content" id="detail-qna-list">
+	<div class="h-group detail-list-title">
+		<div class="col"><h4>Q&A</h4></div>
+		<div class="col right">
+			<!--<a href="javascript:popup('/goods/qna_write.php?catno={_GET.catno}&goodsno={_GET.goodsno}',800,600);" target="_top" class="write-form-btn">문의하기</a>-->
+		</div>
+	</div>
+	<div class="h-group" id="detail-qna-list-head">
+		<div class="col text-center detail-qna-author">{=__text("작성자")}</div>
+		<div class="col text-center detail-qna-text">{=__text("문의내용")}</div>
+		<div class="col text-center detail-qna-created-at">{=__text("등록일")}</div>
+		<div class="col text-center detail-qna-answer">{=__text("답변상태")}</div>
+	</div>
+	<div class="accordion-list">
+		<ul>
+
+		<!--{ ? qna }-->
+
+			<!--{ @ qna }-->
+
+			<li>
+				<div class="h-group question-title">
+					<div class="col text-center detail-qna-author">{.name}</div>
+					<div class="col text-left detail-qna-text">{.subject} <i><img src="/assets/images/password-bullet.png" alt=""></i></div>
+					<div class="col text-center detail-qna-created-at">{.regdt}</div>
+					<div class="col text-center detail-qna-answer">
+						<!--{ ? .status == "2" }-->{=__text("완료")}<!--{ : }-->{=__text("대기")}<!--{ / }-->
+					</div>
+				</div>
+				<div class="answer-text">
+					<div class="detail-qna-content">
+						<p>
+							<!--{ ? .secret && .mid != _sess.mid }-->{=__text("비밀글입니다.")}<!--{ : }-->{.content}<!--{ / }-->
+						</p>
+					</div>
+				</div>
+			</li>
+
+			<!--{ / }-->
+
+		<!--{ : }-->
+			<li>
+				<div class="h-group question-title">{=__text("등록된 Q&A가 없습니다.")}</div>
+			</li>		
+		<!--{ / }-->
+
+		</ul>
+	</div>
+	<div class="h-group detail-list-title">
+		<div class="col right">
+			<a href="javascript:popup('/goods/qna_write.php?catno={_GET.catno}&goodsno={_GET.goodsno}',800,600);" target="_top" class="write-form-btn">{=__text("문의하기")}</a>
+		</div>
+	</div>
+	{=pg_qna->page['navi']}
+</section>

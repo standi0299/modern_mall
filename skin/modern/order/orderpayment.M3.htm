@@ -1,0 +1,1151 @@
+{ # header }
+<!-- 절사 금액 합계 초기화-->
+<!--<? {total_cuttingmoney} = 0 ?>-->
+<link rel="stylesheet" href="/skin/modern/assets/M3/css/slick.css">
+<link rel="stylesheet" href="/skin/modern/assets/M3/css/pupa_common.css">
+<link rel="stylesheet" href="/skin/modern/assets/M3/css/pupa_custom.css">
+
+<script type="text/javascript" charset='utf-8' src="//code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="/skin/modern/assets/M3/js/slick.min.js"></script>
+<script src="/skin/modern/assets/M3/js/pupa_custom.js"></script>
+
+<form name="fm" id="ordForm">
+
+<input type="hidden" name="coupon" id="input_coupon"/>
+<input type="hidden" name="mid" value="{_sess.mid}">
+<!--{ @ _REQUEST.cartno }-->
+<input type="hidden" name="cartno[]" value="{.value_}">
+<!--{ / }-->
+
+<input type="hidden" name="rid_cartno"/>
+<input type="hidden" name="mode" id="mode" value="orderpayment"/>
+
+<input type="hidden" name="totprice_number" id="totprice_number">
+<input type="hidden" name="dc_coupon" id="dc_coupon">
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">주문/결제</h2>
+		<div class="cart-nav">
+			<ul>
+				<li>1. 장바구니</li>
+				<li class="on">2. 주문/결제</li>
+				<li>3. 주문완료</li>
+			</ul>
+		</div>
+		<div class="cart-exp step2">
+			<div class="table">
+				<div class="td">
+					<span class="shipping_address_common">기본배송지</span>
+				</div>
+				<div class="td address-wrap">
+					<p><!--{ ? basicAddress.receiver_zipcode }-->({basicAddress.receiver_zipcode})<!--{ / }--> {basicAddress.receiver_addr} {basicAddress.receiver_addr_sub}</p>
+					<p>
+						<span>{basicAddress.receiver_name}</span>
+						<span>
+							{basicAddress.receiver_mobile[0]}
+							<!--{ ? basicAddress.receiver_mobile[1] }-->-<!--{ / }-->
+							{basicAddress.receiver_mobile[1]}
+							<!--{ ? basicAddress.receiver_mobile[2] }-->-<!--{ / }-->
+							{basicAddress.receiver_mobile[2]}
+						</span>
+					</p>
+				</div>
+				<div class="td">
+					<a href="javascript:popup('p.address.php','_blank','toolbar=no,scrollbars=yes,resizable=no,width=840,height=914,left=0,top=0')" class="btn_shipping_address_change">배송지 변경</a>
+				</div>
+			</div>
+		</div>
+		<h3 class="table-title">결제상품 목록</h3>
+
+		<!-- 주문/결제 테이블일 때 class="order"추가 -->
+		<table class="cart-table order">
+			<colgroup>
+				<col width="640" />
+				<col width="104" />
+				<col width="*" />
+				<col width="*" />
+				<col width="*" />
+				<col width="*" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>주문 상품 정보</th>
+					<th>수량</th>
+					<th>상품가</th>
+					<th>할인금액</th>
+					<th>할인적용금액</th>
+					<th>배송비</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{ @ cart->item }--><!--{ @ .value_ }-->
+				<tr>
+					<td class="info">
+						<div class="cart-product-img" style="background-image:url({=goodsListImgSrc(..goodsno,'40','','border:1px solid #dedede')});"></div>
+						<div class="cart-product-info">
+							<div class="cart-product-name-wrap">
+								<a href="#" class="cart-product-name">
+									{..goodsnm}
+								</a>
+								<!--{ ? ..title }-->
+								<div class="cart-product-name-edit">
+									{..title}
+								</div>
+								<!--{ / }-->
+								<div class="cart-product-option">
+									<!--{ ? ..opt }-->
+										{=__text("옵션")} [ {..opt} ] <span>(+{..aprice})</span>
+									<!--{ / }-->
+									<br>
+									<!--{ @ ..addopt }-->
+										{...addopt_bundle_name} : {...addoptnm} <span class="eng">(+{=number_format(...addopt_aprice)})</span>
+									<!--{ / }-->
+								</div>
+							</div>
+						</div>
+					</td>
+					<td class="amount">{=number_format(..ea)}</td>
+					<td class="price">{=number_format(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price)}원</td>
+					<td class="reduced-price">
+						<!--{ ? ..grpdc }-->
+							<span class="stxt">{=__text("회원할인")}</span> : -{=number_format(..grpdc * ..ea)}
+						<!--{ / }-->
+					</td>
+					<td class="reduced-total-price">{=number_format(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - (..grpdc * ..ea))}원</td>
+					<td class="delivery"><div id="{..release}">{=number_format(cart->shipprice[..rid])}{=__text("원")}</div><br><span>({..release})</span></td>
+					
+				</tr>
+				<!--{ ? cutmoney_money == 1 && ..org_saleprice.res_mod != 0}-->
+					<!--<? {total_cuttingmoney} += {=..org_saleprice.res_mod}; ?>-->
+				<!--{ / }-->
+				<?
+					{ship_cnt_dc_rid}[] = {..rid};
+					{ship_cnt_dc_size}[] = {..size_};
+					{ship_cnt_dc_release}[] = {..release};
+				?>			
+				<!--{ / }--><!--{ / }--> 
+				<?
+					// 중복 제작사 제거
+					{unique} = array_unique({ship_cnt_dc_rid});
+					{duplicates} = array_diff_assoc({ship_cnt_dc_rid}, {unique});
+
+					foreach({ship_cnt_dc_rid} as {ship_cnt_key} => {ship_cnt_value}){
+						foreach({duplicates} as {dup_k} => {dup_v}){
+							if({ship_cnt_value} == {dup_v}){
+								unset({ship_cnt_dc_rid}[{dup_k}]);
+								unset({ship_cnt_dc_size}[{dup_k}]);
+								unset({ship_cnt_dc_release}[{dup_k}]);
+							}
+						}
+					}
+				?>
+				{?ship_dc.ship_dc_cfg.ship_cfg_dc == "1" && ship_dc.ship_dc_cfg.ship_cfg_type == "N"}
+					<? 
+						{ship_data_dc_json} = json_encode({ship_dc.ship_dc_data});
+						{ship_cnt_dc_rid_json} = json_encode({ship_cnt_dc_rid});
+						{ship_cnt_dc_size_json} = json_encode({ship_cnt_dc_size});
+						{ship_cnt_dc_release_json} = json_encode({ship_cnt_dc_release});
+					?>
+				{:}
+					<? 
+						{ship_data_dc_json} = "0";
+						{ship_cnt_dc_rid_json} = "0";
+						{ship_cnt_dc_size_json} = "0";
+						{ship_cnt_dc_release_json} = "0";
+					?> 
+				{/}
+			</tbody>
+		</table>
+		<div class="total-price-box">
+			<div class="td total-price-td5">
+				<div class="top">
+					<div>
+						<p>주문금액</p>
+						<b class="blue">{=number_format(cart->itemprice)}{=__text("원")}</b>
+					</div>
+					<div>
+						<p>할인금액</p>
+						<b class="red"><span id="totdc"></span></b>
+					</div>
+				</div>
+				<div class="bottom">
+					<div class="table">
+						<div class="row">
+							<div class="th">할인쿠폰사용</div>
+							<div class="td td-1" id="coupon_dc_price2">0<u>원</u></div>
+							<div class="td td-2"><a href="javascript:popOpen('#pop-coupon')" class="btn_coupon">쿠폰적용</a></div>
+							<div class="td td-3">(보유쿠폰 <i class="red" id="my_coupon_cnt">{my_coupon_cnt}</i>장)</div>
+						</div>
+						<div class="row">
+							<div class="th">적립금사용</div>
+							<div class="td td-1"><input type="text" name="emoney" id="emoney" onchange="totprice()" pt="_pt_numplus"/><u>원</u></div>
+							<div class="td td-2">
+								<div class="checkbox custom">
+									<input type="checkbox" id="use_all_emoney" name="use_all_emoney" class="css-checkbox" onclick="all_use_emoney_check();">
+									<label for="use_all_emoney" class="css-label" >
+										<span>모두사용</span>
+									</label>
+								</div>
+							</div>
+							<div class="td td-3">(적립금 <i class="red">{=number_format(emoney)}</i>원 보유)</div>
+						</div>
+						<!--{ ? _cfg.pg.tmembership_use == 1 }-->
+
+						<div class="row">
+							<div class="th">T멤버십 할인</div>
+								<div class="td td-1"><input type="text" name="dc_partnership" id="dc_partnership" size="10" readonly/><u>원</u></div>
+								<input type="hidden" name="dc_partnership_tworld_no" id="dc_partnership_tworld_no" value="">
+								<div class="td td-2"><button type="button" name="dc_partnership_type" id = "dc_partnership_type" class="btn_coupon" value="tworld">멤버십 할인</button></div>
+						</div>
+						<!--{ / }-->
+					</div>
+				</div>
+			</div>
+			<div class="td total-price-td3">
+				<p>총 결제 금액</p>
+				<b><span id="totprice">{=number_format(cart->itemprice - (cart->dc))}{=__text("원")}</span></b>
+					<!--{ ? total_cuttingmoney != 0 }-->
+					<p id="total_cut_money">(<!--{=number_format(total_cuttingmoney)}-->원)</p>
+					<!--{ / }-->
+			</div>
+			<div class="td total-price-td4">
+				<span id="totemoney">{=number_format(cart->totemoney)} P 적립</span>
+			</div>
+		</div>
+		<p class="total-price-caution">적립금은 보유하신 한도내에서 자유로이 사용 하실 수 있습니다.</p>
+		<!--{ ?cutmoney_flag == "1" }-->
+		<p class="total-cutmoney-price-caution">{=__text(cutmoney_text)}</p>
+		<!--{ / }-->
+		<div class="input-information">
+			<a href="/member/myinfo.php" class="btn_modify_info">개인정보수정</a>
+			<h3 class="table-title mt60">고객정보</h3>
+			<table>
+				<colgroup>
+					<col width="155" />
+					<col width="388" />
+					<col width="155" />
+					<col width="*" />
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>{=__text("주문하시는 분")}</th>
+						<td>
+							<input type="text" class="wd200" name="orderer_name" value="{name}" pt="_pt_txt" label="주문자명" required onkeyup="chkTextByte(this,20)">
+						</td>
+						<th>{=__text("휴대폰 번호")}</th>
+						<td>
+							<div class="input-phone">
+								<input type="text" class="input" name="orderer_mobile[0]" value="{mobile[0]}" pt="_pt_numplus" size="4" maxlength="4">
+								<span>-</span>
+								<input type="text" class="input" name="orderer_mobile[1]" value="{mobile[1]}" pt="_pt_numplus" size="4" onkeyup="auto_focus(this,2)" maxlength="4">
+								<span>-</span>
+								<input type="text" class="input" name="orderer_mobile[2]" value="{mobile[2]}" pt="_pt_numplus" size="4" maxlength="4">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>이메일 주소</th>
+						<td colspan="3">
+							<input type="text" name="orderer_email" class="wd280" value="{email}" pt="_pt_email" onkeyup="chkTextByte(this,50)" required>
+						</td>
+					</tr>
+					<!--
+					<tr>
+						<th>SMS/이메일 수신 동의</th>
+						<td colspan="3">
+							<label for="sms1" class="radio inline"> 
+							  <input type="radio" name="sms" id="sms1">
+							  <span>예, 수신동의 합니다.</span> 
+						   </label>
+						   <label for="sms2" class="radio inline"> 
+							  <input type="radio" name="sms" id="sms2">
+							  <span>아니오, 받지 않겠습니다.</span> 
+						   </label>
+						</td>
+					</tr>
+					-->
+				</tbody>
+			</table>
+		</div>
+		<div class="input-information">
+			<a href="javascript:popup('p.address.php','_blank','toolbar=no,scrollbars=yes,resizable=no,width=840,height=914,left=0,top=0')" class="btn_address_change">배송지 선택</a>
+			<div class="chk_top">
+				<h3 class="table-title mt60">배송정보</h3>
+				<div class="checkbox custom">
+					<input type="checkbox" id="chk_info" name="" class="css-checkbox" onclick="get_delivery_data();">
+					<label for="chk_info" class="css-label">
+						<span>고객정보와 동일 합니다.</span>
+					</label>
+				</div>
+			</div>
+			
+			<table>
+				<colgroup>
+					<col width="155" />
+					<col width="388" />
+					<col width="155" />
+					<col width="*" />
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>받으시는 분</th>
+						<td>
+							<input type="text" class="wd200" name="receiver_name" required value="{basicAddress.receiver_name}">
+						</td>
+						<th>휴대폰 번호</th>
+						<td>
+							<div class="input-phone">
+								<input type="text" class="input readonly" name="receiver_mobile[0]" pvalue="orderer_mobile[0]" label="휴대폰 번호" required value="{basicAddress.receiver_mobile[0]}">
+								<span>-</span>
+								<input type="text" class="input readonly" name="receiver_mobile[1]" pvalue="orderer_mobile[1]" label="휴대폰 번호" required value="{basicAddress.receiver_mobile[1]}" onkeyup="auto_focus(this,2)" maxlength="4">
+								<span>-</span>
+								<input type="text" class="input readonly" name="receiver_mobile[2]" pvalue="orderer_mobile[2]" label="휴대폰 번호" required value="{basicAddress.receiver_mobile[2]}">
+								<!--
+								<div class="checkbox custom">
+									<label for="chk_secret" class="css-label">
+										<span>안심번호 사용</span>
+									</label>
+								</div>
+								-->
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>주소</th>
+						<td colspan="3">
+							<input type="text" name="receiver_zipcode" id="receiver_zipcode" readonly class="wd100 input-postcode" pvalue="orderer_zipcode" required value="{basicAddress.receiver_zipcode}">
+							<a href="#" onclick="javascript:popupZipcode('_zcrn_r')" class="btn_postcode">우편번호 찾기</a>
+							<input type="text" name="receiver_addr" class="wd625" pvalue="orderer_addr" label="상세주소" required readonly value="{basicAddress.receiver_addr}" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="4">
+							<input type="text" name="receiver_addr_sub" id="receiver_addr_sub" class="wd625 ml375" pvalue="orderer_addr_sub" {=__placeholder("상세주소를입력하세요")} required onkeyup="chkTextByte(this,50)" value="{basicAddress.receiver_addr_sub}"/>
+						</td>
+					</tr>
+					<tr>
+						<th>배송 시 요구사항</th>
+						<td colspan="3">
+							<select class="custom-select-wrap" onchange="show_self_input();" id="delivery_add_msg">
+								<option value="경비실에 맡겨주세요.">경비실에 맡겨주세요.</option>
+								<option value="부재시 연락주세요.">부재시 연락주세요.</option>
+								<option value="user">직접 입력</option>
+							</select>
+							<div id="self_input" style="display: none">
+								<br>
+								<input type="text" class="wd625" name="request" id="request">
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<script>
+			// 팝업 select
+			$(function(){
+				$('.custom-select-wrap > a').click(function(e){
+					e.preventDefault();
+					$(this).next().toggle();
+				});
+				$('.custom-select-wrap .custom-select li a').click(function(e){
+					e.preventDefault();
+					var txt = $(this).text();
+					$(this).parents('.custom-select').siblings('a').text(txt);
+					$(this).parents('.custom-select').hide();
+				});
+			});
+		</script>
+		<div class="payment-wrap">
+			<div class="left">
+				<h3 class="table-title mt60">결제수단</h3>
+				<table>
+					<tbody>
+						<tr class="payment-radio">
+							<td>
+								<!--{ @ _cfg.pg.paymethod }-->
+									<!--{ ? .index_ && (.index_ % 5 == 0) }-->
+									</td></tr><tr class="payment-radio"><td>
+									<!--{ / }-->
+									<label for="payment1" class="radio inline">
+									  <input type="radio" name="paymethod" value="{.value_}" onclick="sel_bank_info('{.value_}');" required {?save_paymethod==.value_}checked{:!.index_}checked{/}>
+									  <span>{_r_paymethod[.value_]}</span>
+								   </label>
+								   
+								<!--{ / }-->
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<!--{ ? _cfg.pg.kakaopay_use == "1" }-->
+								   <label for="kakaoPay" class="radio inline"> 
+									  <input type="radio" name="paymethod" id="kakaoPay" value="kp" required {?save_paymethod=="kp"}checked{/}>
+									  <span><img src="/skin/modern/assets/M2/images/common/icon_kakaopay.png" alt="카카오페이" /></span> 
+								   </label>
+							   <!--{ / }-->
+							</td>
+						</tr>
+						
+						<tr id="sel_bank_info" style="display: none">
+							<td>
+								<select name="bankinfo" class="custom-select-wrap-bank" id="bank_info_required" label="무통장 입금 계좌">
+									<option value=""> {=__text("입금계좌선택")}
+									<!--{ @ r_bank }-->
+									<option value="{.value_}">{.value_}
+									<!--{ / }-->
+								</select>
+							</td>
+						</tr>
+						
+						<tr>
+							<td class="bd-bt-none">
+								<div class="checkbox custom">
+									<input type="checkbox" id="chk_save_payment" name="save_paymethod" class="css-checkbox">
+									<label for="chk_save_payment" class="css-label">
+										<span>지금 선택하신 결제수단을 저장 합니다.</span>
+									</label>
+								</div>
+							</td>
+						</tr>
+						
+						<tr>
+							<td>
+								<div class="checkbox custom">
+									<input type="checkbox" id="chk_agree" name="구매동의" class="css-checkbox" value="" required>
+									<label for="chk_agree" class="css-label">
+										<span>주문할 상품의 상품명, 편집내용, 상품가격, 배송정보를 확인하였으며,구매에 동의 하시겠습니까?</span>
+									</label>
+								</div>
+								<a href="javascript:popOpen('#pop-terms')" class="btn_terms">약관보기</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div class="right">
+				<h3 class="table-title mt60">최종 결제금액 확인</h3>
+				<table>
+					<tbody>
+						<tr class="tr-1">
+							<th>주문금액</th>
+							<td class="blue">{=number_format(cart->itemprice)}{=__text("원")}
+							</td>
+						</tr>
+						<tr class="tr-2">
+							<td colspan="2">
+								<ul>
+									<li>
+										<span>· 쿠폰사용</span>
+										<i class="red"><div id="coupon_dc_price">0{=__text("원")}</div></i>
+									</li>
+									<li>
+										<span>· 적립금사용</span>
+										<i class="red"><div id="use_emoney_price">0{=__text("원")}</div></i>
+									</li>
+									<li>
+										<span>· 멤버십 할인 금액</span>
+										<i class="red"><div id="use_dc_partnership">0{=__text("원")}</div></i>
+									</li>									
+									<!--{ ? total_cuttingmoney != 0 }-->
+									<li>
+										<span>· 절사금액</span>
+										<i class="red"><div id="use_emoney_price">
+											<!--{ ? total_cuttingmoney > 0 }-->
+											(+<!--{=number_format(total_cuttingmoney)}-->{=__text("원")})
+											<!--{ : }-->
+											(<!--{=number_format(total_cuttingmoney)}-->{=__text("원")})
+											<!--{ / }-->
+										</div></i>
+									</li>
+									<!--{ / }-->
+									<li>
+										<span>· 배송비</span>
+										<i id="total_ship_price">{=number_format(cart->totshipprice)}{=__text("원")}</i>
+									</li>
+									<li id="shipping_extra_div" style="display: none;">
+										<input type="hidden" name="shipping_extra_price" id="shipping_extra_price">
+										<span>· 추가배송비</span>
+										<i><div id="shipping_extra_msg"></div></i>
+									</li>
+								</ul>
+							</td>
+						</tr>
+						<tr class="tr-3">
+							<th>총 결제금액</th>
+							<td class="blue"><span id="totprice2">{=number_format(cart->itemprice - (cart->dc * cart->totea))}{=__text("원")}</span></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<div class="total-price-btn mt60">
+			<button type="button" class="btn_cart_return" onclick="location.href='/order/cart.php';"><span>장바구니 돌아가기</span></button>
+			<button type="button" class="btn_payment" onclick="orderProc();"><span>결제하기</span></button>
+		</div>
+	</div>
+</div>
+
+</form>
+
+{ # pg }
+
+<div id="pop-terms">
+	<a href="javascript:closePop('pop-terms');" class="close">닫기</a>
+	<div class="pop-top">
+		<h2>구매진행 동의 안내</h2>
+	</div>
+	<div class="inner">
+		<div class="ul-wrap">
+			<h3><span>상품구매 동의</span></h3>
+			<ul>
+				<li>주문할 상품의 편집정보, 상품정보, 상품가격, 배송정보를 확인 하였습니다.</li>
+				<li>주문취소 및 수정은 결제 후 1시간 이내, 상품준비중 단계에서만 가능합니다.</li>
+			</ul>
+		</div>
+		<div class="ul-wrap">
+			<h3><span>정보수신 동의</span></h3>
+			<ul>
+				<li>주문자 정보로 SMS와 이메일로 발송 됩니다.</li>
+				<li>주문관련 정보발송/마케팅 특성에 따른 서비스 제공 및 CRM 용도/이벤트 담청자 발표 안내/</li>
+				<li>이벤트 참여기회 제공/공지 안내를 위해서 휴대폰번호, 이메일 주소, 정보수신이 저장됩니다.</li>
+			</ul>
+		</div>
+		<div class="ul-wrap">
+			<h3><span>보유기간</span></h3>
+			<ul>
+				<li>개인정보 수집 및 이용 목적 달성 시 까지 보관됩니다.</li>
+			</ul>
+		</div>
+		<div class="pop-btn mt50">
+			<a href="javascript:closePop('pop-terms');" class="btn_submit">확인</a>
+		</div>
+	</div>
+</div>
+<!-- 쿠폰 적용하기 팝업 -->
+<div id="pop-coupon"></div>
+<div class="pupa-bg"></div>
+
+<script>
+
+function fnAppendHidden(){
+	
+ 	var hidden = document.createElement('input');
+	hidden.setAttribute('type', 'hidden');
+	hidden.setAttribute('value', 'SKIN(ORIGINAL):HPP(1):useescrow');
+	hidden.setAttribute('name', 'acceptmethod');
+	hidden.setAttribute('id', 'acceptmethod');
+	document.getElementById('SendPayForm_id').appendChild(hidden);
+}
+
+function sel_bank_info(paymethod){
+	if(paymethod == 'b'){
+		$j("#sel_bank_info").show();
+		$j("#bank_info_required").attr("required", true);
+	} else {
+		$j("#sel_bank_info option:eq(0)").attr("selected", "selected");
+		$j("#sel_bank_info").hide();
+		$j("#bank_info_required").attr("required", false);
+	}
+	
+	if(paymethod == "ve"){
+		fnAppendHidden();
+	} else {
+		$('#acceptmethod').remove();
+	}
+}
+
+var memberEmoney = '{emoney}';
+
+
+function orderProc()
+{
+	var result = form_chk(document.fm);
+
+	// 할인 배송비 계산
+	// var totshipprice = parseInt($("#total_ship_price").html().replace("원", "").replace(",",""));
+	// var totsaleprice = parseInt($("#totprice").html().replace("원", "").replace(",",""));
+	var totshipprice = parseInt($("#total_ship_price").html().replace("원", "").replace(/,/g , ''));
+	var totsaleprice = parseInt($("#totprice").html().replace("원", "").replace(/,/g , ''));
+	var ship_data_dc_json = {ship_data_dc_json};
+	var ship_cnt_dc_rid_json = {ship_cnt_dc_rid_json};
+	var ship_cnt_dc_size_json = {ship_cnt_dc_size_json};
+	var ship_emoney_list_obj = {};  //제작사별 할인 배송비 object 초기화
+	var ship_dc_list_obj = {};      //ajax data 넘길 object초기화
+	var ship_dc_list = "";
+	var ship_dc_cnt = 0;
+
+		if(ship_data_dc_json != 0){
+			var ship_cnt_total = 0;
+			//var ship_cfg_promotion = parseInt($j("#dc_sale_code_coupon").html().replace("원", "").replace(",",""));
+			
+			//if (isNaN(ship_cfg_promotion)) ship_cfg_promotion = 0;
+			var ship_cfg_emoney = parseInt($j("input[name=emoney]").val() * 1);
+
+			//제작사 계산 
+			$j.each(ship_cnt_dc_size_json, function(index, i){
+				ship_cnt_total += i;
+				$j.each(ship_cnt_dc_rid_json, function(index2,i2){
+					if(index == index2) {
+						ship_emoney_list_obj[i2] = i;
+					}
+				});
+			});
+
+			// 제작사의 상품별 균등하게 나누어진 금액
+			var each_ship_emoney = parseInt( (ship_cfg_emoney) / ship_cnt_total);
+			// 균등하게 나누어지고 남은금액
+			var each_ship_emoney_mod = parseInt( (ship_cfg_emoney) % ship_cnt_total);
+
+			//할인 금액 계산 (균등하게 나누며 나머지 발생시 상위 업체에게 나머지 할인금액 지급)
+			// i 제작사별 상품수 , index 제작사명
+			$j.each(ship_emoney_list_obj, function(index,i){
+				ship_emoney_list_obj[index] = i * each_ship_emoney;
+				if( each_ship_emoney_mod > 0 ){
+					if( i < each_ship_emoney_mod){
+						ship_emoney_list_obj[index] += i;
+						each_ship_emoney_mod -= i;
+					}else{
+						ship_emoney_list_obj[index] += each_ship_emoney_mod;
+						each_ship_emoney_mod -= each_ship_emoney_mod;
+					}
+				}
+			});
+
+			//제작사별 배송금액 설정
+			// key(제작사) : value(배송비)
+			$j.each(ship_data_dc_json, function(index, i){
+				$j.each(i, function(index2,i2){
+					//일반배송
+					if(i2.shiptype=="0"){
+						ship_dc_cnt++;
+						ship_dc_list += "&rid_" + ship_dc_cnt + "=" + i2.rid + "&rid_shipprice_" + ship_dc_cnt + "=" + parseInt(i2.shipprice);
+					//조건부 배송
+					}else if(i2.shiptype=="3"){
+						$j.each(ship_emoney_list_obj,function(index3,i3){
+							if(index2 == index3 && ((i2.orderprice-i3) < i2.shipconditional) ){
+								ship_dc_cnt++;
+								ship_dc_list += "&rid_" + ship_dc_cnt + "=" + i2.rid + "&rid_shipprice_" + ship_dc_cnt  + "=" + parseInt(i2.shipprice);
+							}
+						});
+					}
+				});
+			});
+		}
+	if (result)
+	{
+		$j.ajax({
+			type: "post",
+			url: "orderpayment.indb.php",
+			data: "&totshipprice=" + totshipprice + "&totsaleprice=" + totsaleprice + "&ship_dc_cnt=" + ship_dc_cnt + ship_dc_list + "&" + $j("#ordForm").serialize(),
+			async : false,
+	   		cache : false,
+			dataType : "json",
+			success: function(data) {
+				if(data.error) {
+	      		alert(data.error);
+	        		return false;
+	    		}
+				if (data.code == "09")
+				{
+					alert(data.msg);
+					if (data.action)
+						eval(data.action);
+				} else {
+					
+					var st = $(":input:radio[name=paymethod]:checked").val();
+					if (st == "kp")
+					{
+						//카카오페이 결제.
+						window.open(data.action, "kakaopay_window", "height=500, width=600,scroll=yes, scrollbars=yes, status=yes, help=yes, center=yes toolbar=yes, directories=yes, menubar=yes, resizable=yes");
+					} else {
+						if (data.pay_client_type  == "PC")
+						{
+							//아니시스 PC
+							$("input[name=timestamp]").val(data.timestamp);
+							$("input[name=signature]").val(data.signature);
+							$("input[name=mKey]").val(data.mKey);
+	
+							$("input[name=goodname]").val(data.goodname);
+							$("input[name=oid]").val(data.payno);
+							$("input[name=price]").val(data.totprice);
+	
+							$("input[name=buyername]").val(data.buyername);
+							$("input[name=buyertel]").val(data.buyertel);
+							$("input[name=buyeremail]").val(data.buyeremail);
+	
+							$("select[name=gopaymethod]").val(data.gopaymethod).prop("selected", true);
+							//document.SendPayForm_id.gopaymethod.value = data.paymethod;
+							eval(data.action);
+						} else {
+							//이니시스 모바일
+							$("input[name=P_OID]").val(data.payno);
+							$("input[name=P_GOODS]").val(data.goodname);
+							$("input[name=P_AMT]").val(data.totprice);							
+							$("input[name=P_UNAME]").val(data.buyername);
+							//$("input[name=P_MNAME]").val(data.buyername);			//가맹점이릉
+							$("input[name=P_MOBILE]").val(data.buyertel);
+							$("input[name=P_EMAIL]").val(data.buyeremail);
+							
+							$("select[name=paymethod]").val(data.gopaymethod).prop("selected", true);
+							eval(data.action);
+						}
+					}
+				}
+				return false;
+			}
+		});
+	} else return false;
+}
+
+
+
+$j(function(){
+	$j("[name=emoney]").bind('keydown', 'ctrl+v', function(){alert({=__java("ctrl+v 는 사용하실수 없습니다")});return false});
+	$j("[name=emoney]").bind('contextmenu', function(){alert({=__java("우측버튼을 사용하실수 없습니다.")});return false});
+
+	//비회원이면  필요없는 버튼, text 는 다 감춘다.
+	if("{_sess.mid}" == "" &&"{_REQUEST.buyGuest}" == "1") {
+		$j(".discount-cont").hide();
+	}
+	
+	totprice();
+});
+
+
+//쿠폰창 ajax로 데이타 가져오기
+$j(document).ready(function(){
+	get_div_height();
+	$j.ajax({
+		type: "post",
+		url: "layer.coupon.php",
+		data: $j("#ordForm").serialize(),
+		success: function(data) {
+			//document.getElementById('pop-coupon').append(data);
+			document.getElementById('pop-coupon').innerHtml = data;
+			$j('#pop-coupon').html(data);
+			get_div_height();
+			//$j("#pop-coupon").height($("#sidebarmenu1").height());
+		}
+	});
+	
+	var save_paymethod = '{save_paymethod}';
+	if(save_paymethod == 'b'){
+		sel_bank_info(save_paymethod);
+	}
+	
+	if(save_paymethod == "ve"){
+		fnAppendHidden();
+	}
+});
+
+function get_div_height(){
+	var div_height = $j("#pop-coupon").height();
+}
+
+//적립금 전체 사용 처리.
+function all_use_emoney_check()
+{
+	if($j("#use_all_emoney").is(":checked"))
+	{
+		//var totPrice = $j("#totprice_number").val();
+		
+		//기본 할인, 쿠폰할인  적용된 결제금액. 배송비를 제외한 상품 가격 구하기.
+		var dc_coupon = parseInt(uncomma($j("input[name=dc_coupon]").val())*1);
+		var totPrice = parseInt("{cart->itemprice - cart->dc}") - parseInt(dc_coupon);
+		
+		if (parseInt(memberEmoney) > parseInt(totPrice))
+			$j("#emoney").val(totPrice);
+		else
+  			$j("#emoney").val(memberEmoney);
+ 	} else {
+		$j("#emoney").val(0);
+  	}
+  	totprice();
+}
+
+
+//배송 메세지 입력창
+function show_self_input(){
+	if ($j("#delivery_add_msg").val() == "user") 
+	{
+		$j("#request").val('');
+		$j("#self_input").show();
+	}
+	else {
+		$j("#self_input").hide();
+		$j("#request").val($j("#delivery_add_msg").val());
+	}
+}
+
+
+function bank_info_show(paymethod){
+	if(paymethod == "b"){
+		$j('#bank_info').show();
+	} else {
+		$j('#bank_info').hide();
+	}
+}
+
+
+function totprice(){
+
+	var emoney = parseInt(memberEmoney);
+	var grpdc = "{cart->dc}";
+	var dc_coupon = parseInt(uncomma($j("input[name=dc_coupon]").val())*1);
+	var able_emoney = parseInt("{cart->itemprice - cart->dc}") - parseInt(dc_coupon);
+
+	var dc_sale_code_coupon = parseInt(uncomma($j("#dc_sale_code_coupon").val())*1);
+	//var shipping_extra_price = parseInt($j("#shipping_extra_price").val()*1);
+
+	var tmembership_use = "{_cfg.pg.tmembership_use}";
+	if(tmembership_use == 1)
+		var dc_partnership = parseInt($j("input[name=dc_partnership]").val()*1);
+	else
+		var dc_partnership = 0;
+
+	if (parseInt($j("input[name=emoney]").val()) > parseInt(emoney)) $j("input[name=emoney]").val(emoney);
+	if (parseInt($j("input[name=emoney]").val()) > parseInt(able_emoney)) $j("input[name=emoney]").val(able_emoney);
+
+	var totship = 0;
+
+	//적립금 사용시 배송비 계산
+	var ship_data_dc_json = {ship_data_dc_json};
+	var ship_cnt_dc_release_json = {ship_cnt_dc_release_json};
+	var ship_cnt_dc_size_json = {ship_cnt_dc_size_json};
+	var ship_data_dc_arr = [];      //배송비 합계 array 초기화
+	var ship_emoney_list_obj = {};  //제작사별 할인 배송비 object 초기화
+	var ship_dc_list = [];			//제작사별 뿌려줄 배송비 데이터 초기화
+	if(ship_data_dc_json != 0){
+		var ship_cnt_total = 0;
+		//var ship_cfg_promotion = parseInt($j("#dc_sale_code_coupon").html().replace("원", "").replace(",",""));
+		
+		//if (isNaN(ship_cfg_promotion)) ship_cfg_promotion = 0;
+		var ship_cfg_emoney = parseInt($j("input[name=emoney]").val() * 1);
+
+		//제작사 계산 
+		$j.each(ship_cnt_dc_size_json, function(index, i){
+			ship_cnt_total += i;
+			$j.each(ship_cnt_dc_release_json, function(index2,i2){
+				if(index == index2) {
+					ship_emoney_list_obj[i2] = i;
+				}
+			});
+		});
+
+		// 제작사의 상품별 균등하게 나누어진 금액
+		var each_ship_emoney = parseInt( (ship_cfg_emoney) / ship_cnt_total);
+		// 균등하게 나누어지고 남은금액
+		var each_ship_emoney_mod = parseInt( (ship_cfg_emoney) % ship_cnt_total);
+		//할인 금액 계산 (균등하게 나누며 나머지 발생시 상위 업체에게 나머지 할인금액 지급)
+		// i 제작사별 상품수 , index 제작사명
+		$j.each(ship_emoney_list_obj, function(index,i){
+			ship_emoney_list_obj[index] = i * each_ship_emoney;
+			if( each_ship_emoney_mod > 0 ){
+				if( i < each_ship_emoney_mod){
+					ship_emoney_list_obj[index] += i;
+					each_ship_emoney_mod -= i;
+				}else{
+					ship_emoney_list_obj[index] += each_ship_emoney_mod;
+					each_ship_emoney_mod -= each_ship_emoney_mod;
+				}
+			}
+		});
+		//제작사별 할인금액 분배
+		$j.each(ship_data_dc_json, function(index, i){
+			$j.each(i, function(index2,i2){
+				//console.log(i2);
+				
+				//일반배송
+				if(i2.shiptype=="0"){
+					ship_data_dc_arr.push(parseInt(i2.shipprice));
+				//무료배송
+				}else if(i2.shiptype=="1"){
+					//ship_data_dc_arr.push(0);
+				//조건부 배송
+				}else if(i2.shiptype=="3"){
+					$j.each(ship_emoney_list_obj,function(index3,i3){
+						if(i2.release == index3){
+							if( ((i2.orderprice-i3) < i2.shipconditional) ){
+								ship_data_dc_arr.push(parseInt(i2.shipprice));
+								$j("#"+i2.release).html(comma(parseInt(i2.shipprice)) + {=__java("원")});
+							}else{
+								$j("#"+i2.release).html("0" + {=__java("원")});
+							}
+						}
+					});
+				}
+			});
+		});
+
+		for(var i=0; i<ship_data_dc_arr.length;i++){
+			totship += ship_data_dc_arr[i];
+		}
+	}else{
+		totship = "{cart->totshipprice}";
+	}
+	var emoney = parseInt($j("input[name=emoney]").val()*1);
+	var price = parseInt("{cart->itemprice}") + parseInt(totship);
+	if(grpdc == '') grpdc = 0;
+
+	$j("#totdc").html(comma(eval(grpdc + emoney + dc_coupon + dc_sale_code_coupon + dc_partnership)) + {=__java("원")});
+
+	var totPrice = price - grpdc - emoney - dc_coupon - dc_sale_code_coupon - dc_partnership;
+	$j("#totprice_number").val(totPrice);
+	
+	$j("#totprice").html(comma(totPrice) + {=__java("원")});
+	$j("#totprice2").html(comma(totPrice) + {=__java("원")});
+ 
+ 	$j("#use_emoney").html(comma(emoney) + {=__java("원")});
+
+	var use_emoney_price = $j("#emoney").val();
+	$j("#use_emoney_price").html(comma(use_emoney_price) + {=__java("원")});
+
+	$j("#coupon_dc_price").html(comma(dc_coupon) + {=__java("원")});
+	$j("#coupon_dc_price2").html(comma(dc_coupon) + "<u>원</u>");
+	$j("#total_ship_price").html(comma(totship) + "<u>원</u>");
+	
+	var saleprice = {cart->itemprice};
+	var payprice = totPrice - totship;
+
+	if(dc_partnership < 1 ){
+		$j("#dc_partnership").val("0");
+	}
+	
+	$j.ajax({
+		type: "post",
+		url: "orderpayment.indb.php",
+		data: "mode=getCalcEmoney&payprice=" + payprice + "&saleprice=" + saleprice,
+		
+		success: function(data) {
+			$j("#totemoney").html(comma(data)+" P 적립");
+		},
+		error:function(request,status,error){
+			alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+		}
+	});
+}
+
+
+
+//추가 배송비 계산.
+(function($){
+	$(document).ready(function(){
+		$('#receiver_addr_sub').bind("focus", function () {
+			getShippingExtraPrice();
+ 		});
+	});
+})(jQuery1_11_0);
+
+function getShippingExtraPrice()
+{
+	var r_zipcode = $j('#receiver_zipcode').val();
+	if (!r_zipcode) return;
+	$j.post("/module/indb.php",{mode:"shipping_extra_calcu",zipcode:r_zipcode,cartno:"{_cartno}"},
+	function(data){
+		if (!data) return;
+
+		var r = evalJSON(data);	
+
+		$j("#shipping_extra_price").val('0');
+		$j("#shipping_extra_msg").text('');
+		if (r.shipping_extra_price > 0)
+		{
+			$j("#shipping_extra_div").show();
+			$j("#shipping_extra_price").val(r.shipping_extra_price);
+			$j("#shipping_extra_msg").html("<p>" + comma(r.shipping_extra_price) + "원</p>");
+		}
+		else
+		{
+			$j("#shipping_extra_div").hide();
+			$j("#shipping_extra_msg").text(r.shipping_extra_msg);
+		}
+		totprice();
+	});
+}
+
+
+
+//우편번호 검색 처리.
+function _zcrn_o(){
+	var zipcode = arguments[0];
+	$j("[name=orderer_zipcode]").val(zipcode);
+	//$j("[name=orderer_zipcode[1]]").val(zipcode[1]);
+	$j("[name=orderer_addr]").val(arguments[1]);
+	$j("[name=orderer_addr_sub]").val("");
+	$j("[name=orderer_addr_sub]").trigger("focus");
+}
+
+function _zcrn_r(){
+	var zipcode = arguments[0];
+	$j("[name=receiver_zipcode]").val(zipcode);
+	//$j("[name=receiver_zipcode[1]]").val(zipcode[1]);
+	$j("[name=receiver_addr]").val(arguments[1]);
+	$j("[name=receiver_addr_sub]").val("");
+	$j("[name=receiver_addr_sub]").trigger("focus");
+}
+
+
+//layer popup 닫기
+function closePop(popID)
+{
+	$j('.pupa-bg').fadeOut();
+	$j('#' + popID).hide();
+	$j("html").css({
+		"overflow-y":"scroll"
+	});
+}
+
+
+function saleCodeApply()
+{
+	var promotion_sale_code = $j('#sale_code_coupon').val();
+	if (!promotion_sale_code) return;
+	$j.post("/module/indb.php",{mode:"sale_code_calcu",sale_code:promotion_sale_code,cartno:"{_cartno}"},
+	function(data){
+		if (!data) return;
+
+		var r = evalJSON(data);
+
+		$j("#dc_sale_code_coupon").val('0');
+		$j("#sale_code_coupon_msg").text('');
+		if (r.sale_code_price > 0)
+			$j("#dc_sale_code_coupon").val(r.sale_code_price);
+		else
+			$j("#sale_code_coupon_msg").text(r.sale_code_msg);
+		totprice();
+	});
+}
+
+
+
+function order_shiptype(rid_cartno, key) {
+	//같은 제작사라도 상품의 개별배송비가 있을 경우 구분해야 하기 때문에 key를 붙여준다.
+	var sel_ID = "order_shiptype_" + key;
+
+	document.fm.rid_cartno.value = rid_cartno;
+	document.fm.mode.value = 'order_shiptype_update';
+
+	var target = document.getElementById(sel_ID);
+
+	document.fm.order_shiptype.value = target.options[target.selectedIndex].value;
+	document.fm.action = 'order.php';
+
+	document.fm.submit();
+}
+
+</script>
+
+
+<script>
+
+/** 주소록입력 **/
+function _address(addressno){
+	if (!addressno) return;
+	$j.post("indb.address.php",{mode:"ajaxGetAddress",addressno:addressno},
+	function(data){
+		if (!data) return;
+
+		/** 새로입력체크 **/
+		$j("#copyInfo_2").trigger("click");
+
+		var r = evalJSON(data);
+		var receiver_zipcode	= r.receiver_zipcode.split("-");
+		var receiver_phone	= r.receiver_phone.split("-");
+		var receiver_mobile	= r.receiver_mobile.split("-");
+
+		$j("[name=receiver_name]").val(r.receiver_name);
+
+		$j("[name=receiver_phone[0]]").val(receiver_phone[0]);
+		$j("[name=receiver_phone[1]]").val(receiver_phone[1]);
+		$j("[name=receiver_phone[2]]").val(receiver_phone[2]);
+
+		$j("[name=receiver_mobile[0]]").val(receiver_mobile[0]);
+		$j("[name=receiver_mobile[1]]").val(receiver_mobile[1]);
+		$j("[name=receiver_mobile[2]]").val(receiver_mobile[2]);
+
+		$j("[name=receiver_zipcode]").val(receiver_zipcode);
+		//$j("[name=receiver_zipcode[1]]").val(receiver_zipcode[1]);
+		$j("[name=receiver_addr]").val(r.receiver_addr);
+		$j("[name=receiver_addr_sub]").val(r.receiver_addr_sub);
+	});
+}
+
+function auto_focus(obj,idx){
+	//return;	/* 자동포커스 이동 사용하지 않을시 주석제거 */
+
+	switch (obj.name){
+	case "orderer_phone[1]":
+		if (obj.value.length == 4) obj.form['orderer_phone[2]'].focus();
+		break;
+	case "orderer_mobile[1]":
+		if (obj.value.length == 4) obj.form['orderer_mobile[2]'].focus();
+		break;
+	case "receiver_mobile[1]":
+		if (obj.value.length==4) obj.form['receiver_mobile[2]'].focus();
+		break;
+	case "receiver_phone[1]":
+		if (obj.value.length==4) obj.form['receiver_phone[2]'].focus();
+		break;
+	}
+}
+
+function get_delivery_data(){
+	
+	$j("[name=receiver_name]").val("{name}");
+
+	$j("[name=receiver_mobile[0]]").val("{mobile[0]}");
+	$j("[name=receiver_mobile[1]]").val("{mobile[1]}");
+	$j("[name=receiver_mobile[2]]").val("{mobile[2]}");
+}
+</script>
+
+<script>
+$j("#dc_partnership_type").click(function(){
+		var dc_partnership_type = $j(this).val();
+
+		var dc_partnership = 0;
+
+		// 결제금액처리
+		$j("#dc_partnership").val(dc_partnership);			//input변경
+		$j("#txt_dc_partnership").text(dc_partnership);		//txt변경
+		//totprice();											//결제금액다시계산
+		
+		//총 결제금액
+		var payprice = parseInt($("#totprice").html().replace("원", "").replace(",",""));
+		//배송비
+		var shipprice = {cart -> totshipprice};
+		
+		//var dc_partnership = {cart->max_dc_partnership};
+		var dc_partnership = (payprice - shipprice) * 0.1;
+
+		// 팝업창
+		if (dc_partnership_type=="tworld")	popup("../module/tworld/tworld.php?dc_partnership="+dc_partnership,550,330);
+	});
+
+	// TWORLD 콜백
+	function dc_partnership_tworld_callback(no,point){
+		var payprice = parseInt($("#totprice").html().replace("원", "").replace(",",""));
+		var shipprice = {cart -> totshipprice};
+		var point                               = parseInt(point);
+		//var max_dc_partnership        = parseInt("{=cart->max_dc_partnership}");
+		var max_dc_partnership        = (payprice - shipprice) * 0.1;
+		var dc_partnership              = (point >= max_dc_partnership) ? max_dc_partnership : 0;
+
+		// 결제금액처리
+		$j("#dc_partnership").val(dc_partnership);              //input변경
+		$j("#dc_partnership").text(dc_partnership);     //txt변경
+		totprice();                                                                             //결제금액다시계산
+
+		// 결제방법처리 (for 국민은행)
+		//set_paymethod();
+
+		// dc_partnership_tworld PK값설정
+		$j("#dc_partnership_tworld_no").val(no);
+
+		$j("#use_dc_partnership").text(comma(dc_partnership) + {=__java("원")});
+		return true;
+
+	}
+</script>
+
+{ # footer }

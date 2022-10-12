@@ -1,0 +1,13 @@
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+/.idea/
+
+
+### 설정/이미지/로그 ###
+/conf/
+/data/
+/dblog/
+/_compile/

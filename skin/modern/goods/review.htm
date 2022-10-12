@@ -1,0 +1,85 @@
+{ # header }
+
+<section class="content-container detail-content review-list-wrap">
+	<div class="tablize">
+		<div class="table-row">
+			<div class="cell vertical-middle">
+				<h1 class="payment-title">상품후기</h1>
+			</div>
+		</div>
+	</div>
+
+	<section style="margin:40px auto 55px;text-align:center;"><!--{ @ f_banner_s2('goods_review_title')}-->{.banner}<!--{ / }--></section>
+
+	<div class="h-group" id="review-filter">
+		<div class="col right" id="review-search">
+			<form>
+				<input type="hidden" name="type" value="{_GET.type}">
+				<input type="text" class="input" name="search"  value="{_GET.search}" {=__placeholder("상품명으로 검색")}>
+				<input type="submit" id="review-submit" style="display:none;">
+				<a href="#" id="review-btn"><img src="../assets/images/search-dark-icon.png" alt=""></a>
+			</form>
+		</div>
+	</div>
+	<div class="accordion-list">
+		<ul>
+			<!--{ @ loop }-->
+			<li>
+				<div class="h-group question-title">
+					<div class="col text-center review-thumbnail">{=goodsListImg(.goodsno,155)}</div>
+					<div class="col text-left review-summary">
+						<div class="review-tag">{.catnm}</div>
+						<a href="../goods/view.php?catno={.catno}&goodsno={.goodsno}"><div class="review-tag">[{.goodsnm}]</div></a>
+						<div class="review-subject h-group">
+							<div class="col">
+								{.subject}
+							</div>
+							<div class="col">
+								{.degree}
+							</div>
+						</div>
+						<p>
+							{.content_line[0]}<br>{.content_line[1]}
+						</p>
+
+					</div>
+					<div class="col text-right review-created-at">{.name} ({=substr(.regdt,0,10)})</div>
+				</div>
+				<div class="answer-text">
+					<!--{ ? .kind == "photo" }-->
+					<div><img src="/data/review/{.cid}/{.img}" alt=""></div>
+					<!--{ / }-->
+					{=nl2br(.content)}
+				</div>
+			</li>
+			<!--{ : }-->
+			<li>
+				<div class="text-center" style="height:200px;padding-top:90px;">{=__text("상품후기가 없습니다.")}</div>
+			</li>
+			<!--{ / }-->
+		</ul>
+	</div>
+	<div class="h-group detail-list-title">
+		<div class="col right">
+			<a href="review.php?type=mypage" class="write-form-btn">{=__text("내가 쓴 후기 보기")}</a>
+		</div>
+	</div>
+	<div class="list-pagination" style="margin:10px 0 -20px;">
+		<ul>
+			<li>{pg->page['navi']}</li>
+		</ul>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "review-list-page");
+	$j("body").attr("class", "");
+});
+
+$j("#review-btn").click(function() {
+	$j("#review-submit").click();
+});
+</script>
+
+{ # footer }

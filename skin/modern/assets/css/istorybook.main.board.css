@@ -1,0 +1,73 @@
+#customer {
+    clear: both;
+    width: 100%;
+    background-color: #f7f7f7;
+    height:225px;
+}
+#customer .cust_board_wrap {
+    width:1200px;
+    margin:auto;
+    padding: 50px 0 0;
+}
+#customer .cust_board_wrap .cust_board {
+    width:470px;
+}
+#customer .cust_board_wrap .cust_board p{
+    border-bottom:1px solid #000;
+    padding:3px 15px;
+    position:relative;
+}
+#customer .cust_board_wrap .cust_board p a{
+    font-size:17px;
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; 
+    color:#000;
+}
+#customer .cust_board_wrap .cust_board p span {
+    position:absolute;
+    right:15px;
+    bottom:3px;
+}
+#customer .cust_board_wrap .cust_board p span a {
+    color:#969696;
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; 
+    font-size:12px;
+}
+#customer .cust_board_wrap .cust_board ul {
+    font-family: "Noto Sans KR", "Apple SD Gothic Neo", "Malgun Gothic", sans-serif; 
+    font-size:12px;
+    margin:5px 10px;
+}
+#customer .cust_board_wrap .notice {
+    float:left;
+}
+#customer .cust_board_wrap .qna {
+    float:right;
+}
+#customer .cust_board_wrap .cust_board ul .cust_board_list ul li {
+    float:left;
+    margin-top:5px;
+}
+#customer .cust_board_wrap .cust_board ul .cust_board_list ul li a{
+    color:#000;
+}
+#customer .cust_board_wrap .cust_board ul .cust_board_list ul li:first-child:hover a{
+    border-bottom:1px solid #000;
+}
+#customer .cust_board_wrap .cust_board ul li ul .notice_title {
+    float:left;
+    width:300px;
+}
+#customer .cust_board_wrap .cust_board ul li ul .notice_date {
+    float: right;
+}
+#customer .cust_board_wrap .cust_board ul li ul .notice_writer {
+    float: right;
+    margin-right:15px;
+}
+#customer .cust_board_wrap .cust_board ul li ul .qna_title {
+    float:left;
+    width:300px;
+}
+#customer .cust_board_wrap .cust_board ul li ul .qna_writer {
+    float:right;
+}

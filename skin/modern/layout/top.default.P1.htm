@@ -1,0 +1,174 @@
+<style type="text/css">
+	.pix_logo {background-image:url("/data/top_logo/{_cid}/top_logo.png"); width:168px; height:40px;}
+</style>
+
+<div id="body_warp_px">
+	<div id="zeta_menu_wrap">
+		<div class="ex_test">
+			<div class="ex_test_map">
+				<div class="login_left_menu">
+					<ul>
+						<li><a href="#" id="favorite" title="즐겨찾기 등록">즐겨찾기</a></li>
+						<li><a href="/goods/event.php">이벤트</a></li>
+						<li><a href="/mypage/bigorder.php">대량구매문의</a></li>
+					</ul>
+				</div>
+	
+				<div class="login_menu_list">
+					<ul>
+						<!--{ ? !_sess }-->
+						<li>
+							<a href="/member/login.php">로그인</a>
+						</li>
+						<!--{ : }-->
+						<li class="login_icon">
+							<a href="#">
+								<strong>{_sess.name}님<span></span></strong>
+								<div class="user_page">
+									<div class="user_page_list">
+										<ul style="padding:0;">
+											<li><a href="/mypage/orderlist.php">주문배송</a></li>
+											<li><a href="/order/editlist.php">편집보관함</a></li>
+											<li><a href="/mypage/coupon.php">쿠폰·적립금</a></li>
+											<li><a href="/mypage/document.php">서류발급신청</a></li>
+											<li><a href="/member/myinfo.php">회원정보변경</a></li>
+											<li><a href="/member/logout.php">로그아웃</a></li>
+										</ul>
+									</div>
+								</div>
+							</a>
+						</li>
+						<!--{ / }-->
+						<li style="padding-right:23px;">
+							<a href="/order/cart.php">장바구니<span id="cart_cnt" style="height:40px; width:40px; display:block;color:#f0366f; position:relative; top:-18px; left:48px;">({_COOKIE.cart_cnt})</span></a>
+						</li>
+						<li>
+							<a href="/mypage/jjim_list.php">찜목록</a>
+						</li>
+						<li>
+							<a href="/service/faq.php">고객센터</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		
+		<div class="zeta-menu-bar">
+			<ul class="zeta-menu" role="menubar">
+				<li class="pix_logo_img">
+					<a href="/"> <div class="pix_logo"></div> </a>
+				</li>
+	
+				<!--{ @ f_category_P1() }-->
+				
+				<li>
+					<!--1줄-->
+					<a href="{.category_link_tag}" class="text_under">
+						<!--{ ? .catno == "002" }-->
+							<img class="dodoto" src="../assets/P1/img/doto.png">
+						<!--{ : .catno == "019" || .catno == "020" }-->
+							<img class="doto" src="../assets/P1/img/doto.png">
+						<!--{ : .catno == "023" || .catno == "025" }-->
+							<img class="doto2" src="../assets/P1/img/doto.png">
+						<!--{ / }-->
+						{.catnm}
+					</a>
+	
+					<div class="mega_menu" aria-hidden="true" role="menu">
+						<div class="mega_menu_list">
+						<!--{ @ f_banner_s2( 'category_left_1'+ .catno )}-->{..banner}<!--{ / }-->
+						</div>
+						
+						<!--{ ? .catno == '019' || .catno == '020' }-->
+							<div class="mega_menu_list2">
+							<!--{ @ f_banner_s2( 'category_left_2'+ .catno )}-->{..banner}<!--{ / }-->
+							</div>
+							<div class="mega_menu_list2">
+							<!--{ @ f_banner_s2( 'category_left_3'+ .catno )}-->{..banner}<!--{ / }-->
+							</div>
+						<!--{ : }-->
+							<div class="mega_menu_list2">
+							<!--{ @ f_banner_s2( 'category_left_2'+ .catno )}-->{..banner}<!--{ / }-->
+							</div>
+						<!--{ / }-->
+	
+						<!--{ ? .catno == '019' || .catno == '020'  }-->
+							<div class="mega_menu_list4">
+								<ul class="sub3">
+									<li>
+										<!--{ @ f_banner_s2( 'category_Right_1_'+ .catno )}-->{..banner}<!--{ / }-->
+									</li>
+								</ul>
+							</div>
+						<!--{ : }-->
+							<div class="mega_menu_list3">
+								<ul class="sub3">
+									<li>
+										<!--{ @ f_banner_s2( 'category_Right_1_'+ .catno )}-->{..banner}<!--{ / }-->
+									</li>
+								</ul>
+							</div>
+						<!--{ / }-->
+					</div>
+				</li>
+				<!--{ / }-->
+	
+				<li class="gell_event1" style="margin-left:20px;">
+					<!--1줄-->
+					<a href="/service/gallery_best.php" class="text_under">갤러리</a>
+				</li>
+				<!--1줄-->
+				<li class="gell_event2">
+					<!--1줄-->
+					<a href="/goods/review.php" class="text_under">후기</a>
+				</li>
+				<!--
+				<li class="gell_event3">
+					<a href="/goods/event.php" class="text_under">이벤트</a>
+				</li>
+				-->
+			</ul>
+		</div>
+	</div>
+</div>
+
+
+<script>
+$(document).ready(function() {
+	$j.ajax({
+		type : "POST",
+		url : "/ajax.php",
+		data : "mode=mobile_get_cart_count",
+		success : function(cart_cnt) {
+			$j("#cart_cnt").text("(" + cart_cnt + ")");
+		}
+	});
+	
+    $('#favorite').on('click', function(e) {
+        var bookmarkURL = window.location.href;
+        var bookmarkTitle = document.title;
+        var triggerDefault = false;
+ 
+        if (window.sidebar && window.sidebar.addPanel) {
+            // Firefox version < 23
+            window.sidebar.addPanel(bookmarkTitle, bookmarkURL, '');
+        } else if ((window.sidebar && (navigator.userAgent.toLowerCase().indexOf('firefox') > -1)) || (window.opera && window.print)) {
+            // Firefox version >= 23 and Opera Hotlist
+            var $this = $(this);
+            $this.attr('href', bookmarkURL);
+            $this.attr('title', bookmarkTitle);
+            $this.attr('rel', 'sidebar');
+            $this.off(e);
+            triggerDefault = true;
+        } else if (window.external && ('AddFavorite' in window.external)) {
+            // IE Favorite
+            window.external.AddFavorite(bookmarkURL, bookmarkTitle);
+        } else {
+            // WebKit - Safari/Chrome
+            alert((navigator.userAgent.toLowerCase().indexOf('mac') != -1 ? 'Cmd' : 'Ctrl') + '+D 키를 눌러 즐겨찾기에 등록하실 수 있습니다.');
+        }
+ 
+        return triggerDefault;
+    });
+});
+</script>

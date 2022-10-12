@@ -1,0 +1,227 @@
+<!--낱장_기본 프리셋_100114-->
+<div style="width:560px; min-height:500px;padding-bottom:40px;">
+	<div class="estimateq">
+		<div class="estimateC">
+        
+			<!--est_title-->
+			<!--{ ? OrderMemoArr[98] == 'Y' }-->
+			<div class="box">
+				<table cellpadding="0" cellspacing="0" class="estTable2">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th>{=__text("주문 제목")}</th>
+						<td><input type="text" class="textType inp-w-300" name="est_title" value="{est_title}" /></td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="space"> </div>
+			<!--{ / }-->				
+
+			<!--기본-규격-수량-추가-->
+			<div class="box">
+				<h3 class="est_title">{=__text("기본")}</h3>
+				<div id="option_item_select_PP">
+				<table cellpadding="0" cellspacing="0" class="estTable">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>						
+					<tbody>
+					<!--{ ? adminExtraOption->getOptionKindUse("1") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC1_1">{adminExtraOption->getDisplayName("1")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("1","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("2") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC2_2">{adminExtraOption->getDisplayName("2")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("2","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("3") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC3_3">{adminExtraOption->getDisplayName("3")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("3","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("4") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC4_4">{adminExtraOption->getDisplayName("4")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("4","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("5") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC5_5">{adminExtraOption->getDisplayName("5")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("5","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("6") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC6_6">{adminExtraOption->getDisplayName("6")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("6","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("7") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC7_7">{adminExtraOption->getDisplayName("7")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("7","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("8") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC8_8">{adminExtraOption->getDisplayName("8")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("8","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("9") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC9_9">{adminExtraOption->getDisplayName("9")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("9","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("10") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ETC10_10">{adminExtraOption->getDisplayName("10")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("10","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<tr>
+						<th>&nbsp;<span>{adminExtraOption->MakeOrderCntDisplayName(goodsno,"OCNT")}</span></th>
+						<td class="won_area">
+							<span>{adminExtraOption->MakeOrderCntSelect(goodsno, "OCNT","order_cnt_select")}</span>
+							<!--수량(입력)-->
+							<span><input class="textType" type="text" id="input_order_cnt_select" name="input_order_cnt_select" /></span>
+							<!--수량(단위)-->
+							<span name="OCNT">{adminExtraOption->getUserCntName(goodsno, "OCNT")}</span>
+						</td>
+					</tr>						
+					</tbody>
+				</table>
+				</div>					
+			</div>
+			<div class="space"> </div>						
+
+			<!--price box-->
+			<div class="estBox type3 price-view">
+				<div>
+					<span class="amount" id="price_text" >0 {=__text("원")}</span>
+				</div>
+				<input type="hidden" id="select_option_supply_price" name="select_option_supply_price" />
+	        	<input type="hidden" id="select_option_sum_price" name="select_option_sum_price" />
+			</div>
+			<div class="space"> </div>
+			
+			<!--est_order_memo-->
+			<!--{ ? OrderMemoArr[99] == 'Y' }-->
+			<div class="box">
+				<table cellpadding="0" cellspacing="0" class="estTable2">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th>{=__text("주문 메모")}</th>
+						<td><textarea name="est_order_memo" style="width: 300px;height: 60px;">{est_order_memo}</textarea></td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+			<!--{ / }-->
+
+			<div class="estbtn">
+				<a href="javascript:;" onclick="procUpdateSubmit()" class="estimate_btn"><span class="btn_05"></span>{=__text("주문하기")}</a>
+			</div>
+        
+		</div>		
+	</div>
+</div>
+
+<script type="text/javascript"> 
+$(window).load(function(){
+	
+   	//수량 사용자 직접 입력 관련 이벤트 처리
+	$("input[name^='input_']").each(function(){
+		//console.log($(this));
+		$(this).val("1");
+		$(this).attr("style","width: 30px; height: 20px;");
+		$(this).bind('focusout', function(){
+			getRangeSelectCnt(this);
+		});
+		// onkeyup="this.value=number_filter(this.value);"
+		$(this).bind('keyup', function(){
+			this.value = number_filter(this.value);
+		});
+	});
+
+	//수량 사용자 직접 입력 창
+	if('{adminExtraOption->getUserCntInputFlage(goodsno, "OCNT")}' == 'Y') {
+		$("#unit_order_cnt").attr("style","display:none;");
+		$("#order_cnt_select").attr("style","display:none;");
+	}
+	else {
+		$("#input_unit_order_cnt").attr("style","display:none;");
+		$("#input_order_cnt_select").attr("style","display:none;");
+	}
+	
+	//견적가격 노출 여부 기능 추가 2015.07.01 by kdk
+	if($("#extra_price_view_flag").val() == "0") {
+		$(".price-view").hide();
+	}
+
+	//견적 두번째 수량(unit_order_cnt) 표시 여부 추가 2016.04.14 by kdk
+	if('{extra_unitcnt_view_flag}' == '1') {
+		//alert('{extra_unitcnt_view_flag}');
+		$("#unit_order_cnt").attr("style","display:none;");
+		$("#input_unit_order_cnt").attr("style","display:none;");
+		$("span[name='x']").attr("style","display:none;");
+		$("span[name='unit_order_cnt']").attr("style","display:none;");
+	}	
+
+	//면적당 계산을 위해 이벤트 처리 / 16.11.08 / kdk
+	if('{_extra_price_type}' == "SIZE") {
+		$("input[name^='document_']").each(function(){
+			$(this).bind('focusout', function(){
+				getRangeInputCnt(this);
+			});
+			$(this).bind('keyup', function(){
+				this.value = number_filter(this.value);
+			});
+		});
+	}
+
+	//////////수정하기 값설정//////////
+	var json_data = '{orderOptionData}';
+	//console.log("json_data: " + json_data);
+	var object = $.parseJSON(json_data);
+	//console.log("json_data: " + json_data);
+	$.each(object , function(key, value){
+		//console.log(key + ": " + object [key]);
+		
+		//if($("#"+key))
+		//	$("#"+key).val(object [key]);
+			
+		if(key == "option_group_code") { 
+			group_code = object [key];
+			$("input[name='option_group_code']").val(object [key]);
+	  		//console.log($("input[name='option_group_code']").val());
+	  	}
+	});	
+	
+  	//값 설정
+	$.each(object , function(key, value){
+		//console.log(key + ": " + object [key]);
+		if($("#"+key))
+			$("#"+key).val(object [key]);
+	});
+	//////////수정하기 값설정//////////
+
+	//마지막 항목 가격을 기본적으로 뿌려준다.   
+	forwardAction();
+});
+</script>
+		

@@ -1,0 +1,43 @@
+{ # header }
+
+<section class="contents bg2Area">
+	<div class="infoArea">
+		<fieldset style="display:block;margin:0;padding:0;font:normal 12px/1 'Noto Regular', sans-serif;color:#666666;">
+		<section id="mainWrap">
+			<nav>
+				<div align="center"><!--{ @ f_banner_s2('bar_mycs')}-->{.banner}<!--{ / }--></div>
+			</nav>
+		</section>
+
+		<div class="infoList">
+			<dl>
+				<!--{ @ loop }-->
+				<dt>
+					<a href="#">[{.category}] {.subject}</a><br />
+					<div id="mycsState" <!--{ ? .reply }-->style="color:#27a6c7;"<!--{ / }-->><!--{ ? .reply }-->[{=__text("답변완료")}]<!--{ : }-->[{=__text("답변대기")}]<!--{ / }--></div>
+				</dt>
+				<dd>
+					<div id="mycsContent" style="padding:0 0 10px 0;">
+						<!--{ ?.payno }-->
+						<div class="mycsTitle">{=__text("주문번호")}</div>{.payno}<br><br><br>
+						<!--{ / }-->
+						<div class="mycsTitle">{=__text("문의내용")}</div>{=nl2br(.content)}
+					</div>
+					<div id="mycsReply">
+					<!--{ ? .reply }-->
+					<div class="mycsTitle">{=__text("답변")}</div>{=nl2br(.reply)}
+					<!--{ : }-->
+					<div class="mycsTitle" style="padding:0;"><a href="mycs_write.php?no={.no}"><!--{ @ f_banner_s2('btn_mobile_mycs_write_edit','img')}-->{..banner}<!--{ / }--></a></div>
+					<!--{ / }-->
+					</div>
+				</dd>
+				<!--{ / }-->
+				
+				<a href="mycs_write.php" style="float:right;margin:10px 0;"><!--{ @ f_banner_s2('btn_mobile_mycs_write','img') }-->{.banner}<!--{ / }--></a>
+			</dl>
+		</div>
+		</fieldset>
+	</div>
+</section>
+
+{ # footer }

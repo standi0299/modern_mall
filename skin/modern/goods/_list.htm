@@ -1,0 +1,43 @@
+<ul class="h-group list-type-tile">
+	<!--{ @ loop }-->
+	<li class="col tile-content">
+		<div class="thumbnail-link">
+			<div class="zoom-focus">
+				<a class="focus-btn pick-btn {.wishlist_check}" href="javascript:setWishlist('{_sess.mid}', '{.catno}', '{.goodsno}');" ></a>
+				<!--<a class="focus-btn zoom-btn" href="javascript:previewLayer('{.catno}','{.goodsno}','{.templateset_id}');"></a>-->
+				<a class="focus-btn zoom-btn" href="../goods/view.php?catno={.catno}&goodsno={.goodsno}"></a>
+				<a class="thumbnail-click" href="../goods/view.php?catno={.catno}&goodsno={.goodsno}"></a>
+			</div>
+			<div class="thumbnail" style="background: url('{.clistimg}'), url('/skin/modern/img/noimg.png');"></div>
+		</div>		
+		<div class="title text-center ellipsis">
+			<a href="../goods/view.php?catno={.catno}&goodsno={.goodsno}">{.goodsnm}</a>
+		</div>		
+		<div class="price text-center">
+			<!--{ ? .cprice && .cprice > .price }-->
+			<del>{=number_format(.cprice)}{=__text("원")}</del> →
+			<!--{ / }-->
+			{=number_format(.price)}{=__text("원")}
+			<!--{ ? .state == 1 }--><br/><del>[{=__text("품절")}]</del><!--{ / }-->					
+		</div>
+		<div class="tags text-center">
+			<!--{ ? .hash_tag }-->
+				{.hash_tag}
+			<!--{ : }-->
+				&nbsp;<a href="#"></a>
+			<!--{ / }-->
+		</div>
+
+		<!-- <추가> 아이콘-->
+		<div class="text-center" style="height:30px; padding:3px 0;">
+		<!--{ ? .icon_filename }-->
+			<!--{ @ .icon_filename }-->
+			<img src="/data/icon/{_cid}/{..value_}" />
+			<!--{ / }-->			
+		<!--{ / }-->
+		</div>
+		<!-- //<추가> 아이콘-->
+	
+	</li>
+	<!--{ / }-->
+</ul>

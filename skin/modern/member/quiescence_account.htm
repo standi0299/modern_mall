@@ -1,0 +1,84 @@
+{ # header }
+
+<section class="section-container">
+	<div class="tab-container tab-default">
+		<ul class="h-group tab-menu">
+			<li class="col active" rel="tab1">{=__text("휴면계정 해지")}</li>
+		</ul>
+		<div class="tab-content-wrap" id="find-account-form">
+			<div id="tab1" class="tab-content">
+				<form name="fmLogin">
+					<input type="hidden" name="mid">
+					
+					<div class="form-horizontal">
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("이메일")}</label>
+							<div class="col">
+								<label class="label-control" style="display: inline-block;margin-bottom:10px;">{email}</label>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("인증번호")}</label>
+							<div class="col">
+								<input type="text" id="restore_number" class="form-control" required {=__placeholder("인증번호")} style="width:260px;display: inline;">
+								<a href="#" id="reminderid-btn" class="btn btn-blue-link" onclick="restore_num_send('{email}');">{=__text("인증번호 전송")}</a>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<div class="col"></div>
+							<div class="col right">
+								<a href="#" id="reminderid-btn" class="btn btn-primary btn-block btn-lg" onclick="chk_restore_num();" style="margin-top: 10px;">{=__text("확인")}</a>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+var fm = document.fmLogin;
+
+function restore_num_send(email) {
+	$j.ajax({
+		type: "post",
+		url: "indb.php",
+		data: "mode=restore_num_send&email=" + email + "&mid={_GET.mid}",
+		success: function(ret) {
+			alert({=__java("전송 완료")});
+		}
+	});
+}
+
+function chk_restore_num() {
+	if (document.getElementById('restore_number').value == '') {
+		alert({=__java("인증번호를 입력해주세요.")});
+		return;
+	} else {
+		$j.ajax({
+			type: "post",
+			url: "indb.php",
+			data: "mode=chk_restore_num&mid={_GET.mid}&restore_num=" + document.getElementById('restore_number').value,
+			success: function(ret) {
+				if (ret == "ok") {
+					alert({=__java("인증 성공.")}+"\n"+{=__java("비밀번호 변경페이지로 이동합니다.")});
+					fm.action = "quiescence_account_ok.php";
+					fm.mid.value = "{_GET.mid}";
+					fm.submit();
+				} else {
+					alert({=__java("인증 실패.")}+"\n"+{=__java("다시 입력해주세요.")});
+				}
+			}
+		});
+	}
+}
+
+$j(function() {
+	$j("body").attr("id", "find-account-page");
+	$j("body").attr("class", "");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+});
+</script>
+
+{ # footer }

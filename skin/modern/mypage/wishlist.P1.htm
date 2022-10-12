@@ -1,0 +1,60 @@
+{ # header }
+
+<div class="ct_mapgell" style="margin-top:80px;">
+	<div class="jjip_gallery">
+		<ul>
+			<li class="jjip_gallery">나의 찜</li>
+			<li class="jjip_gallery_2">'찜'의 갯수는 3개 입니다.</li>
+		</ul>
+	</div>
+
+	<div class="llery_jjip">
+		<!--{ @ list }-->
+		<!--상품st-->
+		<div class="llery_content">
+			<div class="ller_1">
+				<ul>
+					<li>
+						<div class="img_up">
+						</div>
+					</li>
+					<li class="mm_ller3">{.goodsnm}</li>
+					<li class="mm_border"></li>
+				</ul>
+			</div>
+			<div class="ller_2">
+				<ul>
+					<li class="nn_ller1">{.mid}</li>
+					<li style="float:right;" class="nn_ller2">
+						<ul>
+							<li>
+								<img src="/skin/modern/assets/P1/img/h3.png" alt="조회수"/><span>100</span>
+							</li>
+							<li>
+								<img src="/skin/modern/assets/P1/img/h2.png" alt="댓글"/><span>10</span>
+							</li>
+							<li>
+								<img src="/skin/modern/assets/P1/img/h0.png" alt="찜"/><span>70</span>
+							</li>
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<!--상품ed-->
+		<!--{ / }-->
+	</div>
+</div>
+
+<script>
+function noChk() {
+	if ($j("input[name=no[]]:checked").val() == undefined) {
+		alert({=__java("삭제할 찜 상품을 선택해주세요.")});
+		return false;
+	} else {
+		return true;
+	}
+}
+</script>
+
+{ # footer }

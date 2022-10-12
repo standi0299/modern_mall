@@ -1,0 +1,12 @@
+#container_idg{padding-top:0px !important;}
+
+@media(max-width:991px){
+	#wing{display:none;}
+	#myPageSide {right: -319px !important;}
+}
+
+@media (min-width:990px) and (max-width:1199px){
+	#wing{display:none;}
+	#myPageSide {right: -276px !important;}
+}
+

@@ -1,0 +1,186 @@
+{ # header }
+<!--view_print.htm / 20170907 / 기본 뷰 사용하도록 수정 / kdk-->
+
+<!--{ ? !_cfg.list_catnav }-->
+<section class="content-container location-sort">
+	<div class="h-group">
+		<div class="col location">
+			<a href="../main/index.php">HOME</a>
+			<span> > </span>
+			{=f_getCategoryPos(_GET.catno,'<span> > </span>')}
+		</div>		
+	</div>
+</section>
+<!--{ / }-->
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+<input type="hidden" name="ea" value="1"/>
+<section class="content-container detail-header">
+	<div class="h-group detail-title">
+		<div class="col">
+			<h2>{goodsnm}</h2>
+		</div>
+		<div class="col">
+			<!--{ @ icon_filename }-->
+				<img src="/data/icon/{_cid}/{.value_}" />
+			<!--{ / }-->
+			<!--<p><span>BEST ITEM</span></p>-->
+		</div>
+		<div class="col" id="detail-title-tag">
+			<!--{ ? hash_tag }-->{hash_tag}<!--{ / }-->
+		</div>
+	</div>
+	<div class="h-group detail-data thumbnail-data">
+		<div class="col bx-pager-type">
+			<ul class="detail-bxslider">
+				<!--{ @ img }-->
+				<li><img src="{.value_}" onerror="$j(this).attr('src','/skin/modern/img/noimg.png')"></li>				
+				<!--{ / }-->
+			</ul>
+		</div>
+		<div class="col">
+
+			<!--{ @ exp }-->
+			<div class="h-group detail-option">
+				<div class="col">{.name}</div>
+				<div class="col">
+					<label>{.value}</label>
+				</div>
+			</div>			
+			<!--{ / }-->
+		
+			<!--{ ? r_printopt }-->
+			<div class="h-group detail-option">
+				<div class="col">{=__text("인화옵션")}</div>
+				<div class="col">
+					<label> </label>
+					<table class="tb_printopt">
+					<tr>
+						<th>{=__text("사이즈")}</th>
+						<th>{=__text("가격")}</th>
+						<th>{=__text("적립금")}</th>
+					</tr>
+					<!--{ @ r_printopt }-->
+					<tr>
+						<th>{.printoptnm}</th>
+						<td>￦ {=number_format(.print_price)}</td>
+						<td>￦ {=number_format(.print_reserve)}</td>
+					</tr>
+					<!--{ / }-->
+					</table>					
+				</div>
+			</div>
+			<!--{ / }-->
+
+			<div class="detail-sell-data">
+				<div class="detail-price">	
+					<!--{? cprice}-->
+						<div class="price-normal"><del>{=__text("소비자가격")} {=number_format(cprice)}{=__text("원")}</del></div>
+					<!--{ / }-->	
+		
+					<div class="price-discount">{=__text("판매가격")} 
+						<!--{ ? strprice }-->
+							<span>{strprice}</span>
+						<!--{ : }-->
+							<span id="goods_price">{=number_format(price)}{=__text("원")}</span>
+							<!--{? cprice}-->
+								<div class="price-normal" id="goods_cprice_x">(▼ {=number_format(cprice-price)}{=__text("원 할인")})</div>
+							<!--{ / }-->
+						<!--{ / }-->
+					</div>
+				</div>
+				<!--{ ? podskind > 0 }-->
+				<div class="h-group detail-option">
+					<div class="col">
+						<a href="#" {=__onclick_alert("제작상품은 제작 후 장바구니에 담을 수 있습니다.")}>
+							<img src="../assets/images/cart-btn.png" alt="">
+						</a>
+					</div>
+					<div class="col">
+						<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}');" class="btn btn-lg edit-btn">{=__text("편집 시작하기")}</a>
+					</div>
+				</div>
+				<!--{ : }-->
+				<div class="h-group detail-option">
+					<div class="col">
+						<a href="javascript:exec('cart');">
+							<img src="../assets/images/cart-btn.png" alt="">
+						</a>
+					</div>
+					<div class="col">
+						<a href="javascript:exec('buy');" class="btn btn-lg edit-btn">{=__text("주문 하기")}</a>
+					</div>
+				</div>
+				<!--{ / }-->				
+			</div>
+		</div>
+	</div>
+	<div class="h-group detail-data">
+		<div class="col description-wrap">
+			<div class="description-btn">{=__text("상품설명 자세히보기")}</div>
+			<div class="description-content">
+				{p.i->inc('/goods/_view.goods_desc.htm')}
+			</div>
+		</div>
+		<div class="col detail-warning">
+			{_category.infohtml}
+		</div>
+	</div>
+</section>
+
+<section class="content-container detail-content">
+	<!--{ ? addtionitem.recomand }-->
+	<div class="similar-slider">
+		<h3>{=__text("추천 상품")}</h3>
+		<ul class="bxslider" data-min-slides="5" data-max-slides="5" data-slide-width="108" data-slide-margin="34">
+			<!--{ @ addtionitem.recomand }-->
+			<li><a href="view.php?goodsno={.goodsno}">{=goodsListImg(.goodsno, 108, 110)}</a></li>
+			<!--{ / }-->
+		</ul>
+	</div>
+	<!--{ / }-->
+	
+	<div style="text-align: center;">{desc}</div>
+	
+	<!--{ ? addtionitem.relation }-->
+	<div class="similar-slider">
+		<h3>{=__text("연관 상품")}</h3>
+		<ul class="bxslider" data-min-slides="5" data-max-slides="5" data-slide-width="108" data-slide-margin="34">
+			<!--{ @ addtionitem.relation }-->
+			<li><a href="view.php?goodsno={.goodsno}">{=goodsListImg(.goodsno, 108, 110)}</a></li>
+			<!--{ / }-->
+		</ul>
+	</div>
+	<!--{ / }-->
+</section>
+
+<!--Q&A-->
+{p.i->inc('/goods/_qna.htm')}
+
+<!--이용후기-->
+{p.i->inc('/goods/_review.htm')}
+
+<div>
+	<!--{ @ f_banner_s2('goods_view_ship_info_'+(rid))}-->{.banner}<!--{ / }-->
+</div>
+
+{ # goods_detail_quick_option }
+
+</form>
+
+
+
+<script>
+$j("body").attr('class','item-detail-page');
+
+$j(window).load(function(){
+
+});
+</script>
+
+{ # footer }

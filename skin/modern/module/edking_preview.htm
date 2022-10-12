@@ -1,0 +1,49 @@
+{ # header_popup }
+
+<link rel="stylesheet" type="text/css" href="../board/edking/style.css" />
+<script type="text/javascript" src="../board/edking/jquery.js"></script>
+
+<body style="background-color:#d7d7d7">
+	<table style="background-color:#FFFFFF;border:1px solid #9c9c9c;width:1000px;height:750px">
+		<tr>
+			<td style="vertical-align:top;text-align:center;"><img src="../img/edking_top_title.jpg"></td>
+		</tr>
+		<tr>
+			<td align="center" valign="top">
+				<div id="wowslider-container1" style="width:{img_w}px;height:{img_h}px;border:solid 2px #666666;">
+					<div class="ws_images">
+						<ul>
+							<!--{ @ loop }-->
+							<li><img src="{.value_}" id="wows1_{.index_}"></li>
+							<!--{ / }-->
+						</ul>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td valign="top" align="center">
+				<table height="50">
+					<tr>
+						<!--{ ? del_no }-->
+							<!--{ ? del_ok == "Y" }-->
+							<td>{del_no}<img src="../img/edking_del_cancel_btn.jpg"></a></td>
+							<!--{ : }-->
+							<td>{del_no}<img src="../img/edking_del_btn.jpg"></a></td>
+							<!--{ / }-->
+							<td><img src="../img/edking_close_btn.jpg" onclick="parent.closeLayer2();" style="cursor:pointer;"></td>
+						<!--{ : }-->
+						<td><img src="../img/edking_close_btn.jpg" onclick="parent.closeLayer2();" style="cursor:pointer;"></td>
+						<!--{ / }-->
+					</tr>	
+				</table>	
+			</td>
+		</tr>
+	</table>
+
+<script type="text/javascript" src="../board/edking/wowslider.js"></script>
+<script type="text/javascript" src="../board/edking/script.js"></script>
+
+<script type="text/javascript">
+jQuery("#wowslider-container1").wowSlider({effect:"book",prev:"",next:"",duration:20*100,delay:20*100,width:{img_w},height:{img_h},autoPlay:true,playPause:true,stopOnHover:true,loop:false,bullets:0,caption:false,captionEffect:"slide",controls:true,onBeforeStep:0,images:0});
+</script>

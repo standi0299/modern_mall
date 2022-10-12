@@ -1,0 +1,65 @@
+{ # header }
+
+<div id="my_tqb_menu_no">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="/board/list.php?board_id=notice" class="under_bor">공지사항</a><li>
+		<li class="my_tab_active"><a href="/service/faq.php">FAQ</a><li>
+		<li class="my_tab_active"><a href="/mypage/mycs_write.php">1:1문의</a><li>
+	</ul>
+</div>
+
+<div class="si_body" style="height:auto;">
+	<div class="login_px_eded">
+		<span class="login_px_text_span">공지사항</span>
+	</div>
+	
+	<div class="ctheader">
+	<!--	<span style="width:200px; height:36px; font-size:1.7em; margin:19px 0 10px 0; display:inline-block;">공지사항</span>-->
+		<div class="cu_point_goods_notice">
+			<div class="point_n_list">
+				<ul>
+					<li style="width:65px;">번호</li>
+					<li style="width:450px;">제목</li>
+					<li style="width:120px;">작성일</li>
+				</ul>
+			</div>
+
+			<!--{ @ loop }-->
+				<div class="cu_notice">
+					<ul>
+						<li style="width:65px;">{pg->idx-.index_}</li>
+						<li style="width:450px;" class="i_two">
+							<ul>
+								<li>
+									<div class="qq_no_1"  id="qq_no_faq_{.index_}"  onclick="slide_view('{.index_}');">
+										<div class="nhn">
+											<span>{.subject}</span>
+										</div>
+									</div>
+									<div class="aa_no_1" id="aa_no_faq_{.index_}" onclick="slide_view('{.index_}');">
+										<div class="nhn" style="position:relative; left:-224px;">
+											<span>{.content}</span>
+										</div>
+									</div>
+								</li>
+							</ul>			
+						</li>
+						<li style="width:120px;">{=substr(.regdt,0,10)}</li>
+						
+					</ul>
+				</div>
+			<!--{ / }-->
+		</div>
+	</div>
+	
+	<div style="margin:30px 60px 30px 0; width:1140px; text-align:center; clear:both;">{=pg->page['navi_p1']}</div>	
+</div>
+
+
+<script>
+	function slide_view(idx){
+		$("#aa_no_faq_"+idx).toggle();
+	}
+</script>
+
+{ # footer }

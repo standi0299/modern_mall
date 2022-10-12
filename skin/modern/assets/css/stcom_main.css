@@ -1,0 +1,148 @@
+﻿body {
+    width: 100%;
+    height: 100%;
+}
+
+body, div, ul, li, h1, img, a, input, p, span, dl, dt, dd {
+    padding: 0;
+    margin: 0;
+    text-decoration: none;
+    color: #afafaf;
+    border: none;
+}
+
+li {
+    list-style: none;
+}
+
+
+
+
+/*본문*/
+
+#body_wrap {
+    width: 1620px;
+    height: 1750px;
+    margin: 0 auto;
+    position: relative;
+}
+
+    /*슬라이드*/
+
+    #body_wrap .Main_slide {
+        width: 1620px;
+        height: 535px;
+        position: relative;
+        overflow: hidden;
+    }
+
+        #body_wrap .Main_slide .Main_slide_L_btn {
+            position: absolute;
+            top: 233px;
+            left: 0;
+            width: 70px;
+            height: 70px;
+        }
+
+        #body_wrap .Main_slide .Main_slide_R_btn {
+            position: absolute;
+            top: 233px;
+            right: 0;
+            width: 70px;
+            height: 70px;
+        }
+
+        #body_wrap .Main_slide .Main_slide_btn_L {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            left: 0;
+        }
+
+        #body_wrap .Main_slide .Main_slide_btn_R {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            right: 0;
+        }
+
+        #body_wrap .Main_slide .Main_slide_btn_off {
+            opacity: 0;
+        }
+
+        #body_wrap .Main_slide .Main_slide_list {
+            width: 8100px;
+        }
+
+            #body_wrap .Main_slide .Main_slide_list li {
+                float: left;
+            }
+
+
+    /*상품3단*/
+
+    #body_wrap .main_prod {
+        width: 1620px;
+    }
+
+        #body_wrap .main_prod .main_prod_list {
+            width: 100%;
+        }
+
+            #body_wrap .main_prod .main_prod_list .main_products {
+                width: 405px;
+                height: 405px;
+                float: left;
+                overflow: hidden;
+            }
+
+                #body_wrap .main_prod .main_prod_list .main_products .main_prod_off {
+                    position: relative;
+                    display: normal;
+                }
+
+                    #body_wrap .main_prod .main_prod_list .main_products .main_prod_off .main_prod_text {
+                        text-align: center;
+                        position: absolute;
+                        width: 405px;
+                        bottom: 32px;
+                    }
+
+                        #body_wrap .main_prod .main_prod_list .main_products .main_prod_off .main_prod_text a {
+                            font-family: 'Nunito Sans', sans-serif;
+                        }
+
+                        #body_wrap .main_prod .main_prod_list .main_products .main_prod_off .main_prod_text span {
+                            display: block;
+                        }
+
+                #body_wrap .main_prod .main_prod_list .main_products .main_prod_on {
+                    position: relative;
+                    width: 405px;
+                    height: 405px;
+                    cursor: pointer;
+                }
+
+                    #body_wrap .main_prod .main_prod_list .main_products .main_prod_on .main_prod_text {
+                        position: absolute;
+                        width: 31px;
+                        height: 29px;
+                        top:330px;
+                        left:187px;
+                    }
+
+                        #body_wrap .main_prod .main_prod_list .main_products .main_prod_on .main_prod_text span {
+                            position: relative;
+                            width: 31px;
+                            height: 29px;
+                        }
+
+                            #body_wrap .main_prod .main_prod_list .main_products .main_prod_on .main_prod_text span img {
+                                position: absolute;
+                                left: 0;
+                                top: 0;
+                            }
+
+                            #body_wrap .main_prod .main_prod_list .main_products .main_prod_on .main_prod_text span .hidden {
+                                visibility: hidden;
+                            }

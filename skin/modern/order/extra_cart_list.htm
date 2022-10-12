@@ -1,0 +1,118 @@
+{ # header }
+
+<div id="title" style="margin-bottom:20px"><!--{ @ f_banner('extracartlist')}-->{.banner}<!--{ / }--></div>
+
+{ # extracartlist }
+
+<div style="margin-top:5px" align="center" class="cart_btns">
+<a href="javascript:;" onclick="set_bill();"><!--{ @ f_banner('_sys_btn_order_estimate_view')}-->{.banner}<!--{ / }--></a>
+<a href="javascript:;" onclick="set_mode();"><!--{ @ f_banner('_sys_btn_order_estimate_cart')}-->{.banner}<!--{ / }--></a>
+<a href="javascript:;" onclick="set_mode('del_extra');"><!--{ @ f_banner('_sys_btn_order_estimate_cancel')}-->{.banner}<!--{ / }--></a>
+</div>
+
+<script>
+function set_mode(mode){
+	var fm = document.fm_cart;
+
+	var chk = $j("input[name=cartno[]]");
+	var cartno = "";
+	var bCheck = false;
+
+	if (mode=="del_extra")
+	{
+		if(chk.length > 0) {
+			for(i=0; i<=chk.length;i++) {
+				//$("#"+key).attr("checked", true);
+				if($j(chk[i]).attr("checked")) {
+					cartno += $j(chk[i]).val() + ",";
+				}
+			}
+		}
+		
+		if(cartno == "") {
+			alert({=__java("선택한 사항이 없습니다.")});
+			return false;
+		}
+		
+		if(confirm({=__java("선택하신 견적의뢰를 삭제하시겠습니까?")}) == true) {
+			fm.mode.value = mode;
+			fm.submit();
+		}
+	} 
+	else 
+	{
+		if(chk.length > 0) {
+			for(i=0; i<=chk.length;i++) {
+				//$("#"+key).attr("checked", true);
+				if($j(chk[i]).attr("checked")) {
+					
+					var txt = $j("input[id=txt_"+ $j(chk[i]).val() +"]");
+					if($j(txt).val() == "0") {
+						$j(chk[i]).attr("checked", false);
+						bCheck = true;
+					}
+					else {
+						cartno += $j(chk[i]).val() + ",";
+					}
+				}
+			}
+		}
+		
+		if(bCheck) {
+			alert({=__java("발행된 견적의뢰만 장바구니로 이동할 수 있습니다.")});
+			return false;
+		}
+
+		if(cartno == "") {
+			alert({=__java("선택한 사항이 없습니다.")});
+			return false;
+		}
+		
+		if(!bCheck && cartno != "") {
+			if(confirm({=__java("선택하신 견적의뢰를 장바구니에 담겠습니까?")}) == true) {
+				fm.submit();
+			}
+		}
+	}
+}
+
+//견적서보기
+function set_bill() {
+	var chk = $j("input[name=cartno[]]");
+	var cartno = "";
+	var bCheck = false;
+
+	if(chk.length > 0) {
+		for(i=0; i<=chk.length;i++) {
+			//$("#"+key).attr("checked", true);
+			if($j(chk[i]).attr("checked")) {
+				
+				var txt = $j("input[id=txt_"+ $j(chk[i]).val() +"]");
+				if($j(txt).val() == "0") {
+					$j(chk[i]).attr("checked", false);
+					bCheck = true;
+				}
+				else {
+					cartno += $j(chk[i]).val() + ",";
+				}
+			}
+		}
+	}
+	
+	if(bCheck) {
+		alert({=__java("견적서보기는 발행된 견적의뢰만 가능합니다.")});
+		return false;
+	}
+
+	if(cartno == "") {
+		alert({=__java("선택한 사항이 없습니다.")});
+		return false;
+	}
+	
+	if(!bCheck && cartno != "") {
+		window.open("../module/bill_proc_extra_cart_print.php?mode=cart&no=" + cartno, "estimate", "width=750,height=850,scrollbars=yes");
+	}
+}
+</script>
+
+{ # footer }

@@ -1,0 +1,139 @@
+{ # header }
+
+<div id="content-wrapper">
+	<div id="content">
+	<!--본 컨텐츠 시작-->
+		<section class="content-container sub-header" id="top-bower">
+			<!-- <div class="location">
+				<a href="../main/index.php">HOME</a>
+				<span>&gt;</span>
+				<a href="/goods/list.php?catno=017" target="_self">노트류</a>
+			</div> -->
+			<h2 class="col sub-tit">{catnm}</h2>
+			<!--<a class="btn-guide" href="/board/view.php?board_id=notice&no=287"><span>편집 제작 가이드</span></a>-->
+      <!--{ ? _cid == "decalkids" || _cid == "kids" }-->
+          
+      <!--{:}-->
+        <!--{? catno_I1 =="019" }-->
+        <a class="btn-guide" href="/board/view.php?board_id=notice&no=316"><span>편집 제작 가이드</span></a>
+        <!--{:}-->
+        <a class="btn-guide" href="/board/view.php?board_id=notice&no=317"><span>편집 제작 가이드</span></a>
+        <!--{/}-->
+      <!--{/}-->  
+		</section>
+		
+		<!--sub_category-->
+		<!--{ ? sub_cate }-->
+		<section class="content-container">
+			<ul class="tab-menu" id="myTab">
+				<!--{ @ sub_cate }-->
+					<li rel="tab{.index_}" class="{?.active}active{:}{/}">
+					<a href="/goods/list.php?catno={.catno}">{=.catnm}</a>
+					</li>
+				<!--{ / }-->
+			</ul>
+		</section>
+		<!--{ / }-->
+
+		<section class="content-container location-sort">
+			<div class="h-group">
+				<!--{ ? !_cfg.list_orderby }-->
+				<div class="col right sort" id="goods_sort">
+					<a href="javascript:;" sort="b.hit desc">{=__text("인기상품순")}</a>
+					<span> | </span>
+					<a href="javascript:;" sort="b.goodsno desc">{=__text("최신순")}</a>
+					<span> | </span>
+					<a href="javascript:;" sort="b.price desc">{=__text("높은가격순")}</a>
+					<span> | </span>
+					<a href="javascript:;" sort="b.price">{=__text("낮은가격순")}</a>
+				</div>
+				<!--{ / }-->
+			</div>
+		</section>
+
+		<section class="content-container">
+			<div class="list-container">
+				<form>
+					<ul class="h-group list-type-tile">
+						
+						<!--{ @ loop }-->
+						<li class="col tile-content">
+							<div class="thumbnail-link">
+								<div class="zoom-focus">
+									<a class="focus-btn pick-btn {.wishlist_check}" href="javascript:setWishlist('{_sess.mid}', '{.catno}', '{.goodsno}');" ></a>
+									<!--<a class="focus-btn zoom-btn" href="javascript:previewLayer('{.catno}','{.goodsno}','{.templateset_id}');"></a>-->
+									<a class="focus-btn zoom-btn" href="../goods/view.php?catno={.catno}&goodsno={.goodsno}"></a>
+									<a class="thumbnail-click" href="../goods/view.php?catno={.catno}&goodsno={.goodsno}"></a>
+								</div>
+								<div class="thumbnail" style="background: url('{.clistimg}'), url('/skin/modern/img/noimg.png');"></div>
+							</div>
+							<div class="title text-center ellipsis">
+								<a href="../goods/view.php?catno={.catno}&goodsno={.goodsno}">{.goodsnm}</a>
+							</div>
+							<div class="price text-center">
+								<!--{ ? .cprice && .cprice > .price }-->
+								<del>{=number_format(.cprice)}{=__text("원")}</del> →
+								<!--{ / }-->
+								{=number_format(.price)}{=__text("원")}
+								<!--{ ? .state == 1 }--><br/><del>[{=__text("품절")}]</del><!--{ / }-->
+							</div>
+							<div class="tags text-center">
+								<!--{ ? .hash_tag }-->
+									{.hash_tag}
+								<!--{ : }-->
+									&nbsp;<a href="#"></a>
+								<!--{ / }--> 
+							</div>
+	
+							<!-- <추가> 아이콘-->
+							<div class="text-center" style="height:30px; padding:3px 0;">
+							<!--{ ? .icon_filename }-->
+								<!--{ @ .icon_filename }-->
+								<img src="/data/icon/{_cid}/{..value_}" />
+								<!--{ / }-->
+							<!--{ / }-->
+							</div>
+							<!-- //<추가> 아이콘-->
+						</li>
+						<!--{ / }-->
+					</ul>
+					{=pg->page['navi']}
+				</form>
+			</div>
+		</section>
+
+	<!--본 컨텐츠 끝-->	
+	</div>	
+</div>
+
+<form name="searchFm">
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="orderby" value=""/>
+</form>
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+</form>
+
+<script src="/js/plugin/jquery.cycle.js"></script>
+<script>
+$j(function(){
+	$j("div", "#goods_sort").each(function(){
+		if("{_GET.orderby}" == $j(this).attr("sort"))  $j(this).css({"color":"#5F87D1","font-weight":"bold"});
+	});
+	$j("a", "#goods_sort").click(function(){
+		$j("input[name=orderby]").val($j(this).attr("sort"));
+		document.searchFm.submit();
+	});
+});
+
+</script>
+<script type="text/javascript">  
+var pod_signed = ""; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+
+{ # footer }

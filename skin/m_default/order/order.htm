@@ -1,0 +1,350 @@
+{ # header }
+
+<form name="fm" method="post" action="payment.php">
+	<input type="hidden" name="mid" value="{_sess.mid}" />
+	<!--{ @ _REQUEST.cartno }-->
+	<input type="hidden" name="cartno[]" value="{.value_}" />
+	<!--{ / }-->
+	<input type="hidden" name="coupon" id="input_coupon" />
+	<input type="hidden" name="dc_coupon" id="dc_coupon" />
+	<input type="hidden" name="paymethod" />
+	<input type="hidden" name="bankinfo" />
+	<input type="hidden" name="mobile_type" value="Y" />
+	
+	<input type="hidden" name="orderer_name" value="{name}" />
+	<input type="hidden" name="orderer_mobile[0]" value="{mobile[0]}" />
+	<input type="hidden" name="orderer_mobile[1]" value="{mobile[1]}" />
+	<input type="hidden" name="orderer_mobile[2]" value="{mobile[2]}" />
+	<input type="hidden" name="orderer_email" value="{email}" />
+	<input type="hidden" name="orderer_zipcode" value="{zipcode}" />
+	<input type="hidden" name="orderer_addr" value="{address}" />
+	<input type="hidden" name="orderer_addr_sub" value="{address_sub}" />
+	
+	<input type="hidden" name="before_receiver_name" value="{data3.receiver_name}" />
+	<input type="hidden" name="before_receiver_mobile[0]" value="{data3.receiver_mobile[0]}" />
+	<input type="hidden" name="before_receiver_mobile[1]" value="{data3.receiver_mobile[1]}" />
+	<input type="hidden" name="before_receiver_mobile[2]" value="{data3.receiver_mobile[2]}" />
+	<input type="hidden" name="before_receiver_zipcode" value="{data3.receiver_zipcode}" />
+	<input type="hidden" name="before_receiver_addr" value="{data3.receiver_addr}" />
+	<input type="hidden" name="before_receiver_addr_sub" value="{data3.receiver_addr_sub}" />
+	<input type="hidden" name="before_request" value="{data3.request}" />
+
+	<section class="contents bgArea">
+		{admin_tag}
+		
+		<!--{ ? 0 == 1 }-->
+		<section id="mainWrap">
+			<nav>
+				<div align="center" style="padding:10px 10px 0 10px;"><!--{ @ f_banner_s2('bar_order')}-->{.banner}<!--{ / }--></div>
+			</nav>
+		</section>
+		<!--{ / }-->
+		
+		{ # itembox }
+		
+		<div class="orderArea" id="orderDelivery">
+			<!--{ ? _sess && myemoney && _cfg.mobile_member_use == "Y" }-->
+			<div class="part">
+				<p class="tit">{=__text("적립금 사용")}</p>
+				<div class="MileageBox">
+					<p>{=__text("보유 적립금")} <span>{=number_format(myemoney)}{=__text("원")}</span> {=__text("중")}</p>
+					<input type="number" id="PriceIn" name="emoney" class="inMileage" pt="_pt_numplus" style="text-align:right;" />
+					
+					<a class="mApply" href="javascript:totprice('emoney')" target="_self"><!--{ @ f_banner_s2('btn_mobile_emoney_use','img')}-->{.banner}<!--{ / }--></a>
+				</div>
+			</div>
+			<!--{ / }-->
+			
+			<div class="part partDl">
+				<p class="tit">{=__text("결제금액")}</p>
+				<dl>
+					<dt class="onlytext">{=__text("상품금액")}</dt>
+					<dd class="onlytext"><span class="price">{=number_format(cart->itemprice)}{=__text("원")}</span></dd>
+					<!--{ ? _sess }-->
+						<!--{ ? _cfg.mobile_member_use == "Y" || cart->dc }-->
+						<dt class="onlytext">{=__text("회원할인")}</dt>
+						<dd class="onlytext"><span class="dcpoint">(-){=number_format(cart->dc)}{=__text("원")}</span></dd>
+						<!--{ / }-->
+						<!--{ ? _cfg.mobile_member_use == "Y" }-->
+						<dt class="onlytext">{=__text("쿠폰할인")} <a href="javascript:coupon_layer()" target="_self" class="layerPop couponIC" style="position:relative;z-index:10;"><!--{ @ f_banner_s2('btn_mobile_coupon_use','img')}-->{.banner}<!--{ / }--></a></dt>
+						<dd class="onlytext"><span id="dc_coupon_print" class="dcpoint">(-)0{=__text("원")}</span></dd>
+						<dt class="onlytext">{=__text("적립금할인")}</dt>
+						<dd class="onlytext"><span id="emoney_print" class="dcpoint">(-)0{=__text("원")}</span></dd>
+						<!--{ / }-->
+					<!--{ / }-->
+					<dt class="onlytext">{=__text("배송비")}</dt>
+					<dd class="onlytext"><span class="price">{=number_format(cart->totshipprice)}{=__text("원")}</span></dd>
+					<hr>
+					<dt class="onlytext">{=__text("총 결제금액")}</dt>
+					<dd class="onlytext"><span id="totprice" class="price result">{=number_format(data3.payprice)}{=__text("원")}</span></dd>
+				</dl>
+				<div class="infoShip">{=__text("주문 상품의 발송처 별로 배송비가 각각 부과 됩니다.")}</div>
+			</div>
+			
+			<div class="part">
+				<p class="tit">{=__text("배송지 정보")}</p>
+				<div class="partCheck"><input id="copyInfo_1" name="copyInfo" type="radio" class="radio" onclick="same_check(true)"><label for="copyInfo_1">{=__text("기존 배송지")}</label> <input id="copyInfo_2" name="copyInfo" type="radio" class="radio" onclick="same_check(false)"><label for="copyInfo_2">{=__text("신규 배송지")}</label></div>
+				<dl>
+					<dt>{=__text("이름")}</dt>
+					<dd><input type="text" name="receiver_name" class="readonly text" pvalue="before_receiver_name" pt="_pt_txt" onkeyup="chkTextByte(this,20)" /></dd>
+					<dt>{=__text("휴대폰")}</dt>
+					<dd>
+						<input type="number" name="receiver_mobile[0]" maxlength="3" class="readonly text" pvalue="before_receiver_mobile[0]" pt="_pt_numplus" style="width:45px" onkeyup="chkNumberLength(this)" /> - 
+						<input type="number" name="receiver_mobile[1]" maxlength="4" class="readonly text" pvalue="before_receiver_mobile[1]" pt="_pt_numplus" style="width:52px" onkeyup="chkNumberLength(this)" /> - 
+						<input type="number" name="receiver_mobile[2]" maxlength="4" class="readonly text" pvalue="before_receiver_mobile[2]" pt="_pt_numplus" style="width:52px" onkeyup="chkNumberLength(this)" />
+					</dd>
+					<dt class="line3">{=__text("주소")}</dt>
+					<dd class="line3"><input type="text" name="receiver_zipcode" class="readonly abs text" pvalue="before_receiver_zipcode" pt="_pt_numplus" style="width:65px" /> <a href="#postPop" target="_self" class="postBtn" style="padding-bottom:3px;display:inline-block;"><!--{ @ f_banner_s2('btn_mobile_zipcode','img')}-->{.banner}<!--{ / }--></a><br />
+						<input type="text" name="receiver_addr" class="readonly abs text" pvalue="before_receiver_addr" pt="_pt_txt" />
+						<input type="text" name="receiver_addr_sub" class="readonly text" pvalue="before_receiver_addr_sub" pt="_pt_txt" onkeyup="chkTextByte(this,50)" />
+					</dd>
+					<dt class="line2">{=__text("배송메세지")}</dt>
+					<dd class="line2"><textarea id="" name="request" class="readonly" pvalue="before_request"></textarea>
+					</dd>
+				</dl>
+			</div>
+			
+			<div id="select_paymethod" class="part">
+				<p class="tit">{=__text("결제수단")}</p>
+				<!--{ @ _cfg.pg.paymethod }-->
+				<a href="#" class="paymentBtn {?.index_==0}select{/}" value="{.value_}">{_r_paymethod[.value_]}</a>
+				<!--{ / }-->
+			</div>
+			
+			<div id="select_paymethod_b" class="part paymethod_b">
+				<p class="tit">{=__text("입금계좌")}</p>
+				<!--{ @ r_bank }-->
+				<a href="#" class="paymentBtn {?.index_==0}select_b{/}" value="{.value_}">{.value_}</a>
+				<!--{ / }-->
+			</div>
+			
+			<div class="part paymethod_b">
+				<p class="tit">{=__text("입금자명")}</p>
+				<input type="text" name="payer_name" class="text" pt="_pt_txt" />
+				<div class="infoShip">{=__text("실제 입금자와 다를 경우 결제완료가 되지 않습니다.")}</div>
+			</div>
+			
+			<script>
+			//처음 옵션값
+			$j("input[name=paymethod]").val($j(".select").attr("value"));
+			
+			if ($j(".select").attr('value') == "b") {
+				$j(".paymethod_b").show();
+				$j("input[name=bankinfo]").val($j(".select_b").attr("value"));
+			}
+			else {
+				$j(".paymethod_b").hide();
+				$j("input[name=bankinfo]").val("");
+			}
+			
+			$("#select_paymethod a").on({
+				click : function(e){
+					e.preventDefault();
+					//선택한 옵션값
+					$j("input[name=paymethod]").val($(this).attr("value"));
+					
+					if ($(this).attr('value') == "b") {
+						$j(".paymethod_b").show();
+						$j("input[name=bankinfo]").val($j(".select_b").attr("value"));
+					}
+					else {
+						$j(".paymethod_b").hide();
+						$j("input[name=bankinfo]").val("");
+					}
+					
+					$("#select_paymethod a").removeClass("select");
+					$(this).addClass("select");
+				}
+			});
+			$("#select_paymethod_b a").on({
+				click : function(e){
+					e.preventDefault();
+					//선택한 옵션값
+					$j("input[name=bankinfo]").val($(this).attr("value"));
+					
+					$("#select_paymethod_b a").removeClass("select_b");
+					$(this).addClass("select_b");
+				}
+			});
+			</script>
+
+			<div class="orderAgree">
+				<input id="cc" name="cc" type="checkbox" class="checkbox"><label for="cc">{=__text("상기 결제내용을 확인하였으며 구매진행에 동의하시겠습니까?")}</label>
+			</div>
+			<!--{ @ f_banner_s2('btn_mobile_order_pay_banner')}-->{.banner}<!--{ / }-->
+		</div>
+
+		<div class="orderBtn btnArea" style="position:fixed;z-index:20;">
+			<!--{ ? count(_cfg.pg.paymethod) }-->
+			<a href="#layerBox" target="_self" class="default" id="order_pay_banner"><!--{ @ f_banner_s2('btn_mobile_order_pay','img')}-->{.banner}<!--{ / }--></a>
+			<!--{ : }-->
+			<div class="default" style="background:red;color:#FFFFFF;padding:21px 0 24px 0;text-align:center;display:inline-block;width:100%;">{=__text("관리자의 결제방식이 설정되지 않아 결제 진행이 불가능합니다.")}</div>
+			<!--{ / }-->
+		</div>
+	</section>
+</form>
+
+<!--{ ? _cfg.mobile_member_use == "Y" }-->
+<div id="layerBox2" class="pop cpListP" style="top:30%;">
+	<div class="cpBox">
+		<header>
+			<h2>{=__text("쿠폰적용")}</h2>
+			<a href="#" class="closeBtn"><img src="../img/ic_close.png" width="15" {=__alt("닫기")}/></a>
+		</header>
+		<div class="noteTxt2"></div>
+		<div class="btnBox">
+			<a href="#" id="couponBtn" class="default" target="_self"><center><!--{ @ f_banner_s2('btn_mobile_coupon_use2','img')}-->{.banner}<!--{ / }--></center></a>
+		</div>
+	</div>
+</div>
+<!--{ / }-->
+
+<script>
+$j(window).ready(function(){
+	$("#order_pay_banner").viewimageresize2();
+});
+$j(function() {
+	$j(".abs").attr("readonly",true);
+	$j("#copyInfo_2").trigger("click");
+});
+function same_check(chk) {	
+	if (chk==false){
+		$j(".readonly").val("");
+	} else {
+		$j(".readonly").each(function(){
+			var objname = $j(this).attr("pvalue");
+			var value = $j("[name="+objname+"]").val();
+			$j(this).val(value);
+		});
+	}
+}
+function totprice(point_type) {
+	var error_type = "";
+	
+	if (!$j(":input[name=emoney]").val() && $j(":input[name=emoney]").val() != undefined) {
+		$j("input[name=emoney]").val(0);
+		error_type = "not_value";
+	} else if (!_pattern($j(":input[name=emoney]"))) {
+		$j("input[name=emoney]").val(0);
+		error_type = "not_pattern";
+	}
+	
+	var emoney = parseInt("{myemoney}");
+	var grpdc = parseInt("{cart->dc*1}");
+	var dc_coupon = parseInt(uncomma($j("input[name=dc_coupon]").val())*1);
+	var able_emoney = parseInt("{cart->itemprice - cart->dc}") - parseInt(dc_coupon);
+		
+	if ($j("input[name=emoney]").val() > emoney) {
+		$j("input[name=emoney]").val(emoney);
+	}
+	if ($j("input[name=emoney]").val() > able_emoney) {
+		$j("input[name=emoney]").val(able_emoney);
+	}
+
+	if ($j(":input[name=emoney]").val() != undefined) var emoney = parseInt($j("input[name=emoney]").val()*1);
+	var price = parseInt("{cart->itemprice + cart->totshipprice}");
+	
+	$j("#emoney_print").html("(-)"+ emoney +{=__java("원")});
+	$j("#dc_coupon_print").html("(-)"+ dc_coupon +{=__java("원")});
+	$j("#totprice").html(comma(price - grpdc - emoney - dc_coupon) +{=__java("원")});
+	
+	if (point_type == "emoney") {
+		if (error_type == "not_value") {
+			$j("#layerBox").show();
+			$j(".noteTxt").html("<span>"+{=__java("사용할 적립금을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if (error_type == "not_pattern") {
+			$j("#layerBox").show();
+			$j(".noteTxt").html("<span>"+{=__java("적립금 형식이 올바르지 않습니다.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else {
+			$j("#layerBox").show();
+			$j(".noteTxt").html("<span>"+{=__java("적립금 사용이 반영 되었습니다.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		}
+	}
+}
+function coupon_layer() {
+	var coupon = $j("#input_coupon").val();
+			
+	$j.ajax({
+		type : "GET",
+		url : "/module/p.coupon.php",
+		data : "cartno={_cartno}&coupon="+ coupon+"&editdate="+escape(new Date()),
+		success : function(coupon) {				
+			$j(".noteTxt2").html(coupon);
+			$("#layerBox2").show();
+			$("#wrap").addClass("dimed_on");
+		}
+	});
+}
+function input_post(zipcode, address) {
+	$j("[name=receiver_zipcode]").val(zipcode);
+	$j("[name=receiver_addr]").val(address);
+	$j("[name=receiver_addr_sub]").trigger("focus");
+	
+	$(".popPost").hide();
+	$("#wrap").removeClass("dimed_on");
+}
+function chkNumberLength(obj) {
+	if (obj.value.length == obj.maxLength) {
+		if (obj.name == "receiver_mobile[0]") $j("[name=receiver_mobile[1]]").trigger("focus");
+		else if (obj.name == "receiver_mobile[1]") $j("[name=receiver_mobile[2]]").trigger("focus");
+	}
+	else if (obj.value.length > obj.maxLength) obj.value = obj.value.substr(0, obj.maxLength);
+}
+$(".orderBtn a").on({
+	click : function(e){
+		e.preventDefault();
+		if ($j(":input[name=paymethod]").val()) {
+			if (!$j(":input[name=receiver_name]").val()) {
+				$($(this).attr("href")).show();
+				$j(".noteTxt").html("<span>"+{=__java("이름를 입력해주세요.")}+"</span>");
+				$("#wrap").addClass("dimed_on");
+			} else if (!$j(":select[name=receiver_mobile[0]]").val() || !$j(":input[name=receiver_mobile[1]]").val() || !$j(":input[name=receiver_mobile[2]]").val()) {
+				$($(this).attr("href")).show();
+				$j(".noteTxt").html("<span>"+{=__java("휴대폰을 입력해주세요.")}+"</span>");
+				$("#wrap").addClass("dimed_on");
+			} else if (!$j(":input[name=receiver_zipcode]").val() || !$j(":input[name=receiver_addr]").val() || !$j(":input[name=receiver_addr_sub]").val()) {
+				$($(this).attr("href")).show();
+				$j(".noteTxt").html("<span>"+{=__java("주소를 입력해주세요.")}+"</span>");
+				$("#wrap").addClass("dimed_on");
+			} else if ($j(":input[name=paymethod]").val() == "b" && !$j(":input[name=payer_name]").val()) {
+				$($(this).attr("href")).show();
+				$j(".noteTxt").html("<span>"+{=__java("입금자명을 입력해주세요.")}+"</span>");
+				$("#wrap").addClass("dimed_on");
+			} else if (!$j(":checkbox[name=cc]:checked").is(":checked")) {
+				$($(this).attr("href")).show();
+				$j(".noteTxt").html("<span>"+{=__java("입력하신 주문서 내용을 확인하시고")}+"<br />"+{=__java("구매진행 동의를 해주셔야")}+"<br />"+{=__java("주문이 가능합니다.")}+"</span>");
+				$("#wrap").addClass("dimed_on");
+			} else {
+				document.fm.submit();
+			}
+		}
+	}
+});
+$("#couponBtn").on({
+	click : function(e){
+		e.preventDefault();
+		document.fm2.submit();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+$("#layerBox2 .closeBtn").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+</script>
+
+{ # footer }

@@ -1,0 +1,71 @@
+{ # header }
+
+<section class="content-container my-page-layout">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col">
+				<a href="../../mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/cancellist.php">{=__text("주문/취소관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/wishlist.php">{=__text("위시리스트")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/coupon.php">{=__text("쿠폰/적립금조회")}</a>
+			</li>
+			<li class="col active">
+				<a href="../../member/myinfo.php">{=__text("회원정보수정")}</a>
+			</li>
+		</ul>
+		<div class="tab-content-wrap">
+			<div class="tab-content" id="account" style="text-align: center;">
+				<div id="edit-account-wrap">
+					<!--<div id="edit-account-form" style="width:700px;height:100px;margin-left:40px;">
+						<div id="set-password">
+							<div class="password-input" id="input-password" style="margin-top:-40px;">
+								{=__text("회원탈퇴가 정상적으로 처리되었습니다.")}
+							</div>
+						</div>
+					</div>
+					<div class="text-center">
+						<button type="button" class="btn btn-primary btn-lg" onclick="location.href='../main/index.php'">{=__text("메인으로 이동")}</button>
+					</div>-->
+					
+					<div id="regist_wrap">
+					<table class="tbl01">
+					<tbody>
+						<tr>
+							<td>{=__text("회원탈퇴가 정상적으로 처리되었습니다.")}</td>
+						</tr>							
+					</tbody>
+					</table>
+					</div>
+
+					<div class="text-center">
+						<button type="button" class="btn btn-primary btn-lg" onclick="location.href='../main/index.php'">{=__text("메인으로 이동")}</button>
+					</div>
+					<p>&nbsp;</p>
+											
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "account-page");
+	//$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }

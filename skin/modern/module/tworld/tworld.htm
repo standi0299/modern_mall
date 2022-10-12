@@ -1,0 +1,44 @@
+{ # header_popup }
+<div style="width: 500px;">
+<style>
+body {padding:10px;}
+</style>
+<div style="margin-bottom:10px;"><img src="./dc_partnership_tworld.gif"></div>
+
+<form method="POST" action="/module/tworld/callback.php" onsubmit="return chkForm(this)">
+
+<table class="tb1">
+<tr>
+	<th>사용가능카드</th>
+	<td>
+	<div style="line-height:130%;" class="stxt blue">T멤버십 티플카드 (T'PLE)<br>T멤버십 커플카드 (COUPLE)</div>
+	</td>
+</tr>
+<tr>
+	<th>차감포인트</th>
+	<td><input type="hidden" name="price" value="0"><b class="red">{=number_format(_GET.dc_partnership)}</b></td>
+</tr>
+<tr>
+	<th>멤버십카드번호</th>
+	<td>
+	<input type="text" name="card_num[]" maxlength="4" class="w50" style="text-align:center;" required> -
+	<input type="text" name="card_num[]" maxlength="4" class="w50" style="text-align:center;" required> -
+	<input type="text" name="card_num[]" maxlength="4" class="w50" style="text-align:center;" required> -
+	<input type="text" name="card_num[]" maxlength="4" class="w50" style="text-align:center;" required>
+	</td>
+</tr>
+
+<tr>
+	<th>주민등록번호</th>
+	<td><input type="text" name="birth" maxlength="6" class="w50" style="text-align:center;" required> - *******</td>
+</tr>
+</table>
+
+<div class="page">
+	<input type="image" src="../../img/sbtn_submit.jpg">
+	<a href="javascript:close()"><img src="../../img/sbtn_close.jpg"></a>
+</div>
+
+</form>
+</div>
+{ # footer_popup }

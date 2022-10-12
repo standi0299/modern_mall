@@ -1,0 +1,145 @@
+{ # header }
+
+<script src="/js/board.js"></script>
+
+<section id="review-foam-layout">
+	
+		
+		<div class="tab-content-wrap">
+			<h3>{board.board_name}</h3>
+			<!-- align="{board.board_align}" style="padding:100px;" -->
+			<div class="tab-content" id="inquiry" style="padding-top:0px;">
+				<div style="width:1200px;margin:0 auto;">{board.header_html}</div>
+				<!-- style="width:{board.board_width};" -->
+				<div class="inquiry-content">
+					
+							
+							
+								<!--{ ? category }-->
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("분류")}</label>
+									<div class="col">
+										<label class="label-control" style="display:inline-block;width:100%;">{category}</label>
+									</div>
+								</div>
+								<!--{ / }-->
+								
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("제목")}</label>
+									<div class="col">
+										<label class="label-control" style="display:inline-block;width:100%;{subject_deco}">{subject}</label>
+									</div>
+								</div>
+								
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("작성자")}</label>
+									<div class="col">
+										<label class="label-control" style="display:inline-block;width:100%;">
+											<!--{ ? mid }-->
+											<b style="font-weight: bold;">{writer}</b> 
+											<!--{ : }-->
+											{writer} 
+											<!--{ / }-->
+											<i>Registed at <b style="font-weight: bold;">{regdt}</b></i>
+										</label>
+									</div>
+								</div>
+								
+								<!--{ ? board.on_email && email }-->
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("이메일")}</label>
+									<div class="col">
+										<label class="label-control" style="display:inline-block;width:100%;">{email}</label>
+									</div>
+								</div>
+								<!--{ / }-->
+								
+								<!--{ ? board.on_file && r_file }-->
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("첨부파일")}</label>
+									<div class="col">
+										<!--{ @ r_file }-->
+										<label class="label-control" style="display:inline-block;width:100%;"><a href="download.php?board_id={board.board_id}&fileno={.fileno}">{.filename} ({=round(.filesize/1024,2)}KByte)</a></label>
+										<!--{ / }-->
+									</div>
+								</div>
+								<!--{ / }-->
+								
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("조회수")}</label>
+									<div class="col">
+										<label class="label-control" style="display:inline-block;width:100%;"><b style="font-weight: bold;">{=number_format(hit)}</b></label>
+									</div>
+								</div>
+							
+							
+							<hr>
+							<div class="form-horizontal">
+								<div class="form-group" style="padding-top: 10px;">									
+									<div id="contents" class="col" style="margin: 10px;width:100%;">										
+										{content}
+									</div>
+								</div>
+							</div>
+							
+							<hr>
+							<div class="form-group h-group">
+								<div style="margin: 20px 0 0 10px;float: left;">
+									<!--{ ? !_deny.reply }--><a href="write.php?mode=reply&board_id={board_id}&no={no}" class="btn btn-primary" style="margin-right: 5px;">{=__text("답글")}</a><!--{ / }-->
+									<!--{ ? !_deny.modify }--><a href="modify.php?board_id={board_id}&no={no}" class="btn btn-blue-link" style="margin-right: 5px;">{=__text("수정")}</a><!--{ / }-->
+									<!--{ ? !_deny.del }-->{link_del}<!--{ / }-->
+								</div>
+								<div style="margin: 20px 10px 0 0;float: right;">
+									<a href="list.php?board_id={board_id}" class="btn btn-primary">{=__text("목록")}</a>
+									<!--{ ? !_deny.write }--><a href="write.php?board_id={board_id}" class="btn btn-blue-link">{=__text("글쓰기")}</a><!--{ / }-->
+								</div>
+								<div style="clear: both;"></div>
+							</div>
+							
+							
+							<!--{ ? board.on_comment }-->
+							<div id="div_comment" style="width:100%;margin:0 auto;"></div>
+							<script>printComment("{board.board_id}", "{no}", 1);</script>
+							<!--{ / }-->
+						
+				</div>
+				
+				
+				<div style="width:1000px;margin:0 auto;">{board.footer_html}</div>
+			</div>
+		</div>
+	
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "cs-layout");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	
+	$j("img","#contents").each(function() {
+		if ($j(this).attr("width") > 980) {
+			$j(this).attr("width",980);
+		}
+	});
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }
+
+<div id="pwLayer" style="border:3px double;padding:5px;position:absolute;top:0;left:-99999;">
+	<form name="pwLayer_form">
+		<input type="hidden" name="board_id" value="{board.board_id}" required>
+		<input type="hidden" name="no" required>
+		
+		{=__text("비밀번호를 입력해주세요.")}<p></p>
+		<input type="password" name="password">
+		<a href="#" id="pwLayer_submit" class="btn-primary" onclick="chkPassword('password_del', 'kor')">{=__text("확인")}</a>
+		<a href="#" id="pwLayer_cancel" class="btn-blue-link" onclick="$j(this).parent().parent().fadeTo(500,0);$j(this).parent().parent().css('left','-10000px')">{=__text("취소")}</a>
+		<div id="pwLayer_result"></div>
+	</form>
+</div>

@@ -1,0 +1,344 @@
+{ + header }<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+<title>{_cfg.titleDoc}</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8">
+<meta http-equiv="imagetoolbar" content="no">
+<meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+<meta name="keywords" content="{_cfg.keywordsDoc}">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="format-detection" content="telephone=no, address=no, email=no">
+<script src="/js/global_langs.php"></script>
+
+<script src="/js/common.js"></script>
+<script src="/js/common.defer.js" defer=defer></script>
+<script src="/js/popupLayer.js" defer=defer></script>
+<script src="/js/form_chk.js" defer=defer></script>
+<script src="/js/webtoolkit.base64.js"></script>
+
+<!--{ ? _ici_admin }-->
+<script src="/js/dp_goods.js" defer="defer"></script>
+<script src="/js/edit_banner_s2.js" defer="defer"></script>
+<!--{ / }-->
+
+<script src="/js/jquery.js"></script>
+<script>var $j = jQuery.noConflict();</script>
+<script src="/js/plugin/ui/jquery.hotkeys.js" type="text/javascript"></script>
+
+<script src="/js/jquery.cookie.js" type="text/javascript"></script>
+<script src="/js/jquery.scroll-follow.js" type="text/javascript"></script>
+<script src="/js/ui.core.js" type="text/javascript"></script>
+<script src="/js/easySlider.js" type="text/javascript"></script>
+
+<script src="/js/plugin/ui/ui.widget.js" type="text/javascript"></script>
+<script src="/js/plugin/ui/ui.mouse.js" type="text/javascript"></script>
+<script src="/js/plugin/ui/ui.draggable.js" type="text/javascript"></script>
+
+<link href="/js/plugin/css/ui.all.css" rel="stylesheet">
+<link href="/css/style.css" rel=stylesheet>
+
+<link href="../css/m.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.11.2.min.js"></script>
+<script type="text/javascript" src="../js/jquery-migrate-1.2.1.min.js"></script>
+<script type="text/javascript" src="../js/iscroll.js"></script>
+<script type="text/javascript" src="../js/mobile_common.js"></script>
+<script type="text/javascript" src="/js/jssor.js"></script>
+<script type="text/javascript" src="../js/jssor.slider.js"></script>
+<script type="text/javascript" src="../js/mobile_func.js"></script>
+<script src="/js/viewimageresize.js" type="text/javascript"></script>
+<script type="text/javascript" src="/js/zipcode_5digit.js"></script>
+</head>
+
+<body>
+<!--{ ? _ici_admin  && !_COOKIE.tophidden && tpl_file != 'main/intro.htm' && tpl_file != 'main/parking.htm' }-->
+	<div style="padding:5px;background:red;color:#FFFFFF;">{=__text("현재 관리자로 접속중 입니다.")} ({=__text("서비스 스킨")} : {=f_getSkinName()} , {=__text("편집 스킨")} : {_cfg.skin})</div>
+	<!--<input type="button" value="SlideMenu" onclick="showMenu()" />-->
+<!--{ / }-->
+
+<div id="layerBox" class="pop alertBox">
+	<div class="noteTxt"></div>
+	<a href="#" class="default" target="_self"><center><!--{ @ f_banner_s2('btn_mobile_confirm','img')}-->{.banner}<!--{ / }--></center></a>
+</div>
+
+<div id="postPop" class="popPost alertBox">
+	<div class="postBox">
+		<div>
+			<legend>{=__text("도로명, 지번주소, 건물명 검색")}</legend>
+			
+			<section id="postAd01">
+				<p id="txtPostCommend">
+					{=__text("지번 주소 검색 예) 가산동 12-3")}<BR>
+					{=__text("도로명 주소 검색 예) 남부순환로, 가산디지털2로")}<BR>
+					{=__text("건물명 검색  예) 전쟁기념관, 스타타워")}<BR>
+				</p>	
+				<input type="text" class="text" id="search_name" />
+				<p id="post_chk" style="font-size:10px;margin:-15px 0 -25px 0;">{=__text("2자이상 입력해주세요.")}</p>
+				<div class="btnBox">
+					<a href="#" target="_self" class="aClose"><!--{ @ f_banner_s2('btn_mobile_cancel2','img')}-->{.banner}<!--{ / }--></a>
+					<a href="#" id="aSearch"><!--{ @ f_banner_s2('btn_mobile_search','img')}-->{.banner}<!--{ / }--></a>
+				</div>
+				<article>
+					<div class="postList"></div>
+					<div class="btnBox" align="center" id="zipcode_page"></div>
+					
+					<div id="loadsearchajaxloader" style="display:none;">
+						<center style="margin:74px 0 74px 0;"><img src="../img/loading_s.gif" /></center>
+					</div>	
+				</article>
+			</section>
+		</div>
+	</div>
+	
+	<form name="form1" id="form" method="post" onsubmit="return false;">
+	<input type="hidden" name="currentPage" value="1"/>
+	<input type="hidden" name="countPerPage" value="10"/> 
+	<input type="hidden" name="confmKey" value="{data.confmKey}"/><!-- 요청 변수 설정 (승인키) -->
+	<input type="hidden" name="keyword" value="">
+	</form>
+</div>
+
+<section id="wrap">
+	<header>
+		<article class="mHeader">
+			<h1></h1>
+			<a href="#sideNav" target="_self" class="navBtn"><!--{ @ f_banner_s2('btn_mobile_menu_show','img')}-->{.banner}<!--{ / }--></a>
+			<a href="../order/cart.php" target="_self" class="cateBtn"><!--{ @ f_banner_s2('btn_mobile_cart_show','img')}-->{.banner}<!--{ / }--><em></em></a>
+		</article>
+	</header>
+
+	{ # top }
+	
+	{ + footer }
+</section>
+
+<script>
+$j(window).ready(function(){
+	getPageTitle();
+	getCartCount();
+});
+
+function _zr(zipcode,address){
+	input_post(zipcode,address);		
+}
+	
+var searchFlag = true;
+$(".postBtn").on({
+	click : function(e){
+		e.preventDefault();	
+		$j("#search_name").val("");
+		$j(".postList").html("");
+		$j("#zipcode_page").html("");
+		$j("#post_chk").hide();
+		
+		$($(this).attr("href")).show();
+		$("#wrap").addClass("dimed_on");
+	}
+});
+
+$("#aSearch").on({
+	click : function(e){
+		e.preventDefault();
+		var search_name = $j("#search_name").val();
+		$j(".postList").html("");
+		$j("#zipcode_page").html("");
+		
+		if (search_name.length < 2) {
+			$j("#search_name").focus();
+			$j("#post_chk").show();
+		} else {
+			$j("#post_chk").hide();
+			if (searchFlag) {
+				searchFlag = false;
+				$j('div#loadsearchajaxloader').show();
+			}
+			
+			$j.ajax({
+				type : "POST",
+				url : "/module/zipcode_5digit.php",
+				data : "mode=zipcode_key&mobile_type=Y",
+				success : function(zipKey) {
+					mobileZip = true;
+					$j('div#loadsearchajaxloader').hide();
+					document.form1.confmKey.value = zipKey;
+					document.form1.keyword.value = search_name;
+					searchDivButton();		
+				}
+			});
+		}
+	}
+});
+$(".btnBox .aClose").on({
+	click : function(e){
+		e.preventDefault();
+		$(".popPost").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+</script>
+
+<!-- ### 필수객체 ### 폼처리를 위한 히든프레임 (삭제하시면 안됩니다) -->
+<!--{? _SERVER.REMOTE_ADDR=="1.217.39.202"}-->
+	<iframe style="display: none; width: 100%; height: 600px" name="hiddenIfrm"></iframe>
+<!--{ : }-->
+	<iframe style="display: none; width: 100%; height: 600px" name="hiddenIfrm"></iframe>
+<!--{ / }-->
+
+<!--{ ? _mainpage }-->
+	<style>
+	div[id^="layerPopup"] {display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:#fff;z-index:1000;}
+	div[id^="popupContent"] {position:relative;top:0px;left:0px;width:100%;margin:0 auto;overflow:auto;-ms-overflow-style:none;}
+	div[id^="popupContent"] img {width:100%;}
+	.popupBar {position:relative;overflow:hidden;height:30px;background:#177b93;}
+	.popupBar a {position:absolute;top:0;right:15px;width:30px;height:30px;}
+	.popupBar a img {width:18px;height:18px;padding:6px 15px;}
+	.delCheck input[type="checkbox"] {display:none;}
+	.delCheck input[type="checkbox"] + label {display:inline-block;height:15px;cursor:pointer;margin:8px 4px;vertical-align:middle;font-family:'Noto CJKkr DemiLight';font-size:14px;color:#fff;}
+	.delCheck input[type="checkbox"] + label:before {content:"";display:inline-block;width:19px;height:19px;position:relative;background:url('../img/ic_check_radio_sheet.png') 0 0 no-repeat;cursor:pointer;margin:-1px 4px 0 0;vertical-align:middle;}
+	.delCheck input[type="checkbox"]:checked + label:before {background-position:-19px 0;}
+	</style>
+	
+	<!--{ @ f_popup() }-->	
+	<div id="layerPopup_{.popupno}">
+		<div id="popupContent_{.popupno}"></div>
+		<article class="popupBar">
+			<div class="delCheck">
+				<input id="mainpopup_{.popupno}" type="checkbox" onclick="close_popuptime('{.popupno}', 1)" />
+				<label for="mainpopup_{.popupno}">{=__text("오늘 하루 이창을 열지 않음")}</label>
+			</div>
+			<a href="#" target="_self" onclick="close_popuptime('{.popupno}', 0)">
+				<img src="../img/ic_x.png" {=__alt("레이어닫기")}>
+			</a>
+		</article>
+	</div>
+	
+	<script>
+	$j(window).load(function() {
+		var no = getCookie('mainpopup').replace(/mainpopup_/gi, "");
+		var r_no = no.split(",");
+		
+		if (!in_array("{.popupno}", r_no)) {
+			var height = document.body.clientHeight - 30;
+			
+			$j.ajax({
+				type: "POST",
+				url: "../../../ajax.php",
+				data: "mode=mainpopup&popupno={.popupno}",
+				success: function(msg) {
+					var ret = eval('(' + msg + ')');
+					$j("#popupContent_{.popupno}").height(height);
+					$j("#popupContent_{.popupno}").html(ret.content);
+					$j("#layerPopup_{.popupno}").show();
+				}
+			});
+		}
+	});
+	
+	$j(window).resize(function() {
+		var height = document.body.clientHeight - 30;
+		$j("#popupContent_{.popupno}").height(height);
+	});	
+	</script>
+	<!--{ / }-->
+	
+	<script>
+	function close_popuptime(index, mode) {
+		var time = (mode) ? 200 : 0;
+		setTimeout('close_mainpopup(' + index + ', ' + mode + ')', time);
+	}
+	
+	function close_mainpopup(index, mode){
+		$j("#layerPopup_" + index).hide();
+		var id = "mainpopup_" + index;
+		var pw = getCookie('mainpopup');
+		
+		if (mode) {
+			var r_pw = pw.split(",");
+			
+			if (!r_pw[0]) r_pw = [];
+			if (!in_array(id, r_pw)) r_pw.push(id);
+			
+			var now = new Date();
+			var expire = new Date(now.getTime() + 60*60*24*1000);
+			setCookie('mainpopup', r_pw, expire, "/");
+		}
+	}
+	</script>
+<!--{ / }-->
+
+<style>
+	#detail_ {width:100px;display:none;background:#d7d7d7;text-align:center;padding:10px}
+</style>
+
+<!--{ ? _COOKIE.tophidden }-->
+	<iframe id="xxx" style="display:none;"></iframe>
+	
+	<script>
+	$j(window).load(function(){
+		$j("#xxx").attr("src","http://www.130x.co.kr/frame.mod.php?height=" + $j(document).height());
+	});
+	</script>
+<!--{ / }-->
+
+<script>
+	$j(function(){
+		$j("tr th:last-child",".tb_itembox").css({"border-right":"0"});
+		$j("tr td:last-child",".tb_itembox").css({"border-right":"0"});
+	})
+</script>
+
+<!--{ ? _SERVER.SERVER_ADDR == "115.68.51.151" && _cid == "service" }-->
+	<!-- Start Script for IFDO -->
+	<script type="text/javascript">
+	var _NB_MSG_URL = '//chatsvc1.ifdo.co.kr/gchatsvc.apz?';
+	var _NB_gs = 'mt.ifdo.co.kr'; 
+	var _NB_MKTCD = 'NMA117197152';
+	(function(a,b,c,d,e){f=b.createElement(c),g=b.getElementsByTagName(c)[0];f.async=1;f.src=d;
+	g.parentNode.insertBefore(f,g)})(window,document,'script','//script.ifdo.co.kr/jfullscript.js');           
+	</script>
+	<!-- End Script for IFDO -->
+	
+	<!-- AceCounter Log Gathering Script V.71.2013012101 -->
+	<script language="javascript">
+	if(typeof EL_GUL == 'undefined'){
+	var EL_GUL = 'dgc2.acecounter.com';var EL_GPT='8080'; var _AIMG = new Image(); var _bn=navigator.appName; var _PR = location.protocol=="https:"?"https://"+EL_GUL:"http://"+EL_GUL+":"+EL_GPT;if( _bn.indexOf("Netscape") > -1 || _bn=="Mozilla"){ setTimeout("_AIMG.src = _PR+'/?cookie';",1); } else{ _AIMG.src = _PR+'/?cookie'; };
+	document.writeln("<scr"+"ipt language='javascript' src='/acecounter/acecounter_V70.js'></scr"+"ipt>");
+	}
+	</script>
+	<noscript>&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;lt;img src='http://dgc2.acecounter.com:8080/?uid=AR5F38170210761&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;je=n&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;' border=0 width=0 height=0&amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;amp;gt;</noscript>
+	<!-- AceCounter Log Gathering Script End -->
+	
+	<!-- 전환페이지 설정 -->
+	<script src="//wcs.naver.net/wcslog.js" type="text/javascript"> </script> 
+	<!--{ ? _acecounter_mode == 'payend' }-->
+	<script type="text/javascript">
+	var _nasa={};
+	_nasa["cnv"] = wcs.cnv("1","{payprice}"); // 전환유형, 전환가치 설정해야함. 설치매뉴얼 참고
+	</script>
+	<!--{ : _acecounter_mode == 'register' }-->
+	<script type="text/javascript">
+	var _nasa={};
+	_nasa["cnv"] = wcs.cnv("2","1"); // 전환유형, 전환가치 설정해야함. 설치매뉴얼 참고
+	</script>
+	<!--{ / }-->
+	
+	<!-- 공통 적용 스크립트 , 모든 페이지에 노출되도록 설치. 단 전환페이지 설정값보다 항상 하단에 위치해야함 --> 
+	<script src="//wcs.naver.net/wcslog.js" type="text/javascript"> </script> 
+	<script type="text/javascript"> 
+	if (!wcs_add) var wcs_add={};
+	wcs_add["wa"] = "s_58588ff5129f";
+	if (!_nasa) var _nasa={};
+	wcs.inflow();
+	wcs_do(_nasa);
+	</script>
+	
+	<script type="text/javascript">
+	    var roosevelt_params = {
+	        retargeting_id:'XvX8B514xrc9XigyLvt7Eg00',
+	        tag_label:'C8G9aOLyTbaag423QB96Wg'
+	    };
+	</script>
+	<script src="//adimg.daumcdn.net/rt/roosevelt.js" type="text/javascript"></script>
+<!--{ / }-->
+</body>
+</html>

@@ -1,0 +1,40 @@
+@charset "utf-8";
+
+.al {text-align:left;} .ac {text-align:center;} .ar {text-align:right;}
+.vt {vertical-align:top;} .vm {vertical-align:middle;} .vb {vertical-align:bottom;}
+.fl {float:left;} .fr {float:right;} .cb {clear:both;}
+
+#setup_wrap2 {background:url(/skin/modern/img/setup/img/bg.gif) repeat center 0; height:93px;}
+#setup_wrap2 .setup{ margin: auto; height:100px; width:1000px;}
+#setup_wrap2 .setup .com{ padding-left:20px; background:url(/skin/modern/img/setup/img/icon.jpg) no-repeat; width:64px; height:59px; margin-top:15px}
+#setup_wrap2 .setup .txtbox{ padding:8px 0px 0px 30px; width: 700px;}
+#setup_wrap2 .setup .txtbox .title{ font-size:12px; font-weight:bold; color:#000; line-height:24px; }
+#setup_wrap2 .setup .txtbox .stxt{font-size:12px; font-weight:bold;color:#999 }
+#setup_wrap2 .setup .txtbox p{line-height:18px; font-size: 12px; margin: 0;}
+#setup_wrap2 .setup .txtbox p:nth-child(3){float: right; margin-top: -5px}
+#setup_wrap2 .setup .bt{ padding-left:20px; margin-top:30px}
+
+[class*='btn-'] {border-radius: 4px;-webkit-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);-moz-box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.08);color: #fff;
+display: inline-block;font-family: Arial, Helvetica, sans-serif;font-size: 14px;padding: 8px 16px;text-decoration: none;text-shadow: 0 1px 1px rgba(0, 0, 0, 0.075);-webkit-transition: background-color 0.1s linear;-moz-transition: background-color 0.1s linear;-o-transition: background-color 0.1s linear;transition: background-color 0.1s linear;	}
+
+[class*='btn-']:hover {cursor: pointer;}
+
+#setup_wrap2 .setup .bt .btn-blue {background-color: rgb( 51, 102, 204 );border: 1px solid rgb( 44, 91, 104 ); color:#FFF}
+#setup_wrap2 .setup .bt .btn-blue:hover {background-color: rgb( 58, 131, 213 );	}
+#setup_wrap2 .setup .bt .btn-blue:active {background-color: rgb( 42, 91, 191 );	}
+
+#lay_pop2 {position:absolute;z-index:500;width:970px;height:100%;overflow-y:auto;display:none;background-color:#ffffff;border:2px solid #cccccc}
+#lay_pop2 .wrap{width:970px; height:auto;position:relative;}	
+
+#lay_pop2 .wrap .title_b{width:970px; height:80px; background-color:#2b3244; color:#ffffff; text-align:center;}
+#lay_pop2 .wrap .title_b .title{position: relative; width:970px; height:60px;text-align:center; font-size:23px; top:30px; font-weight:bold}
+#lay_pop2 .wrap .title_b .xbtn{position:absolute;right:300px;bottom:0;height:14px; width:14px; top:25px}
+#lay_pop2 .wrap .setup_bg{ width:970px; height:404px; position:relative; z-index:600; background:url(/skin/modern/img/setup/img/bg_img01.jpg) no-repeat center 0;}
+#lay_pop2 .wrap .setup_bg .txtbox{ width:500px; height:500px; position: absolute; z-index:610; left:500px; top:80px}
+#lay_pop2 .wrap .setup_bg .txtbox .btitle{ font-size:26px; font-weight:bold; line-height:20px; color:#1100c4; margin-bottom:50px}
+#lay_pop2 .wrap .setup_bg .txtbox .cont{ font-size:14px; line-height:20px; color:#000; margin-bottom:20px; padding-top:20px}
+#lay_pop2 .wrap .setup_bg .txtbox .cont .txt01{ font-size:14px; line-height:20px; color:#000;  position: relative; left:80px; top:-20px }
+#lay_pop2 .wrap .setup_bg .txtbox .btn{ padding:30px 0px }
+#lay_pop2 .wrap .setup_list{ margin-left:40px; padding:10px 0px;position:;z-index:800; top:480px }
+#lay_pop2 .wrap .setup_list p{ margin-top:20px}
+#lay_pop2 .wrap .btn_d{ position: absolute; top:3320px; left:344px; z-index:900;}

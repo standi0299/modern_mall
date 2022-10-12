@@ -1,0 +1,140 @@
+{ # header }
+
+<!--본 컨텐츠 시작-->
+<div class="event-page" id="event-attend-page" >			
+
+<div id="event-content-wrap">
+	<div id="attend-title-wrap">
+		<div class="text-center" id="attend-title">
+			<div><img src="/skin/modern/assets/images/attend-title.png" alt=""></div>
+			<p>{=__text("출석만 하면 무조건 준다")}!</p>
+			<div>
+				<a href="javascript:;" onclick="AttendEvent();"><img src="/skin/modern/assets/images/attend-btn.png" alt=""></a>
+			</div>
+		</div>
+		<div id="attend-table-wrap">
+			<div id="attend-table">
+				<div id="calendar-header">
+					<div id="calendar-bullet">
+						{=date('n')}<span>{=__text("월")}</span>
+					</div>
+					<div id="stamp-count">
+						<div class="tablize">
+							<div class="table-row">
+								<div class="cell vertical-bottom">
+									<span>{=__text("현재 출석 스탬프수")}</span>
+								</div>
+								<div class="cell vertical-bottom">
+									{_userTakeCnt}
+								</div>
+								<div class="cell vertical-bottom">
+									<span>{=__text("개")}</span>
+								</div>
+							</div>
+						</div>
+						<!--<p>출석체크하면 스탬프 <span>1개!</span> 주말은 <span>2개!</span></p>-->
+					</div>
+				</div>
+				<table>
+					<thead>
+					<tr>
+						<td>{=__text("일")}</td>
+						<td>{=__text("월")}</td>
+						<td>{=__text("화")}</td>
+						<td>{=__text("수")}</td>
+						<td>{=__text("목")}</td>
+						<td>{=__text("금")}</td>
+						<td>{=__text("토")}</td>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+					<!--{ @ loop }-->					
+						<!--{ ? .key_ % 7 == 0 }--></tr><tr><!--{ / }-->
+						<td>
+							<!--{? .value_=='NOT' }--> 
+								 
+							<!--{: .value_=='CHK' }--> 
+								<img src="/skin/modern/assets/images/attend-calendar-check.png" {=__alt("출석")}>
+								<!--<img src="/skin/modern/assets/images/attend-calendar-fail.png" alt="">-->
+							<!--{:}--> 
+								{.value_}
+							<!--{/}-->							
+						</td>						
+					<!--{ / }-->
+					<!--{ @ range(1,7 - count(loop)%7) }-->
+						<td> </td>
+					<!--{ / }-->
+					</tr>
+					</tbody>
+				</table>
+			</div>
+		</div>
+		<!--
+		<div id="attend-reward-wrap">
+			<div id="attend-reward">
+				<div id="reward-bullet"><img src="/skin/modern/assets/images/attend-bullet.png" alt=""></div>
+				<h3 class="text-center">
+					<span>열심히 찍은 스탬프를</span><br/>
+					포인트로 바로 교환해요!
+				</h3>
+				<ul id="reward-list">
+					<li class="reward-item">
+						<div class="reward-title"></div>
+						<div class="reward-content">
+							<div><img src="/skin/modern/assets/images/reward-thumbnail-1.png" alt=""></div>
+							<h4>
+								스탬프 10개<br>
+								<span>3만원 이상 구매시</span>
+							</h4>
+							<div><a href="#" id="coupon-change-btn">교환하기</a></div>
+							<p>
+								교환일로부터 30일간 사용 가능합니다.
+							</p>
+						</div>
+					</li>
+					<li class="reward-item">
+						<div class="reward-title">
+							30일 모두 출석
+						</div>
+						<div class="reward-content">
+							<div><img src="/skin/modern/assets/images/reward-thumbnail-2.png" alt=""></div>
+							<p>
+								0810 하드커버 포토북 24P 제작권<br/>
+								<span>1명</span>
+							</p>
+						</div>
+					</li>
+					<li class="reward-item">
+						<div class="reward-title">
+							20~30일 출석
+						</div>
+						<div class="reward-content">
+							<div><img src="/skin/modern/assets/images/reward-thumbnail-3.png" alt=""></div>
+							<p>
+								스타벅스아메리카노<br/>
+								<span>3명</span>
+							</p>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		-->
+	</div>
+</div>
+<!--본 컨텐츠 끝-->
+</div>
+
+<script>
+function AttendEvent() {
+	if ("{_sAttend}" == "N") {
+		alert({=__java("현재 진행 중인 이벤트가 아닙니다.")});
+	}
+	else {
+		location.href="indb.php?mode=attend_event";
+	}
+}
+</script>
+
+{ # footer }

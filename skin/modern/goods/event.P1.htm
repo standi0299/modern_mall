@@ -1,0 +1,44 @@
+{ # header }
+
+<div class="st_event">	
+	<ul style="padding:0;">			
+		<li class="active_liev"><a href="event.php" class="under_event">진행 이벤트</a></li>
+		<li class="active_liev2"><a href="event_end.php">종료된 이벤트</a></li>
+	</ul>
+</div>
+
+<div class="evnet_px_edil">
+	<span class="login_px_text_span">이벤트</span>
+</div>		
+		
+<div class="ct_order_map">	
+	<div  class="llery_edit2">		
+		<!--진행중 이벤트st-->
+		<div class="st_event_map" id="st_stve_1">
+			<ul>
+				
+				<!--{ @ list }-->
+			
+				<!--{ ? .index_ && .index_ % 2 == 0 }-->
+				</ul><ul>
+				<!--{ / }-->
+				
+				<li>
+					<div class="d_event">
+						<a href="event_view.php?eventno={.eventno}"><div class="st_evimg" style="width:405px; height:200px; background-image:url(/data/event/{_cid}/{.eventno}/{.eventno});">
+						</div></a>
+						<span>{.title}</span>
+						<span>{.sdate} ~ {.edate}</span>
+					</div>
+				</li>
+				<!--{ / }-->
+				
+					
+			</ul>	
+		</div>
+		<!--진행중 이벤트ed-->	
+			
+	</div>	
+</div>
+
+{ # footer }

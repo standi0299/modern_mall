@@ -1,0 +1,71 @@
+<div class="call_px">
+	<div class="call_wrap">
+		<div class="calss_px_list">
+			<a href="/board/list.php?board_id=notice"> <div class="more"></div> </a>
+			<p>
+				공지사항
+			</p>
+			<div class="call_tic_px">
+				<ul>
+					<!--{ @ board_left_data }-->
+					<li>
+						<a href="/board/view.php?board_id={.board_id}&no={.no}">{.subject}</a>
+					</li>
+					<!--{ / }-->
+				</ul>
+			</div>
+		</div>
+		<div class="ch_contents"></div>
+	</div>
+	<div class="call_wrap">
+		<div class="calss_px_list">
+			<a href="/goods/event.php"> <div class="more"></div> </a>
+			<p>
+				이벤트
+			</p>
+			<div class="call_tic_px">
+				<ul>
+					<!--{ @ event_list }-->
+					<li>
+						<a href="/goods/event_view.php?eventno={.eventno}">{.title}</a>
+					</li>
+					<!--{ / }-->
+				</ul>
+			</div>
+		</div>
+		<div class="ch_contents"></div>
+	</div>
+	<div class="call_wrap">
+		<div class="calss_px_list">
+			<p>
+				고객센터
+			</p>
+			<div class="call_tic_cut">
+				<ul style="padding:0; position:relative; top:-22px;">
+					<li>
+						<img src="/skin/modern/assets/P1/img/custimg.png" alt="" />
+					</li>
+					<li style="font-size:15px; padding-bottom:5px;">
+						평일 09 - 18시(점심 12-13시) · 주말/공휴일 휴무
+					</li>
+					<li class="call_btn1" >
+						<button type="button" style="width:110px;" onclick="location.href='/service/faq.php'">
+							자주묻는질문
+						</button>
+					</li>
+					<li class="call_btn1">
+						<button type="button" style="width:85px;" onclick="location.href='/mypage/mycs.php'">
+							1:1문의
+						</button>
+					</li>
+					<li class="call_btn1">
+						<button type="button" style="width:110px;" onclick="location.href='/mypage/orderlist.php'">
+							주문배송조회
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!--ddd-->

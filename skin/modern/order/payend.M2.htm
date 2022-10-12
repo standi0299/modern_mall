@@ -1,0 +1,118 @@
+{ # header }
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">장바구니</h2>
+		<div class="cart-nav">
+			<ul>
+				<li>1. 장바구니</li>
+				<li>2. 주문/결제</li>
+				<li class="on">3. 주문완료</li>
+			</ul>
+		</div>
+		<div class="complete-wrap">
+			<!--{ ? paymethod == "b" }-->
+			<h3>무통장 입금 주문이 완료 되었습니다.</h3>
+			<p>이용해 주셔서 감사합니다.</p>
+			<!--{ : }-->
+			<h3>주문이 정상적으로 완료 되었습니다.</h3>
+			<p>이용해 주셔서 감사합니다.</p>
+			<!--{ / }-->
+			
+			<div class="complete-detail">
+				<div class="table">
+					<div class="row">
+						<div class="th">결제/주문번호</div>
+						<div class="td"><a href="#">{payno}</a></div>
+					</div>
+					<div class="row">
+						<div class="th">주문일자</div>
+						<div class="td">{orddt}</div>
+					</div>
+				</div>
+				<div class="total-price">
+					<div class="th">최종결제금액</div>
+					<div class="td"><i class="blue">{=number_format(payprice)}</i>{=__text("원")}</div>
+				</div>
+				<!--{ ? paymethod == "b" }-->
+				
+				<p>고객님께서는 <u>‘무통장입금’</u>으로 주문하셨습니다.<br />
+				<i class="red">1주일 이내에 아래 계좌로 입금해주셔야 정상적으로 주문처리</i>가 되오니<br />
+				아래 계좌번호로 꼭 입금해 주세요.
+				<!--{ : }-->
+				
+				<p>고객님의 주문이 정상적으로 접수 되었습니다.<br />
+				고객님께서 빠르게 받아 보실 수 있도록 최선을 다하겠습니다.<br /><br />
+				감사합니다.</p>
+				<!--{ / }-->
+				
+				</p>
+			</div>
+			
+			<!--{ ? paymethod == "b" || paymethod == "v" || paymethod == "ve" }-->
+			<div class="complete-biz">
+				<p class="bank"><i>{bankinfo}</i></p>
+			</div>
+			<!--{ / }-->
+			
+			<!--{ @ f_banner_s2('payend_img_banner') }-->{.banner}<!--{ / }-->
+			<br>
+			<!--{ @ f_banner_s2('payend_img_banner2') }-->{.banner}<!--{ / }-->
+			<!--
+			<div class="complete-img" style="background-image:url(/skin/modern/assets/M2/images/complete_ex1.jpg);"></div>
+			-->
+			<div class="btn_wrap">
+				<a href="/" class="btn_home">HOME</a>
+				<a href="/mypage/orderlist.php" class="btn_order">주문·배송</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<!--
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">장바구니</h2>
+		<div class="cart-nav">
+			<ul>
+				<li>1. 장바구니</li>
+				<li>2. 주문/결제</li>
+				<li class="on">3. 주문완료</li>
+			</ul>
+		</div>
+		<div class="complete-wrap">
+			<h3>무통장 입금 주문이 완료 되었습니다.</h3>
+			<p>이용해 주셔서 감사합니다.</p>
+			<div class="complete-detail">
+				<div class="table">
+					<div class="row">
+						<div class="th">결제/주문번호</div>
+						<div class="td"><a href="#">3459387174662_0001</a></div>
+					</div>
+					<div class="row">
+						<div class="th">주문일자</div>
+						<div class="td">2017-11-29 14:26:31</div>
+					</div>
+				</div>
+				<div class="total-price">
+					<div class="th">최종결제금액</div>
+					<div class="td"><i class="blue">590,000</i>원</div>
+				</div>
+				<p>고객님께서는 <u>‘무통장입금’</u>으로 주문하셨습니다.<br />
+				<i class="red">1주일 이내에 아래 계좌로 입금해주셔야 정상적으로 주문처리</i>가 되오니<br />
+				아래 계좌번호로 꼭 입금해 주세요.
+				</p>
+			</div>
+			<div class="complete-biz">
+				<p class="bank">기업은행 <i>039-070702-01-014</i></p>
+				<p class="account-holder">(예금주) <i>명진씨앤피</i></p>
+			</div>
+			<div class="complete-img" style="background-image:url(/skin/modern/assets/M2/images/complete_ex1.jpg);"></div>
+			<div class="btn_wrap">
+				<a href="#" class="btn_home">HOME</a>
+				<a href="#" class="btn_order">주문·배송</a>
+			</div>
+		</div>
+	</div>
+</div>
+-->
+{ # footer }

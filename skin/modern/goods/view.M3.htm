@@ -1,0 +1,777 @@
+{ # header }
+
+<!--{ ? _cfg.zoom_goods }-->
+<script src="/js/cloudzoom/cloud-zoom.1.0.3.js"></script>
+<link href="/js/cloudzoom/cloud-zoom.css" rel="stylesheet" type="text/css" />
+<!--{ : }-->
+<script>
+	function big_img_change(img_src)
+	{
+		document.getElementById("big_img").style.backgroundImage = "url("+img_src+")";
+	}
+
+	$j(document).ready(function() {
+		display_opt('{first_opt_name}');
+	});
+</script>  
+<!--{ / }-->
+
+<form name="fmView" method="post" id="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+<input type="hidden" name="cover_id" id="cover_id" value="{=implode('_', first_cover_id)}"/>
+<input type="hidden" name="est_order_type" />
+
+<!--{ ? podskind == "99999" }-->
+<input type="hidden" name="editor_type" value="web" />
+<input type="hidden" name="ext_json_data" />
+<!--{ / }-->
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<div class="indicator">
+			<ul>
+				<li class="home"><a href="/">home</a></li>
+				<li>&gt;</li>
+				{=f_getCategoryPos(_GET.catno)}
+			</ul>
+		</div>
+		<div class="product-detail-wrap">
+			<div class="product-detail-left">
+				<div class="product-detail-left-img" id="big_img" style="background-image:url({img[0]});"></div>
+				<ul class="product-detail-thumbnail">
+					<!--{ @ img }-->
+		          	<li>
+							<a href="javascript:big_img_change('{.value_}');" style="background-image:url({.value_});"></a>
+			  			</li>
+					<!--{ / }-->
+				</ul>
+			</div>
+			
+			<div class="product-detail-right">
+				<script>
+					$(function(){
+						$('.product-like a').click(function(){
+							$(this).toggleClass('on');
+						});
+					});
+				</script>
+				<div class="product-like">
+					<a href="#" <!--{ ? goods_like == 'Y' }-->class="on"<!--{ / }--> onclick="set_goods_like('{goodsno}', 'view');"></a>
+					<span id="top_like">{=number_format(like_cnt)}</span>
+				</div>
+				<div class="product-detail-info">
+					<p class="product-category">{=getCatnm(_GET.catno)}</p>
+					<p class="product-name">{goodsnm}</p>
+					<p class="product-price">
+						<!--{ ? cprice > 0 }--><span class="price">{=number_format(cprice)}{=__text("원")}</span><!--{ / }-->
+						<span class="reduced-price">{=number_format(price)}{=__text("원")}</span>
+					</p>
+				</div>
+				<!-- hover시 미리보기 -->
+				
+				<script>
+					$(function(){
+						// 옵션 hover
+						$('.option-radio').hover(function(){
+							var id = $(this).attr('id');
+							var offsetT = $(this).position().top;
+							$('#thumbnail-preview-'+id).show().css({
+								top:offsetT
+							});
+						},function(){
+							$('.thumbnail-preview').hide();
+						});
+					});
+				</script>
+
+				<!--{ ? !in_array(podskind,array(28,3180)) }-->
+					<!--{ @ r_opt }-->
+					<div class="options-wrap { ? (.key_ == 0 && opt1_display == 'img') || (.key_ > 0 && opt2_display == 'img') }color{ / }">
+
+						<h4>
+							{ ? optnm[.index_] }
+								{optnm[.index_]}
+						 	{ : }
+						 		{=__text("옵션")}{.index_+1}
+					 	 	{ / }
+						</h4>
+						
+						<!--{ ? (.key_ == 0 && (opt1_display == 'text' || opt1_display == '')) || (.key_ > 0 && (opt2_display == 'text' || opt2_display == '')) }-->
+							<ul>
+								<!--{ @ .item }-->
+									<!--{ ? .key_ == 0 }-->
+										<li>
+											<div class="option-radio" id="{..opt1}">
+												<input type="radio" name="optno[]" <!--{ ? .key_ == 0 }-->onclick="display_opt('{..opt1}');"<!--{ / }--> value="{..optno}" title="{..optnm}" label="{optnm[.index_]}" stock="{..stock}" podoptno="{..podoptno}" productid="{..podsno}" <!--{ ? ..opt1 == first_opt_name }-->checked<!--{ / }--> <!--{?..optnm == f_getCaseNm(cgoods_size)}--> selected <!--{/}--> required>
+												<label for="optno">{..optnm}<!--{ ? ..aprice && count(r_opt)==1 }--> (+{=number_format(..aprice)}{=__text("원")})<!--{ / }--></label>
+											</div>
+										</li>
+										
+										<!--{ ? ..opt1_img }-->
+										<div class="thumbnail-preview" id="thumbnail-preview-{..opt1}" style="top:148px;">
+											<!--{ ? (reg_cid == '') || (privatecid != reg_cid) }-->
+												<div class="thumbnail-preview-img" style="background-image:url(http://{_cfg_center.host}/data/opt_img/{..goodsno}/{..opt1_img});"></div>
+											<!--{ : }-->
+												<div class="thumbnail-preview-img" style="background-image:url(../data/opt_img/{..goodsno}/{..opt1_img});"></div>
+											<!--{ / }-->
+										</div>
+										<!--{ / }-->
+
+									<!--{ : }--> 
+										<!--{ @ ..value_ }-->
+											<li id="opt_visible_{..key_}_{...opt2}" style="display: none">
+												<div class="option-radio" id="{...opt2}">
+													<input type="radio" name="optno[]_sub" value="{...optno}" onclick="refresh_price_M2();" title="{...optnm}" label="{optnm[.index_]}" stock="{...stock}" podoptno="{...podoptno}" productid="{...podsno}" <!--{?...optnm == f_getCaseNm(cgoods_size)}--> selected <!--{/}--> required>
+													<label for="optno">{...optnm}<!--{ ? ..aprice && count(r_opt)==1 }--> (+{=number_format(...aprice)}{=__text("원")})<!--{ / }--></label>
+												</div>
+											</li>
+
+											<!--{ ? ...opt2_img }-->
+											<div class="thumbnail-preview" id="thumbnail-preview-{...opt2}" style="top:148px;">
+												<!--{ ? (reg_cid == '') || (privatecid != reg_cid) }-->
+													<div class="thumbnail-preview-img" style="background-image:url(http://{_cfg_center.host}/data/opt_img/{...goodsno}/{...opt2_img});"></div>
+												<!--{ : }-->
+													<div class="thumbnail-preview-img" style="background-image:url(/data/opt_img/{...goodsno}/{...opt2_img});"></div>
+												<!--{ / }-->
+											</div>
+											<!--{ / }-->
+										<!--{ / }-->
+									<!--{ / }-->
+								<!--{ / }-->
+							</ul>
+						<!--{ : }-->
+							<div class="options-color-slide">
+								<ul>
+									<!--{ @ .item }-->
+										<!--{ ? .key_ == 0 }-->
+											<li class="circle">
+												<div class="radio-circle">
+													<input type="radio" name="optno[]" onclick="display_opt('{..opt1}')" label="{optnm[.index_]}" value="{..optno}" title="{..optnm}" stock="{..stock}" podoptno="{..podoptno}" productid="{..podsno}" <!--{?..optnm == f_getCaseNm(cgoods_size)}--> selected <!--{/}--> <!--{ ? ..opt1 == first_opt_name }-->checked<!--{ / }--> required>
+													<label for="optno">
+														<span>
+															<!--{ ? (reg_cid == '') || (privatecid != reg_cid) }-->
+															<span class="icon-color" style="background-image:url(http://{_cfg_center.host}/data/opt_img/{..goodsno}/{..opt1_img}); background-size: contain;"></span>
+															<!--{ : }-->
+															<span class="icon-color" style="background-image:url(../data/opt_img/{..goodsno}/{..opt1_img}); background-size: contain;"></span>
+															<!--{ / }-->
+															<span class="label">{..optnm}<br><!--{ ? ..aprice && count(r_opt)==1 }--> (+{=number_format(..aprice)}{=__text("원")})<!--{ / }--></span>
+														</span>
+													</label>
+												</div>
+											</li>
+										<!--{ : }-->
+											<!--{ @ ..value_ }-->
+												<li class="circle" <!--{ ? .key_ > 0 }-->id="opt_visible_{..key_}_{...opt2}"  style="display: none"<!--{ / }-->>
+													<div class="radio-circle">
+														<input type="radio" name="optno[]_sub" value="{...optno}" title="{...optnm}" label="{optnm[.index_]}" stock="{...stock}" podoptno="{...podoptno}" productid="{...podsno}" <!--{?..optnm == f_getCaseNm(cgoods_size)}--> selected <!--{/}--> required>
+														<label for="optno">
+															<span>
+																<!--{ ? (reg_cid == '') || (privatecid != reg_cid) }-->
+																<span class="icon-color" style="background-image:url(http://{_cfg_center.host}/data/opt_img/{...goodsno}/{...opt2_img}); background-size: contain;"></span>
+																<!--{ : }-->
+																<span class="icon-color" style="background-image:url(/data/opt_img/{...goodsno}/{...opt2_img}); background-size: contain;"></span>
+																<!--{ / }-->
+																<span class="label">{...optnm}<br><!--{ ? ..aprice && count(r_opt)==1 }--> (+{=number_format(...aprice)}{=__text("원")})<!--{ / }--></span>
+															</span>
+														</label>
+													</div>
+												</li>
+											<!--{ / }-->
+										<!--{ / }-->
+									<!--{ / }-->
+								</ul>
+							</div>
+						<!--{ / }-->
+					</div>
+					<!--{ / }-->
+				<!--{ / }-->
+
+				<!--{ @ r_addopt }-->
+					<!--{ ? .addopt_display == "text" }-->
+						<div class="options-wrap">
+							<h4>{.addopt_bundle_name}</h4>
+							<ul>
+								<!--{ @ .addopt }-->
+									<li>
+										<div class="option-radio" id="{..addoptno}">
+											<input type="radio" name="addopt[{.key_}]" id="addopt_{.key_}" value="{..addoptno}" onclick="refresh_price_M2()">
+											<label for="addopt">{..addoptnm}<!--{ ? ..addopt_aprice && count(r_addopt)==1 }--> (+{=number_format(..addopt_aprice)}{=__text("원")})<!--{ / }--></label>
+										</div>
+									</li>
+									
+									<!--{ ? ..addopt_img_src }-->
+									<div class="thumbnail-preview" id="thumbnail-preview-{..addoptno}" style="top:148px;">
+										<!--{ ? (reg_cid == '') || (privatecid != reg_cid) }-->
+										<div class="thumbnail-preview-img" style="background-image:url(http://{_cfg_center.host}/data/opt_img/{..goodsno}/{..addopt_img_src});"></div>
+										<!--{ : }-->
+										<div class="thumbnail-preview-img" style="background-image:url(/data/opt_img/{..goodsno}/{..addopt_img_src});"></div>
+										<!--{ / }-->
+									</div>
+									<!--{ / }-->
+								<!--{ / }-->
+							</ul>
+						</div>
+					<!--{ : }-->
+						<div class="options-wrap color">
+							<h4>{.addopt_bundle_name}</h4>
+							<div class="options-color-slide">
+								<ul>
+									<!--{ @ .addopt }-->
+									<li class="circle">
+										<div class="radio-circle">
+											<input type="radio" name="addopt[{.key_}]" id="addopt_{.key_}" value="{..addoptno}" onclick="refresh_price_M2()">
+											<label for="addopt">
+												<span>
+													<!--{ ? (reg_cid == '') || (privatecid != reg_cid) }-->
+													<span class="icon-color" style="background-image:url(http://{_cfg_center.host}/data/opt_img/{..goodsno}/{..addopt_img_src}); background-size: contain;"></span>
+													<!--{ : }-->
+													<span class="icon-color" style="background-image:url(/data/opt_img/{..goodsno}/{..addopt_img_src}); background-size: contain;"></span>
+													<!--{ / }-->
+													<span class="label">{..addoptnm}<!--{ ? ..addopt_aprice && count(r_addopt)==1 }--> (+{=number_format(..addopt_aprice)}{=__text("원")})<!--{ / }--></span>
+												</span>
+											</label>
+										</div>
+									</li>
+									<!--{ / }-->
+								</ul>
+							</div>
+						</div>
+					<!--{ / }-->
+				<!--{ / }-->
+
+				<!--{ ? !podskind }-->
+					<div class="options-wrap quantity">
+						<div class="h-group detail-option">
+							<div class="col">{=__text("수량")}</div>
+							<div class="col">
+								<label></label>
+								<input type="text" name="ea" value="1" size="2" pt="_pt_numplus" onblur="refresh_price_M2();"/> {?unitword}{unitword}{:}개{/}
+							</div>
+						</div>
+					</div>
+				<!--{ : }-->
+					<input type="hidden" name="ea" value="1"/>
+				<!--{ / }-->
+
+				<!--{ ? podskind == 3055 }-->
+					<div>
+						<h4>{=__text("사이즈")}</h4>
+						<label id="cover_range_label" style="display: none">{first_cover_id[0]}</label>
+						<select name="cover_range" class="custom-select-wrap" id="cover_range" onchange="setCoverRange();">
+							<!--{ @ cover_range_data }-->
+								<option value="{.key_}" <!--{ ? .key_ == first_cover_id[0] }-->selected<!--{ / }-->>{.key_}</option>
+							<!--{ / }-->
+						</select>
+					</div>
+					<br>
+					<div>
+						<h4>{=__text("커버")}</h4>
+						<label id="cover_type_label" style="display: none">{=_r_cover_type[first_cover_id[1]]}</label>
+						<select name="cover_type" class="custom-select-wrap" id="cover_type" onchange="setCoverRange();">
+							<!--{ @ cover_range_data[first_cover_id[0]] }-->
+								<option value="{.key_}" <!--{ ? .key_ == first_cover_id[1] }-->selected<!--{ / }-->>{=_r_cover_type[.key_]}</option>
+							<!--{ / }-->
+						</select>
+					</div>
+					<br>
+					<div>
+						<h4>{=__text("용지")}</h4>
+						<label id="cover_paper_code_label" style="display: none">{=_r_cover_paper[first_cover_id[2]]}</label>
+						<select name="cover_paper_code" class="custom-select-wrap" id="cover_paper_code" onchange="setCoverRange();">
+							<!--{ @ cover_range_data[first_cover_id[0]][first_cover_id[1]] }-->
+								<option value="{.key_}" <!--{ ? .key_ == first_cover_id[2] }-->selected<!--{ / }-->>{=_r_cover_paper[.key_]}</option>
+							<!--{ / }-->
+						</select>
+					</div>
+					<br>
+					<div>
+						<h4>{=__text("커버코팅")}</h4>
+						<label id="cover_coating_code_label" style="display: none">{=_r_cover_coating[first_cover_id[3]]}</label>
+						<select name="cover_coating_code" class="custom-select-wrap" id="cover_coating_code" onchange="setCoverRange();">
+							<!--{ @ cover_range_data[first_cover_id[0]][first_cover_id[1]][first_cover_id[2]] }-->
+								<option value="{.key_}" <!--{ ? .key_ == first_cover_id[3] }-->selected<!--{ / }-->>{=_r_cover_coating[.key_]}</option>
+							<!--{ / }-->
+						</select>
+					</div>
+				<!--{ / }-->
+
+
+				<script>
+					$(function(){
+						$('.product-option-info-btn').click(function(e){
+							e.preventDefault();
+							$(this).parent().next().slideToggle();
+						});
+					});
+				</script>
+				<div class="product-option-info">
+					<a href="#" class="product-option-info-btn">추가 정보</a>
+					<span>+ 버튼을 클릭해서 추가정보를 꼭 확인하세요.</span>
+				</div>
+
+				<div class="product-option-info-content">
+					<div class="table">
+						
+						<!--{ ? summary != "" }-->
+						<div class="row">
+							<div class="th">{=__text("간략설명")}</div>
+							<div class="td">{summary}</div>
+						</div>
+						<!--{ / }-->
+						
+						<!--{ ? csummary != "" }-->
+						<div class="row">
+							<div class="th">{=__text("간략설명")}</div>
+							<div class="td">{csummary}</div>
+						</div>
+						<!--{ / }-->
+						
+						<div class="row">
+							<div class="th">{=__text("상품코드")}</div>
+							<div class="td">{goodsno}</div>
+						</div>
+						
+						<!--{ ? goods_size != "" }-->
+						<div class="row">
+							<div class="th">{=__text("상품사이즈")}</div>
+							<div class="td">{goods_size}</div>
+						</div>
+						<!--{ / }-->
+						
+						<div class="row">
+							<div class="th">{=__text("제작사")}</div>
+							<div class="td">{=get_releasenm(rid)}</div>
+						</div>
+						
+						<!--{ ? brandno != 0 }-->
+						<div class="row">
+							<div class="th">{=__text("브랜드")}</div>
+							<div class="td">{=f_getBrandNm(brandno)}</div>
+						</div>
+						<!--{ / }-->
+
+						<div class="row">
+							<div class="th">{=__text("배송비")}</div>
+							<div class="td">
+								<!--{ @ f_get_delivery(goodsno) }-->
+								{?.shiptype==0}
+									{?.r_shiptype==0}
+									{=number_format(.shipprice)}
+									{:.r_shiptype==1}
+									{=__text("무료배송")}
+									{:}
+									{=number_format(.shipprice)}{=__text("원")}
+									({=number_format(.shipconditional)}{=__text("원 이상 주문시 무료")})
+									{/}
+								{:.shiptype==1}
+								{=__text("무료배송")}
+								{:.shiptype==2}
+								{=__text("개별배송비")} : {=number_format(.shipprice)}
+								{:.shiptype==3}
+								{=number_format(.shipprice)}{=__text("원")}
+								({=number_format(.shipconditional)}{=__text("원 이상 주문시 무료")})
+								{/}
+								<!--{ / }-->
+							</div>
+						</div>
+
+						<!--{ @ center_goods_desc }-->
+							<!--{ ? .name || .value }-->
+							<div class="row">
+								<div class="th">{.name}</div>
+								<div class="td">{.value}</div>
+							</div>
+							<!--{ / }-->
+						<!--{ / }-->
+						
+						<!--{ @ mall_goods_desc }-->
+							<!--{ ? .name || .value }-->
+							<div class="row">
+								<div class="th">{.name}</div>
+								<div class="td">{.value}</div>
+							</div>
+							<!--{ / }-->
+						<!--{ / }-->
+						
+					</div>
+				</div>
+
+				<div class="total-price">
+					<span class="total-title">최종 가격</span>
+					<span class="total-price-txt">
+						<!--{ ? cprice > 0 }-->
+						<p class="total-orgin-price"><span id="goods_cprice">{=number_format(cprice)}{=__text("원")}</span></p>
+						<!--{ / }-->
+						<p class="total-reduced-price">
+
+							<!--{ ? strprice }-->
+								<span>{strprice}</span>
+							<!--{ : }-->
+								<span id="goods_price">{=number_format(price)}{=__text("원")}</span>
+							<!--{ / }-->
+							<!--
+							<b>{=number_format(price * emoney_ratio)}P 적립</b>
+							-->
+						</p>
+					</span>
+					<!--{ ? cprice > price }-->
+					<span class="total-sale">
+						<b>{=floor(((cprice - price) * 100) / cprice)} % SALE</b>
+					</span>
+					<!--{ / }-->
+				</div>
+				<div class="product-detail-btn">
+					<!--{ ? podskind > 0 }-->
+					
+						<!--{ ? pods_editor_type && (podskind == "3040" || podskind == "3041" || podskind == "3050" || podskind == "3051" || podskind == "3052" || podskind == "3055" || podskind == "99999") }-->
+
+							<!--{ ? pods_editor_type.editor_active_exe == "active" || pods_editor_type.editor_active_exe == "exe" }-->
+								<div class="col">
+									<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn_make-product">{=__text("상품 만들기")}</a>
+								</div>
+							<!--{ / }-->
+							
+							<!--{ ? pods_editor_type.editor_web == "web" }-->
+								<div class="col">
+									<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}', 'web');" class="btn_make-product"><!--{ @ f_banner_text('goods_view_edit_button2')}-->{.banner}<!--{ / }--></a>
+								</div>
+							<!--{ / }-->
+	
+						<!--{ : }-->
+							<div class="col">
+								<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn_make-product">{=__text("편집 시작하기")}</a>
+							</div>
+						<!--{ / }-->
+						
+						<!--<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn_make-product">{=__text("상품 만들기")}</a>-->
+					
+					<!--{ : }-->
+					
+					<div class="product-detail-btn">
+						<button class="btn_product_basket" onclick="exec('cart');"><span>장바구니 담기</span></button>
+						<button class="btn_product_sell" onclick="exec('buy');"><span>바로 구매</span></button>
+					</div>
+					<!--{ / }-->
+				</div>
+			</div>
+		</div>
+	</div><!-- container_inner End -->
+
+	<div class="sub-img">
+		<!--<img src="/skin/modern/assets/M2/images/img_ex3.jpg" alt="" />-->
+		{desc}
+	</div>
+
+	<div class="container_inner">
+		<script>
+			$(function(){
+				$('.product-like-big a').click(function(){
+					$(this).toggleClass('on');
+				});
+			});
+		</script>
+		<div class="product-like-big">
+			<a href="#" <!--{ ? goods_like == 'Y' }-->class="on"<!--{ / }--> onclick="set_goods_like('{goodsno}', 'view');">
+				<span id="big_like">{=number_format(like_cnt)}</span>
+			</a>
+			<p>
+				<span id="mem_like">{=number_format(like_cnt)}</span>분의 고객님께서<br />
+				이 상품을 좋아하고 계십니다.
+			</p>
+		</div>
+
+		<div class="product-list recommend">
+			<h3 class="menu-title type2"><span>이런 상품은 어때요?</span></h3>
+			<ul>
+				<!--{ ? _blockDataArr.main_block_11.goods }-->
+					<!--{ @ _blockDataArr.main_block_11.goods }-->
+						<li>
+							<a href="/goods/view.php?goodsno={.goodsno}">
+								<div class="thumbnail-wrap">
+									<div class="thumbnail">
+										<div class="thumbnail-img" style="background-image: url('{.clistimg}'), url('/skin/modern/img/noimg.png')">
+										</div>
+										<button type="button" class="btn_wish"></button>
+									</div>
+								</div>
+								<div class="thumbnail-info">
+									<p class="product-name">{.goodsnm}</p>
+									<p class="product-price">{=number_format(.cprice)}원</p>
+									<p class="product-reduced-price">{=number_format(.price)}원</p>	
+								</div>
+							</a>
+						</li>
+					<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+			
+			<br>
+			<!--{ @ f_banner_S2('goods_middle_banner1')}-->{.banner}<!--{ / }-->
+			
+		</div>
+
+		<script>
+			$(function(){
+				$('.board-type-table-content .top > .title').click(function(){
+					$(this).parent().next().slideToggle();
+				});
+			});
+		</script>
+		<div class="board-type-wrap">
+			<div class="board-type-top">
+				<h4>고객상품평<span>({review.size_})</span></h4>
+				<a href="/goods/review_M3.php" class="btn_write">상품평 작성</a>
+			</div>
+			<div class="board-type-exp">
+				<p>배송완료 상품 중 주문일로부터 90일 이내 상품평 작성이 가능하며, 상품평 작성시 <b>적립금 300P를 적립</b>해 드립니다.</p>
+			</div>
+			<div class="board-type-table">
+				<div class="board-type-table-top">
+					<span>번호</span>
+					<span>상품평가</span>
+					<span>내용</span>
+					<span>구매자</span>
+					<span>등록일</span>
+				</div>
+				
+				<!--{ ? review }-->
+					<!--{ @ review }-->
+					<div class="board-type-table-content">
+						<div class="top">
+							<span>{.key_}</span>
+							<span>
+								{=f_degreeIcon(.degree, 'M2')}
+							</span>
+							<span class="title">{.subject}</span>
+							<span>{.name}</span>
+							<span>{.regdt}</span>
+						</div>
+						<div class="bottom">
+							<div>
+								{.content}
+							</div>
+						</div>
+					</div>
+				<!--{ : }-->
+				<div class="board-type-table-content">					
+					<div class="h-group question-title">{=__text("등록된 상품사용기가 없습니다.")}</div>
+				</div>
+				<!--{ / }-->
+			<!--{ / }-->
+
+			{=pg->page['navi_m2']}
+			</div><!-- board-type-wrap End -->
+
+			<div class="board-type-wrap">
+				<div class="board-type-top">
+					<h4>상품 Q&A<span>({qna.size_})</span></h4>
+					<a href="javascript:popOpen('#pop-inquiry')" class="btn_write">문의하기</a>
+				</div>
+				<div class="board-type-exp">
+					<p>상품에 관한 문의가 아닌 배송, 결제, 교환/반품에 대한 문의는 고객센터 1:1 상담을 이용해 주세요.</p>
+					<a href="/mypage/mycs.php" class="btn_cs">고객센터 바로가기</a>
+				</div>
+				<div class="board-type-table">
+					<div class="board-type-table-top">
+						<span>번호</span>
+						<span>답변상태</span>
+						<span>내용</span>
+						<span>구매자</span>
+						<span>등록일</span>
+					</div>
+					
+					<!--{ ? qna }-->
+						<!--{ @ qna }-->
+						<div class="board-type-table-content">
+							<div class="top">
+								<span>{.key_}</span>
+								<span><!--{ ? .status == "2" }-->{=__text("답변완료")}<!--{ : }-->{=__text("답변준비중")}<!--{ / }--></span>
+								<span class="title">{.subject}</span>
+								<span>{.name}</span>
+								<span>{.regdt}</span>
+							</div>
+							<div class="bottom">
+								<div>
+									<!--{ ? .secret && .mid != _sess.mid }-->{=__text("비밀글입니다.")}<!--{ : }-->{.content}<!--{ / }-->
+									<!--{ ? .reply }-->
+									<div class="answer-wrap">
+										<p class="answer-title"><span>답변</span></p>
+										<p class="answer-content">
+											{.reply}
+										</p>
+									</div>
+									<!--{ / }-->
+								</div>
+							</div>
+						</div>
+						<!--{ / }-->
+					<!--{ : }-->
+						<li>				
+						<div class="board-type-exp">
+							<p>{=__text("등록된 Q&A가 없습니다.")}</p>
+						</div>	
+					<!--{ / }-->
+					
+				</div>
+				<div class="paging-wrap">
+					
+				</div>
+			</div><!-- board-type-wrap End -->
+		</div>
+	</div>
+</div>
+
+</form>
+<!-- 문의하기 팝업 -->
+<div id="pop-inquiry">
+	<a href="#" class="close">닫기</a>
+	<div class="pop-top">
+		<h2>상품 문의하기</h2>
+	</div>
+	
+	<form method="post" action="indb.php" onsubmit="return form_chk(this)">
+		<input type="hidden" name="mode" value="addQna">
+		<input type="hidden" name="catno" value="{_GET.catno}">
+		<input type="hidden" name="goodsno" value="{_GET.goodsno}">
+		<input type="hidden" name="no" value="{_GET.no}">
+		
+		<div class="inner">
+			<h3>문의하기</h3>
+			<div class="table">
+				<div class="row">
+					<div class="th">상품명</div>
+					<div class="td">{goodsnm}</div>
+				</div>
+				<div class="row">
+					<div class="th">작성자</div>
+					<div class="td">{_sess.name}</div>
+				</div>
+				<div class="row last">
+					<div class="th">문의 제목/내용</div>
+					<div class="td">
+						<input type="text" name="subject"/>
+						<div class="checkbox custom">
+							<input type="checkbox" id="check_private" name="secret" value="1" {=_checked.secret['1']} class="css-checkbox" readonly>
+							<label for="check_private" class="css-label">
+								<span>비밀글로 작성합니다.</span>
+							</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="textarea">
+				<textarea name="content"></textarea>
+			</div>
+			<div class="pop-btn">
+				<button class="btn_cancel">취소</button>
+				<button class="btn_submit">확인</button>
+			</div>
+		</div>
+	</form>
+</div>
+
+<div class="pupa-bg"></div>
+
+<script type="text/javascript">  
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var pod_signed = "{_pod_signed}"; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+
+<script src="/js/webtoolkit.base64.js"></script>
+
+<script>
+$j("body").attr('class','item-detail-page');
+
+$j(window).load(function(){
+	
+	$j("select[name='optno[]']").change(function(){
+		refresh_price();
+	});
+	$j("select[name='addopt[]']").change(function(){
+		refresh_price();
+	});
+});
+
+
+function display_opt(id){
+	$j("[id^='opt_visible_']").hide();
+	//$j("#opt_visible_"+id).slideDown();
+	$j("[id^='opt_visible_"+id+"_']").show();
+
+	$j('input[name="optno[]_sub"]:checked').attr("checked", false);
+	
+	refresh_price_M2();
+}
+
+function setCoverRange(obj){
+	var cover_id;
+	var cover_range = $j("#cover_range").val();
+	var cover_type = $j("#cover_type" ).val();
+	var cover_paper_code = $j("#cover_paper_code" ).val();
+	var cover_coating_code = $j("#cover_coating_code" ).val();
+	var goodsno = "<?=$_GET[goodsno]?>";
+	
+	/*
+	alert(cover_range);
+	alert(cover_type);
+	alert(cover_paper_code);
+	alert(cover_coating_code);
+	*/
+	
+	$j.ajax({
+		type : "POST",
+		url : "indb.php",
+		data : "mode=getCoverRangeOption&cover_range=" + cover_range +"&cover_type=" + cover_type + "&cover_paper_code=" + cover_paper_code + "&cover_coating_code=" + cover_coating_code + "&goodsno=" + goodsno,
+		success : function(data) {
+			//alert(data);
+			if(data){
+				data = JSON.parse(data);
+				
+				$j('#cover_range', '#cover_type', '#cover_paper_code', '#cover_coating_code').find('option').each(function() {
+		           $j(this).remove();
+				});
+				
+				document.getElementById("cover_range").innerHTML = data.cover_range;
+				document.getElementById("cover_type").innerHTML = data.cover_type;
+				document.getElementById("cover_paper_code").innerHTML = data.cover_paper_code;
+				document.getElementById("cover_coating_code").innerHTML = data.cover_coating_code;
+				refresh_price();
+
+			}
+
+			cover_id = $j("select[name='cover_range']").val()+"_"+$j("select[name='cover_type']").val()+"_"+$j("select[name='cover_paper_code']").val()+"_"+$j("select[name='cover_coating_code']").val();
+			$j("#cover_id").val(cover_id);
+
+			document.getElementById("cover_range_label").innerHTML = $j("#cover_range option:selected").text();
+			document.getElementById("cover_type_label").innerHTML = $j("#cover_type option:selected").text();
+			document.getElementById("cover_paper_code_label").innerHTML = $j("#cover_paper_code option:selected").text();
+			document.getElementById("cover_coating_code_label").innerHTML = $j("#cover_coating_code option:selected").text();
+
+		}
+	});
+
+	//cover_id = cover_range+"_"+cover_type+"_"+cover_paper_code+"_"+cover_coating_code;	
+	//window.location.href= 'http://'+'<?=$_SERVER["HTTP_HOST"]?>' + "/goods/view.php?catno="+'<?=$_GET[catno]?>'+'&goodsno='+'<?=$_GET[goodsno]?>'+'&cover_id='+cover_id;
+}
+/*
+//미오디오 피규어 편집기 리턴처리.
+function exec(mode, sid, appResult){
+	//alert("mode:"+mode+",sid:"+sid+",appResult:"+appResult);
+	var fm = document.fmView;
+	if (!form_chk(fm)) return;
+	fm.action = (mode!="wish") ? "../order/cart.php" : "../mypage/wishlist.php";
+	fm.mode.value = mode;
+	fm.storageid.value = sid;
+	fm.ext_json_data.value = appResult;
+	fm.submit();
+}
+*/
+</script>
+
+{ # footer }

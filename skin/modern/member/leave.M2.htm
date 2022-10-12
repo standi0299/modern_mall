@@ -1,0 +1,38 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">회원탈퇴</h2>
+		<div class="withdrawal_wrap">
+						
+			<!--{ @ f_banner_s2('member_leave')}-->{.banner}<!--{ / }-->
+			
+			<form name="fm" method="post" action="indb.php">
+				<input type="hidden" name="mode" value="member_leave">
+				
+				<input type="hidden" name="password_en">
+				
+				<div class="input_form">
+					<div class="inner">
+						<label for=""><span class="req">비밀번호 확인</span></label>
+						<input type="password" name="password" placeholder="회원탈퇴를 위하여 고객님의 비밀번호를 입력해 주세요." label="비밀번호" required/>
+					</div>
+				</div>
+				<a href="javascript:submit();" class="btn_withdrawal">회원탈퇴</a>
+			</form>
+		</div>
+	</div>
+</div>
+<script>
+	function submit(){
+		var fm = document.fm;
+		
+		fm.password_en.value = Base64.encode(fm.password.value);
+		
+		fm.password.value = '';
+		
+		fm.submit();
+	}
+</script>
+
+{ # footer }

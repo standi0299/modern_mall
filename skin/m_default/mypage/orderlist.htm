@@ -1,0 +1,67 @@
+{ # header }
+
+<section class="contents bgArea">
+	<!--{ ? 0 == 1 }-->
+	<section id="mainWrap">
+		<nav>
+			<div align="center" style="padding:10px 10px 0 10px;"><!--{ @ f_banner_s2('orderlist')}-->{.banner}<!--{ / }--></div>
+		</nav>
+	</section>
+	<!--{ / }-->
+	
+	<div class="deliveryArea">
+		<!--{ @ loop }-->		
+		<!--{ @ .ord }-->
+		<!--{ @ ..item }-->
+		<!--{ ? ...ordno == '0001' && ...ordseq == '0001' }-->
+		<div class="inquiry">
+			<div class="inqDetail">
+				<span class="desc">{=__text("주문번호")} : {.payno}<br />
+					[{...goodsnm}]<br />
+					<!--{ ? ...mobile_opt }-->{...mobile_opt}<!--{ ? ...addopt || ...printopt }--> / <!--{ : }--><br /><!--{ / }--><!--{ / }-->
+					<!--{ ? ...addopt }-->
+						<!--{ @ ...addopt }-->
+							<!--{ ? ....index_ == 0 }-->
+							{....addoptnm}
+							<!--{ : }-->
+							 / {....addoptnm}
+							<!--{ / }-->
+						<!--{ / }--><br />
+					<!--{ / }-->
+					<!--{ ? ...printopt }-->
+						<!--{ @ ...printopt }-->
+							<!--{ ? ....index_ == 0 }-->
+							{....printoptnm} {....ea}{=__text("장")}
+							<!--{ : }-->
+							 / {....printoptnm} {....ea}{=__text("장")}
+							<!--{ / }-->
+						<!--{ / }-->
+						<!--{ ? ...ord_bundle > 1 }--> {=__text("외")} {...ord_bundle - 1}{=__text("건")}<!--{ / }-->
+					<!--{ : }-->
+						{=number_format(...ea)}{=__text("개")}<!--{ ? ...ord_bundle > 1 }--> {=__text("외")} {...ord_bundle - 1}{=__text("건")}<!--{ / }-->
+					<!--{ / }-->
+				</span>
+				<figure>{=goodsListImg(...goodsno,100)}</figure>
+			</div>
+			<div class="inqPayment">
+				<span class="price">{=__text("결제금액")} : <strong>{=number_format(.sumpayprice)}{=__text("원")}</strong></span>
+				<div class="state">{=_r_step[.itemstep]}</div>
+			</div>
+			<a href="orderview.php?payno={.payno}&guest=1&mobile_type=Y" target="_self" class="moreBtn"><center><!--{ @ f_banner_s2('btn_mobile_go_orderview','img')}-->{....banner}<!--{ / }--></center></a>
+		</div>
+		<!--{ / }-->
+		<!--{ / }-->
+		<!--{ / }-->
+		<!--{ : }-->
+		<div id="deliveryEmpty" style="text-align:center;font-size:17px;">{=__text("주문중인 상품이 없습니다.")}</div>
+		<!--{ / }-->
+	</div>
+</section>
+
+<script>
+$j(window).ready(function(){
+	$j("#deliveryEmpty").css("padding-top",($j(document).height() - 70)/2);
+});
+</script>
+
+{ # footer }

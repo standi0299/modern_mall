@@ -1,0 +1,237 @@
+{ # header }
+
+<div id="my_tqb_menu">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="orderlist.php">{=__text("주문배송")}</a><li>
+		<li><a href="/order/editlist.php">{=__text("편집보관함")}</a><li>
+		<li><a href="coupon.php" class="under_bor11">{=__text("쿠폰·적립금")}</a><li>
+		<li><a href="/mypage/jjim_list.php">{=__text("찜목록")}</a><li>
+		<li><a href="/mypage/payback_intro.php">{=__text("페이백")}</a></li>
+		<li><a href="document.php">{=__text("서류발급신청")}</a><li>
+		<li><a href="/member/myinfo.php">{=__text("회원정보변경")}</a><li>
+	</ul>
+</div>
+
+<div class="ct_order_map" style="min-height:500px;">
+	<div class="ctheader">
+		<div class="cu_radio">
+			<div class="cu_radio_1">
+				<input type="radio" id="coupon_type_coupon" class="lastbox1" name="oneone" onclick="location.href='coupon.php?coupon_type=coupon';" checked><label>{=__text("쿠폰")}</label>
+			</div>
+			<div class="cu_radio_1">
+				<input type="radio" id="coupon_type_emoney" class="lastbox1" name="oneone" onclick="location.href='coupon.php?coupon_type=emoney';"><label>{=__text("적립금")}</label>
+			</div>
+		</div>	
+		
+		<!--{ ? _GET.coupon_type == "coupon" }-->
+			<!-- 쿠폰 -->
+			<div class="cu_point_goods" id="cu_point_jip_1">
+				<form name="coupon_fm" method="post" action="indb.php">
+					<input type="hidden" name="mode" value="coupon_get_offline">
+					
+					<div class="cu_point_list">
+						<div class="cu_n">
+							<ul>
+								<li style="padding:30px 5px;">COUPON NUMBER</li>
+								
+								<li><input type="text" {=__placeholder("쿠폰번호를 등록해주세요")} class="cu_px" name="coupon_issue_code" required/></li>
+								<li><button type="submit" class="cu_btn">{=__text("등록")}</button></li>
+							</ul>
+						</div>	
+					</div>
+				</form>
+				
+				<div class="point_n_list_mn">
+					<ul>
+						<li style="width:200px;">{=__text("쿠폰명")}</li>
+						<li style="width:140px;">{=__text("할인혜택")}</li>
+						<li style="width:240px;">{=__text("유효기간")}</li>
+						<li style="width:150px;">{=__text("적용상품")}</li>
+						<li style="width:150px;">{=__text("사용여부")}</li>
+					</ul>
+				</div>
+				
+				<!--{ @ mycoupon }-->
+					<div class="cu_point_content">
+						<ul>
+							<li style="width:200px;">{.coupon_name}</li>
+							<li style="width:140px;">
+								<!--{ ? .coupon_type == "coupon_money" }-->
+									{=number_format(.coupon_able_money)}{=__text("원 할인")} 
+								<!--{ : }-->
+									<!--{ ? .coupon_way == "price" }-->
+										{=number_format(.coupon_price)}{=__text("원")} 
+									<!--{ : .coupon_way == "rate" }-->
+										{=number_format(.coupon_rate)}% 
+									<!--{ / }-->
+									
+									<!--{ ? .coupon_type == "discount" }-->
+										{=__text("할인")}
+									<!--{ : .coupon_type == "saving" }-->
+										{=__text("적립")}
+									<!--{ / }-->
+	
+									<!--{ ? .coupon_way == "rate" && .coupon_price_limit }-->
+										<div style="font-size:13px;">{=__text("최대")}<!--{ ? .coupon_type == "discount" }-->{=__text("할인")}<!--{ : .coupon_type == "saving" }-->{=__text("적립")}<!--{ / }--> : {=number_format(.coupon_price_limit)}{=__text("원")}</div>
+									<!--{ / }-->
+								<!--{ / }-->
+							</li>
+							<li style="width:240px;">
+								<!--{ ? .coupon_period_system == "date" }-->
+									{.coupon_period_sdate}~{.usabledt}
+								<!--{ : }-->
+									{=substr(.coupon_setdt, 0, 10)}~{.usabledt}
+								<!--{ / }-->
+								
+								<!--{ ? .remain_date }-->
+									<ul>
+										<li style="font-size:13px; width:65px; text-align:center; float:left; padding:0;">{=__text("남은기간")}</li>
+										<li style="color:#f21a1a; font-size:13px; width:35px; text-align:center; float:left; padding:0;">{.remain_date}{=__text("일")}</li>
+									</ul>
+								<!--{ / }-->
+							</li>
+							<li style="width:150px;">
+								<!--{ ? .coupon_range == "all" }-->
+									{=__text("전상품")}
+								<!--{ : }-->
+									<div style="cursor:pointer;" onclick="popup('p.coupon.php?coupon_code={.coupon_code}',500,500)">{=__text("대상확인")}</div>
+								<!--{ / }-->
+							</li>
+							<li style="width:150px;">
+								<!--{ ? .coupon_use == '1' }-->
+									{=__text("사용완료")}
+								<!--{ : .remain_date }-->
+									{=__text("사용가능")}
+								<!--{ : }-->
+									{=__text("사용불가")}
+								<!--{ / }-->
+							</li>
+						</ul>
+					</div>
+				<!--{ / }-->
+				
+				<div class="rod_cupon">
+					<p style="padding-top:20px;">{=__text("다운로드 가능 쿠폰")}</p>
+					
+					<div class="point_n_list_mn">
+						<ul>
+							<li style="width:300px;">{=__text("쿠폰명")}</li>
+							<li style="width:220px;">{=__text("유효기간")}</li>
+							<li style="width:220px;">{=__text("다운로드기간")}</li>
+							<li style="width:150px;">{=__text("다운로드")}</li>
+						</ul>
+					</div>
+					
+					<!--{ @ downcoupon }-->
+						<div class="point_jp_list">
+							<ul>
+								<li style="width:300px;">{.coupon_name}</li>
+								<li style="width:220px;">
+									<!--{ ? .coupon_period_system == "date" }-->
+										{.coupon_period_sdate}~{.coupon_period_edate} 
+									<!--{ : .coupon_period_system == "deadline" }-->
+										{=__text("발급후")} {.coupon_period_deadline}{=__text("일이내")} 
+									<!--{ : .coupon_period_system == "deadline_date" }-->
+										~{.coupon_period_deadline_date} 
+									<!--{ / }-->
+									
+									<!--{ ? .remain_date }-->
+										<div style="position:relative; left:8px;">
+											<ul>
+												<li style="font-size:13px; width:65px;float:left; padding:0;">{=__text("남은기간")}</li>
+												<li style="color:#f21a1a; font-size:13px; width:35px;float:left; padding:0;">{.remain_date}{=__text("일")}</li>
+											</ul>
+										</div>
+									<!--{ / }-->
+								</li>
+								<li style="width:220px;">
+									<!--{ ? .coupon_issue_unlimit }-->
+										{=__text("무제한")} 
+									<!--{ : }-->
+										{.coupon_issue_sdate}~{.coupon_issue_edate} 
+									<!--{ / }-->
+								</li>
+								<li style="width:150px;">
+									<a href="indb.php?mode=coupon&coupon_code={.coupon_code}">
+										<button type="button">{=__text("다운로드")}</button>
+									</a>
+								</li>
+							</ul>
+						</div>
+					<!--{ / }-->
+				</div>				
+			</div>
+		<!--{ : _GET.coupon_type == "emoney" }-->
+			<!-- 적립금 -->
+			<div class="cu_point_goods" id="cu_point_jip_2">
+				<div class="point_top">
+					<ul>
+						<li><span  style="width:240px;">{_sess.name}{=__text("님 사용 가능 적립금")}</span></li>	
+						<li><span style="width:100px; color:#d81b60;">{=number_format(myemoney)}</span></li>
+					</ul>
+				</div>
+				
+				<div class="cu_point_goodg">
+					<div class="point_n_list_mn2">
+						<ul>
+							<li style="width:140px;">{=__text("날짜")}</li>
+							<li style="width:525px;">{=__text("적립내용")}</li>
+							<li style="width:130px;">{=__text("적립금")}</li>
+							<li style="width:165px;">{=__text("유효기간")}</li>
+						</ul>
+					</div>
+					
+					<!--{ @ loop }-->
+						<div class="cu_point_content2">
+							<ul>
+								<li style="width:140px;">{=substr(.regdt,0,10)}</li>
+								<li style="width:525px; text-align:left;">
+									<!--{ ? .status == 3 }-->
+										{=__text("유효기간 경과")}
+									<!--{ : }-->
+										{.memo}
+									<!--{ / }-->
+									
+									<!--{ ? .payno }-->
+										<span>({=__text("주문번호")}{.payno})</span>
+									<!--{ : }-->
+										<span>({=__text("적립일")} : {=substr(.regdt,0,10)})</span>
+									<!--{ / }-->
+								</li>
+								<li style="width:130px;">
+									<!--{ ? .status == 1 }-->+<!--{ : .status == 2 || .status == 3 }-->-<!--{ / }-->
+									{=number_format(.emoney)}
+								</li>
+								<li style="width:165px;"><!--{ ? .expire_date > 0 }-->{=substr(.expire_date,0,10)}<!--{ / }--></li>
+							</ul>
+						</div>
+					<!--{ / }-->
+					
+					<div style="margin:30px 60px 30px 0; width:1140px; text-align:center;">{=pg->page['navi_p1']}</div>
+				</div>
+			</div>
+		<!--{ / }-->
+		
+		<div class="cu_point_help" style="margin-bottom:30px;">
+			<!--{ @ f_banner_s2('coupon_bottom') }-->{.banner}<!--{ / }-->
+			
+			<!--<span style="width:200px; height:36px; font-size:1.4em; margin:19px 0 10px 0; display:inline-block;">이용안내</span>
+			<ul style="padding-left:21px;">
+				<li>쿠폰,적립금은 중복 사용할 수 없으며, 한상품에 1장만 사용이 가능합니다.</li>
+				<li>모든 쿠폰은 유효기간 이후에는 자동으로 소멸 됩니다.</li>
+				<li>상품구매 적립금의 유효기간은 1년입니다. 별도 발행된 상품권의 유효기간은 발행시 지정된 만료일로 합니다.</li>
+				<li>쿠폰, 적립금은 결제페이지에서 각상품에 쿠폰 적용시 사용이 가능합니다.</li>
+				<li>쿠폰 할인 금액과 배송비를 제외한 실 결제 금액이 3만원 이상인 경우 무료배송이 혜택이 적용됩니다.</li>
+				<li>주문 취소 시 해당 주문에 사용한 쿠폰의 유효기간이 만료된경우 재발급 되지 않습니다.</li>
+			</ul>-->
+		</div>
+	</div>
+</div>
+
+<script>
+$j(function() {
+	$j("#coupon_type_{_GET.coupon_type}").attr("checked",true);
+});
+</script>
+
+{ # footer }

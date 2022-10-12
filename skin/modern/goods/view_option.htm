@@ -1,0 +1,423 @@
+{ # header }
+<!--view_option.htm-->
+
+<script type="text/javascript" src="/js/extra_option/jquery_client.js"></script>
+<script type="text/javascript" src="/js/extra_option/jquery.ui.js"></script>
+<script type="text/javascript" src="/js/extra_option/jquery.form.js"></script>
+
+<!--bootstrap-->
+<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />
+<!--bootstrap-->
+
+<!--estimate-->
+<link href="/css/estimate.css" rel="stylesheet" type="text/css" />
+<!--estimate-->
+
+<script defer="defer">
+/* 쿠키사용여부 체크 */
+if (!navigator.cookieEnabled){
+	var deny_cookie = true;
+} else {
+	var deny_cookie = false;
+}
+
+$j(window).load(function(){
+	_pt_set();
+});
+</script>
+
+<style>
+#cart_confirm {
+	position:absolute;
+	right:3px;
+	width:310px;
+	height:127px;
+	padding:15px 20px;
+	border:1px #D7D7D7 solid;
+	background:url("../img/cart_img_.png");
+	text-align:center;
+}
+
+#cart_confirm_btn {
+	position:absolute;
+	right:25px;
+	bottom:20px;
+}
+
+</style>
+
+<!--{ ? !_cfg.design[_cfg.skin].list_nav }-->
+<!--<div class="page_pos_div"><a href="../main/index.php">HOME</a> > {=f_getCategoryPos(_GET.catno)}</div>-->
+<!--{ / }-->
+<!--
+<table width=100% cellpadding=0 cellspacing=0 style="margin-top:0px;">
+<tr>
+	<td width='350' height="58">&nbsp;</td>
+	<td><div style="padding:10px;font:11pt nanumG,nanumG2"><b>{goodsnm}</b></div></td>
+</tr>
+</table>
+-->
+<form name="fmView" id="fmView" method="post">
+<input type="hidden" name="mode"/>
+<input type="hidden" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+<input type="hidden" name="ea" value="1"/>
+<input type="hidden" name="option_json"/>
+<input type="hidden" name="est_order_type" value="{order_type}" />
+<input type="hidden" name="goodskind" value="{goodskind}"/>
+<input type="hidden" name="option_group_code"/>
+<input type="hidden" id="preset" name="preset" value="{preset}"/>
+<input type="hidden" id="selector" name="selector"/>
+<input type="hidden" id="optionjson" name="optionjson"/>
+<input type="hidden" id="extra_auto_pay_flag" name="extra_auto_pay_flag" value="{extra_auto_pay_flag}"/>
+<input type="hidden" id="extra_price_view_flag" name="extra_price_view_flag" value="{extra_price_view_flag}"/>	
+<input type="hidden" id="extra_price_vat_flag" name="extra_price_vat_flag" value="{extra_price_vat_flag}"/>
+<input type="hidden" id="est_order_info" name="est_order_info" />
+<input type="hidden" id="goods_group_code" name="goods_group_code" value="{goods_group_code}" />
+<input type="hidden" id="templateSetIdx" name="templateSetIdx" value="{templateSetIdx}" />
+<input type="hidden" id="templateIdx" name="templateIdx" value="{templateIdx}" />
+<input type="hidden" id="optmode" name="optmode" value="{_GET.optmode}" />
+<input type="hidden" id="catno" name="catno" value="{_GET.catno}" />
+<!--자동견적 옵션 구성-->
+
+<center>
+	{p.i->inc(_inc_file)}
+</center>
+
+<!--자동견적 옵션 구성-->
+</form>
+
+<script type="text/javascript">  
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var optino_group_code = [{javascriptArrayTag}];
+var document_size = { {DocumentSizeArrTag} };
+var page_size = { {PageSizeArrTag} };
+var url_file_upload = "{_cfg.est_upload_url}"; //업로드 주소 goods.extra.option.order.js 에서 사용함.
+var pod_signed = "{_pod_signed}"; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.js"></script>
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.order.js"></script>
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.call.js"></script>
+
+<script src="/js/webtoolkit.base64.js"></script>
+
+<script type="text/javascript">
+	initUploadDiv('{podskind}');
+	//마지막 항목 가격을 기본적으로 뿌려준다.
+	forwardOrderCntAction(); 
+</script>
+
+<script type="text/javascript">
+function exec(mode){
+	if (!navigator.cookieEnabled){
+		alert({=__java("현재 고객님의 브라우저는 쿠키를 허용하고 있지않습니다.")}+"\n"+{=__java("쿠키가 허용되어야만 정상적인 이용이 가능하십니다.")});
+		return;
+	}
+
+	var fm = document.fmView;
+	if (!form_chk(fm)) return;
+	fm.action = (mode!="wish") ? "../order/cart.php" : "../mypage/wishlist.php";
+	fm.mode.value = mode;
+	
+	//자동견적 관련 옵션 정보를 넣어준다.	
+	//fm.option_json.value = makeOptionJson(); //call_exec(pods_use,podskind,podsno,templateSetIdx,templateIdx) 처리함.
+	//alert(fm.option_json.value);
+	//console.log(fm.option_json.value);
+	fm.submit();
+}
+</script>
+
+<!-- 의뢰인정보 //-->
+<link href="/css/PopupLayer.css" rel="stylesheet">
+<div id="dlayer-orderinfo" class="pop-layer">
+    <div class="pop-container">
+        <div class="pop-conts">
+            <!--content //-->
+            <div class="estimateq">
+				<div class="estimateC">
+					<p class="txt1">※ {=__text("회원으로 로그인하시면 좀 더 간편하게 견적관리 하실 수 있습니다.")}</p>
+					<div class="box">
+						<h3 class="est_title">{=__text("의뢰인 정보를 입력해주세요.")}</h3>						
+						<table cellpadding="0" cellspacing="0" class="estTable">
+							<colgroup>
+								<col class="inp-w-80" /><col width="*" />
+							</colgroup>
+							<tbody>
+							<tr>
+								<th>{=__text("의뢰인")}</th>
+							  	<td><input type="text" id="order_name" value="{order_name}" class="textType" /></td>
+							</tr>
+							<tr>
+								<th>{=__text("회사명")}</th>
+								<td><input type="text" id="order_cname" value="{order_cname}" class="textType" /></td>
+							</tr>
+							<tr>
+								<th>{=__text("전화번호")}</th>
+								<td><input type="text" id="order_phone" value="{order_phone}" class="textType" /></td>
+							</tr>
+							<tr>
+								<th>{=__text("휴대전화")}</th>
+								<td><input type="text" id="order_mobile" value="{order_mobile}" class="textType" /><br>({=__text("견적서가 발행되면 SMS를 통해 안내 드립니다.")})
+								</td>
+							</tr>
+							<tr>
+								<th>{=__text("메일주소")}</th>
+								<td><input type="text" id="order_email" value="{order_email}" class="textType inp-w-200" /><br>({=__text("해당 이메일 주소로 견적서를 보내드립니다.")})
+								</td>
+							</tr>
+							<!--{ ? !_sess.mid && getCfg('nonmember_agreement') }-->
+							<tr>
+								<th>{=__text("개인정보 취급 방침")}</th>
+								<td>
+								<textarea name="nonmember_agreement" style="width:90%;height:50px;padding:10px;" readonly>{=getCfg('nonmember_agreement')}</textarea>
+								<div><input type="checkbox" id="agreement2" required {=__msg("개인정보 취급 방침에 동의해주세요")} class="absmiddle" /> <b>{=__text("개인정보 취급 방침에 동의합니다.")}<span style="color: red">({=__text("필수")})</span></b></div>
+								</td>
+							</tr>	            
+							<!--{ : }-->
+							<tr>
+								<th>{=__text("개인정보 취급 방침")}</th>
+								<td>
+								<textarea name="agreement2" style="width:90%;height:50px;padding:10px;" readonly>{=getCfg('agreement2')}</textarea>
+								<div><input type="checkbox" id="agreement2" required {=__msg("개인정보 취급 방침에 동의해주세요")} class="absmiddle" checked /> <b>{=__text("개인정보 취급 방침에 동의합니다.")}<span style="color: red">({=__text("필수")})</span></b></div>
+								</td>
+							</tr>	            
+							<tr>
+								<th>{=__text("개인정보 마케팅 활용 방침")}</th>
+								<td>
+								<textarea name="privacy_agreement" style="width:90%;height:50px;padding:10px;" readonly>{=getCfg('privacy_agreement')}</textarea>
+								<div><input type="checkbox" id="privacy" class="absmiddle" <!--{ ? privacy_flag == "1" }-->checked<!--{ / }--> /> <b>{=__text("개인정보 마케팅 활용에 동의합니다.")}<span style="color: red">({=__text("선택")})</span></b></div>
+								</td>
+							</tr>
+							<!--{ / }-->
+							</tbody>
+						</table>
+					</div>					
+					<div class="space"> </div>
+		            <div style="float: right;">
+		      			<a href="#" class="cbtn-c" onclick="initEstOrder('{order_type}','NEW');">{=__text("확인")}</a>
+		                <a href="#" class="cbtn">{=__text("취소")}</a>
+		            </div>					
+				</div>			            	
+            </div>
+            <!--// content-->
+        </div>
+    </div>
+</div>
+<!-- 의뢰인정보 //-->
+
+<!-- 파일정보 //-->
+<script language="JavaScript" type="text/javascript" src="/js/NFUpload/nfupload.js?d=20130913"></script>
+<script language="JavaScript" type="text/javascript">
+<!--
+// -----------------------------------------------------------------------------
+// NFUpload User's Config
+// -----------------------------------------------------------------------------
+	var _NF_UploadUrl = "{___NFUpload.UploadUrl}"; // 업로드 설정
+	
+	
+	var _NF_FileFilter = "{___NFUpload.FileFilter}"; // 파일 필터링 값
+
+	var _NF_DataFieldName = "{___NFUpload.DataFieldName}"; // 업로드 폼에 사용되는 값 (기본값(UploadData))
+	var _NF_Flash_Url = "{___NFUpload.Flash_Url}"; // 업로드 컴포넌트 플래쉬 파일명
+
+	// 화면 구성
+	var _NF_Width = "{___NFUpload.Width}"; // 업로드 컴포넌트 넓이 (기본값 480)
+	var _NF_Height = "{___NFUpload.Height}"; // 업로드 컴포넌트 폭 (기본값 150)
+	var _NF_ColumnHeader1 = "{___NFUpload.ColumnHeader1}"; // 컴포넌트에 출력되는 파일명 제목 (기본값: File Name)
+	var _NF_ColumnHeader2 = "{___NFUpload.ColumnHeader2}"; // 컴포넌트에 출력되는 용량 제목 (기본값: File Size)
+	var _NF_FontFamily = "{___NFUpload.FontFamily}"; // 컴포넌트에서 사용되는 폰트 (기본값: Times New Roman)
+	var _NF_FontSize = "{___NFUpload.FontSize}"; // 컴포넌트에서 사용되는 폰트 크기 (기본값: 11)
+
+	// 업로드 제한
+	var _NF_MaxFileSize = "{___NFUpload.max_size_total}"; // 업로드 제한 용량 (기본값: 10,240 Kb) (단위는 Kb)
+	var _NF_MaxFileCount = "{___NFUpload.max_count}"; // 업로드 파일 제한 갯수 (기본값: 10)
+	var _NF_File_Overwrite = "false"; // 업로드시 파일명 처리방법(true : 원본파일명 유지, 덮어씌우기 모드 / false : 유니크파일명으로 변환, 중복방지)
+		if("{___NFUpload.file_overwrite}") _NF_File_Overwrite = "true";
+	
+	var _NF_Limit_Ext = "{___NFUpload.limit_ext}"; // 파일 제한 확장자
+
+	// [2008-10-28] Flash 10 support
+	var _NF_Img_FileBrowse = "{___NFUpload.FileBrowse}"; // 파일찾기 이미지
+	var _NF_Img_FileBrowse_Width = "{___NFUpload.FileBrowse_Width}"; // 파일찾기 이미지 넓이 (기본값 59)
+	var _NF_Img_FileBrowse_Height = "{___NFUpload.FileBrowse_Height}"; // 파일찾기 이미지 폭 (기본값 22)
+	var _NF_Img_FileDelete = "{___NFUpload.FileDelete}"; // 파일삭제 이미지
+	var _NF_Img_FileDelete_Width = "{___NFUpload.FileDelete_Width}"; // 파일삭제 이미지 넓이 (기본값 59)
+	var _NF_Img_FileDelete_Height = "{___NFUpload.FileDelete_Height}"; // 파일삭제 이미지 폭 (기본값 22)
+	var _NF_TotalSize_Text = "{___NFUpload.TotalSize_Text} "; // 파일용량 텍스트
+	var _NF_TotalSize_FontFamily = "{___NFUpload.TotalSize_FontFamily}"; // 파일용량 텍스트 폰트
+	var _NF_TotalSize_FontSize = "{___NFUpload.TotalSize_FontSize}"; // 파일용량 텍스트 폰트 크기
+
+	// [2013-09-13] 플래쉬 라이브러리 버그로 인한 파일명 인코딩 여부 추가.   
+	var _NF_Enable_Encoding_Filename = "{___NFUpload.Enable_Encoding_Filename}"; // 파일명 인코딩 여부   
+
+// -----------------------------------------------------------------------------
+// NFUpload Function
+// -----------------------------------------------------------------------------
+	// 폼입력 완료
+	function NFU_Complete(value) {
+		var files = document.FrmUpload.hidFileName.value;
+		var fileCount = 0;
+		var i = 0;
+
+		// 이 부분을 수정해서 파일이 선택되지 않았을 때에도 submit을 하게 수정할 수 있습니다.
+		if (value == null)
+		{
+			alert({=__java("업로드할 파일을 선택해 주세요.")});
+			return;
+		}
+
+		fileCount = value.length;
+
+		for (i = 0; i < fileCount; i++)
+		{
+			var fileName = value[i].name;
+            var realName = value[i].realName;
+			var fileSize = value[i].size;
+
+			// [2013-09-13] 플래쉬 라이브러리 문제로 인코딩된 파일명을 가져와 디코딩 한다.   
+			if (_NF_Enable_Encoding_Filename)   
+				realName = unescape(realName);
+
+			// 분리자(|:|)는 다른 문자로 변경할 수 있다.
+			files += fileName + "/" + realName + "|:|";
+		}
+
+		if (files.substring(files.length - 3, files.length) == "|:|")
+			files = files.substring(0, files.length - 3);
+
+		document.FrmUpload.hidFileName.value = files;
+		//document.FrmUpload.submit();
+		
+		//goods.extra.option.order.js submitOrder() 실행.
+		submitOrder();
+	}
+
+	// 폼입력 취소
+	function NF_Cancel()
+	{
+		// 초기화 할때는 첨부파일 리스트도 같이 초기화 시켜 준다.
+		NfUpload.AllFileDelete();
+		FrmUpload.reset();
+	}
+
+	// 선택된 파일들의 총용량을 화면에 갱신시킴.
+	function NF_ShowUploadSize(value) {
+		// value값에 실제 업로드된 용량이 넘어온다.
+		sUploadSize.innerHTML = value;
+	}
+
+	// 업로드 실패시 경고문구
+	function NFUpload_Debug(value)
+	{
+		Debug({=__java("업로드가 실패하였습니다.")}+"\r\n\r\n"+{=__java("관리자일 경우 디버깅모드를 활성화시켜 디버깅로그를 확인해보시면 됩니다.")}+"\r\n\r\n" + value);
+	}
+
+	window.onload=function(){
+		document.FrmUpload.hidFileName.value = "";
+		// [2008-10-28] Flash 10 support
+		//sMaxSize.innerHTML = SizeCalc(_NF_MaxFileSize);
+	}
+// -->
+</script>
+
+<!-- 파일정보 //-->
+<div id="dlayer-fileinfo" class="pop-layer">
+    <div class="pop-container">
+        <div class="pop-conts">
+            <div>
+              <p class="ctxt mb20">
+                  <h3>{=__text("파일 선택")}</h3>
+              </p>
+	          <div>
+	            <table class="addoptbox" style="width:450px;">
+	            <tr>
+	              <td>
+					<script language="javascript">
+					<!--
+						// NFUpload 객체 생성
+		                NfUpload = new NFUpload({
+		                        nf_upload_id : _NF_Uploader_Id,
+		                        nf_width : _NF_Width,
+		                        nf_height : _NF_Height,
+		                        nf_field_name1 : _NF_ColumnHeader1,
+		                        nf_field_name2 : _NF_ColumnHeader2,
+		                        nf_max_file_size : _NF_MaxFileSize,
+		                        nf_max_file_count : _NF_MaxFileCount,
+		                        nf_upload_url : _NF_UploadUrl,
+		                        nf_file_filter : _NF_FileFilter,
+		                        nf_data_field_name : _NF_DataFieldName,
+		                        nf_font_family : _NF_FontFamily,
+		                        nf_font_size : _NF_FontSize,
+		                        nf_flash_url : _NF_Flash_Url,
+		                        nf_file_overwrite : _NF_File_Overwrite,
+		                        nf_limit_ext : _NF_Limit_Ext,
+		                        nf_img_file_browse : _NF_Img_FileBrowse,
+		                        nf_img_file_browse_width : _NF_Img_FileBrowse_Width,
+		                        nf_img_file_browse_height : _NF_Img_FileBrowse_Height,
+		                        nf_img_file_delete : _NF_Img_FileDelete,
+		                        nf_img_file_delete_width : _NF_Img_FileDelete_Width,
+		                        nf_img_file_delete_height : _NF_Img_FileDelete_Height,
+		                        nf_total_size_text : _NF_TotalSize_Text,
+		                        nf_total_size_font_family : _NF_TotalSize_FontFamily,
+		                        nf_total_size_font_size : _NF_TotalSize_FontSize,  
+		                        nf_enable_encoding_filename: _NF_Enable_Encoding_Filename
+		                });
+					//-->
+					</script>
+	              </td>
+	            </tr>
+	            </table>
+				<form name="FrmUpload">
+					<input type="hidden" name="hidFileName"/><!-- 업로드된 파일명 전달 -->
+					<input type="hidden" name="storageKey" value="{_storageKey}"/>
+	            </form>
+	          </div>
+	        </div>
+            <div class="btn-r">
+      			<a href="#" class="cbtn-c" onclick="initNFOrder('UPLOAD','NEW');">{=__text("주문(업로드)")}</a>
+      			<a href="#" class="cbtn-c" onclick="initOrder('UPLOAD','NEW');">{=__text("주문(업로드 안함)")}</a>
+                <a href="#" class="cbtn">{=__text("취소")}</a>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- 파일정보 //-->
+
+<!-- 브라우저버전정보 //-->
+<div id="dlayer-ieinfo" class="pop-layer" style="width: 800px; height: 600px; display: none;">
+    <div class="pop-container">
+        <div class="pop-conts">
+            <!--content //-->
+            <div>
+				<img src="/skin/modern/img/ie_info.png" />
+	        </div>
+            <div class="btn-r">
+                <a href="#" class="cbtn">{=__text("확인")}</a>
+            </div>
+            <!--// content-->
+        </div>
+    </div>
+</div>
+<!-- 브라우저버전정보 //-->
+
+<!-- 후가공옵션도움말정보 //-->
+<div id="dlayer-afterinfo" class="pop-layer" style="width: 800px; height: 600px;">
+    <div class="pop-container">
+        <div class="pop-conts">
+            <!--content //-->
+            <div>
+				<img src="/skin/modern/img/noimg.png" id="afterHelp" onerror="$j(this).attr('src','/skin/modern/img/noimg.png')" />
+	        </div>
+            <div class="btn-r">
+                <a href="#top" class="cbtn">{=__text("확인")}</a>
+            </div>
+            <!--// content-->
+        </div>
+    </div>
+</div>
+<!-- 후가공옵션도움말정보 //-->
+
+{ # footer }

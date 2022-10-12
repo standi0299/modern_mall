@@ -1,0 +1,206 @@
+{ # header }
+<!--coupon.B1.htm-->
+
+<!--본 컨텐츠 시작-->
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/mypage_20190110.css">
+<script src="/skin/modern/assets/B1/js/script_20190110.js"></script>
+<section class="content-container myPge-layout">
+
+    <div class="myPge-title">
+        {=__text("마이페이지")}
+    </div>
+    <div class="myPge-tab">
+        <a href="/mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+        <a href="/mypage/design_list.php">{=__text("시안관리")}</a>
+        <a href="/mypage/cancellist.php">{=__text("주문취소관리")}</a>
+        <a href="/mypage/point.php">{=__text("적립금조회")}</a>
+        <a href="/mypage/coupon.php" class="on">{=__text("쿠폰조회")}</a>
+        <a href="/member/myinfo.php">{=__text("회원정보")}</a>
+    </div>
+    <div class="clear"></div>
+    <div class="cyanAppnDetails">
+        <h1 class="cyanAppDetails-h1">{=__text("쿠폰등록 내역")}</h1>
+        <h2 class="cyanAppDetails-h2">{=__text("고객님의 등록하신 쿠폰현황을 확인하실 수 있습니다.")}</h2>
+
+        <form name="coupon_fm" method="post" action="indb.php">
+            <input type="hidden" name="mode" value="coupon_get_offline">
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="acmltDtttl">
+                <colgroup>
+                    <col width="35%">
+                    <col width="*">
+                </colgroup>
+                <tr>
+                    <th>{=__text("쿠폰 등록")}</th>
+                    <td>
+                        <input type="text" class="rgstrCpnInput" name="coupon_issue_code" required placeholder='{=__text("발급받으신 쿠폰번호를 입력하세요.")}'>
+                        <button type="submit" class="rgstrCpnButton">{=__text("등록")}</button>
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+        <h1 class="cyanAppDetails-h1">{=__text("사용 가능한 쿠폰")}</h1>
+        <div class="syanManagementSalting">
+            <div class="syansalt-lay acmltFund">
+                <form name="fm">
+                    <dl class="acmltLeft">
+                        <dt class="col"><label>{=__text("기간별 내역조회")}</label></dt>
+                        <dd class="col">
+                            <button type="button" class="bnt-month on" onclick="regdtOnlyOne('month','coupon_setdt_start', 'month'); regdtOnlyOne('today','coupon_setdt_end');">1{=__text("개월")}</button>
+                            <button type="button" class="bnt-month" onclick="regdtOnlyOne('tmonth','coupon_setdt_start', 'tmonth'); regdtOnlyOne('today','coupon_setdt_end');">3{=__text("개월")}</button>
+                            <button type="button" class="bnt-month" onclick="regdtOnlyOne('smonth','coupon_setdt_start', 'smonth'); regdtOnlyOne('today','coupon_setdt_end');">6{=__text("개월")}</button>
+                        </dd>
+                        <div class="clear"></div>
+                    </dl>
+                    <dl class="acmltRight">
+                        <dt class="col"><label>{=__text("기간 입력 조회")}</label></dt>
+                        <dd class="col" style="display:inline-block;">
+                            <input type="text" class="enteredPeriod" id="coupon_setdt_start" name="coupon_setdt_start" value="{_GET.coupon_setdt_start}" readonly style="cursor: pointer;">
+                            <span class="in">&nbsp;~&nbsp;</span>
+                            <input type="text" class="enteredPeriod" id="coupon_setdt_end" name="coupon_setdt_end" value="{_GET.coupon_setdt_end}" style="margin-left: 0px; cursor: pointer;" readonly>
+                            <button class="inquiry" type="submit" id="date-submit">{=__text("조회")}</button>
+                        </dd>
+                        <div class="clear"></div>
+                    </dl>
+                    <div class="clear"></div>
+                </form>
+            </div>
+        </div>
+
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+            <tr>
+                <th>{=__text("등록일")}</th>
+                <th>{=__text("쿠폰명")}</th>
+                <th>{=__text("쿠폰혜택")}</th>
+                <th>{=__text("적용상품")}</th>
+                <th>{=__text("유효기간")}</th>
+            </tr>
+            <!--{ ? mycoupon }-->
+            <!--{ @ mycoupon }-->
+            <tr>
+                <td>{=substr(.coupon_setdt, 0, 10)}</td>
+                <td class="text-left">{.coupon_name}<br />({.coupon_code})</td>
+                <td class="blue">
+                    <!--{ ? .coupon_type == "coupon_money" }-->
+                    {=number_format(.coupon_able_money)}{=__text("원 할인")}
+                    <!--{ : }-->
+                    <!--{ ? .coupon_way == "price" }-->
+                    {=number_format(.coupon_price)}{=__text("원")}
+                    <!--{ : .coupon_way == "rate" }-->
+                    {=number_format(.coupon_rate)}%
+                    <!--{ / }-->
+
+                    <!--{ ? .coupon_type == "discount" }-->
+                    {=__text("할인")}
+                    <!--{ : .coupon_type == "saving" }-->
+                    {=__text("적립")}
+                    <!--{ / }-->
+
+                    <!--{ ? .coupon_way == "rate" && .coupon_price_limit }-->
+                    <br>{=__text("최대")}
+                    <!--{ ? .coupon_type == "discount" }-->{=__text("할인")}
+                    <!--{ : .coupon_type == "saving" }-->{=__text("적립")}
+                    <!--{ / }-->: {=number_format(.coupon_price_limit)}{=__text("원")}<br>
+                    <!--{ / }-->
+                    <!--{ / }-->
+                </td>
+                <td<a href="#" class="btn_view_product" onclick="get_coupon_apply_list('{.coupon_code}');">{=__text("적용상품 보기")}</a>
+                    </td>
+                    <td>
+                        <!--{ ? .coupon_period_system == "date" }-->
+                        {.coupon_period_sdate}
+                        <!--{ : }-->
+                        {=substr(.coupon_setdt, 0, 10)}
+                        <!--{ / }-->
+                        ~{.usabledt} {=__text("까지")}
+                    </td>
+            </tr>
+            <!--{ / }-->
+            <!--{ : }-->
+            <tr>
+                <td colspan="5">{=__text("현재 사용 가능한 쿠폰이 없습니다.")}</td>
+            </tr>
+            <!--{ / }-->
+        </table>
+
+        <h1 class="cyanAppDetails-h1">{=__text("다운로드 가능한 쿠폰")}</h1>
+        <h2 class="cyanAppDetails-h2">{=__text("쿠폰을 클릭하시면 쿠폰이 다운로드됩니다.")}</h2>
+        <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+            <tr>
+                <th>{=__text("쿠폰명")} </th>
+                <th>{=__text("유효기간")}</th>
+                <th>{=__text("다운로드기간")}</th>
+                <th>{=__text("다운로드")}</th>
+            </tr>
+            <!--{ ? downcoupon }-->
+            <!--{ @ downcoupon }-->
+            <tr>
+                <td class="text-left"><a href="indb.php?mode=coupon&coupon_code={.coupon_code}"><i style="font-size:16px;">{.coupon_name}</i></a></td>
+                <td class="blue">
+                    <!--{ ? .coupon_issue_unlimit }-->
+                    {=__text("무제한")}
+                    <!--{ : }-->
+                    {.coupon_issue_sdate}~{.coupon_issue_edate}
+                    <!--{ / }-->
+                    {=__text("다운가능")}
+                </td>
+                <td>
+                    <!--{ ? .coupon_period_system == "date" }-->
+                    {.coupon_period_sdate}~ {.coupon_period_edate}
+                    <!--{ : .coupon_period_system == "deadline" }-->
+                    {=__text("발급후")} {.coupon_period_deadline}{=__text("일이내")}
+                    <!--{ : .coupon_period_system == "deadline_date" }-->
+                    ~{.coupon_period_deadline_date}
+                    <!--{ / }-->
+                    {=__text("사용가능")}
+                </td>
+                <td>
+                    <!--{ ? .coupon_type == "coupon_money" }-->{=__text("최대")}
+                    <!--{ / }-->
+
+                    <!--{ ? .coupon_way == "price" }-->
+                    {=number_format(.coupon_price)}{=__text("원")}
+                    <!--{ : .coupon_way == "rate" }-->
+                    {=number_format(.coupon_rate)}%
+                    <!--{ / }-->
+
+                    <!--{ ? .coupon_type == "discount" || .coupon_type == "coupon_money" }-->
+                    {=__text("할인")}
+                    <!--{ : .coupon_type == "saving" }-->
+                    {=__text("적립")}
+                    <!--{ / }-->
+
+                    ({=_r_coupon_type[.coupon_type]}) /
+
+                    <!--{ ? .coupon_range == "all" }-->
+                    {=__text("전상품")}
+                    <!--{ : }-->
+                    <span style="cursor:pointer;" onclick="popup('p.coupon.php?coupon_code={.coupon_code}', 500, 500)">{=__text("대상확인")}</span>
+                    <!--{ / }-->
+                </td>
+            </tr>
+            <!--{ / }-->
+            <!--{ : }-->
+            <tr>
+                <td colspan="4">{=__text("현재 다운로드 가능한 쿠폰이 없습니다.")}</td>
+            </tr>
+            <!--{ / }-->
+        </table>
+
+        <div class="creditUsageGuide">
+            <h1>* {=__text("쿠폰 이용 안내")}</h1>
+            <p>
+                {=__text("쿠폰은 중복 사용할 수 없으며, 한 상품에 1장만 사용 가능합니다.")}
+                <br> {=__text("쿠폰 할인은 할인 이벤트와 중복되지 않으며, 쿠폰 적용 시 정상가 기준으로 적용됩니다.")}
+                <br> {=__text("모든 쿠폰은 유효기간 이후에는 자동으로 소멸됩니다.")}
+                <br> {=__text("쿠폰은 주문/결제 화면에서‘쿠폰적용’시 사용이 가능합니다.")}
+                <br> {=__text("주문 취소 시 해 당주문에 사용한 쿠폰의 유효기간이 만료된 경우 재발급되지 않습니다. 단, 품질 이상에 따른 사유로 반품 처리되는 경우에는 재발급이 가능합니다.")}
+            </p>
+        </div>
+
+    </div>
+
+</section>
+<!--본 컨텐츠 끝-->
+
+{ # footer }

@@ -1,0 +1,42 @@
+{ # header }
+<!--register_ok.B1.htm-->
+
+<h2>{=__text("회원가입 완료")}</h2>
+<div id="join-done">
+    <h3 class="text-center">{=__text("회원가입이 완료 되었습니다.")}</h3>
+    <hr>
+    <div id="join-data">
+        <div class="tablize">
+            <div class="table-row">
+                <div class="cell">{=__text("아이디")}</div>
+                <div class="cell">{_GET.mid}</div>
+            </div>
+            <div class="table-row">
+                <div class="cell">{=__text("이름")}</div>
+                <div class="cell">{name}</div>
+            </div>
+            <div class="table-row">
+                <div class="cell">{=__text("이메일")}</div>
+                <div class="cell">{email}</div>
+            </div>
+        </div>
+    </div>
+    <div class="h-group" id="join-done-btn">
+        <div class="col">
+            <a href="../member/login.php" class="btn btn-primary">{=__text("로그인")}</a>
+        </div>
+        <div class="col right">
+            <a href="../main/index.php" class="btn btn-blue-link">{=__text("메인으로 이동")}</a>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $j(function() {
+        $j("body").attr("id", "join-done-page");
+        //$j("body").attr("class", "");
+        $j(".btn-blue-link").css("color", "#1a9bfc");
+    });
+</script>
+
+{ # footer }

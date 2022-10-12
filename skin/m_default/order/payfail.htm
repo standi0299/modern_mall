@@ -1,0 +1,29 @@
+{ # header }
+
+<section class="contents bgArea">
+	<!--{ ? 0 == 1 }-->
+	<section id="mainWrap">
+		<nav>
+			<div align="center" style="padding:10px 10px 0 10px;"><!--{ @ f_banner_s2('bar_completion')}-->{.banner}<!--{ / }--></div>
+		</nav>
+	</section>
+	<!--{ / }-->
+	
+	<div class="orderArea" style="padding-bottom:0px;overflow:hidden;">
+		<div class="part">
+			<p class="tit">{=__text("결제실패")}</p>
+			<div class="paymentResult">
+				<strong>{=__text("오류코드")} : {pglog}</strong>
+				<span>
+					{=__text("결제를 취소하셨거나 결제도중 에러가 발생하였습니다.")}<br />
+					{=__text("결제를 취소하신 고객님께서는 장바구니에서 다시 주문 하실 수 있습니다.")}<br />
+					{=__text("결제시 오류가 반복되시는 고객님께서는 고객센터로 문의하시면 친절히 안내해 드리겠습니다.")}
+				</span>
+				<br />
+				<a href="cart.php" target="_self"><!--{ @ f_banner_s2('btn_mobile_go_cart2','img')}-->{.banner}<!--{ / }--></a>
+			</div>
+		</div>
+	</div>
+</section>
+
+{ # footer }

@@ -1,0 +1,122 @@
+{ # header }
+
+<!--{? _category.header }-->
+<!--<section class="content-container page-banner">-->
+<section class="content-container">	
+	<div>{_category.header}</div>
+</section>
+<!--{ / }-->
+
+<!--{ @ f_banner_s2('category_list_'+ _GET.catno)}-->
+<section class="content-container page-banner">{.banner}</section>
+<!--{ / }-->
+
+<section class="content-container" id="top-bower">
+	<div class="list-container">
+		<ul class="h-group list-type-tile tile-row-3">
+			<!--{ ? f_banner_s2('list_header_thumbnail_1')}-->
+			<li class="col tile-content">
+				<div class="">
+					<!--{ @ f_banner_s2('list_header_thumbnail_1')}-->{.banner}<!--{ / }-->
+				</div>
+			</li>
+			<!--{ / }-->
+		</ul>
+	</div>
+</section>
+
+<!--hot 상품-->
+<!--{ ? _hotitem }-->
+<section class="content-container">
+	<div class="list-container">
+		{p.i->inc('/goods/_list.hot.htm')}
+	</div>
+</section>
+<!--{ / }-->
+
+<section class="content-container location-sort">
+	<div class="h-group">
+		
+		<!--{ ? !_cfg.list_catnav }-->
+		<div class="col location">
+			<a href="../main/index.php">HOME</a>
+			<span> > </span>
+			{=f_getCategoryPos(_GET.catno,'<span> > </span>')}
+		</div>
+		<!--{ / }-->
+		
+		<!--{ ? !_cfg.list_orderby }-->
+		<div class="col right sort" id="goods_sort">
+			<a href="javascript:;" sort="b.hit desc">{=__text("인기상품순")}</a>
+			<span> | </span>
+			<a href="javascript:;"  sort="b.goodsno desc">{=__text("최신순")}</a>
+			<span> | </span>
+			<a href="javascript:;" sort="b.price desc">{=__text("높은가격순")}</a>
+			<span> | </span>
+			<a href="javascript:;" sort="b.price">{=__text("낮은가격순")}</a>
+		</div>
+		<!--{ / }-->
+	</div>
+</section>
+
+<!--sub_category-->
+{p.i->inc('/goods/_sub_category.htm')}
+<!--sub_category-->
+
+<section class="content-container">
+	<div class="list-container">
+		{p.i->inc('/goods/_list.template.htm')}
+		{=pg->page['navi']}
+	</div>
+</section>
+
+<!--검색-->
+<!--{ ? !_cfg.design[_cfg.skin].list_template_search }-->
+<!--
+<form name="searchFm">
+<input type="hidden" name="goodsno" value="{_GET.goodsno}"/>
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="categoryidx" value=""/>
+
+	<select name="searchtype">
+		<option value="templatename" <!--{ ? _GET.searchtype == "templatename" }->selected<!--{ / }-> >이름</option>
+		<option value="tags"  <!--{ ? _GET.searchtype == "tags" }->selected<!--{ / }-> >태그</option>
+	</select>		    
+    <input type="text" name="searchtext" value="{_GET.searchtext}"/>
+    <input type="submit" value="검색"/>
+
+	<select name="page_num" onchange="totPage()">
+	<!--{ @ _r_page }->
+	<option value="{.value_}" {_selected.page_num[.value_]}>{_cfg.cells * .value_}{=__text("개 정렬")}</option>
+	<!--{ / }->
+	</select>			
+</form>
+-->
+<!--{ / }-->
+<!--검색-->
+
+<form name="fmView">
+	<input type="hidden" name="mode"/>
+	<input type="hidden" name="goodsno" value="{_GET.goodsno}"/>
+	<input type="hidden" name="productid" value=""/>
+	<input type="hidden" name="podoptno"/>
+	<input type="hidden" name="storageid"/>
+	<input type="hidden" name="mid" value="{_sess.mid}"/>
+	<input type="hidden" name="ea" value="1"/>
+		
+	<input type="hidden" name="ret" value='{_ret}'/>
+</form>
+
+<script src="/js/plugin/jquery.cycle.js"></script>
+<script>
+$j(function(){
+	$j("div", "#goods_sort").each(function(){
+		if("{_GET.orderby}" == $j(this).attr("sort"))  $j(this).css({"color":"#5F87D1","font-weight":"bold"});
+	});
+	$j("a", "#goods_sort").click(function(){
+		$j("input[name=orderby]").val($j(this).attr("sort"));
+		document.searchFm.submit();
+	});
+});
+</script>
+{ # footer }

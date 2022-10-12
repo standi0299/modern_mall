@@ -1,0 +1,70 @@
+
+{ # header }
+
+<script type="text/javascript" src="/js/extra_option/jquery_client.js"></script>
+<script type="text/javascript" src="/js/extra_option/jquery.ui.js"></script>
+<script type="text/javascript" src="/js/extra_option/jquery.form.js"></script>
+
+<script type="text/javascript">  
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var optino_group_code = [{javascriptArrayTag}];
+var document_size = { {DocumentSizeArrTag} };
+var page_size = { {PageSizeArrTag} };
+var display_name = { {_displayNameArrTag} };
+var cnt_display_name = '{_cntDisplayName}';
+
+//////////수정하기 값설정//////////
+var updateJsonData = '{orderOptionData}';
+var updateObject = $.parseJSON(updateJsonData);
+</script>
+
+<!--{ ? preset == '100114' }-->
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.call.100114.js"></script>
+<!--{ : }-->
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.js"></script>
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.order.js"></script>
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.call.js"></script>
+<!--{ / }-->
+
+<!--bootstrap-->
+<!--<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />-->
+<!--bootstrap-->
+
+<!--estimate-->
+<link href="/css/estimate.css" rel="stylesheet" type="text/css" />
+<!--estimate-->
+	
+<form id="fmView" name="fmView" method="post">	
+<input type="hidden" name="cartno" value="{cartno}"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid" value="{storageid}"/>
+<input type="hidden" name="option_json"/>
+<input type="hidden" name="est_order_type" value="{order_type}"/>	
+
+<input type="hidden" name="goodskind" value="{goodskind}"/>
+<input type="hidden" id="preset" name="preset" value="{preset}"/>			
+
+<input type="hidden" name="option_group_code"/>
+
+<input type="hidden" id="extra_auto_pay_flag" name="extra_auto_pay_flag" value="{extra_auto_pay_flag}"/>
+<input type="hidden" id="extra_price_view_flag" name="extra_price_view_flag" value="{extra_price_view_flag}"/>	
+<input type="hidden" id="extra_price_vat_flag" name="extra_price_vat_flag" value="{extra_price_vat_flag}"/>
+
+<input type="hidden" id="selector" name="selector"/>
+<input type="hidden" id="optionjson" name="optionjson"/>
+<input type="hidden" id="est_order_info" name="est_order_info" />
+<input type="hidden" id="goods_group_code" name="goods_group_code" value="{goods_group_code}" />
+<!--자동견적 옵션 구성-->
+{p.i->inc(_inc_file)}
+<!--자동견적 옵션 구성-->
+</form>
+
+<!--{ ? preset != '100114' }-->
+<script type="text/javascript">
+initUploadDiv('{podskind}');
+</script>
+<!--{ / }-->
+		

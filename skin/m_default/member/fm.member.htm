@@ -1,0 +1,338 @@
+<section class="contents bgArea">
+	<div class="userRegi">
+		<fieldset style="display:block;margin:0;padding:0;font:normal 12px/1 'Noto Regular', sans-serif;color:#666666;">
+ 			<form id="fm" name="fm" method="post" enctype="multipart/form-data">
+		 		<input type="hidden" name="mode" value="{mode}" />
+				<input type="hidden" name="chkMid" />
+				<input type="hidden" name="chkPassword" />
+				<input type="hidden" name="domain" value="{_SERVER.HTTP_HOST}" />
+				<input type="hidden" name="rurl" value="{rurl}" />
+				<input type="hidden" name="ismail" value="{ismail}" />
+				<input type="hidden" name="issms" value="{issms}" />
+				<input type="hidden" name="lang_kind" value="{lang_kind}" />	
+				<input type="hidden" name="mobile_type" value="Y" />
+				<input type="hidden" name="page_move" value="N" />
+				
+				<input type="hidden" name="mid_en">
+				<input type="hidden" name="password_en">
+				<input type="hidden" name="password2_en">
+				<input type="hidden" name="old_password_en">
+				<input type="hidden" name="email_en">
+	 			
+	 			<div id="userRegiBox">
+	 				<h2><!--{ ? mode == "register" }-->{=__text("회원가입")}<!--{ : }-->{=__text("회원정보수정")} <a href="../member/leave.php" style="float:right;"><!--{ @ f_banner_s2('btn_mobile_go_member_leave','img')}-->{.banner}<!--{ / }--></a><!--{ / }--></h2>
+		 			<legend>{=__text("회원가입 입력 폼/회원정보 수정 폼")}</legend>
+		 			<dl style="padding-top:10px;clear:right;">
+		 				<dt><label for="userName" {=__title("이름")}>{=__text("이름")}</label></dt>
+		 				<dd><input type="text" name="name" id="userName" pt="_pt_txt" <!--{ ? mode != "register" }-->value="{name}"<!--{ / }--> /></dd>
+		 				
+		 				<dt><label for="userID" {=__title("아이디")}>{=__text("아이디")}</label></dt>
+		 				<dd>
+		 					<input type="text" name="mid" id="userID" title="아이디" pt="_pt_id" <!--{ ? mode == "register" }-->onblur="chk_mid(this)"<!--{ : }-->value="{mid}" readOnly="readOnly"<!--{ / }--> />
+		 					<p id="mid_chk" style="font-size:10px;margin:5px 0 5px;"></p>
+		 				</dd>
+		 			
+			 			<!--{ ? mode == "register" }-->
+			 			<dt><label for="userPW" {=__title("비밀번호")}>{=__text("비밀번호")}</label></dt>
+			 			<dd>
+			 				<input type="password" name="password" id="userPW" pt="_pt_pw" onchange="chk_password(this)" />
+		 					<p id="password_chk" style="font-size:10px;margin:5px 0 5px;"></p>
+		 				</dd>
+		 				<dt><label for="cmPW">{=__text("비밀번호확인")}</label></dt>
+			 			<dd><input type="password" {=__title("비밀번호확인")} name="password2" id="cmPW" pt="_pt_pw" samewith="password" onchange="chk_password(this)" /></dd>
+		 				<!--{ : }-->
+		 				<dt><label for="oldPW">{=__text("기존비밀번호")}</label></dt>
+				 		<dd>
+				 			<input type="password" {=__title("기존비밀번호")} name="old_password" id="oldPW" pt="_pt_pw" onchange="chk_password(this)" />
+				 			<p id="old_password_chk" style="font-size:10px;margin:5px 0 5px;"></p>
+				 		</dd>
+				 			
+				 		<dt><label for="newPW">{=__text("신규비밀번호")}</label></dt>
+				 		<dd>
+				 			<input type="password" {=__title("신규비밀번호")} name="password" id="newPW" pt="_pt_pw" onchange="chk_password(this)" />
+				 			<p id="password_chk" style="font-size:10px;margin:5px 0 5px;"></p>
+			 			</dd>
+			 			
+			 			<dt><label for="cmPW">{=__text("비밀번호확인")}</label></dt>
+			 			<dd><input type="password" {=__title("비밀번호확인")} name="password2" id="cmPW" pt="_pt_pw" samewith="password" onchange="chk_password(this)" /></dd>
+		 				<!--{ / }-->
+		 				
+		 				<dt><label for="userEmail" {=__title("이메일")}>{=__text("이메일")}</label></dt>
+		 				<dd>
+		 					<input type="text" name="email" id="userEmail" pt="_pt_txteng" <!--{ ? mode != "register"}-->value="{email}"<!--{ / }--> />
+		 					<p style="margin:5px 0 5px;"><input type="checkbox" name="ismail" value="1" {_checked.ismail['1']} /> {=__text("정보메일을 수신하겠습니다")}</p>
+		 					<p>{=__text("이메일로 쿠폰/이벤트 등의 다양한 혜택 및 주문정보가 발송되오니 정확히 입력해 주세요.")}</p>	
+		 				</dd>
+		 			
+			 			<dt><label for="userPhone" {=__title("휴대폰")}>{=__text("휴대폰")}</label></dt>
+		 				<dd><input type="number" name="mobile[0]" id="userPhone" class="tel" maxlength="3" {=__title("휴대폰 앞번호")} pt="_pt_numplus" <!--{ ? mode != "register" }-->value="{mobile[0]}"<!--{ / }--> onkeyup="chkNumberLength(this)" /> - 
+		 					<input type="number" name="mobile[1]" class="tel" maxlength="4" {=__title("휴대폰 중간번호")} pt="_pt_numplus" <!--{ ? mode != "register" }-->value="{mobile[1]}"<!--{ / }--> onkeyup="chkNumberLength(this)" /> - 
+		 					<input type="number" name="mobile[2]" class="tel" maxlength="4" {=__title("휴대폰 마지막 번호")} pt="_pt_numplus" <!--{ ? mode != "register" }-->value="{mobile[2]}"<!--{ / }--> onkeyup="chkNumberLength(this)" />
+		 					<p style="margin:5px 0 5px;"><input type="checkbox" name="issms" value="1" {_checked.issms['1']} /> {=__text("SMS를 수신하겠습니다")}</p>
+		 				</dd>
+		 			
+		 				<dt><label for="userAddr" {=__title("주소")}>{=__text("주소")}</label></dt>
+		 				<dd class="postIn">
+		 					<input type="text" name="zipcode" id="userAddr" readonly <!--{ ? mode != "register" }-->value="{zipcode}"<!--{ / }--> /> <a class="postBtn" href="#postPop" target="_self"><!--{ @ f_banner_s2('btn_mobile_zipcode','img')}-->{.banner}<!--{ / }--></a>
+		 					<p><input type="text" name="address" id="userAddr01" class="aIn01" {=__title("상세주소 입력")} readonly <!--{ ? mode != "register" }-->value="{address}"<!--{ / }--> /></p>
+		 					<p><input type="text" name="address_sub" id="userAddr02" class="aIn02" {=__title("상세주소 입력")} pt="_pt_txt" <!--{ ? mode != "register" }-->value="{address_sub}"<!--{ / }--> /></p>
+		 					<p></p>	
+			 			</dd>
+			 		</dl>
+			 		<!--{ ? mode == "register" }-->
+			 		<div class="discBox">
+						<div><input type="checkbox" id="cAgree"  name="cAgree" /></div>
+						<label for="cAgree"> {_cfg.nameSite} <a href="#layerBox2" class="agreeBtn" value="agreement"><span>{=__text("이용약관")}</span></a> {=__text("및")} <a href="#layerBox2" class="agreeBtn" value="policy"><span>{=__text("개인정보처리방침")}</span></a> {=__text("에 동의합니다.")}</label>
+					</div>
+					<!--{ / }-->
+					<div class="btnBox" id="btnBox">
+						<a href="#layerBox" class="aBtn" id="member_member_banner"><!--{ ? mode == "register" }--><!--{ @ f_banner_s2('btn_mobile_member_register2','img')}-->{.banner}<!--{ / }--><!--{ : }--><!--{ @ f_banner_s2('btn_mobile_member_modify','img')}-->{.banner}<!--{ / }--><!--{ / }--></a>
+					</div>
+				</div>
+			</form>	
+		</fieldset>	
+	</div>
+</section>
+
+<div id="layerBox2" class="pop alertBox" style="top:30%;">
+	<div class="noteTxt2">
+		<span id="noteAgreement"><textarea style="overflow:auto;height:300px;-ms-overflow-style:none;" readonly>{_cfg.agreement}</textarea></span>
+		<span id="notePolicy"><textarea style="overflow:auto;height:300px;-ms-overflow-style:none;" readonly>{_cfg.policy}</textarea></span>
+	</div>
+	<a href="#" class="default" target="_self"><center><!--{ @ f_banner_s2('btn_mobile_confirm','img')}-->{.banner}<!--{ / }--></center></a>
+</div>
+
+<!-- md5 암호화 -->
+<script src="/js/lib/lib.min.js"></script>
+
+<script>
+var fm = document.fm;
+var text = ('{mode}' == "register") ? "" : {=__java("신규")};
+$j(window).ready(function(){
+	$("#member_member_banner").viewimageresize2();
+	$j("#btn_mobile_member_register2").css("width","100%");
+	$j("#btn_mobile_member_modify").css("width","100%");
+	if ('{mode}' != "register" && !fm.old_password.value && !fm.password.value && !fm.password2.value) fm.chkPassword.value = "chk";
+});
+function chk_mid(obj) {
+	fm.chkMid.value = "";
+	
+	if (!fm.mid.value) {
+		fm.mid.focus();
+		$j("#mid_chk").html({=__java("아이디를 입력해주세요.")});
+	} else if (!_pattern(fm.mid)) {
+		fm.mid.value = "";
+		fm.mid.focus();
+		$j("#mid_chk").html({=__java("아이디는 영소문자로 시작되는 영소문자,숫자,-,_ 를 사용하여 4~20자로 입력해주세요.")});
+	} else {
+		$j.post("indb.php", {mode: "chkMid", mid_en: Base64.encode(fm.mid.value)},
+		function(data) {
+			var ret = "";
+			fm.chkMid.value = "";
+			switch (data) {
+				case "duplicate": ret = {=__java("이미 등록된 아이디입니다.")}; break;
+				case "good": ret = {=__java("사용이 가능한 아이디입니다.")}; fm.chkMid.value = "chk"; break;
+				case "unable": ret = {=__java("사용이 불가능한 아이디입니다.")}; break;
+				case "out": ret = {=__java("탈퇴한 아이디입니다.")}; break;
+			}
+			if (!fm.chkMid.value) {
+				fm.mid.value = "";
+				fm.mid.focus();
+			}
+			$j("#mid_chk").html(ret);
+		});
+	}
+}
+function chk_password(obj) {
+	var ret = "";
+	fm.chkPassword.value = "";
+	
+	if ('{mode}' != "register") {
+		if (!fm.old_password.value && !fm.password.value && !fm.password2.value) {
+			fm.chkPassword.value = "chk";
+			$j("#old_password_chk").html("");
+			$j("#password_chk").html("");
+		} else if (!fm.old_password.value && (fm.password.value || fm.password2.value)) {
+			fm.old_password.focus();
+			$j("#old_password_chk").html({=__java("기존비밀번호를 입력해주세요.")});
+		} else if (fm.old_password.value) {
+			$j.post("indb.php", {mode: "chkPassword", mid_en: Base64.encode(fm.mid.value), password_en: Base64.encode(fm.old_password.value)},
+			function(data) {
+				if (data == "Ok") {
+					$j("#old_password_chk").html("");
+					if (!fm.password.value) {
+						ret = text +{=__java("비밀번호를 입력해주세요.")};
+						fm.password.focus();
+					} else if (!_pattern(fm.password)) {
+						ret = text +{=__java("비밀번호는 영소문자,숫자,-,_ 를 사용하여 6~20자로 입력해주세요.")};
+						fm.password.value = "";
+						fm.password.focus();
+					} else if (!fm.password2.value) {
+						ret = text +{=__java("비밀번호 확인을 위해 한번 더 입력해주세요.")};
+						fm.password2.focus();
+					} else {
+						ret = (fm.password.value != fm.password2.value) ? text +{=__java("비밀번호 불일치")} : text +{=__java("비밀번호 일치")};
+						fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+				
+						if(fm.chkPassword.value == "") {
+							ret = text +{=__java("비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")};
+							fm.password.value = "";
+							fm.password2.value = "";
+							fm.password.focus();
+						}
+					}
+					$j("#password_chk").html(ret);
+				} else {
+					fm.old_password.value = "";
+					fm.old_password.focus();
+					$j("#old_password_chk").html({=__java("기존비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")});
+				}
+			});
+		}
+	} else {
+		if (!fm.password.value) {
+			ret = text +{=__java("비밀번호를 입력해주세요.")};
+			fm.password.focus();
+		} else if (!_pattern(fm.password)) {
+			ret = text +{=__java("비밀번호는 영소문자,숫자,-,_ 를 사용하여 6~20자로 입력해주세요.")};
+			fm.password.value = "";
+			fm.password.focus();
+		} else if (!fm.password2.value) {
+			ret = text +{=__java("비밀번호 확인을 위해 한번 더 입력해주세요.")};
+			fm.password2.focus();
+		} else {
+			ret = (fm.password.value != fm.password2.value) ? text +{=__java("비밀번호 불일치")} : text +{=__java("비밀번호 일치")};
+			fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+	
+			if(fm.chkPassword.value == "") {
+				ret = text +{=__java("비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")};
+				fm.password.value = "";
+				fm.password2.value = "";
+				fm.password.focus();
+			}
+		}
+		$j("#password_chk").html(ret);
+	}
+}
+function input_post(zipcode, address) {
+	$j("[name=zipcode]").val(zipcode);
+	$j("[name=address]").val(address);
+	$j("[name=address_sub]").trigger("focus");
+	
+	$(".popPost").hide();
+	$("#wrap").removeClass("dimed_on");
+}
+function chkNumberLength(obj) {
+	if (obj.value.length == obj.maxLength) {
+		if (obj.name == "mobile[0]") $j("[name=mobile[1]]").trigger("focus");
+		else if (obj.name == "mobile[1]") $j("[name=mobile[2]]").trigger("focus");
+	}
+	else if (obj.value.length > obj.maxLength) obj.value = obj.value.substr(0, obj.maxLength);
+}
+$("#btnBox a").on({
+	click : function(e){
+		e.preventDefault();
+		if (!$j(":input[name=name]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("이름을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if ('{mode}' == "register" && fm.chkMid.value != "chk") {
+			chk_mid('');
+		} else if (fm.chkPassword.value != "chk") {
+			chk_password('');
+		} else if (!$j(":select[name=email]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("이메일을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if (!$j(":select[name=mobile[0]]").val() || !$j(":select[name=mobile[1]]").val() || !$j(":select[name=mobile[2]]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("휴대폰을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if (!$j(":select[name=zipcode]").val() || !$j(":select[name=address]").val() || !$j(":select[name=address_sub]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("주소를 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if ('{mode}' == "register" && !$j(":checkbox[name=cAgree]:checked").is(":checked")) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("이용약관 및 개인정보처리방침에")}+"<br />"+{=__java("동의를 하셔야")}+" {_cfg.nameSite} "+{=__java("이용이")}+"<br />"+{=__java("가능합니다.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else {
+			var enc_mid = Base64.encode($j(":input[name=mid]").val());
+			var enc_password = Base64.encode($j(":input[name=password]").val());
+			var enc_password2 = Base64.encode($j(":input[name=password2]").val());
+			var enc_email = Base64.encode($j(":input[name=email]").val());
+			
+			$j(":input[name=mid_en]").val(enc_mid);
+			$j(":input[name=password_en]").val(enc_password);
+			$j(":input[name=password2_en]").val(enc_password2);
+			$j(":input[name=email_en]").val(enc_email);
+			
+			$j(":input[name=mid]").val('');
+			$j(":input[name=password]").val('');
+			$j(":input[name=password2]").val('');
+			$j(":input[name=email]").val('');
+			
+			if ('{mode}' != "register") {
+				var enc_old_password = Base64.encode($j(":input[name=old_password]").val());
+				
+				$j(":input[name=old_password_en]").val(enc_old_password);
+				
+				$j(":input[name=old_password]").val('');
+			}
+			
+			$j.ajax({
+				type : "POST",
+				url : "indb.php",
+				data : $j("#fm").serialize() +"&mobile[0]="+ $j(":select[name=mobile[0]]").val() +"&mobile[1]="+ $j(":select[name=mobile[1]]").val() +"&mobile[2]="+ $j(":select[name=mobile[2]]").val(),
+				success : function(msg) {				
+					$j("#layerBox").show();
+						
+					if('{mode}' == "register") {
+						$j(".noteTxt").html("<span>"+{=__java("회원가입이 완료 되었습니다.")}+"<br />"+{=__java("로그인해 주세요.")}+"</span>");
+						$j("#layerBox a").attr("href", "login.php");
+					} else {
+						$j(".noteTxt").html("<span>"+{=__java("회원정보가 수정되었습니다.")}+"</span>");
+						$j("#layerBox a").attr("href", "../main/index.php");
+					}
+						
+					$("#wrap").addClass("dimed_on");
+					$j(":select[name=page_move]").val("Y");
+				}
+			});
+		}
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		if ($j(":select[name=page_move]").val() == "Y") {
+			$j(":select[name=page_move]").val("N");
+		} else {
+			e.preventDefault();
+			$(".pop").hide();
+			$("#wrap").removeClass("dimed_on");
+		}
+	}
+});
+$(".agreeBtn").on({
+	click : function(e){
+		e.preventDefault();
+		$($(this).attr("href")).show();
+		if ($(this).attr("value") == "agreement") {
+			$j("#noteAgreement").show();
+			$j("#notePolicy").hide();
+		}
+		else if ($(this).attr("value") == "policy") {
+			$j("#noteAgreement").hide();
+			$j("#notePolicy").show();
+		}
+		$("#wrap").addClass("dimed_on");
+	}
+});
+$("#layerBox2 a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+</script>

@@ -1,0 +1,67 @@
+{ # header_popup }
+
+
+<div id="preview">
+	<a href="javascript:window.close();" class="preview-close">닫기</a>
+	<div class="top">
+		<h2>편집내용 미리보기</h2>
+	</div>
+	<div class="content">
+		<div class="content-inner clearfix">
+			<a href="#" class="btn_prev" onclick="viewImg(-1)">이전</a>
+			
+			<div id="img_td" class="preview_content">
+			<!--{ @ loop }-->
+			<img src="{.value_}" style="position:absolute"/>
+			<!--{ / }-->
+			<img src="{loop[0]}" style="visiblity:hidden"/>
+			</div>
+			
+			<a href="#" class="btn_next" onclick="viewImg(1)">다음</a>
+		</div>
+		<div id="page_td" class="paging-wrap">
+			<!--{ @ loop }-->
+				<a href="#" onclick="viewImgDirect(this,{.index_})">{.index_+1}</a>
+			<!--{ / }-->
+		</div>
+	</div>
+</div>
+
+<script>
+
+var num = 0;
+function viewImg(dir){
+	num = num+dir;
+	if (num < 0){
+		num = 0;
+	}
+	if (num > {=count(loop)-1}){
+		num = {=count(loop)-1};
+	}
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(200,1);
+
+	$j("a",$j("#page_td")).css("font-weight","normal");
+	$j("a",$j("#page_td")).css("color","#000000");
+	$j("a:eq("+num+")",$j("#page_td")).css("font-weight","bold");
+	$j("a:eq("+num+")",$j("#page_td")).css("color","red");
+
+}
+
+function viewImgDirect(span,no){
+	num = no;
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(300,1);
+	
+	$j("a",$j("#page_td")).css("font-weight","normal");
+	$j("a",$j("#page_td")).css("color","#000000");
+	$j(span).css("font-weight","bold");
+	$j(span).css("color","red");
+}
+
+$j(function(){
+	viewImg(0);
+});
+</script>

@@ -1,0 +1,149 @@
+<!-- _cart_order_pay_info.B1.html -->
+
+<table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable tb2">
+    <colgroup>
+        <!--{ ? _cartpage }-->
+        <col width="100">
+        <!--{ / }-->
+        <col width="120">
+        <col width="*">
+        <col width="140">
+        <col width="100">
+        <col width="140">
+        <col width="100">
+        <!--{ ? _cartpage }-->
+        <col width="80">
+        <!--{ / }-->
+    </colgroup>
+    <tr>
+        <!--{ ? _cartpage }-->
+        <th><input type="checkbox" name="chkBoxAll" onclick="chkBox('cartno[]','rev');getCartPrice();" checked></th>
+        <!--{ / }-->
+        <th colspan="2">{=__text("상품명")}</th>
+        <th>{=__text("가격")}</th>
+        <th>{=__text("수량")}</th>
+        <th>{=__text("판매가")}</th>
+        <th>{=__text("배송비")}</th>
+        <!--{ ? _cartpage }-->
+        <th>&nbsp;</th>
+        <!--{ / }-->
+    </tr>
+    <!--{ @ cart->item }-->
+    <!--{ @ .value_ }-->
+    <tr class="tr2">
+        <!--{ ? _cartpage }-->
+        <td>
+            <input type="checkbox" name="cartno[]" value="{..cartno}" {?..error}disabled{:}checked{/} onclick="getCartPrice();">
+        </td>
+        <!--{ / }-->
+        <td><img src="{=goodsListImgSrc(..goodsno,'','','border:1px solid #dedede')}" alt="" width="100"></td>
+        <td style="text-align:left;">
+            <strong>[{..catnm1}]{..goodsnm}</strong>
+            <!--{ ? ..title }-->
+            <div> - {..title}</div>
+            <!--{ / }-->
+
+            <!--{ ? ..est_order_option_desc }-->
+            <div>
+                <div>{..est_order_option_desc}</div>
+
+                <!--{ ? ..files }-->
+                <div>{=__text("첨부 파일")} : {..files}</div>
+                <!--{ / }-->
+
+                <!--{ ? ..est_order_memo }-->
+                <div>{=__text("주문 메모")} : {..est_order_memo}</div>
+                <!--{ / }-->
+
+                <!--{ ? _cartpage }-->
+                <!--{ ? ..extra_auto_pay_flag != "0" }-->
+                <!--{ ? !..est_goodsnm }-->
+                <!--{ ? ..option_mod_enabled != "N" }-->
+                <button type="button" class="order-btn1" onclick="cartExtraOptionUpdate('{..goodsno}','{..cartno}');">옵션변경</button>
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+                <!--{ / }-->
+            </div>
+            <!--{ / }-->
+
+            <!--{ ? ..opt }-->
+            <div>{..opt}<span>(+{..aprice})</span></div>
+            <!--{ / }-->
+
+            <!--{ ? ..error }-->
+            <div>
+                <span style="color: red;">- {=__text("구매가 불가능합니다.")} <br/>{=__text("사유")} : {..errmsg} {?..error==6}<br/>({=__text("주문가능량")} : {..enabled_ea} ){/}</span>
+            </div>
+            <!--{ / }-->
+        </td>
+        <td>
+            <p class="cmdtyPrcs1">상품가:{=number_format(..price)}</p>
+            <!--{ ? ..aprice }-->
+            <p class="cmdtyPrcs2">{=__text("옵션")} : +{=number_format(..aprice)}</p>
+            <!--{ / }-->
+            <!--{ ? ..addopt_aprice }-->
+            <p class="cmdtyPrcs2">{=__text("추가")} : +{=number_format(..addopt_aprice)}</p>
+            <!--{ / }-->
+            <!--{ ? ..print_aprice }-->
+            <p class="cmdtyPrcs2">{=__text("인화")} : +{=number_format(..print_aprice)}</p>
+            <!--{ / }-->
+            <!--{ ? ..addpage }-->
+            <p class="cmdtyPrcs2">{=__text("페이지추가")} {..addpage}p : +{=number_format(..addpage_price)}</p>
+            <!--{ / }-->
+
+            <p class="cmdtyPrcs2">{=number_format(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price)}</p>
+        </td>
+        <td>
+            <p class="num">{..order_cnt_select}&nbsp;{=__text("매")}</p>
+            <!--{ ? ..extra_unitcnt_view_flag!=1}--> <!-- kkwon 2020.110.2 인쇄견적옵션>견적두번째수량숨기기 비노출 처리 -->
+            <p>x</p>
+            <p class="num">{..unit_order_cnt}&nbsp;{=__text("건")}</p>
+            <!--{ / }-->
+        </td>
+        <td>
+            <p class="price">{=number_format(..saleprice)}</p>
+            <p>
+                <!--{ ? ..grpdc }-->
+                회원할인금액&nbsp;:&nbsp;{=number_format(..grpdc * ..ea)}<br>
+                <!--{ / }-->
+                <!--{ ? ..dc_coupon }-->
+                쿠폰할인금액&nbsp;:&nbsp;{=number_format(..dc_coupon)}<br>
+                <!--{ / }-->
+                적립예정액&nbsp;:&nbsp;{=number_format(..emoney * ..ea)}
+            </p>
+        </td>
+        <td>
+            <!--{ ? cart->shipprice[..rid]}-->
+            {=number_format(cart->shipprice[..rid])}{=__text("원")}
+            <!--{ : }-->
+            <!--{ ? cart->shipfree[..rid] == '1' || cart->shipfree[..rid] == ''}-->
+            {=__text("무료")}
+            <!--{ / }-->
+            <!--{ / }-->
+
+            ({..release})
+            <!--({_r_order_shiptype[..order_shiptype]})-->
+        </td>
+        <!--{ ? _cartpage }-->
+        <td class="red">
+            <button type="button" class="order-btn2" onclick="set_mode('delete', '{..cartno}')">삭제</button><br>
+
+            <!--{ ? ..storageid && !in_array(..podskind,array(8,9)) && ..est_order_type!='UPLOAD' }-->
+            <!--{ ? strlen(..storageid)=='22' }-->
+
+            <!--{ ? f_decode_json_data(..ext_json_data, "editor_type") == "web" }-->
+            <button type="button" class="order-btn3" onclick="PodsCallEditorUpdate('{..pods_use}','{..podskind}','{..podsno}','{..goodsno}','{..optno}','{..storageid}','{..podsno}','{..podoptno}','{..r_addoptno}','{..ea}','','','','','','','','{..cover_id}','{=f_decode_json_data(..ext_json_data, "editor_type")}');">{=__text("편집")}</button>
+            <!--{ : }-->
+            <button type="button" class="order-btn3" onclick="PodsCallEditorUpdate('{..pods_use}','{..podskind}','{..podsno}','{..goodsno}','{..optno}','{..storageid}','{..podsno}','{..podoptno}','{..r_addoptno}','{..ea}', '', '', '', '','', '', '', '{..cover_id}');">{=__text("편집")}</button>
+            <!--{ / }-->
+
+            <!--{ / }-->
+            <!--{ / }-->
+
+        </td>
+        <!--{ / }-->
+    </tr>
+    <!--{ / }-->
+    <!--{ / }-->
+</table>

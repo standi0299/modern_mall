@@ -1,0 +1,44 @@
+<!--main_block_10 메인게시판+배너 10-->
+
+<!-- ### cscenter ### -->
+<article class="cscenter">
+	<div class="box">
+		<ul>
+			<li>
+				<!--{ ? board_left_data }-->
+				<h2>{board_left_set_data.board_name} <span style="float:right;padding:5px 30px 0 0;"><a href="/board/list.php?board_id={board_left_set_data.board_id}"><img src="/skin/modern/assets/images/fotocube/14697139070.gif"></a></span></h2>
+				<div class="notice">
+					<ul>
+						<!--{ @ board_left_data }-->
+						<li><a href="/board/view.php?board_id={.board_id}&no={.no}">{.subject}</a></li>
+						<!--{ / }-->
+					</ul>
+				</div>
+				<!--{ / }-->
+				<!--{ ? board_right_data }-->
+				<h2 style="padding-top:30px;">{board_right_set_data.board_name} <span style="float:right;padding:5px 30px 0 0;"><a href="/board/list.php?board_id={board_right_set_data.board_id}"><img src="/skin/modern/assets/images/fotocube/14697139070.gif"></a></span></h2>
+				<div class="notice">
+					<ul>
+						<!--{ @ board_right_data }-->
+						<li><a href="/board/view.php?board_id={.board_id}&no={.no}">{.subject}</a></li>
+						<!--{ / }-->
+					</ul>
+				</div>
+				<!--{ / }-->				
+			</li>
+			<li style="text-align:center; padding:20px 20px 0 0;vertical-align:top">
+				<!--{ @ f_banner_s2('main_block_10_1')}-->{.banner}<!--{ / }-->				
+			</li>
+			<li>
+				<!--{ @ f_banner_s2('main_block_10_2')}-->{.banner}<!--{ / }-->				
+			</li>
+		</ul>
+	</div>
+</article>
+
+<!-- ### //cscenter ### -->
+<!-- ### banner3 ### -->
+<article class="banner3">
+	<!--{ @ f_banner_s2('main_block_10_3')}-->{.banner}<!--{ / }-->	
+</article>
+<!-- ### banner3 ### -->

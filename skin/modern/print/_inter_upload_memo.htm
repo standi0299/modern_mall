@@ -1,0 +1,146 @@
+
+<!--_inter_upload_memo.htm-->
+
+<div class="upload_memo_title">
+    <h3>파일업로드&작업메모</h3>
+</div>
+<div class="upload_memo cf">
+    <div class="order_up cf">
+        <div class="upload" id="fileupload_use">
+            <button type="button" class="btn1" onclick="fileUploadOpenLayer('FILEUPLOAD');">파일업로드</button>
+            <ul>
+                <li>업로드 가능 파일</li>
+                <li>확장자: .ai, .psd, .pdf</li>
+                <li class="red">인터프로인디고에서는 pdf파일을 권장합니다.</li>
+                <li class="red">publisher 또는 ms-office 계열에서 만든</li>
+                <li class="red">pdf는 제작시 의도와는 다르게 출력될수있습니다.</li>
+            </ul>
+            <!--파일업로드시 활성화-->
+            <!--<ul class="file_upload cf" id="file_upload_S">
+                <li>
+                    <div class="file_name fl"><p>test.pdf</p></div>
+                    <div class="file_close fr">
+                        <a href="javascript:void(0)" onclick="delLayerOpen()"><img src="/skin/modern/assets/interpro/img/file_close.png" width="10" alt=""></a>
+                    </div>
+                    <div class="file_size fr"><p class="fl">227.24</p><div class="size_unit fl">KB</div></div>
+                </li>
+            </ul>-->
+        </div>
+        
+        <div class="upload" id="directupload_use">
+            <button type="button" class="btn1" onclick="fileUploadOpenLayer('DIRECTUPLOAD');">다이렉트주문 파일업로드</button>
+            <ul>
+                <li>업로드 가능 파일</li>
+                <li>확장자: .ai, .psd, .pdf</li>
+                <li>작업자를 거치지 않고 자동으로 인쇄가 진행됩니다.</li>
+                <li>작업자를 거지지 않으므로 빠른 인쇄가 가능합니다.</li>
+                <li class="red">다이렉트주문 시 파일수정이 어렵습니다.</li>                
+            </ul>
+            <!--파일업로드시 활성화-->
+            <!--<ul class="file_upload cf" id="file_upload_Y">
+                <li>
+                    <div class="file_name fl"><p>test.pdf</p></div>
+                    <div class="file_close fr">
+                        <a href="javascript:void(0)" onclick="delLayerOpen()"><img src="/skin/modern/assets/interpro/img/file_close.png" width="10" alt=""></a>
+                    </div>
+                    <div class="file_size fr"><p class="fl">227.24</p><div class="size_unit fl">KB</div></div>
+                </li>
+            </ul>-->
+        </div>        
+        
+        <div class="upload"><ul class="file_upload cf" id="file_upload"> </ul></div>
+        
+        <!--<div class="direct_order">
+            <a href="#d_upload" onclick="fileUploadOpenLayer('Y');" class="btn-example"><button class="btn1">다이렉트주문 파일업로드</button></a>
+            <div class="dim-layer">
+                <div class="dimBg"> </div>
+                <div id="d_upload" class="pop-layer">
+                    <div class="pop-container">
+                        <div class="pop-conts">
+
+                            <p class="ctxt mb20">다이렉트 주문시 파일수정이 어럽습니다.
+                            </p>
+                            <div class="d_file_list">
+                                <ul class="file_upload cf">
+                                    <li>
+                                        <div class="file_name fl"><p>test.pdf</p></div>
+                                        <div class="file_close fr">
+                                            <a href="javascript:void(0)" onclick="delLayerOpen()"><img src="/skin/modern/assets/interpro/img/file_close.png" width="10" alt=""></a>
+                                        </div>
+                                        <div class="file_size fr"><p class="fl">227.24</p><div class="size_unit fl">KB</div></div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="btn-r">
+                                <a href="#" class="btn-d_file_upload">파일업로드</a>
+                                <a href="#" class="btn-layerClose">확인</a>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <ul class="d_order_notice">
+                <li>작업자를 거치지 않고 자동으로 인쇄가 진행됩니다.</li>
+                <li>작업자를 거지지 않으므로 빠른 인쇄가 가능합니다.</li>
+                <li class="red">다이렉트주문 시 파일수정이 어렵습니다.</li>
+            </ul>
+            <ul class="file_upload cf">
+                <li>
+                    <div class="file_name fl"><p>test.pdf</p></div>
+                    <div class="file_close fr">
+                        <a href="javascript:void(0)" onclick="delLayerOpen()"><img src="/skin/modern/assets/interpro/img/file_close.png" width="10" alt=""></a>
+                    </div>
+                    <div class="file_size fr"><p class="fl">227.24</p><div class="size_unit fl">KB</div></div>
+                </li>
+                <li>
+                    <div class="file_name fl"><p>test.pdf</p></div>
+                    <div class="file_close fr">
+                        <a href="javascript:void(0)" onclick="delLayerOpen()"><img src="/skin/modern/assets/interpro/img/file_close.png" width="10" alt=""></a>
+                    </div>
+                    <div class="file_size fr"><p class="fl">227.24</p><div class="size_unit fl">KB</div></div>
+                </li>
+            </ul>
+        </div>-->
+        
+    </div>
+    
+    <div id="fade" class="dim-layer">
+        <div class="dimBg"> </div>
+        <div id="light" class="white_content">
+            파일을 삭제하시겠습니까?
+            <br>
+            <a class="del_file_btn" id="del_file_btn" href="javascript:void(0)">확인</a>
+            <a class="del_file_btn" href="javascript:void(0)" onclick="delLayerClose()">닫기
+            </a>
+        </div>
+    </div>
+    
+    <div class="order_memo">
+        <p>작업메모</p>
+        <textarea name="est_order_memo" id="est_order_memo"></textarea>
+    </div>
+</div>
+
+<script type="text/javascript">
+function delLayerOpen(storageKey, fileName, obj)
+{
+	//console.log(obj);
+	//document.getElementById('light').style.display='block';
+	//document.getElementById('fade').style.display='block';
+
+	//$("#del_file_btn").attr("onclick","deleteFile('"+ storageKey + "', '" + fileName + "', "+ obj +")");
+
+	if (confirm('파일을 삭제하시겠습니까?')) {
+		//파일을 삭제하시겠습니까?
+		deleteFile(storageKey, fileName, obj);
+	}
+}
+
+function delLayerClose()
+{
+	document.getElementById('light').style.display='none';
+	document.getElementById('fade').style.display='none';
+}
+
+</script>

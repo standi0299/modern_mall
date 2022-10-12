@@ -1,0 +1,91 @@
+{ # header }
+
+<div id="my_tqb_menu_no">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="/board/list.php?board_id=notice">공지사항</a><li>
+		<li><a href="/service/faq.php">FAQ</a><li>
+		<li><a href="/mypage/mycs_write.php" class="under_bor">1:1문의</a><li>
+	</ul>
+</div>
+
+<div class="si_body" style="height:auto;">
+	<div class="cu_radio_Pix">
+		<div class="cu_radio_1_Pix">
+			<input type="radio" class="lastbox1_Pix" name="oneone" onclick="location.href='/mypage/mycs_write.php';"><label>1:1문의하기</label>
+		</div>
+		<div class="cu_radio_1_Pix">
+			<input type="radio" class="lastbox1_Pix" name="oneone" checked><label>답변내용 확인하기</label>
+		</div>
+	</div>
+	
+	<div class="gein_ne" id="geinoi_2" style="height:auto;">
+		<div class="neuck">
+			<ul>
+				<li style="width:90px;">문의유형</li>
+				<li style="width:395px;">제목</li>
+				<li style="width:80px;">문의일</li>
+				<li style="width:80px;">답변상태</li>
+			</ul>
+		</div>
+		
+		<!--{ @ loop }-->
+			<div class="neuck_con">
+				<ul>
+					<li style="width:100px; text-align:center; position:relative; top:3px;">{.category}</li>
+					<li style="width:430px; text-align:left;">
+						<ul>
+							<li>
+								<div class="qq_re_1" id="qq_no_faq_{.index_}" onclick="slide_view('{.index_}');">
+									<div class="play_rev">
+										<span>{.subject}</span>
+									</div>
+								</div>
+								
+								<div class="aa_re_1" id="aa_no_faq_{.index_}" onclick="slide_view('{.index_}');">
+									<div class="play_revd">
+										<div class="play_riri">
+											<i>Q.</i>
+											<span>
+												{=nl2br(.content)}
+												<!--{ ? .img }--><div style="margin-top:10px;">{=__text("첨부파일")} : <a href="../data/board/{.cid}/cs/{.img}" target="_blank">{.img}</a></div><!--{ / }-->
+											</span>
+										</div>
+										<div class="play_riri">
+											<!--{ ? .reply }-->
+												<i>A.</i>
+												<span>{=nl2br(.reply)}</span>
+											<!--{ / }-->
+										</div>	
+									</div>
+									<div class="neuck_btn">
+										<!--{ ? !.reply }--><button type="button" onclick="location.href='mycs_write.php?no={.no}';">수정</button><!--{ / }-->
+										<!--<button type="button">삭제</button>-->
+									</div>
+								</div>
+							</li>
+						</ul>			
+					</li>
+					<li style="width:95px; text-align:center;  position:relative; top:3px;">{=substr(.regdt,0,10)}</li>
+					<li style="width:100px; text-align:center;  position:relative; top:3px;">
+						<!--{ ? .reply }-->
+							{=__text("답변완료")}
+						<!--{ : }-->
+							{=__text("답변대기")}
+						<!--{ / }-->
+					</li>
+					
+				</ul>
+			</div>
+		<!--{ / }-->
+	</div>
+	
+	<div style="margin:30px 60px 30px 0; width:1140px; text-align:center; clear:both;">{=pg->page['navi_p1']}</div>	
+</div>
+
+<script>
+	function slide_view(idx){
+		$("#aa_no_faq_"+idx).toggle();
+	}
+</script>
+
+{ # footer }

@@ -1,0 +1,497 @@
+<!--list_previewLayer-->
+<div class="js-layer layer  hidden  transparent" id="dialog">
+	<table width="100%">
+		<tr>
+			<td><h2><span id="goodsnm"></span></h2></td>
+			<td width="15%" align="right"><a href="#" class="cbtn"><img src="../img/setup/img/x_icon.gif" alt="닫기" /></a></td>
+		</tr>
+	</table>
+    
+	<!--img-->    	
+    <div id="js-content">			
+		<div id="slider1_container" style="position: relative; top: 0px; left: 10px; width: 940px; height: 500px; overflow: hidden;">
+			<!-- Loading Screen -->
+			<div u="loading" style="position: absolute; top: 0px; left: 0px;">
+          		<div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block;background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;">
+          		</div>
+          		<div style="position: absolute; display: block; background: url(/skin/modern/img/loading.gif) no-repeat center center;top: 0px; left: 0px;width: 100%;height:100%;">
+          		</div>
+			</div>
+      
+		  	<div u="slides" style="cursor: default; position: relative; left: 0px; top: 0px; width: 940px; height: 400px; overflow: hidden;" id="productPreView">
+		  	</div>
+		  		  		  
+		  	<!-- Arrow Navigator -->
+		  	<span u="arrowleft" class="jssora05l" style="top: 158px; left: 8px;"></span>
+      		
+      		<!-- Arrow Right -->
+      		<span u="arrowright" class="jssora05r" style="top: 158px; right: 8px"></span>
+		  
+		  	<div u="thumbnavigator" class="jssort01" style="left: 0px; bottom: 0px;">
+          		<!-- Thumbnail Item Skin Begin -->
+          		<div u="slides" style="cursor: default;">
+	              	<div u="prototype" class="p">
+	                	<div class=w><div u="thumbnailtemplate" class="t"></div></div>      
+	                  	<div class=c></div>           
+	              	</div>
+          		</div>
+          		<!-- Thumbnail Item Skin End -->
+      		</div>           
+		</div> 
+	</div>   	
+	<!--img-->
+	
+	<!--option-->
+	<div style="width:960px; min-height:250px;padding-bottom:10px;" id="option_item">
+		<div class="estimateq">
+			<div class="estimateC">
+	
+				<div class="lt_area">
+					<!--option box-->
+					<div class="box">
+						<h3 class="est_title">{=__text("옵션")}</h3>
+						<div id="option_item_select">
+							
+						</div>					
+					</div>
+					<div class="space"> </div>						
+				</div>
+	
+				<div class="rt_area">
+					<!--title box-->
+					<!--<div class="box">
+						<table cellpadding="0" cellspacing="0" class="estTable2">
+							<colgroup>
+								<col class="inp-w-80" /><col width="*" />
+							</colgroup>
+							<tbody>
+							<tr>
+								<th> </th>
+								<td>제품 상세 보기</td>
+							</tr>
+						</tbody>
+						</table>
+					</div>-->
+					
+					<!--price box-->
+					<div class="estBox type4 price-view">
+						<div id="option_item_price">
+	
+						</div>
+					</div>
+					<div class="space"> </div>
+
+					<!--editor box-->
+					<div class="estbtn" id="option_item_editor"> </div>
+					<div id="frame_cnt"> </div>
+				</div>			
+			</div>
+		</div>
+	</div>
+	    
+</div>
+
+<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+<script>
+    $('.js-open').click(function () {
+        var $layer = $('.js-layer');
+        $layer.removeClass('hidden');
+        //location.href = '#dialog';
+    });
+</script>
+-->
+<script type="text/javascript">
+// 미리보기 레이어.
+function previewLayer(catno, goodsno, templateSetIdx) {
+	if(catno == "") {
+		alert({=__java("catno번호가 없습니다.다시 시도해주세요.")});
+		return false;
+	}
+	
+	if(goodsno == "") {
+		alert({=__java("goodsno번호가 없습니다.다시 시도해주세요.")});
+		return false;
+	}
+
+	$j("#goodsno").val(goodsno);
+		
+	var templateIdx = '';
+	var arguCount = arguments.length;
+	if (arguCount > 3) templateIdx = arguments[3];	
+	
+	$j.post("indb.php", {
+		mode : "ajax_preview_json",
+		catno : catno,
+		goodsno : goodsno,
+		templateset_id : templateSetIdx,
+		template_id : templateIdx
+	}, function(data) {
+		//console.log(data);
+		
+		var dataJson = JSON.parse(data);
+		
+		//console.log(dataJson);
+		//console.log(dataJson.success);
+		//console.log(dataJson.optionHtml);
+		//console.log(dataJson.previewList);
+		
+	    if (dataJson.success == "true") {
+			if (dataJson.returnUrl != "" && dataJson.optionHtml == "") {
+				document.location.href = dataJson.returnUrl;
+			}
+			else {
+
+				$j("#goodsnm").text(dataJson.goodsnm);
+				
+				//추가옵션,커버통합옵션 미적용으로 인해 템플릿 미리보기만 제공함 / 20180305 / kdk.
+				/*
+				$j("#option_item_select").html(dataJson.optionHtml);
+				$j("#option_item_price").html(dataJson.priceHtml);
+				$j("#option_item_editor").html(dataJson.editorHtml);
+
+				$j("select[name='optno[]']").change(function(){
+					refresh_price();
+				});
+				$j("select[name='addopt[]']").change(function(){
+					refresh_price();
+				});
+
+				if(dataJson.frameCnt > 0) $j("#frame_cnt").html({=__java("필요 사진 갯 수")}+" " + dataJson.frameCnt + {=__java("장")});
+				*/
+				$j("#option_item").hide();
+				
+				var previewData = dataJson.previewList;
+				//alert(previewData.length);
+				var imgHtml = "";
+				if (typeof(previewData)=="undefined" || previewData==null || previewData=="") {
+			      	imgHtml += "<div><img data-u=\"image\" src=\"/skin/modern/img/noimg.png\" />";
+			     	imgHtml += "<img data-u=\"thumb\" src=\"/skin/modern/img/noimg.png\" /></div>";
+				}
+				else {
+					for(var i = 0 ; i < previewData.length; i++){
+			      		imgHtml += "<div><img data-u=\"image\" src=\""+ previewData[i].url +"\" />";
+			     		imgHtml += "<img data-u=\"thumb\" src=\""+ previewData[i].url +"\" /></div>";
+					}
+				}
+
+				//상품 미리보기 템플릿,옵션, 편집기 선택 레이어 오픈.
+				var $layer = $('.js-layer');
+        		$layer.removeClass('hidden');
+
+        		if (!jssor_original)
+					jssor_original = $("#js-content").html();
+        
+        		$('#slider1_container').remove();
+				$j("#js-content").append(jssor_original);
+        	
+				$j("#productPreView").html(imgHtml);
+        		var jssor_1_slider = new $JssorSlider$("slider1_container", jssor_1_options);
+       	
+				$layer.find('a.cbtn').click(function (e) {
+				    $layer.addClass('hidden');
+				});
+			}
+	    }
+		else {
+			alert({=__java("실패했습니다.")}+'[' + dataJson.resultMsg + ']');
+		}
+	});
+}
+</script>
+
+
+<script src="/js/jssor.js" type="text/javascript"></script>
+<script src="/js/jssor.slider.19.0.min.js" type="text/javascript"></script>
+	
+<script type="text/javascript">
+	var jssor_original = "";
+	//var jssor_1_slider;
+	//var jssor_1_options;
+
+	
+
+		var jssor_1_SlideoTransitions = [
+	  	[{b:900,d:2000,x:-379,e:{x:7}}],
+	    [{b:900,d:2000,x:-379,e:{x:7}}],
+	    [{b:-1,d:1,o:-1,sX:2,sY:2},{b:0,d:900,x:-171,y:-341,o:1,sX:-2,sY:-2,e:{x:3,y:3,sX:3,sY:3}},{b:900,d:1600,x:-283,o:-1,e:{x:16}}]
+		];
+	
+		var jssor_1_options = {
+	  	$AutoPlay: 2,                                    //[Optional] Whether to auto play, to enable slideshow, this option must be set to true, default value is false
+      $AutoPlayInterval: 3000,                            //[Optional] Interval (in milliseconds) to go for next slide since the previous stopped if the slider is auto playing, default value is 3000
+      $PauseOnHover: 1,                                //[Optional] Whether to pause when mouse over if a slider is auto playing, 0 no pause, 1 pause for desktop, 2 pause for touch device, 3 pause for desktop and touch device, 4 freeze for desktop, 8 freeze for touch device, 12 freeze for desktop and touch device, default value is 1
+			$Loop : 0,
+      $DragOrientation: 3,                                //[Optional] Orientation to drag slide, 0 no drag, 1 horizental, 2 vertical, 3 either, default value is 1 (Note that the $DragOrientation should be the same as $PlayOrientation when $DisplayPieces is greater than 1, or parking position is not 0)
+      $ArrowKeyNavigation: true,   			            //[Optional] Allows keyboard (arrow key) navigation or not, default value is false
+      $SlideDuration: 800,
+		
+	 	
+	 		$SlideshowOptions: {
+				$Class: $JssorSlideshowRunner$,
+				$Transitions: jssor_1_SlideoTransitions,
+				$TransitionsOrder: 1,
+	 		},
+	 		
+	 		$CaptionSliderOptions: {                            //[Optional] Options which specifies how to animate caption
+      	$PlayInMode: 1,                                 //[Optional] 0 None (no play), 1 Chain (goes after main slide), 3 Chain Flatten (goes after main slide and flatten all caption animations), default value is 1
+      	$PlayOutMode: 3                                //[Optional] 0 None (no play), 1 Chain (goes before main slide), 3 Chain Flatten (goes before main slide and flatten all caption animations), default value is 1
+  		},
+		
+			$ArrowNavigatorOptions: {                       //[Optional] Options to specify and enable arrow navigator or not
+	        $Class: $JssorArrowNavigator$,              //[Requried] Class to create arrow navigator instance
+	        $ChanceToShow: 1                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+	    },
+                
+			$ThumbnailNavigatorOptions: {                       //[Optional] Options to specify and enable thumbnail navigator or not
+	        $Class: $JssorThumbnailNavigator$,              //[Required] Class to create thumbnail navigator instance
+	        $ChanceToShow: 2,                               //[Required] 0 Never, 1 Mouse Over, 2 Always
+					$Loop : 0,
+	        $ActionMode: 1,                                 //[Optional] 0 None, 1 act by click, 2 act by mouse hover, 3 both, default value is 1
+	        $SpacingX: 8,                                   //[Optional] Horizontal space between each thumbnail in pixel, default value is 0
+	        $DisplayPieces: 8,                             //[Optional] Number of pieces to display, default value is 1
+	        $ParkingPosition: 360                          //[Optional] The offset position to park thumbnail
+	   	},  
+
+		
+	
+
+	//jssor_1_slider = new $JssorSlider$("jssor_1", jssor_1_options);
+};
+</script>
+
+<!--estimate-->
+<link href="/skin/modern/assets/css/estimate.css" rel="stylesheet" type="text/css" />
+<!--estimate-->
+<style>
+/* basic layer css */
+.layer {
+    position: fixed;
+    /*width: 65%;*/
+    width: 1000px;
+    left: 40%;
+    margin-left: -20%; /* half of width */
+    height: 800px;
+    top: 20%;
+    margin-top: -150px; /* half of height */
+    overflow: auto;
+
+    /* decoration */
+    border: 1px solid #000;
+    background-color: #FFFFFF; /* #eee*/
+    padding: 1em;
+    box-sizing: border-box;
+    
+    z-index: 99999;
+}
+@media (max-width: 1000px) {.layer {width: 100%;margin-left: -40%;}}
+.hidden {display: none;}
+
+/* Other elements */
+.open-button {font-size: 2em;}
+.text-center {text-align: center;}
+
+/* jssor slider loading skin double-tail-spin css */
+.jssorl-004-double-tail-spin img {
+  	animation-name: jssorl-004-double-tail-spin;
+    animation-duration: 1.2s;
+    animation-iteration-count: infinite;
+    animation-timing-function: linear;
+	}
+
+  	@keyframes jssorl-004-double-tail-spin {
+  	from {
+    	transform: rotate(0deg);
+  	}
+
+    to {
+    	transform: rotate(360deg);
+  	}
+}
+
+.jssorb051 .i {position:absolute;cursor:pointer;}
+.jssorb051 .i .b {fill:#fff;fill-opacity:0.5;stroke:#000;stroke-width:400;stroke-miterlimit:10;stroke-opacity:0.5;}
+.jssorb051 .i:hover .b {fill-opacity:.7;}
+.jssorb051 .iav .b {fill-opacity: 1;}
+.jssorb051 .i.idn {opacity:.3;}
+
+.jssora051 {display:block;position:absolute;cursor:pointer;}
+.jssora051 .a {fill:none;stroke:#fff;stroke-width:360;stroke-miterlimit:10;}
+.jssora051:hover {opacity:.8;}
+.jssora051.jssora051dn {opacity:.5;}
+.jssora051.jssora051ds {opacity:.3;pointer-events:none;}
+
+.jssora054 {display:block;position:absolute;cursor:pointer;}
+.jssora054 .a {fill:none;stroke:#000;stroke-width:640;stroke-miterlimit:10;}
+.jssora054:hover {opacity:.8;}
+.jssora054.jssora054dn {opacity:.5;}
+.jssora054.jssora054ds {opacity:.3;pointer-events:none;}
+
+
+.jssora05l, .jssora05r {
+    display: block;
+    position: absolute;
+    /* size of arrow element */
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: url(/skin/modern/img/jssor_a02.png) no-repeat;
+    overflow: hidden;
+}
+.jssora05l { background-position: -10px -40px; }
+.jssora05r { background-position: -70px -40px; }
+.jssora05l:hover { background-position: -130px -40px; }
+.jssora05r:hover { background-position: -190px -40px; }
+.jssora05l.jssora05ldn { background-position: -250px -40px; }
+.jssora05r.jssora05rdn { background-position: -310px -40px; }
+
+.jssort01 {
+	position: absolute;
+/* size of thumbnail navigator container */
+    width: 940px;
+    height: 100px;
+}
+
+.jssort01 .p {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100px;
+    height: 72px;
+}
+
+.jssort01 .t {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.jssort01 .w {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 100%;
+    height: 100%;
+}
+
+.jssort01 .c {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    width: 96px;
+    height: 68px;
+    border: #000 2px solid;
+    box-sizing: content-box;
+    background: url(/skin/modern/img/jssor_t01.png) -800px -800px no-repeat;
+    _background: none;
+}
+
+.jssort01 .pav .c {
+    top: 2px;
+    _top: 0px;
+    left: 2px;
+    _left: 0px;
+    width: 96px;
+    height: 68px;
+    border: #000 0px solid;
+    _border: #fff 2px solid;
+    background-position: 50% 50%;
+}
+
+.jssort01 .p:hover .c {
+    top: 0px;
+    left: 0px;
+    width: 98px;
+    height: 70px;
+    border: #fff 1px solid;
+    background-position: 50% 50%;
+}
+
+.jssort01 .p.pdn .c {
+    background-position: 50% 50%;
+    width: 96px;
+    height: 68px;
+    border: #000 2px solid;
+}
+
+</style>
+
+<script type="text/javascript">
+function refresh_price(){
+	var goodsno = $j("#goodsno").val();
+	var optno = $j("select[name='optno[]']:last").val();
+	var addopt = [];
+	var addopt_idx = 0;
+	$j("select[name='addopt[]']").each(function(){
+		if ($j(this).val() && $j(this).val()!=""){
+			addopt[addopt_idx] = $j(this).val();
+		}
+		addopt_idx++;
+	});
+
+	addopt = addopt.join(",");
+
+	//common.defer.js
+	get_goods_price(goodsno,optno,addopt,"set_price_str"); //가격조회 ajax
+	get_goods_cprice(goodsno,optno,addopt,"set_cprice_str"); //소비자가 ajax
+	get_goods_reserve(goodsno,optno,addopt,"set_reserve_str"); //적립금 ajax
+}
+
+function set_price_str(ret){
+	$j("#goods_price").html(comma(ret)+{=__java("원")});
+}
+
+function set_cprice_str(ret){
+	$j("#goods_cprice").html(comma(ret)+{=__java("원")});
+	var cprice = 0;
+	var price = parseInt($j("#goods_price").html().replace(",",""));
+	if ($j("#goods_cprice").html()){
+		cprice = parseInt($j("#goods_cprice").html().replace(",",""));
+	}
+	var gap = cprice - price;
+	if (gap > 0){
+		$j("#goods_cprice_x").html("(▼ "+comma(gap)+{=__java("원 할인")}+")");
+	} else {
+		$j("#goods_cprice_x").html("");
+	}
+}
+
+function set_reserve_str(ret){
+	$j("#goods_reserve").html(comma(ret));
+}
+
+function updateOption(obj){
+	var goodsno = $j("#goodsno").val();
+	var selected_opt = obj.options[obj.selectedIndex];
+
+	if ($j(selected_opt).attr("productid") && $j(selected_opt).attr("productid")!=0){
+		$j("input[name=productid]").val($j(selected_opt).attr("productid"));
+	} else {
+		$j("input[name=productid]").val("{podsno}");
+	}
+	if ($j(selected_opt).attr("podoptno")){
+		$j("input[name=podoptno]").val($j(selected_opt).attr("podoptno"));
+	} else {
+		$j("input[name=podoptno]").val("");
+	}
+
+	var opt = obj.form["optno[]"][1];
+	if (opt.tagName!="SELECT" || obj==opt) return;
+	opt.options.length = 1;
+
+	$j.post("indb.php", {mode:"ajax_updateOption", goodsno:goodsno, opt1:obj.options[obj.selectedIndex].title}, function(data){
+		data = evalJSON(data);
+		for (var i=0;i<data.length;i++){
+			var txt = data[i].opt2;
+			if (data[i].aprice!="0") txt += " (+" + comma(data[i].aprice) + {=__java("원")}+")";
+			opt[i+1] = new Option(txt, data[i].optno);
+			opt[i+1].stock = data[i].stock;
+			opt[i+1].productid = data[i].podsno;
+			opt[i+1].podoptno = data[i].podoptno;
+		}
+	});
+}
+</script>
+<!--list_previewLayer-->

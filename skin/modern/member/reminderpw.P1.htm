@@ -1,0 +1,140 @@
+{ # header }
+
+<div class="login_idre_list" id="remind_idpw">
+	<div class="login_px_text">
+		<span class="reminderidpw_span">{=__text("비밀번호 찾기")}</span>
+	</div>
+	
+	<!--{ ? _POST.mode == "reminderpw" }-->
+		<div>
+			<div style="margin:25px 0; text-align:center;">
+				<h3 class="text-center">
+					<!--{ ? _POST.reminderpw_type == "mobile" }-->
+						{=__text("임시 비밀번호를 핸드폰으로 전송하였습니다.")}
+					<!--{ : _POST.reminderpw_type == "email" }-->
+						{=__text("임시 비밀번호를 이메일로 전송하였습니다.")}
+					<!--{ / }-->
+				</h3>
+				
+				<p class="text-center">
+					{=__text("임시 비밀번호 확인 후 로그인이 가능합니다.")}<br/>
+					{=__text("비밀번호 재설정은")} '{=__text("회원정보변경")}'{=__text("에서 가능합니다.")}
+				</p>
+			</div>
+		</div>
+	<!--{ : }-->
+		<!--아디찾기-->
+		<div class="form_pxid">
+			<form name="fm" method="post">
+				<input type="hidden" name="mode" value="reminderpw">
+				
+				<input type="hidden" name="mid_en">
+				
+				<div class="remind_ed">
+					<ul style="padding:0px; margin:0;">
+						<li><input type="radio" id="reminderpw_type_mobile" class="lastbox1" name="reminderpw_type" value="mobile" onclick="location.href='reminderpw.php?reminderpw_type=mobile';"><label for="reminderpw_type_mobile">휴대전화로 찾기</label></li>
+						<li><input type="radio" id="reminderpw_type_email" class="lastbox1" name="reminderpw_type" value="email" onclick="location.href='reminderpw.php?reminderpw_type=email';"><label for="reminderpw_type_email">이메일로 찾기</label></li>
+					</ul>
+				</div>
+				
+				<!--{ ? _GET.reminderpw_type == "email" }-->
+					<div class="form_pxd" id="idpw_contents_2">	
+						<ul style="padding:6px;">
+							<li>
+								<span class="id_px">아이디</span>
+								<input type="text" class="text_one" name="mid" required/>
+							</li>
+							<li>
+								<span class="id_px">이메일</span>
+								<input type="text" class="text_tw" name="email[]" required/>
+								<input type="text" id="select_email" class="text_tw" name="email[]" required/>
+								<select class="email_remind" onchange="auto_set_email(this);">
+									<option value="">{=__text("직접입력")}</option>
+									<!--{ @ _r_email }-->
+									<option value="{.value_}">{.key_}</option>
+									<!--{ / }-->
+								</select>
+							</li>
+						</ul>
+					</div>
+				<!--{ : }-->
+					<div class="form_pxd" id="idpw_contents_1">	
+						<ul style="padding:6px;">
+							<li>
+								<span class="id_px">아이디</span>
+								<input type="text" class="text_one" name="mid" required/>
+							</li>
+							<li>
+								<span class="id_px">휴대전화</span>
+								<input type="text" class="text_tw number_type" name="mobile[]" maxlength="3" required onkeyup="auto_focus(this,1);"/>
+								<input type="text" class="text_tw number_type" name="mobile[]" maxlength="4" required onkeyup="auto_focus(this,2);"/>
+								<input type="text" class="text_tw number_type" name="mobile[]" maxlength="4" required/>
+							</li>
+						</ul>
+					</div>
+				<!--{ / }-->
+			</form>
+		</div>
+		
+		<!--아디찾기-->
+		<div class="re_bor"></div>
+		
+		<!--유의사항-->
+		<div><!--{ @ f_banner_s2('pix_find_pw') }-->{.banner}<!--{ / }--></div>
+		
+		<div class="re_ko"><button type="button" onclick="javascript:submit();">확인</button></div>
+		<!--유의사항-->
+	<!--{ / }-->
+</div>
+
+<script>
+$j(function() {
+	$j("#reminderpw_type_{_GET.reminderpw_type}").attr("checked",true);
+	
+	$j('.number_type').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+function auto_set_email(obj) {
+	$j("#select_email").val($j(obj).val());
+}
+
+function auto_focus(obj,idx) {
+	switch (obj.name) {
+		case "mobile[]":
+			if ((idx == 1 && obj.value.length == 3) || (idx == 2 && obj.value.length == 4)) {
+				obj.form['mobile[]'][idx].focus();
+			}
+		break;
+	}
+}
+
+function submit() {
+	var fm = document.fm;
+	var type = $j(":input[name=reminderpw_type]:checked").val();
+	
+	if (!fm.mid.value) {
+		fm.mid.focus();
+	} else if (type == "mobile" && fm['mobile[]'][0].value == "") {
+		fm['mobile[]'][0].focus();
+	} else if (type == "mobile" && fm['mobile[]'][1].value == "") {
+		fm['mobile[]'][1].focus();
+	} else if (type == "mobile" && fm['mobile[]'][2].value == "") {
+		fm['mobile[]'][2].focus();
+	} else if (type == "email" && fm['email[]'][0].value == "") {
+		fm['email[]'][0].focus();
+	} else if (type == "email" && fm['email[]'][1].value == "") {
+		fm['email[]'][1].focus();
+	} else {
+		fm.mid_en.value = Base64.encode(fm.mid.value);
+		fm.mid.value = '';
+		
+		fm.submit();
+	}
+}
+</script>
+
+{ # footer }

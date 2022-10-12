@@ -1,0 +1,69 @@
+{ # header }
+
+<!--본 컨텐츠 시작-->
+<div class="event-page" id="event-attend-page" >			
+
+<div id="event-content-wrap">
+	<div id="attend-title-wrap">
+		<div class="text-center" id="attend-title">						
+			<!--{ @ f_banner_s2('make_schedule_01')}-->{.banner}<!--{ / }-->
+			<!--{ @ f_banner_s2('make_schedule_02')}-->{.banner}<!--{ / }-->
+		</div>
+		<div id="attend-table-wrap">
+			<div id="attend-table">
+				<div id="calendar-header">
+					<div id="calendar-bullet">
+						{c_month}<span>{=__text("월")}</span>
+					</div>
+					
+					<div id="stamp-count">
+						<div class="tablize">
+							<div class="table-row">
+								<div class="cell vertical-bottom">
+									<span><a href="make_schedule.php?month={c_month-1}">{c_month-1}{=__text("월")}</a></span>
+									<span><a href="make_schedule.php?month={c_month}">{c_month}{=__text("월")}</a></span>
+									<span><a href="make_schedule.php?month={c_month+1}">{c_month+1}{=__text("월")}</a></span>
+								</div>								
+							</div>
+						</div>
+					</div>													
+				</div>
+				<table>
+					<thead>
+					<tr>						
+						<td>{=__text("월")}</td>
+						<td>{=__text("화")}</td>
+						<td>{=__text("수")}</td>
+						<td>{=__text("목")}</td>
+						<td>{=__text("금")}</td>
+						<td>{=__text("토")}</td>
+						<td>{=__text("일")}</td>
+					</tr>
+					</thead>
+					<tbody>
+					<tr>
+					<!--{ @ loop }-->					
+						<!--{ ? .key_ % 7 == 0 }--></tr><tr><!--{ / }-->
+						<td>
+							<!--{? .value_=='NOT' }-->
+															
+							<!--{:}--> 
+								{.value_}
+							<!--{/}-->							
+						</td>						
+					<!--{ / }-->
+					<!--{ @ range(1,7 - count(loop)%7) }-->
+						<td> </td>
+					<!--{ / }-->
+					</tr>
+					</tbody>
+				</table>
+			</div>
+			<!--{ @ f_banner_s2('make_schedule_03')}-->{.banner}<!--{ / }-->
+		</div>
+		
+	</div>
+</div>
+<!--본 컨텐츠 끝-->
+</div>
+{ # footer }

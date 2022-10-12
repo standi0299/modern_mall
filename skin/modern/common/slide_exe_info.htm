@@ -1,0 +1,120 @@
+<style>
+#panel {
+	width : 100%;
+	position: absolute;
+	top : -1px;
+	left : -1px;
+	display: none;
+	z-index: 1000499;
+}
+
+#mask {  
+	  position:absolute;  
+	  z-index:1000498;  
+	  background-color:#000;  
+	  display:none;  
+	  left:0;
+	  top:0;
+} 
+
+</style>
+<link rel="stylesheet" type="text/css" href="../img/setup/css/common.css"/>
+<script>
+	function slide(){
+
+		$j("#panel").css("top", Math.max(0, $j(window).scrollTop()) + "px");
+    	$j("#panel").css("left", Math.max(0, (($j(window).width() - $j("#panel").outerWidth()) / 2) + $j(window).scrollLeft()) + "px");
+
+		$j("#panel").slideDown("fast");
+		//$j("body").scrollTop(0);
+	}
+	
+	function exe_install(){
+		popupLayer("/service/exe_info.php", 900, 780);
+		//location.href='http://{c.PODS20_DOMAIN}/CommonRef/ActiveLoader/xpodlauncher_setup.exe';
+	}
+
+	function layerOpen(){
+		var $width=parseInt($j("#lay_pop2").css("width"));
+		var $height=parseInt($j("#lay_pop2").css("height"));
+		var left=($j(window).width()-$width)/2;
+		var sctop=$j(window).scrollTop()*2;
+		//var top=($j(window).height()-$height+sctop)/2;
+		var top=parseInt($j("#panel").css("height"));
+		var height=document.getElementsByTagName("body")[0].scrollHeight;
+		$j("#lay_pop2").css("left",left);
+		//$j("#lay_pop2").css("top",top);
+		$j("#lay_pop2").css("top", Math.max(0, $j(window).scrollTop()) + "px");
+		$j("#lay_pop2").css("display","block");
+		$j("#lay_pop2").css("z-index","99999999");
+
+		wrapWindowByMask();
+	}
+	
+	function layerClose(lay1,lay2){
+		$j("#lay_pop2").css("display","none");
+		//$("body").css("display","none");
+		$j('#mask').hide();
+	}
+	
+	function wrapWindowByMask(){
+		//화면의 높이와 너비를 구한다.
+		var maskHeight = $j(document).height();  
+		var maskWidth = $j(window).width();
+
+		//마스크의 높이와 너비를 화면 것으로 만들어 전체 화면을 채운다.
+		$j('#mask').css({'width':maskWidth,'height':maskHeight});  
+    	
+    	//마스크의 투명도 처리
+        $j('#mask').fadeTo("slow",0.8);
+	}
+</script>
+
+<div id="panel">
+	<div id="setup_wrap2" style="width: 100%;">
+		<div class="setup">
+    		<div class="com fl"> </div>
+    		<div class="txtbox fl" <!--{ ? _cfg.skin_theme == "P1"}-->style="width:600px;"<!--{ / }-->><span class="title" <!--{ ? _cfg.skin_theme == "P1"}-->style="width:200px;"<!--{ / }-->>{=__text("프로그램을 설치하세요.")}</span><p>{=__text("Windows 10의 EDGE 브라우저나 크롬, 파이어폭스, 사파리 등 일부 브라우저에서는")}<br />
+{=__text("편집 프로그램이 자동 설치되지 않으므로 설치 프로그램을 내려 받은 후 설치하시기 바랍니다.")}</p>
+			<p <!--{ ? _cfg.skin_theme == "P1"}-->style="margin-top:-20px;"<!--{ / }-->><a href="javascript:;" onclick='$j("#panel").slideUp("fast");'>{=__text("닫기")}</a></p>
+			</div>
+    		<div class="fr bt"><a href="javascript:;" class="btn-blue" onclick="layerOpen()">{=__text("설치 프로그램 내려 받기")}</a></div>    
+		</div>
+	</div>
+</div>
+
+<div id="mask"> </div> 
+
+<div id="lay_pop2">
+	<div class="wrap">
+		<div class="title_b">
+			<span class="title">{=__text("편집 프로그램 설치하기")}</span><span class="xbtn"><a href="javascript:;" onclick="layerClose()"><img src="../img/setup/img/x_icon.gif" {=__alt("닫기")} /></a></span>
+		</div>
+		<div class="setup_bg">
+			<div class="txtbox">
+				<span class="btitle" <!--{ ? _cfg.skin_theme == "P1"}-->style="display:inline;"<!--{ / }-->>{=__text("편집 프로그램 사양")}</span>
+				<div class="cont">
+					* {=__text("설치 제거기능 지원")}<br />
+					* {=__text("파일크기 : 약 1MB 내외")}<br />
+					* {=__text("운영체제")} :
+					<p class="txt01">
+						Microsoft Windows XP,<br />
+						Windows Vista (32/64bit),<br />
+						Windows 7 / 8 / 10 (32/64bit)<br />
+					</p>
+					* {=__text("구동브라우저 : IE8 이상, EDGE, 크롬, 파이어폭스, 사파리 등")}
+				</div>
+				<span class="btn"><a href="javascript:;" onclick="location.href='http://{c.PODS20_DOMAIN}/CommonRef/ActiveLoader/xpodlauncher_setup.exe'"><img src="../img/setup/img/setup_btn.png" {=__alt("설치프로그램내려받기")} /></a></span>
+			</div>
+		</div>
+		<div class="setup_list" <!--{ ? _cfg.skin_theme == "P1"}-->style="margin-top:-480px;"<!--{ / }-->>
+			<p><img src="../img/setup/img/start_title.gif" {=__alt("편집프로그램설치순서")} /></p>
+			<p><img src="../img/setup/img/setup_no1.jpg" {=__alt("편집프로그램설치순서")} /></p>
+			<p><img src="../img/setup/img/setup_no2.jpg" {=__alt("편집프로그램설치순서")} /></p>
+			<p><img src="../img/setup/img/setup_no3.jpg" {=__alt("편집프로그램설치순서")} /></p>
+			<p><img src="../img/setup/img/setup_no4.jpg" {=__alt("편집프로그램설치순서")} /></p>
+			<p><img src="../img/setup/img/setup_no5.jpg" {=__alt("편집프로그램설치순서")} /></p>
+		</div>
+		<div class="btn_d"><a href="javascript:;" onclick="location.href='http://{c.PODS20_DOMAIN}/CommonRef/ActiveLoader/xpodlauncher_setup.exe'"><img src="../img/setup/img/setup_btn.png" {=__alt("설치프로그램내려받기")} /></a></div>
+	</div>
+</div>

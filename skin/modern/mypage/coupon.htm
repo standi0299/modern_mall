@@ -1,0 +1,359 @@
+{ # header }
+
+<style type="text/css">
+#regdt1,#regdt2 {width:150px;
+	height:30px;
+	float:left;
+	background:url('../assets/images/calendar-bullet.png') no-repeat 125px;
+	border:none;
+	border-right:0px;
+	border-top:0px;
+	border-left:0px;
+	border-bottom:1px solid #b7b7b7;}
+	
+.autoDate {width:75px;margin-right:10px;}
+</style>
+
+<section class="content-container my-page-layout">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col">
+				<a href="../../mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/cancellist.php">{=__text("주문/취소관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/wishlist.php">{=__text("위시리스트")}</a>
+			</li>
+			<li class="col active">
+				<a href="../../mypage/coupon.php">{=__text("쿠폰/포인트조회")}</a>
+			</li>
+			<li class="col">
+				<a href="../../member/myinfo.php">{=__text("회원정보수정")}</a>
+			</li>
+		</ul>
+		<div class="tab-content-wrap">
+			<div class="tab-content" id="coupon-point">
+				<h1>{=__text("쿠폰번호 입력하기")}</h1>
+				<div id="account" style="padding:40px 210px 60px;">
+					<div id="edit-account-wrap">
+						<form method="post" action="indb.php" onsubmit="return form_chk(this);">
+							<input type="hidden" name="mode" value="coupon_get_offline">
+							
+							<div id="edit-account-form"  style="margin:0;padding:20px 40px;">
+								<div class="h-group">
+									<div class="col" style="margin-right:10px;width:585px;">
+										<input type="text" class="input" name="coupon_issue_code" {=__label("쿠폰번호")} required {=__placeholder("쿠폰번호 ('-' 포함 입력)")}>
+									</div>
+									<div class="col">
+										<button type="submit" class="btn btn-primary" style="width:100px;">{=__text("확인")}</button>
+									</div>
+								</div>
+								<!--<div class="h-group" id="set-email">
+									<div class="col">
+										<input type="text" class="input" name="coupon_issue_code[]" maxlength="5" onkeyup="auto_focus(this,1);" label="쿠폰번호" required placeholder="쿠폰번호">
+									</div>
+									<div class="col">
+										<span class="info-text">-</span>
+									</div>
+									<div class="col">
+										<input type="text" class="input" name="coupon_issue_code[]" maxlength="6" onkeyup="auto_focus(this,2);" label="쿠폰번호">
+									</div>
+									<div class="col">
+										<span class="info-text">-</span>
+									</div>
+									<div class="col" style="margin-right:10px;">
+										<input type="text" class="input" name="coupon_issue_code[]" maxlength="5" label="쿠폰번호">
+									</div>
+									<div class="col">
+										<button type="submit" class="btn btn-primary" style="width:100px;">확인</button>
+									</div>
+								</div>-->
+							</div>
+						</form>
+					</div>
+				</div>
+				
+				<h1>{=__text("다운로드 가능한 쿠폰")}</h1>
+				<div id="coupon-content">
+					<!--{ ? downcoupon }-->
+					<p>{=__text("쿠폰을 클릭하시면 쿠폰이 다운로드됩니다.")}</p>
+					<div class="tablize">
+						<!--{ @ downcoupon }-->
+						<div class="table-row">
+							<div class="cell vertical-middle coupon-name">
+								<a href="indb.php?mode=coupon&coupon_code={.coupon_code}"><i style="font-size:16px;">{.coupon_name}</i></a>
+							</div>
+							<div class="cell vertical-middle coupon-duration text-center">
+								<div>
+									<!--{ ? .coupon_issue_unlimit }-->
+									{=__text("무제한")} 
+									<!--{ : }-->
+									{.coupon_issue_sdate}~{.coupon_issue_edate} 
+									<!--{ / }-->
+									{=__text("다운가능")}
+								</div>
+								<div>
+									<!--{ ? .coupon_period_system == "date" }-->
+									{.coupon_period_sdate}~ {.coupon_period_edate} 
+									<!--{ : .coupon_period_system == "deadline" }-->
+									{=__text("발급후")} {.coupon_period_deadline}{=__text("일이내")} 
+									<!--{ : .coupon_period_system == "deadline_date" }-->
+									~{.coupon_period_deadline_date} 
+									<!--{ / }-->
+									{=__text("사용가능")}
+								</div>
+							</div>
+							<div class="cell vertical-middle coupon-duration text-center">
+								<!--{ ? .coupon_type == "coupon_money" }-->{=__text("최대")}<!--{ / }-->
+								
+								<!--{ ? .coupon_way == "price" }-->
+								{=number_format(.coupon_price)}{=__text("원")} 
+								<!--{ : .coupon_way == "rate" }-->
+								{=number_format(.coupon_rate)}% 
+								<!--{ / }-->
+
+								<!--{ ? .coupon_type == "discount" || .coupon_type == "coupon_money" }-->
+								{=__text("할인")} 
+								<!--{ : .coupon_type == "saving" }-->
+								{=__text("적립")} 
+								<!--{ / }-->
+									
+								({=_r_coupon_type[.coupon_type]}) / 
+								
+								<!--{ ? .coupon_range == "all" }-->
+								{=__text("전상품")}
+								<!--{ : }-->
+								<span style="cursor:pointer;" onclick="popup('p.coupon.php?coupon_code={.coupon_code}', 500, 500)">{=__text("대상확인")}</span>
+								<!--{ / }-->
+							</div>
+						</div>
+						<!--{ / }-->
+					</div>
+					<!--{ : }-->
+					<div class="text-center" id="no-coupon">
+						{=__text("현재 다운로드 가능한 쿠폰이 없습니다.")}
+					</div>
+					<!--{ / }-->
+				</div>
+				
+				<h1>{=__text("현재 사용 가능한 쿠폰")}</h1>
+				<div>
+					<!--{ ? mycoupon }-->
+					<table class="set-table" id="order-table">
+						<thead>
+						<tr>
+							<td class="text-center order-title">{=__text("쿠폰명")}</td>
+							<td class="text-center order-id">{=__text("사용기간")}</td>
+							<td class="text-center order-id">{=__text("적용대상")}</td>
+						</tr>						
+						</thead>
+						
+						<tbody>
+							<!--{ @ mycoupon }-->
+							<tr align="center">
+								<td>{.coupon_name}</td>
+								<td>
+									<!--{ ? .coupon_period_system == "date" }-->
+									{.coupon_period_sdate}
+									<!--{ : }-->
+									{=substr(.coupon_setdt, 0, 10)}
+									<!--{ / }-->
+									~{.usabledt} {=__text("사용가능")}
+								</td>
+								<td>
+									<!--{ ? .coupon_type == "coupon_money" }-->
+										{=number_format(.coupon_able_money)}{=__text("원 할인")} 
+									<!--{ : }-->
+										<!--{ ? .coupon_way == "price" }-->
+										{=number_format(.coupon_price)}{=__text("원")} 
+										<!--{ : .coupon_way == "rate" }-->
+										{=number_format(.coupon_rate)}% 
+										<!--{ / }-->
+										
+										<!--{ ? .coupon_type == "discount" }-->
+										{=__text("할인")} 
+										<!--{ : .coupon_type == "saving" }-->
+										{=__text("적립")} 
+										<!--{ / }-->
+									
+										<!--{ ? .coupon_way == "rate" && .coupon_price_limit }-->
+										, {=__text("최대")}<!--{ ? .coupon_type == "discount" }-->{=__text("할인")}<!--{ : .coupon_type == "saving" }-->{=__text("적립")}<!--{ / }--> : {=number_format(.coupon_price_limit)}{=__text("원")}<br>
+										<!--{ / }-->
+									<!--{ / }-->
+									
+									({=_r_coupon_type[.coupon_type]}) / 
+									
+									<!--{ ? .coupon_range == "all" }-->
+									{=__text("전상품")}
+									<!--{ : }-->
+									<span style="cursor:pointer;" onclick="popup('p.coupon.php?coupon_code={.coupon_code}', 500, 500)">{=__text("대상확인")}</span>
+									<!--{ / }-->
+								</td>
+							</tr>
+							<!--{ / }-->							
+						</tbody>
+					</table>
+					<p class="text-right" id="point-warning" style="padding-top: 5px; padding-right: 10px; font-size: 12px;">
+						{=__text("쿠폰은 주문 후 결제 단계에서 사용 가능합니다.")}
+					</p>
+					<!--{ : }-->
+					<div class="text-center" id="no-coupon">
+						{=__text("현재 사용 가능한 쿠폰이 없습니다.")}
+					</div>
+					<!--{ / }-->
+				</div>
+				
+				<h1>{=__text("적립내역")}</h1>
+				<div id="point-content">
+					<div id="point-dashboard">
+						<div class="tablize">
+							<div class="table-row">
+								<div class="cell">
+									<h3 class="text-center">
+										{=__text("적립금")}
+									</h3>
+								</div>
+								<div class="cell">
+									<h3 class="text-center">
+										{=__text("소멸예정 적립금")}
+									</h3>
+								</div>
+							</div>
+							<div class="table-row">
+								<div class="cell vertical-middle">
+									<p class="text-center" style="font-size: 16px;">
+										{=__text("사용가능 적립금")} {=number_format(myemoney)}{=__text("원")}<br/>
+										<span>&nbsp;</span>
+									</p>
+								</div>
+								<div class="cell vertical-middle">
+									<p class="text-center">
+										{=number_format(expire_emoney)}{=__text("원")}<br/>
+										<span>
+											<!--{ ? emoneydata.emoney_expire_day > 0 }-->
+											{=date('Y'+__text("년")+' m'+__text("월")+' d'+__text("일"),strtotime(emoneydata.emoney_expire_day + ' day'))}
+											<!--{ : }-->
+											&nbsp;
+											<!--{ / }-->
+										</span>
+									</p>
+								</div>
+							</div>
+						</div>
+						<!--{ ? emoneydata.emoney_use_min > 0 }-->
+						<p class="text-center" id="point-warning" style="right:595px;">
+							{=__text("단, 사용가능 적립금이")} {=number_format(emoneydata.emoney_use_min)}{=__text("원 이상이여야 주문할 때 사용이 가능합니다.")}
+						</p>
+						<!--{ / }-->
+						<p class="text-center" id="point-warning" style="right:95px;">
+							{=__text("기간이 만료된 적립금은 자동 소멸됩니다.")}<br>
+							<!--{ ? emoneydata.emoney_expire_day > 0 }-->
+							{=date('Y'+__text("년")+' m'+__text("월")+' d'+__text("일"),strtotime(emoneydata.emoney_expire_day + ' day'))}{=__text("까지 소멸예정인 적립금은")}<br>
+							{=number_format(expire_emoney)}{=__text("원입니다.")}
+							<!--{ : }-->
+							{=__text("소멸예정인 적립금이 없습니다.")}
+							<!--{ / }-->
+						</p>
+					</div>
+					<div class="text-center" id="point-form">
+						<form name="fm">
+							<div class="h-group">
+								<div class="col"><label>{=__text("기간별 조회")}</label></div>
+								<div class="col">
+									<button type="button" class="btn btn-primary autoDate" onclick="javascript:autoDate('regdt1','regdt2','{=date('Y-m-d',strtotime('-15 day'))}','{=date('Y-m-d')}')">{=__text("15일")}</button>
+									<button type="button" class="btn btn-primary autoDate" onclick="javascript:autoDate('regdt1','regdt2','{=date('Y-m-d',strtotime('-1 month'))}','{=date('Y-m-d')}')">{=__text("1개월")}</button>
+									<button type="button" class="btn btn-primary autoDate" onclick="javascript:autoDate('regdt1','regdt2','{=date('Y-m-d',strtotime('-2 month'))}','{=date('Y-m-d')}')">{=__text("2개월")}</button>
+									<button type="button" class="btn btn-primary autoDate" onclick="javascript:autoDate('regdt1','regdt2','{=date('Y-m-d',strtotime('-3 month'))}','{=date('Y-m-d')}')">{=__text("3개월")}</button>
+									<button type="button" class="btn btn-primary autoDate" onclick="javascript:autoDate('regdt1','regdt2','{=date('Y-m-d',strtotime('-6 month'))}','{=date('Y-m-d')}')">{=__text("6개월")}</button>
+								</div>
+							</div>
+							<div class="h-group">
+								<div class="col"><label>{=__text("일자별 조회")}</label></div>
+								<div class="col" style="display:inline-block;">
+									<input type="text" id="regdt1" name="regdt[]" class="calendar" value="{=toDate(_GET.regdt[0], '-')}">
+									<span style="float:left;"> ~ </span>
+									<input type="text" id="regdt2" name="regdt[]" class="calendar" value="{=toDate(_GET.regdt[1], '-')}" style="margin-left:0;">
+									<button type="submit" id="date-submit">{=__text("조회하기")}</button>
+								</div>
+							</div>
+						</form>
+					</div>
+					<div id="point-result">
+						<ul id="point-result-list">
+							<!--{ @ loop }-->
+							<li class="h-group">
+								<div class="col point-date">
+									{=substr(.regdt,2,8)}
+								</div>
+								<div class="col point-title">
+									{.memo}
+								</div>
+								<div class="col point-number">
+									<!--{ ? .status == 1 }-->+<!--{ : .status == 2 }-->-<!--{ / }-->
+									{=number_format(.emoney)}{=__text("원")}
+								</div>
+								<!--{ ? .status == 1 }-->
+								<div class="col point-status point-primary">
+									{=__text("적립")}
+								</div>
+								<!--{ : .status == 2 }-->
+								<div class="col point-status point-cancel">
+									{=__text("사용")}
+								</div>
+								<!--{ : .status == 3 }-->
+								<div class="col point-status point-destroy">
+									{=__text("소멸")} <span style="font-size:16px;color:#181718;">({=substr(.expire_date,0,10)}{=__text("에 만료됨")})</span>
+								</div>
+								<!--{ / }-->
+							</li>
+							<!--{ : }-->
+							<li class="h-group" style="margin-top:-40px;margin-bottom:-135px;padding:0;">
+								<div class="text-center" style="height:200px;padding-top:90px;">{=__text("적립내역이 없습니다.")}</div>
+							</li>
+							<!--{ / }-->
+						</ul>
+						<div class="list-pagination">
+							<ul>
+								<li>{=pg->page['navi']}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<!--<script src="/js/calendar.js"></script>-->
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	//$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+
+function autoDate(o1,o2,v1,v2){
+	//$(o1).value = v1;
+	//$(o2).value = v2;
+	
+	$j("#"+o1).val(v1);
+	$j("#"+o2).val(v2);
+}
+
+/*function auto_focus(obj, idx) {
+	if ($j(obj).val().length == $j(obj).attr("maxlength")) {
+		obj.form[obj.name][idx].focus();
+	}
+}*/
+</script>
+
+{ # footer }

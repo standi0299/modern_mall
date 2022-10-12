@@ -1,0 +1,154 @@
+<form method="post" target="hiddenIfrm" name="fm2" action="../module/p.coupon.php">
+<input type="hidden" name="mode" value="set_coupon" />
+<input type="hidden" name="cartno" value="{_GET.cartno}" />
+<input type="hidden" name="mobile_type" value="Y" />
+
+<section style="overflow-y:scroll;height:300px;">
+	<!--{ @ cartitem }-->
+	<dl class="selDl">
+		<dt>
+			[{.goodsnm}]<!--{ ? !.printopt }-->&nbsp;&nbsp;&nbsp;{=number_format(.ea)}{=__text("개")}<!--{ / }--><br />
+			<!--{ ? .mobile_opt }-->{.mobile_opt}<!--{ ? .addopt || .printopt }--> / <!--{ : }--><br /><!--{ / }--><!--{ / }-->
+			<!--{ ? .addopt }-->
+				<!--{ @ .addopt }-->
+					<!--{ ? ..index_ == 0 }-->
+					{..addoptnm}
+					<!--{ : }-->
+					 / {..addoptnm}
+					<!--{ / }-->
+				<!--{ / }--><br />
+			<!--{ / }-->
+			<!--{ ? .printopt }-->
+				<!--{ @ .printopt }-->
+					<!--{ ? ..index_ == 0 }-->
+					{..printoptnm} {..ea}{=__text("장")}
+					<!--{ : }-->
+					 / {..printoptnm} {..ea}{=__text("장")}
+					<!--{ / }-->
+				<!--{ / }--><br />
+			<!--{ / }-->
+		</dt>	
+		<dd>
+			<span class="couponName">{=__text("할인쿠폰")}</span><br />
+			<input type="radio" id="not_discount_{.index_}" name="coupon[{.cartno}][discount]" no="" cartno="" value="" class="radio_coupon_price absmiddle" onclick="chk_discount(this)" amount="0" checked /><label for="not_discount_{.index_}">{=__text("적용 안함")}</label>
+			<!--{ @ .coupon.discount }-->
+			<br /><input type="radio" id="coupon[{.cartno}][discount]_{..index_}" name="coupon[{.cartno}][discount]" no="{..no}" cartno="{.cartno}" value="{..no}" class="radio_coupon_price absmiddle" onclick="chk_discount(this)" amount="{..coupon_dc+0}" /><label for="coupon[{.cartno}][discount]_{..index_}">{..coupon_name}<br />({=number_format(..coupon_dc)}{=__text("원 할인")})</label>
+			<!--{ / }-->
+			<!--{ @ .coupon.coupon_money }-->
+			<br /><input type="radio" id="coupon[{.cartno}][discount]_cm_{..index_}" name="coupon[{.cartno}][discount]" no="{..no}" cartno="{.cartno}" value="{..no}" class="radio_coupon_price absmiddle" onclick="chk_discount(this)" amount="{..coupon_dc+0}" coupon_money="1" /><label for="coupon[{.cartno}][discount]_cm_{..index_}">{..coupon_name}<br />({=__text("분할정액 할인")})</label>
+			<span id="coupon_money_{.cartno}_{..no}" class="absmiddle"><br /><label for="coupon[{.cartno}][amount]_cm_{..index_}" style="margin-left:12px;line-height:22px;">{=__text("사용금액")}</label> <input type="number" id="coupon[{.cartno}][amount]_cm_{..index_}" name="coupon[{.cartno}][amount][{..no}]" no="{..no}" cartno="{.cartno}" value="{_GET.coupon[.cartno].amount[..no]}" onkeyup="chk_coupon_money(this)" onblur="chk_coupon_money(this)" pt="_pt_numplus" payprice="{.payprice}" max="{..coupon_able_money}" style="width:100px;text-align:right;"> ({=__text("잔액")}:{=number_format(..coupon_able_money)})</span>
+			<!--{ / }-->
+			
+			<br /><br /><span class="couponName">{=__text("추가적립쿠폰")}</span><br />
+			<input type="radio" id="not_saving_{.index_}" name="coupon[{.cartno}][saving]" no="" value="" class="radio_coupon_reserve absmiddle" onclick="chk_saving(this)" amount="0" checked /><label for="not_saving_{.index_}">{=__text("적용 안함")}</label>
+			<!--{ @ .coupon.saving }-->
+			<br /><input type="radio" id="coupon[{.cartno}][saving]_{..index_}" name="coupon[{.cartno}][saving]" no="{..no}" value="{..no}" class="radio_coupon_reserve absmiddle" onclick="chk_saving(this)" amount="{..coupon_dc+0}" /><label for="coupon[{.cartno}][saving]_{..index_}">{..coupon_name}<br />({=number_format(..coupon_dc)}{=__text("원 추가적립")})</label>
+			<!--{ / }-->
+		</dd>
+	</dl>
+	<!--{ / }-->
+
+	<div class="odPrice">
+		<dl class="odDl01">
+			<dt>{=__text("상품할인")}</dt>	
+			<dd><span id="total_coupon_price">0</span>{=__text("원")}</dd>
+			<dt>{=__text("적립혜택")}</dt>	
+			<dd><span id="total_coupon_reserve">0</span>{=__text("원")}</dd>
+		</dl>
+	</div>
+</section>
+</form>
+
+<script>
+function chk_discount(obj){
+	var total_coupon_price = 0;
+	$j(".radio_coupon_price:checked").each(function(){
+		set_coupon_money(this);
+		total_coupon_price += parseInt($j(this).attr("amount"));
+	});
+	$j("#total_coupon_price").html(comma(total_coupon_price));
+	set_radio();
+}
+function chk_saving(obj){
+	var total_coupon_reserve = 0;
+	$j(".radio_coupon_reserve:checked").each(function(){
+		total_coupon_reserve += parseInt($j(this).attr("amount"));
+	});
+	$j("#total_coupon_reserve").html(comma(total_coupon_reserve));
+	set_radio();
+}
+function set_radio(){
+	$j(".radio_coupon_price").attr("disabled",false);
+	$j(".radio_coupon_price").each(function(){
+		if ($j(this).attr("checked")){
+			var no = $j(this).attr("no");
+			if (no){
+				$j(".radio_coupon_price[no="+no+"]").attr("disabled",true);
+				$j(this).attr("disabled",false);
+			}
+		}
+	});
+	$j(".radio_coupon_reserve").attr("disabled",false);
+	$j(".radio_coupon_reserve").each(function(){
+		if ($j(this).attr("checked")){
+			var no = $j(this).attr("no");
+			if (no){
+				$j(".radio_coupon_reserve[no="+no+"]").attr("disabled",true);
+				$j(this).attr("disabled",false);
+			}
+		}
+	});
+}
+function set_coupon_money(obj){
+	var coupon_money = $j(obj).attr("coupon_money");
+	var no = $j(obj).attr("no");
+	var cartno = $j(obj).attr("cartno");
+	
+	if (no != "" && cartno != "") {
+		$j("[id^=coupon_money_" + cartno + "]").hide();
+	
+		if (coupon_money == "1") {
+			$j("#coupon_money_" + cartno + "_" + no).show();
+			chk_coupon_money($j("[name='coupon[" + cartno + "][amount][" + no + "]']"));
+		}
+	}
+}
+function chk_coupon_money(obj){
+	var no = $j(obj).attr("no");
+	var cartno = $j(obj).attr("cartno");
+	var total_coupon_price = 0;
+	
+	if (!_pattern(obj) || $j(obj).val() == ""){
+		$j(obj).val(0);
+	}
+	if (parseInt($j(obj).attr("max")) < parseInt($j(obj).val())){
+		$j(obj).val($j(obj).attr("max"));
+	}
+	if (parseInt($j(obj).attr("payprice")) < parseInt($j(obj).val())){
+		$j(obj).val($j(obj).attr("payprice"));
+	}
+	$j(".radio_coupon_price[no=" + no + "][cartno=" + cartno + "]").attr("amount",$j(obj).val());
+	$j(".radio_coupon_price:checked").each(function(){
+		total_coupon_price += parseInt($j(this).attr("amount"));
+	});
+	$j("#total_coupon_price").html(comma(total_coupon_price));
+}
+</script>
+
+<script>
+$j(function(){
+	var idx=0;
+	$j("[id^=coupon_money]").hide();
+	<!--{ ? _GET.coupon }-->
+		<!--{ @ _GET.coupon }-->
+			<!--{ @ .value_ }--><!--{ ? ..value_ }-->
+			$j("[name='coupon[{.key_}][{..key_}]'][value={..value_}]").trigger("click");
+			if ("{..key_}" == "discount") set_coupon_money($j("[name='coupon[{.key_}][{..key_}]'][value={..value_}]"));
+			<!--{ / }--><!--{ / }-->
+		<!--{ / }-->
+	<!--{ / }-->
+});
+</script>
+
+<!-- ### 필수객체 ### 폼처리를 위한 히든프레임 (삭제하시면 안됩니다) -->
+<iframe style="display: none; width: 100%; height: 600px;" name="hiddenIfrm"></iframe>

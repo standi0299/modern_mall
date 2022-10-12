@@ -1,0 +1,80 @@
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="Author" content="">
+		<meta name="Keywords" content="">
+		<meta name="Description" content="">
+
+		<style type="text/css">
+         #mpmsGNAgree {
+            width: 800px;
+            border: #4DB748 1px solid;
+            border-right: #4DB748 2px solid;
+            border-bottom: #4DB748 2px solid;
+            margin: auto;
+            background: #FBFBFB;
+            margin-top: 10px;
+         }
+         .agreeGN {
+            margin: 20px;
+         }
+         .agreeGNCheck {
+            text-align: left;
+            margin: 5px;
+         }
+         .agreeGNSubTitle {
+            margin: 5px;
+         }
+         .agreeGNContents {
+            width: 740px;
+            height: 200px;
+            padding: 10px;
+            margin: auto;
+            border: #369 1px solid;
+            overflow-y: scroll;
+         }
+		</style>
+	</head>
+	
+	<body>
+		<form method="post" action="indb.php" enctype="multipart/form-data">
+			<input type="hidden" name="mode" value="api_login">
+			<input type="hidden" name="mid" value="{data.mid}">
+			<input type="hidden" name="name" value="{data.name}">
+			<input type="hidden" name="address" value="{data.address}">
+			<input type="hidden" name="move_url" value="{data.move_page}">
+			
+			<div id="mpmsGNAgree">
+				<div>
+				</div>
+				<div class="agreeGN">
+					<div class="agreeGNSubTitle">
+					</div>
+					<textarea class="agreeGNContents" readonly>{_cfg.agreement}</textarea>
+					
+					<div class="agreeGNCheck">
+						<input type="checkbox" id="chk_agreement" name="agreement" required msg="이용약관에 동의해주세요" />
+						<label for="chk_agreement">이용약관에 동의합니다.</label>
+					</div><!-- agreeGNCheck end --//-->
+				</div>
+				<div class="agreeGN">
+					<div  class="agreeGNSubTitle">
+					</div>
+					<textarea class="agreeGNContents" readonly>{_cfg.agreement2}</textarea>
+	
+					<div class="agreeGNCheck">
+						<input type="checkbox" id="chk_mpolicy" name="policy" required msg="개인정보취급방침에 동의해주세요" />
+						<label for="chk_mpolicy">제 3자 제공동의.</label>
+					</div>
+				</div>
+			</div>
+
+			<div align="center" style="margin-top:10px;">
+			<button type="submit">확인</button>
+			<button onclick="window.close();">취소</button>
+			</div>
+		</form>
+	</body>
+</html>

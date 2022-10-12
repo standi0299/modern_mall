@@ -1,0 +1,91 @@
+				<div class="h-group">
+					<div class="col">{=__text("상품코드")}</div>
+					<div class="col">{goodsno}</div>
+				</div>
+				<!--{ ? goods_size != "" }-->				
+				<div class="h-group">
+					<div class="col">{=__text("상품사이즈")}</div>
+					<div class="col">{goods_size}</div>
+				</div>
+				<!--{ / }-->
+				<div class="h-group">
+					<div class="col">{=__text("제작사")}</div>
+					<div class="col">{=get_releasenm(rid)}</div>
+				</div>
+				<!-- 브랜드가 존재 할때만 표시하도록 수정 / 14.05.12 / kjm -->
+				<!--{ ? brandno != 0 }-->
+				<div class="h-group">
+					<div class="col">{=__text("브랜드")}</div>
+					<div class="col">{=f_getBrandNm(brandno)}</div>
+				</div>
+				<!--{ / }-->	
+				
+				<!-- 원산지, 제조사 추가 / 14.05.12 / kjm -->
+				<!--{ ? origin }-->
+				<!--<div class="h-group">
+					<div class="col">{=__text("원산지")}</div>
+					<div class="col">{origin}</div>
+				</div>-->
+				<!--{ / }-->
+				<!--{ ? maker }-->
+				<!--<div class="h-group">
+					<div class="col">{=__text("제조사")}</div>
+					<div class="col">{maker}</div>
+				</div>-->
+				<!--{ / }-->
+	
+				<!--{ ? cgoods_size }-->
+				<!--<div class="h-group">
+					<div class="col">{=__text("상품사이즈")}</div>
+					<div class="col">{cgoods_size}</div>
+				</div>-->
+				<!--{ / }-->
+				<!--{ ? cresolution }-->
+				<!--<div class="h-group">
+					<div class="col">{=__text("권장해상도")}</div>
+					<div class="col">{cresolution}</div>
+				</div>-->
+				<!--{ / }-->
+				<!--{ ? trim(leadtime) }-->
+				<!--<div class="h-group">
+					<div class="col">{=__text("제작기간")}</div>
+					<div class="col">{leadtime}</div>
+				</div>-->
+				<!--{ / }-->
+				<div class="h-group">
+					<div class="col">{=__text("배송비")}</div>
+					<div class="col">
+						<!--{ @ f_get_delivery(goodsno) }-->
+						{?.shiptype==0}
+							{?.r_shiptype==0}
+							{=number_format(.shipprice)}
+							{:.r_shiptype==1}
+							{=__text("무료배송")}
+							{:}
+							{=number_format(.shipprice)}{=__text("원")}
+							({=number_format(.shipconditional)}{=__text("원 이상 주문시 무료")})
+							{/}
+						{:.shiptype==1}
+						{=__text("무료배송")}
+						{:.shiptype==2}
+						{=__text("개별배송비")} : {=number_format(.shipprice)}
+						{:.shiptype==3}
+						{=number_format(.shipprice)}{=__text("원")}
+						({=number_format(.shipconditional)}{=__text("원 이상 주문시 무료")})
+						{/}
+						<!--{ / }-->						
+					</div>
+				</div>
+				<!--{ ? csummary }-->
+				<!--<div class="h-group">
+					<div class="col">{=__text("간략설명")}</div>
+					<div class="col">{csummary}</div>
+				</div>-->
+				<!--{ / }-->
+				
+				<!--{ @ goods_desc }-->
+				<div class="h-group">
+					<div class="col">{.name}</div>
+					<div class="col">{.value}</div>
+				</div>
+				<!--{ / }-->

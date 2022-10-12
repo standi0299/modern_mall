@@ -1,0 +1,1524 @@
+{ # header }
+<!--alaska_card.htm-->
+
+<script type="text/javascript">  
+var cid = "{_cid}";
+var center_id = "{_cfg_center.center_cid}";
+
+var print_img = "";
+
+var r_ipro_print_code = {=json_encode(_r_ipro_print_code)};
+var r_ipro_print_sub_item = {=json_encode(_r_ipro_print_sub_item)};
+
+var cfg_layout_top = "{_cfg.layout.top}"; //print_common.js initFileUploadOrder() 에서 사용.
+</script>
+
+<!--
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/indigo.css">
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/jquery.bxslider.css">
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/font-awesome/css/font-awesome.min.css">
+
+<script src="/skin/modern/assets/alaskaprint/js/jquery-1.11.1.min.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/jquery.easing.1.3.min.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/jquery.sticky-kit.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/gnb.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/indigo.js"></script>
+-->
+
+<script src="/skin/modern/assets/print_js/print_common.js"></script>
+<script src="/skin/modern/assets/print_js/print_{print_goods_type}.js"></script>
+
+<form name="fm_print" id="fm_print" method="post" onsubmit="return false;">
+	<input type="hidden" name="mode" />
+	<input type="hidden" name="goodsno" value="{goodsno}" />
+	<input type="hidden" name="goodsnm" value="{goodsnm}" />
+	<input type="hidden" name="goods_group_code" value="{goods_group_code}" />
+	<input type="hidden" name="print_goods_type" value="{print_goods_type}" />
+	
+	<input type="hidden" name="ea" value="1" />
+	<input type="hidden" name="storageid" value="{_GET.storageid}" />
+	<input type="hidden" name="est_order_type" />
+	<input type="hidden" name="est_goodsnm" />
+	<input type="hidden" name="est_file_upload_json" />	
+
+	<!--/*
+	결제금액 : 공급가격: 3,000원 ( 할인가: 2,700원 ) + 부가세: 270원 = 2,970
+	공급가격 : opt_price
+	할인가격 : dc_price
+	부가세 : vat_price
+	판매가격 : sale_price
+	*/-->
+	
+    <input type="hidden" name="option_json" id="option_json" />
+    <input type="hidden" name="est_opt_price" id="est_opt_price" />
+    <input type="hidden" name="est_dc_price" id="est_dc_price" />
+    <input type="hidden" name="est_vat_price" id="est_vat_price" />
+	<input type="hidden" name="est_sale_price" id="est_sale_price" />
+	
+	<input type="hidden" name="order_direct" />
+	
+	<input type="hidden" name="real_cover_size" id="real_cover_size" />
+
+    <input type="hidden" id="select_option_supply_price" name="select_option_supply_price" />
+    <input type="hidden" id="select_option_sum_price" name="select_option_sum_price" />
+    
+        <!-- CONTAINER START -->	
+		<div id="container_idg">
+			<div class="inner_idg">
+				<div class="indicator">
+					<span>{_category.catnm}</span>
+					<span class="current">{goodsnm}</span>
+				</div>
+
+				<div class="product_detail_wrap">
+					<!-- 상품 주문 START -->
+
+					<div class="pd_detail_left">
+						<div class="pd_detail_left_wrap">
+							<!-- 제품 이미지 영역 START -->
+							<div class="pd_detail_image">
+								<div class="detail_image_big">
+									<img src="{img[0]}" id="bimg" width="350px" height="350px" alt="" />
+								</div>
+								<ul class="detail_image_thumb">
+									<!--<li class="image_thumb"><a href="#"><img src="/skin/modern/assets/alaskaprint/images/order/ex_thumb01.jpg" alt="" /></a></li>
+									<li class="image_thumb"><a href="#"><img src="/skin/modern/assets/alaskaprint/images/order/ex_thumb02.jpg" alt="" /></a></li>
+									<li class="image_thumb"><a href="#"><img src="/skin/modern/assets/alaskaprint/images/order/ex_thumb03.jpg" alt="" /></a></li>-->
+									
+									<!--{ @ img }-->
+									<li class="image_thumb"><img src="{.value_}" onclick="detail_img(this);" width="78px" height="78px" alt="" style="cursor: pointer;" /></li>
+									<!--{ / }-->
+								</ul>
+							</div>
+							<!-- 제품 이미지 영역 END -->
+
+							<!-- 주문 선택 영역 START -->
+							<div class="pd_detail_form_wrap">
+								<div class="pd_detail_form">
+									<p class="tit_image">
+										<!--{ @ f_banner_s2("view_print_product_tit_image_" + goodsno)}-->{.banner}<!--{ / }-->
+									</p>
+									<div class="df_cont">
+										<ul>
+											<li>
+												<span class="form_tit">제목</span>
+												<div class="ip_fld_wp" style="width:300px;">
+													<input type="text" class="ip_fld" name="est_title" id="est_title" placeholder="제목입력" style="width:300px;" />
+												</div>
+											</li>											
+											<li>
+												<span class="form_tit">규격</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="opt_size" id="opt_size" onchange="dynamicImgChange();">
+													</select>
+												</div>
+												<span class="form_dec" id="form_dec">* 작업사이즈</span>
+											</li>
+											<li>
+												<span class="form_tit">수량</span>
+												<!--{? print_goods_type == "OS02" }-->
+												<div class="custom_select" style="width:170px;">													
+													<select name="cnt" id="cnt">
+														<!--{ @ print_page }-->
+						                            		<option value="{.value_}">{.value_}</option>
+						                            	<!--{ / }-->
+													</select>
+												</div>
+												<!--{ : }-->
+												<div class="ip_fld_wp">	
+						                            <input type="text" class="ip_fld" name="cnt" id="cnt" placeholder="수량입력"/>
+												</div>
+												<!--{ / }-->												
+												부
+											</li>
+										</ul>
+									</div>	
+									<div class="df_cont">
+										<div class="dc_hd">
+											표지 <span class="rttxt" id="tot_senaka">(책등크기 : 0mm)</span>
+										</div>
+										<ul>
+											<li>
+												<span class="form_tit">날개</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="outside_wing" id="outside_wing">
+													</select>
+												</div>
+											</li>
+											<li class="outside_wing_width" style="display: none;">
+												<span class="form_tit">날개크기</span>	
+												<div class="custom_select outside_wing_width" style="width:170px;">
+													<select name="outside_wing_width" id="outside_wing_width" style="width: 170px;">
+			                                            <option value="">선택해주세요</option>
+			                                            <option value="50">50mm</option>
+			                                            <option value="60">60mm</option>
+			                                            <option value="70">70mm</option>
+			                                            <option value="80">80mm</option>
+			                                            <option value="90">90mm</option>
+			                                            <option value="100">100mm</option>
+			                                            <option value="110">110mm</option>
+			                                            <option value="120">120mm</option>
+			                                            <option value="130">130mm</option>
+			                                            <option value="140">140mm</option>
+			                                        </select>
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">페이지수</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="outside_page" id="outside_page" onchange="calcuPrice();">
+														<option value="2">2 page</option>
+                                            			<option value="4">4 page</option>
+													</select>
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">용지</span>
+												<div class="cs_slt_wp">
+													<div class="custom_select whf" style="width:170px;">
+														<select name="outside_paper_group" id="outside_paper_group">
+														</select>
+													</div>
+													<div class="custom_select whf" style="width:170px;">
+														<select name="outside_paper" id="outside_paper">
+														</select>
+													</div>
+													<div class="custom_select whf" style="width:170px;">
+														<select name="outside_paper_gram" id="outside_paper_gram">
+														</select>
+													</div>
+												</div>	
+											</li>
+											<!--{? print_goods_type == "OS02" }-->
+											<!--<li>
+												<span class="form_tit">인쇄(앞면)</span>
+												<div class="custom_select" style="width:170px;" id="outside_print1">
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">별색추가</span>
+												<div class="custom_select" style="width:170px;">
+													<span id="outside_print3"> </span>
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">인쇄(뒷면)</span>
+												<div class="custom_select" style="width:170px;" id="outside_print4">
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">별색추가</span>
+												<div class="custom_select" style="width:170px;">
+													<span id="outside_print6"> </span>
+												</div>
+											</li>-->
+											<!--{ : }-->
+											<li>
+												<span class="form_tit">인쇄컬러</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="outside_print1" id="outside_print1" onchange="calcuPrice();">
+													</select>
+												</div>
+											</li>
+											<li id="outside_print3_use">
+												<span class="form_tit">별색추가</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="outside_print3" id="outside_print3" onchange="calcuPrice();">
+													</select>												
+													<input type="hidden" name="outside_print3_check" value="Y" />
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">인쇄면</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="outside_print2" id="outside_print2" onchange="calcuPrice();">
+													</select>
+												</div>
+											</li>
+											<!--{ / }-->											
+										</ul>
+									</div>
+									
+									<div class="inside_area">
+									<div class="df_cont">
+										<div class="dc_hd">
+											내지 (<span id="cnt_inside_0">1</span>) <span name="inside_senaka_0" id="inside_senaka_0"></span>
+											<span class="rtbox">
+												<button type="button" class="dfbtn" id="btn_inside_0" onclick="addInside()">추가</button>
+												<button type="button" class="dfbtn" onclick="delInside()">삭제</button>
+											</span>
+										</div>
+										<ul>
+											<li>
+												<span class="form_tit">페이지수</span>
+												<div class="ip_fld_wp">
+													<input type="text" class="ip_fld" name="inside_page[]" id="inside_page[]" onchange="calcuPrice();getPaperInfo();"/>
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">용지</span>
+												<div class="cs_slt_wp">
+													<div class="custom_select whf" style="width:170px;">
+														<select name="inside_paper_group[]" id="inside_paper_group[]" onchange="getListUrl();getPaperInfo();">
+														</select>
+													</div>
+													<div class="custom_select whf" style="width:170px;">
+														<select name="inside_paper[]" id="inside_paper[]" onchange="getListUrl();getPaperInfo();">
+														</select>
+													</div>
+													<div class="custom_select whf" style="width:170px;">
+														<select name="inside_paper_gram[]" id="inside_paper_gram[]" onchange="calcuPrice();getSenaka();getPaperInfo();">
+														</select>
+														<!--<span class="form_dec seneka_data" name="inside_senaka_0" id="inside_senaka_0">0.00</span>-->
+													</div>													
+												</div>	
+											</li>
+											<li id="spot_color_sec_inside_0">
+												<span class="form_tit">인쇄방법</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="inside_print1_0" id="inside_print1_0" onchange="calcuPrice();getPaperInfo();">
+													</select>
+												</div>
+											</li>
+											<li id="inside_print3_0_use">
+												<span class="form_tit">별색추가</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="inside_print3_0" id="inside_print3_0" onchange="calcuPrice();getPaperInfo();">
+													</select>												
+													<input type="hidden" name="inside_print3_0_check" value="Y" />
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">인쇄면</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="inside_print2_0" id="inside_print2_0" onchange="calcuPrice();getPaperInfo();">
+													</select>
+												</div>
+											</li>
+										</ul>
+									</div>
+									</div>
+									
+									<div class="inpage_area">
+									<div class="df_cont">
+										<div class="dc_hd">
+											간지/면지 (<span id="cnt_inpage_0">1</span>) <span name="inpage_senaka_0" id="inpage_senaka_0"></span>
+											<span class="rtbox">
+												<button type="button" class="dfbtn" id="btn_inpage_0" onclick="addInpage()">추가</button>
+												<button type="button" class="dfbtn" onclick="delInpage()">삭제</button>
+											</span>
+										</div>
+										<ul>
+											<li>
+												<span class="form_tit">페이지수</span>
+												<div class="ip_fld_wp">
+													<input type="text" class="ip_fld" name="inpage_page[]" id="inpage_page[]" onchange="calcuPrice();getPaperInfo();"/>
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">용지</span>
+												<div class="cs_slt_wp">
+													<div class="custom_select whf" style="width:170px;">
+														<select name="inpage_paper_group[]" id="inpage_paper_group[]" onchange="getListUrl();getPaperInfo();">
+														</select>
+													</div>
+													<div class="custom_select whf" style="width:170px;">
+														<select name="inpage_paper[]" id="inpage_paper[]" onchange="getListUrl();getPaperInfo();">
+														</select>
+													</div>
+													<div class="custom_select whf" style="width:170px;">
+														<select name="inpage_paper_gram[]" id="inpage_paper_gram[]" onchange="calcuPrice();getSenaka();getPaperInfo();">
+														</select>														
+													</div>
+													<!--<span class="form_dec seneka_data" name="inpage_senaka_0" id="inpage_senaka_0">0.00</span>-->
+												</div>	
+											</li>
+											<li id="spot_color_sec_inpage_0">
+												<span class="form_tit">인쇄방법</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="inpage_print1_0" id="inpage_print1_0" onchange="calcuPrice();getPaperInfo();">
+													</select>
+												</div>
+											</li>
+											<li id="inpage_print3_0_use">
+												<span class="form_tit">별색추가</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="inpage_print3_0" id="inpage_print3_0" onchange="calcuPrice();getPaperInfo();">
+													</select>												
+													<input type="hidden" name="inpage_print3_0_check" value="Y" />
+												</div>
+											</li>
+											<li>
+												<span class="form_tit">인쇄면</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="inpage_print2_0" id="inpage_print2_0" onchange="calcuPrice();getPaperInfo();">
+													</select>
+												</div>
+											</li>
+										</ul>
+									</div>
+									</div>
+									
+									<div class="df_cont">
+										<ul>
+											<!--{? print_data.bind }-->
+											<li>
+												<span class="form_tit">제본</span>
+												<div class="custom_select bind_select" style="width:170px;">
+													<select name="opt_bind" id="opt_bind" onchange="calcuPrice();">
+													</select>
+												</div>
+											</li>
+											<!--{ / }-->
+                    
+                    						<!--{? print_data.bind_type }-->											
+											<li>
+												<span class="form_tit">제본방향</span>
+												<div class="custom_select" style="width:170px;">
+													<select name="opt_bind_type" id="opt_bind_type" onchange="calcuPrice();">
+													</select>
+												</div>
+											</li>											
+											<!--{ / }-->
+										</ul>
+									</div>
+
+									<div class="df_cont">
+										<ul>
+											<!--{ ? _cid !== "lotteria"}-->
+											<li class="order_inquiry">
+												<span class="or_dec">규격 외의 제품은 견적문의 게시판을 이용해주세요.</span>
+												<a href="/board/list.php?board_id=quoteinquiries" class="btn_orinquiry">견적문의 바로가기</a>
+											</li>
+											<!--{ / }-->
+											<li>
+												<span class="form_tit">메모</span>
+												<div class="custom_textarea">
+													<textarea rows="6" name="est_order_memo" id="est_order_memo"></textarea>
+												</div>
+											</li>
+										</ul>
+									</div>
+											
+								</div>								
+							</div>
+							<!-- 주문 선택 영역 END -->
+
+							<!-- 후가공 선택 START -->
+							<div class="pd_detail_finishing_wrap">
+								<div class="pd_detail_finishing">
+									<span class="form_tit">후가공</span>
+									<ul class="finishing_option_thumb">																				
+										<!--{? print_data.outside_gloss }-->
+										<li data-id="fo_0" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_coating.png" alt="코팅(표지)" /></span>
+											<span class="option_thumb_tit">코팅(표지)</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.gloss }-->
+										<li data-id="fo_1" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_coating.png" alt="코팅(내지)" /></span>
+											<span class="option_thumb_tit">코팅(내지)</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.oshi }-->
+										<li data-id="fo_2" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_scoring.png" alt="오시" /></span>
+											<span class="option_thumb_tit">오시</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.holding }-->
+										<li data-id="fo_3" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_gatefold.png" alt="접지" /></span>
+											<span class="option_thumb_tit">접지</span>
+										</li>
+										<!--{ / }-->
+										<!--<li data-id="fo_4" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_indoorsection.png" alt="실내용 단면" /></span>
+											<span class="option_thumb_tit">실내용 단면</span>
+										</li>
+										<li data-id="fo_5" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_outdoorsection.png" alt="실외용 단면" /></span>
+											<span class="option_thumb_tit">실외용 단면</span>
+										</li>
+										<li data-id="fo_6" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_outdoorbothsides.png" alt="실외용 양면" /></span>
+											<span class="option_thumb_tit">실외용 양면</span>
+										</li>-->
+										<!--{? print_data.cutting }-->
+										<li data-id="fo_7" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_heatcut.png" alt="열재단" /></span>
+											<span class="option_thumb_tit">열재단</span>
+										</li>
+										<!--{ / }-->
+										
+										<!--<li data-id="fo_8" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_fourpunching.png" alt="사방타공, 끈" /></span>
+											<span class="option_thumb_tit">사방타공, 끈</span>
+										</li>-->
+										
+										<!--{? print_data.tape }-->
+										<li data-id="fo_9" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_doublesidedtape.png" alt="양면테이프" /></span>
+											<span class="option_thumb_tit">양면테이프</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.round }-->
+										<li data-id="fo_10" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_cornercut.png" alt="귀도리" /></span>
+											<span class="option_thumb_tit">귀도리</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.foil }-->
+										<li data-id="fo_11" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_bulge.png" alt="박" /></span>
+											<span class="option_thumb_tit">박</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.press }-->
+										<li data-id="fo_12" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_pressure.png" alt="형압" /></span>
+											<span class="option_thumb_tit">형압</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.punch }-->
+										<li data-id="fo_13" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_punching.png" alt="타공" /></span>
+											<span class="option_thumb_tit">타공</span>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.miss }-->
+										<li data-id="fo_14" class="option_thumb">
+											<span class="option_thumb_ico"><img src="/skin/modern/assets/alaskaprint/images/order/ico_finishing_sewing.png" alt="미싱" /></span>
+											<span class="option_thumb_tit">미싱</span>
+										</li>
+										<!--{ / }-->
+									</ul>
+								</div>
+
+								<!-- 후가공 - 코팅 (표지)-->
+								<div data-id="fo_0" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">코팅(표지)</span>
+										<div class="custom_select">
+											<select name="outside_gloss" id="outside_gloss" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="outside_gloss_check" value="N" />											
+										</div>
+										<!--<div class="custom_select">
+										</div>-->
+										<div class="finishing_option_price"><span name="outside_gloss_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "GLOSS" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 코팅 (내지)-->
+								<div data-id="fo_1" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">코팅 (내지)</span>
+										<div class="custom_select">
+											<select name="opt_gloss" id="opt_gloss" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_gloss_check" value="N" />											
+										</div>
+										<!--<div class="custom_select">
+										</div>-->
+										<div class="finishing_option_price"><span name="gloss_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "GLOSS" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 오시 -->
+								<div data-id="fo_2" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">오시</span>
+										<div class="custom_select">
+											<select name="opt_oshi" id="opt_oshi" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_oshi_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="oshi_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "OSHI" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 접지 -->
+								<div data-id="fo_3" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">접지</span>
+										<div class="custom_select">
+											<select name="opt_holding" id="opt_holding" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_holding_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="holding_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "HOLDING" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 실내용 단면 -->
+								<div data-id="fo_4" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">실내용 단면</span>
+										<div class="custom_select">
+											<select name="" id="" onclick="">
+												<option value="">item 1</option>
+												<option value="">item 2</option>
+												<option value="">item 3</option>
+												<option value="">item 4</option>
+											</select>
+											<input type="hidden" name="" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="">0</span></div>
+									</div>
+									<div class="finishing_option_image"><img src="/skin/modern/assets/alaskaprint/images/order/img_finishing_gatefold.jpg" alt="실내용 단면" /></div>
+								</div>
+
+								<!-- 후가공 - 실외용 단면 -->
+								<div data-id="fo_5" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">실외용 단면</span>
+										<div class="custom_select">
+											<select name="" id="" onclick="">
+												<option value="">item 1</option>
+												<option value="">item 2</option>
+												<option value="">item 3</option>
+												<option value="">item 4</option>
+											</select>
+											<input type="hidden" name="" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="">0</span></div>
+									</div>
+									<div class="finishing_option_image"><img src="/skin/modern/assets/alaskaprint/images/order/img_finishing_gatefold.jpg" alt="실외용 단면" /></div>
+								</div>
+
+								<!-- 후가공 - 실외용 양면 -->
+								<div data-id="fo_6" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">실외용 양면</span>
+										<div class="custom_select">
+											<select name="" id="" onclick="">
+												<option value="">item 1</option>
+												<option value="">item 2</option>
+												<option value="">item 3</option>
+												<option value="">item 4</option>
+											</select>
+											<input type="hidden" name="" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="">0</span></div>
+									</div>
+									<div class="finishing_option_image"><img src="/skin/modern/assets/alaskaprint/images/order/img_finishing_gatefold.jpg" alt="실외용 양면" /></div>
+								</div>
+
+								<!-- 후가공 - 열재단 -->
+								<div data-id="fo_7" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">열재단</span>
+										<div class="custom_select">
+											<select name="opt_cutting" id="opt_cutting" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_cutting_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="cutting_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "CUTTING" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+								
+								<!-- 후가공 - 사방타공,끈 -->
+								<div data-id="fo_8" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">사방타공,끈</span>
+										<div class="custom_select">
+											<select name="" id="" onclick="">
+											</select>
+											<input type="hidden" name="" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="">0</span></div>
+									</div>
+									<div class="finishing_option_image"><img src="/skin/modern/assets/alaskaprint/images/order/img_finishing_gatefold.jpg" alt="사방타공,끈" /></div>
+								</div>
+
+								<!-- 후가공 - 양면테이프 -->
+								<div data-id="fo_9" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">양면테이프</span>
+										<div class="custom_select">
+											<select name="opt_tape" id="opt_tape" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_tape_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="tape_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "TAPE" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 귀도리 -->
+								<div data-id="fo_10" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">귀도리</span>
+										<div class="custom_select">
+											<select name="opt_round" id="opt_round" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_round_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="round_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "ROUND" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 박 -->
+								<div data-id="fo_11" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">박</span>
+										<div class="custom_select">
+											<select name="opt_foil" id="opt_foil" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_foil_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="foil_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "FOIL" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 형압 -->
+								<div data-id="fo_12" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">형압</span>
+										<div class="custom_select">
+											<select name="opt_press" id="opt_press" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_press_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="press_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "PRESS" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 타공 -->
+								<div data-id="fo_13" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">타공</span>
+										<div class="custom_select">
+											<select name="opt_punch" id="opt_punch" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_punch_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="punch_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "PUNCH" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+
+								<!-- 후가공 - 미싱 -->
+								<div data-id="fo_14" class="finishing_option_list">
+									<div class="finishing_option_form">
+										<span class="form_tit">미싱</span>
+										<div class="custom_select">
+											<select name="opt_miss" id="opt_miss" onchange="afterOptionChange(this);calcuPrice();">
+											</select>
+											<input type="hidden" name="opt_miss_check" value="N" />
+										</div>
+										<div class="finishing_option_price"><span name="miss_price">0</span></div>
+									</div>
+									<div class="finishing_option_image">
+										<!--{ @ print_data.desc }-->
+											<!--{? .key_ == "MISS" }-->{.value_}<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								</div>
+							</div>
+							<!-- 후가공 선택 END -->
+						</div>
+
+						<!--{ ? _cid !== "lotteria"}-->
+						<!-- 제작안내, 배송, 교환/환불, 리뷰  START -->
+						<div class="pd_detail_info_wrap">
+							<!-- 제작안내 START -->
+							<div class="pd_detail_making">
+								<!-- 탭메뉴 START -->
+								<ul class="pd_detail_info_tab">
+									<li class="active"><a href="#info" name="info">제작안내</a></li>
+									<li><a href="#delivery">배송정보</a></li>
+									<li><a href="#exchange">교환/환불</a></li>
+									<li><a href="#review">구매후기<span>({=pg_review->recode['total']})</span></a></li>
+								</ul>	
+								<!-- 탭메뉴 END -->
+								<div class="detail_making_wrap">
+									<div class="detail_info_top">
+										<h4>제작안내</h4>
+									</div>
+									<div class="detail_info_cont">
+										<!--{ @ f_banner_s2("view_print_product_info")}-->{.banner}<!--{ / }-->
+										<img src="/skin/modern/assets/alaskaprint/images/order/ex_making.jpg" alt="제작안내" />
+									</div>
+								</div>
+							</div>
+							<!-- 제작안내 END -->
+
+							<!-- 배송정보 START -->
+							<div class="pd_detail_delivery">
+								<!-- 탭메뉴 START -->
+								<ul class="pd_detail_info_tab">
+									<li><a href="#info">제작안내</a></li>
+									<li class="active"><a href="#delivery" name="delivery">배송정보</a></li>
+									<li><a href="#exchange">교환/환불</a></li>
+									<li><a href="#review">구매후기<span>({=pg_review->recode['total']})</span></a></li>
+								</ul>	
+								<!-- 탭메뉴 END -->
+								<div class="detail_delivery_wrap">
+									<div class="detail_info_top">
+										<h4>배송정보</h4>
+									</div>
+									<div class="detail_info_cont">
+										<!--{ @ f_banner_s2("view_print_product_delivery")}-->{.banner}<!--{ / }-->
+										<img src="/skin/modern/assets/alaskaprint/images/order/ex_delivery.jpg" alt="배송정보" />
+									</div>
+								</div>
+							</div>
+							<!-- 배송정보 END -->
+
+							<!-- 교환/환불 START -->
+							<div class="pd_detail_exchange">
+								<!-- 탭메뉴 START -->
+								<ul class="pd_detail_info_tab">
+									<li><a href="#info">제작안내</a></li>
+									<li><a href="#delivery">배송정보</a></li>
+									<li class="active"><a href="#exchange" name="exchange">교환/환불</a></li>
+									<li><a href="#review">구매후기<span>({=pg_review->recode['total']})</span></a></li>
+								</ul>	
+								<!-- 탭메뉴 END -->
+								<div class="detail_exchange_wrap">
+									<div class="detail_info_top">
+										<h4>교환/환불</h4>
+									</div>
+									<div class="detail_info_cont">
+										<!--{ @ f_banner_s2("view_print_product_exchange")}-->{.banner}<!--{ / }-->
+										<img src="/skin/modern/assets/alaskaprint/images/order/ex_exchange.jpg" alt="교환/환불" />
+									</div>
+								</div>
+							</div>
+							<!-- 교환/환불 END -->
+
+							<!-- 리뷰 게시판 START -->
+							<script>
+								$(function(){
+									$('.detail_review_table_content .top > .title').click(function(){
+										$(this).parent().next().slideToggle();
+									});
+								});
+							</script>
+
+							<div class="pd_detail_review">
+								<!-- 탭메뉴 START -->
+								<ul class="pd_detail_info_tab">
+									<li><a href="#info">제작안내</a></li>
+									<li><a href="#delivery">배송정보</a></li>
+									<li><a href="#exchange">교환/환불</a></li>
+									<li class="active"><a href="#review" name="review">구매후기<span>({=pg_review->recode['total']})</span></a></li>
+								</ul>	
+								<!-- 탭메뉴 END -->
+								<div class="detail_review_wrap">
+									<div class="detail_review_top">
+										<h4>구매후기 <span>({=pg_review->recode['total']})</span></h4>
+										<a href="#" class="btn_write">상품평 작성</a>
+									</div>
+									<div class="detail_review_table">
+										<div class="detail_review_table_top">
+											<span>번호</span>
+											<span>상품평가</span>
+											<span>내용</span>
+											<span>구매자</span>
+											<span>등록일</span>
+										</div>
+										
+										<!--{ ? review }-->		
+										<!--{ @ review }-->
+										<div class="detail_review_table_content">
+											<div class="top">
+												<span>{.no}</span>
+												<span>
+													<u class="grade"></u>
+													<u class="grade"></u>
+													<u class="grade"></u>
+													<u class="grade"></u>
+													<u class="grade"></u>
+												</span>
+												<span class="title">{.content}...</span>
+												<span>{.name}</span>
+												<span>{.regdt}</span>
+											</div>
+											<div class="bottom" style="display: none;">
+												<div>{.content}</div>
+											</div>
+										</div>
+										<!--{ / }-->
+		
+										<!--{ : }-->
+										<div class="detail_review_table_content">
+											<div class="top">
+												<span></span>
+												<span></span>
+												<span class="title">{=__text("등록된 상품사용기가 없습니다.")}</span>
+												<span></span>
+												<span></span>
+											</div>
+											<div class="bottom" style="display: none;">
+												<div></div>
+											</div>
+										</div>
+										<!--{ / }-->
+									</div>
+									<div class="paging_wrap">
+										{=pg_review->page['navi']}
+										<!--<a href="#" class="first"></a>
+										<a href="#" class="prev"></a>
+										<a href="#">1</a>
+										<a href="#">2</a>
+										<a href="#" class="on">3</a>
+										<a href="#">4</a>
+										<a href="#">5</a>
+										<a href="#">6</a>
+										<a href="#">7</a>
+										<a href="#">8</a>
+										<a href="#">9</a>
+										<a href="#">10</a>
+										<a href="#" class="next"></a>
+										<a href="#" class="last"></a>-->
+									</div>
+								</div>
+							</div>
+							<!-- 리뷰 게시판 END -->
+						</div>
+						<!-- 제작안내, 배송, 교환/환불, 리뷰  END -->
+						<!--{ / }-->
+							
+					</div>
+					<!-- 상품 주문 END -->
+
+					<!-- 상품 결제 정보 START -->
+					<div class="pd_detail_right">
+						<div class="pd_detail_right_wrap">
+							<div class="pd_quick_view">
+								<ul class="quick_view_list">
+									<li>규격 <span name="opt_size"></span></li>
+									<li>수량 <span name="cnt"></span></li>
+								</ul>
+								
+								<ul class="quick_view_list">
+									<li><span name="outside_page">표지</span></li>
+									<li><span name="outside_wing"></span> <span name="outside_wing_width"></span></li>
+									<li><!--<span name="outside_paper_group"></span>--><span name="outside_paper"></span><span name="outside_paper_gram"></span></li>
+									<li><span name="outside_print1"></span></li>
+									<li><span name="outside_print3"></span></li>
+									<li><span name="outside_print2"></span></li>
+								</ul>
+								<div id="inside_quick_view">
+									<ul class="quick_view_list" id="inside_view_0">
+										<li>내지 <span name="inside_page_0"></span></li>
+										<li><!--<span name="inside_paper_group_0"></span>--><span name="inside_paper_0"></span><span name="inside_paper_gram_0"></span></li>
+										<li><span name="inside_print1_0"></span></li>
+										<li><span name="inside_print3_0"></span></li>
+										<li><span name="inside_print2_0"></span></li>
+									</ul>								
+								</div>
+								<div id="inpage_quick_view">
+									<ul class="quick_view_list" id="inpage_view_0">
+										<li>간지/면지 <span name="inpage_page_0"></span></li>
+										<li><!--<span name="inpage_paper_group_0"></span>--><span name="inpage_paper_0"></span><span name="inpage_paper_gram_0"></span></li>
+										<li><span name="inpage_print1_0"></span></li>
+										<li><span name="inpage_print3_0"></span></li>
+										<li><span name="inpage_print2_0"></span></li>
+									</ul>
+								</div>
+								
+								<ul class="quick_view_list">
+									<li>제본 <span name="opt_bind"></span><span class="price" name="bind_price"></span></li>
+									<li>제본방향 <span name="opt_bind_type"></span><span class="price" name="bind_type_price"></span></li>
+									
+									<!--{? print_data.outside_gloss }-->
+									<li data-id="fo_0" class="quick_option_list">코팅(표지) <span name="outside_gloss"></span><span class="price" name="outside_gloss_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.gloss }-->
+									<li data-id="fo_1" class="quick_option_list">코팅(내지) <span name="opt_gloss"></span><span class="price" name="inside_gloss_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.oshi }-->
+									<li data-id="fo_2" class="quick_option_list">오시 <span name="opt_oshi"></span><span class="price" name="oshi_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.holding }-->
+									<li data-id="fo_3" class="quick_option_list">접지 <span name="opt_holding"></span><span class="price" name="holding_price"></span></li>
+									<!--{ / }-->
+									<!--<li data-id="fo_4" class="quick_option_list">실내용 단면 <span name="opt_"></span><span class="price" name="_price"></span></li>
+									<li data-id="fo_5" class="quick_option_list">실외용 단면 <span name="opt_"></span><span class="price" name="_price"></span></li>
+									<li data-id="fo_6" class="quick_option_list">실외용 양면 <span name="opt_"></span><span class="price" name="_price"></span></li>-->
+									<!--{? print_data.cutting }-->
+									<li data-id="fo_7" class="quick_option_list">열재단 <span name="opt_cutting"></span><span class="price" name="cutting_price"></span></li>
+									<!--{ / }-->
+									
+									<!--<li data-id="fo_8" class="quick_option_list">사방타공, 끈 <span name="opt_"></span><span class="price" name="_price"></span></li>-->
+									
+									<!--{? print_data.tape }-->
+									<li data-id="fo_9" class="quick_option_list">양면테이프 <span name="opt_tape"></span><span class="price" name="tape_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.round }-->
+									<li data-id="fo_10" class="quick_option_list">귀도리 <span name="opt_round"></span><span class="price" name="round_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.foil }-->
+									<li data-id="fo_11" class="quick_option_list">박 <span name="opt_foil"></span><span class="price" name="foil_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.press }-->
+									<li data-id="fo_12" class="quick_option_list">형압 <span name="opt_press"></span><span class="price" name="press_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.punch }-->
+									<li data-id="fo_13" class="quick_option_list">타공 <span name="opt_punch"></span><span class="price" name="punch_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.miss }-->
+									<li data-id="fo_14" class="quick_option_list">미싱 <span name="opt_miss"></span><span class="price" name="miss_price"></span></li>
+									<!--{ / }-->
+								</ul>
+								<p class="pd_quick_totalprice">
+									<span>주문금액</span>
+									<span class="price" id="sale_price"></span>
+								</p>
+							</div>
+							
+							<!-- 내 파일 가져오기, 디자인의뢰하기 결과 화면 START -->
+							<script>
+								$(function(){
+									$('.pd_upload_filelist .file_open').click(function(){
+										$(this).next().slideToggle();
+									});
+								});
+							</script>
+							<div class="pd_upload_filelist" style="display: none;">
+								<p class="file_open">첨부파일 보기</p>
+								<ul id="file_list">									
+									<!--<li><span class="file_txt">filename.zip</span> <a href="#" class="file_btn"></a></li>-->									
+								</ul>
+							</div>
+							<!-- 내 파일 가져오기, 디자인의뢰하기 결과 화면 END -->							
+							
+							<div class="pd_quick_btn">								
+								<a href="#" class="file_upload" onclick="overLayer_on('fileUpload')"><span class="btn_selffile">내 파일 가져오기</span></a>
+
+								<!--{ ? podskind > 0 }-->
+								<a href="#" class="design_upload" onclick="templateListOpen('{_GET.catno}','{goodsno}','web','');"><span class="btn_selfdesign">셀프 디자인하기</span></a>								
+								<a href="#" class="design_preview" onclick="preview_popup();"><span class="btn_selfdesign">편집내용  미리보기</span></a>								
+								<!--{ / }-->
+								<!--<a href="#" class="direct_upload" onclick="fileUploadOpenLayer('DIRECTUPLOAD');"><span class="btn_commission">디자인 의뢰하기</span></a>-->
+								<a href="#" class="order_btn" onclick="submitPrintOrder();"><span class="btn_order">주문하기</span></a>
+								<!--<a href="#" onclick="printOrder();" class="btn_estimate"><span>견적서 출력</span></a>-->
+							</div>
+						</div>
+					</div>
+					<!-- 상품 결제 정보 END -->
+					<script>
+						$(document).ready(function() {
+							$(".pd_detail_right_wrap").stick_in_parent({
+								offset_top: 100	
+							});
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+		<!-- CONTAINER END -->	
+
+</form>
+
+<script type="text/javascript">
+function afterOption(id, obj) {
+	//console.log($(obj).find('select').val());
+
+	// 값 초기화
+	$(obj).find('select').val('');
+	$('.quick_option_list[data-id="'+id+'"]').find('span').html('');
+
+	// 가격 계산
+	calcuPrice();
+}
+
+function detail_img(obj) {
+	$('#bimg').attr('src', obj.src);
+}
+
+function preview_popup() {
+	popup('../module/preview.php?goodsno={goodsno}&storageid='+$("input[name=storageid]").val(),1000,650, 1);
+}
+
+function afterOptionChange(obj) {
+	var name = $(obj).attr('name');
+	var val = $(obj).val();
+	
+	if (val == "")
+		$("input[name="+name+"_check]").val("N");
+	else
+		$("input[name="+name+"_check]").val("Y");
+
+	//console.log(name+" : "+val);
+	//console.log($("input[name="+name+"_check]").val());
+}
+
+;(function($) {
+	//콤보박스 관련 이벤트 처리 (알래스카 스킨 우측 가격 표기에 사용함.)
+	$("select").change(function(){
+		
+		var name = $(this).attr('name');
+		//console.log(name +" : "+ val);
+		if (name.indexOf('inside_') > -1 || name.indexOf('inpage_') > -1)
+			return true;
+
+		//console.log($("div.pd_detail_right_wrap").find("li").html());
+		if($(this).val()) {
+			//$(this).parent("li").show();
+			//$("span[name='"+$(this).attr("name")+"']").text($(this).children("option:selected").text());
+			
+			//알래스카 스킨 우측 표기에 사용함.
+			if($(this).attr("name") == "outside_paper_gram") {
+				$("span[name='"+$(this).attr("name")+"']").text(" / "+ $(this).children("option:selected").text());
+			}
+			else {
+				$("span[name='"+$(this).attr("name")+"']").text($(this).children("option:selected").text());
+			}
+		}
+		else {
+			//$(this).parent("li").hide();
+			$("span[name='"+$(this).attr("name")+"']").text("");
+		}
+		//console.log($(this).attr("name"));
+	});
+
+	//인풋박스 관련 이벤트 처리 (알래스카 스킨 우측 가격 표기에 사용함.)
+	$("input[name='cnt']").on("input", function() {
+    	if($(this).val()) {
+			$("span[name='cnt']").text($(this).val() + " 부");
+		}
+		else {
+			$("span[name='cnt']").text("");
+		}
+	});
+	
+
+	$('#opt_size').change(function(){
+		calcuPrice();
+	});
+	
+	$('#cnt').change(function(){
+		calcuPrice();
+	});
+	
+	$('#outside_paper_group').change(function(){
+		$("#outside_paper_gram").html('');
+		getList("/print/get_option_list_book.alaskaprint.php");
+	});	
+	$('#outside_paper').change(function(){
+		$("#outside_paper_gram").html('');
+		getList("/print/get_option_list_book.alaskaprint.php");
+	});	
+	$('#outside_paper_gram').change(function(){
+		calcuPrice();
+	});
+
+	//표지날개 이벤트 처리.	
+	$('#outside_wing').change(function(){
+		if ($('#outside_wing :selected').val() == "WI1") {
+			$('.outside_wing_width').hide();
+		} else {
+			$('.outside_wing_width').show();
+		}
+	});
+
+	//우측 매,건 표기에 사용함.
+	$("span[name='opt_page']").html($('#opt_page').val());
+	$("span[name='cnt']").html($('#cnt').val());
+
+	getList("/print/get_option_list_book.alaskaprint.php");
+	
+	btnView("{editor_mode}");
+	
+})(jQuery1_11_0);
+
+function getListUrl() {
+	getList("/print/get_option_list_book.alaskaprint.php");
+}
+
+//알래스카 스킨 우측 가격 표기에 사용함.
+function getPaperInfo() {
+	var totSenaka = 0;
+	var insideJson = {};
+	var inpageJson = {};
+	
+	//내지 처리.
+	var insideCnt = 0;
+	$("input[name='inside_page[]']").each(function(index) {
+		insideJson['inside_page_'+index] = $(this).val();
+		insideCnt = index;
+	});
+	$("select[name='inside_paper_group[]']").each(function(index) {
+		insideJson['inside_paper_group_'+index] = $(this).val();
+	});
+	$("select[name='inside_paper[]']").each(function(index) {
+		insideJson['inside_paper_'+index] = $('option:selected',this).text();
+	});
+	$("select[name='inside_paper_gram[]']").each(function(index) {
+		insideJson['inside_paper_gram_'+index] = $('option:selected',this).text();;
+	});
+
+	for(i = 0; i <= insideCnt; i++){
+		insideJson['inside_senaka_'+i] = $("span[name='inside_senaka_"+ i +"']").text();
+		insideJson['inside_print1_'+i] = $("select[name='inside_print1_"+ i +"']").find("option:selected").text();
+		insideJson['inside_print2_'+i] = $("select[name='inside_print2_"+ i +"']").find("option:selected").text();
+		insideJson['inside_print3_'+i] = $("select[name='inside_print3_"+ i +"']").find("option:selected").text();
+		
+		if ($("span[name='inside_senaka_"+ i +"']").text() != "" && $("span[name='inside_senaka_"+ i +"']").text() != "0.00")
+			totSenaka += parseFloat($("span[name='inside_senaka_"+ i +"']").text());
+	}
+	//console.log(totSenaka);
+	//console.log(insideJson);
+	
+	//알래스카 스킨 우측 가격 표기에 사용함.
+	$.each(insideJson , function(key, value) {
+		//console.log(key + ": " + insideJson[key]);
+		if(insideJson[key] && insideJson[key] != "선택해주세요.") {
+			if(key.indexOf('paper_gram') > -1)
+				$("span[name='"+key+"']").text(" / "+ insideJson[key]);
+			else
+				$("span[name='"+key+"']").text(insideJson[key]);
+		}
+		else {
+			$("span[name='"+key+"']").text("");
+		}
+	});
+
+	//간지/면지  처리.
+	var inpageCnt = 0;
+	$("input[name='inpage_page[]']").each(function(index) {
+		inpageJson['inpage_page_'+index] = $(this).val();
+		inpageCnt = index;
+	});
+	$("select[name='inpage_paper_group[]']").each(function(index) {
+		inpageJson['inpage_paper_group_'+index] = $(this).val();
+	});
+	$("select[name='inpage_paper[]']").each(function(index) {
+		inpageJson['inpage_paper_'+index] = $('option:selected',this).text();
+	});
+	$("select[name='inpage_paper_gram[]']").each(function(index) {
+		inpageJson['inpage_paper_gram_'+index] = $('option:selected',this).text();;
+	});
+
+	for(i = 0; i <= inpageCnt; i++){
+		inpageJson['inpage_senaka_'+i] = $("span[name='inpage_senaka_"+ i +"']").text();
+		inpageJson['inpage_print1_'+i] = $("select[name='inpage_print1_"+ i +"']").find("option:selected").text();
+		inpageJson['inpage_print2_'+i] = $("select[name='inpage_print2_"+ i +"']").find("option:selected").text();
+		inpageJson['inpage_print3_'+i] = $("select[name='inpage_print3_"+ i +"']").find("option:selected").text();
+		
+		if ($("span[name='inpage_senaka_"+ i +"']").text() != "" && $("span[name='inpage_senaka_"+ i +"']").text() != "0.00")
+			totSenaka += parseFloat($("span[name='inpage_senaka_"+ i +"']").text());
+	}
+	//console.log(totSenaka);
+	//console.log(inpageJson);
+
+	//알래스카 스킨 우측 가격 표기에 사용함.
+	$.each(inpageJson , function(key, value) {
+		//console.log(key + ": " + insideJson[key]);
+		if(inpageJson[key] && inpageJson[key] != "선택해주세요.") {
+			if(key.indexOf('paper_gram') > -1)
+				$("span[name='"+key+"']").text(" / "+ inpageJson[key]);
+			else
+				$("span[name='"+key+"']").text(inpageJson[key]);
+		}
+		else {
+			$("span[name='"+key+"']").text("");
+		}
+	});
+
+	$("#tot_senaka").text("(책등크기 : "+ totSenaka +" mm)");
+}
+
+function addInside() {
+	var div = $(".inside_area > div:first").html();
+	var cnt = $('.inside_area .df_cont').length;
+
+	div = div.replace(new RegExp("inside_print3_check_0", 'gi'), "inside_print3_check_" + cnt);
+	div = div.replace(new RegExp("spot_color_sec_inside_0", 'gi'), "spot_color_sec_inside_" + cnt);
+	div = div.replace(new RegExp("inside_print1_0", 'gi'), "inside_print1_" + cnt);
+	div = div.replace(new RegExp("inside_print2_0", 'gi'), "inside_print2_" + cnt);
+	div = div.replace(new RegExp("inside_print3_0", 'gi'), "inside_print3_" + cnt);
+	div = div.replace(new RegExp("btn_inside_0", 'gi'), "btn_inside_" + cnt);
+	div = div.replace(new RegExp("inside_senaka_0", 'gi'), "inside_senaka_" + cnt);
+	div = div.replace(new RegExp("cnt_inside_0", 'gi'), "cnt_inside_" + cnt);
+	//console.log(div);
+
+	$(".inside_area").append("<div class=\"df_cont\">"+div+"</div>");
+
+	//$("#btn_inside_" + cnt).html("<a href=\"javascript:delInside();\">내지 삭제</a>");
+	$("#cnt_inside_" + cnt).html(cnt+1);
+
+	$("select[name='inside_paper_group[]']").eq(cnt).val("");
+	$("select[name='inside_paper[]']").eq(cnt).val("");
+	$("select[name='inside_paper_gram[]']").eq(cnt).val("");
+	$("input[name='inside_print1_"+cnt+"']").prop('checked', false);
+	$("input[name='inside_print2_"+cnt+"']").prop('checked', false);
+	$("span[name='inside_senaka_"+cnt+"']").text("");
+	
+	var ul = $("#inside_quick_view > ul:first").html();
+	//console.log(ul);
+
+	ul = ul.replace(new RegExp("inside_page_0", 'gi'), "inside_page_" + cnt);
+	ul = ul.replace(new RegExp("inside_paper_group_0", 'gi'), "inside_paper_group_" + cnt);
+	ul = ul.replace(new RegExp("inside_paper_0", 'gi'), "inside_paper_" + cnt);
+	ul = ul.replace(new RegExp("inside_paper_gram_0", 'gi'), "inside_paper_gram_" + cnt);
+	ul = ul.replace(new RegExp("inside_print1_0", 'gi'), "inside_print1_" + cnt);
+	ul = ul.replace(new RegExp("inside_print3_0", 'gi'), "inside_print3_" + cnt);
+	ul = ul.replace(new RegExp("inside_print2_0", 'gi'), "inside_print2_" + cnt);
+
+	//console.log(ul);
+	$("#inside_quick_view").append("<ul class=\"quick_view_list\" id=\"inside_view_"+ cnt +"\">"+ul+"</ul>");
+
+	$("span[name='inside_page_" + cnt + "']").text("");
+	$("span[name='inside_paper_group_" + cnt + "']").text("");
+	$("span[name='inside_paper_" + cnt + "']").text("");
+	$("span[name='inside_paper_gram_" + cnt + "']").text("");
+	$("span[name='inside_print1_" + cnt + "']").text("");
+	$("span[name='inside_print3_" + cnt + "']").text("");
+	$("span[name='inside_print2_" + cnt + "']").text("");
+}
+
+function delInside() {
+	if ($('.inside_area .df_cont').length > 1) {
+		$('.inside_area > div:last').remove();
+		$("#inside_quick_view > ul:last").remove();
+	}
+}
+
+function addInpage() {
+	var div = $(".inpage_area > div:first").html();
+	var cnt = $('.inpage_area .df_cont').length;
+
+	div = div.replace(new RegExp("inpage_print3_check_0", 'gi'), "inpage_print3_check_" + cnt);
+	div = div.replace(new RegExp("spot_color_sec_inpage_0", 'gi'), "spot_color_sec_inpage_" + cnt);
+	div = div.replace(new RegExp("inpage_print1_0", 'gi'), "inpage_print1_" + cnt);
+	div = div.replace(new RegExp("inpage_print2_0", 'gi'), "inpage_print2_" + cnt);
+	div = div.replace(new RegExp("inpage_print3_0", 'gi'), "inpage_print3_" + cnt);
+	div = div.replace(new RegExp("btn_inpage_0", 'gi'), "btn_inpage_" + cnt);
+	div = div.replace(new RegExp("inpage_senaka_0", 'gi'), "inpage_senaka_" + cnt);
+	div = div.replace(new RegExp("cnt_inpage_0", 'gi'), "cnt_inpage_" + cnt);
+	//console.log(div);
+
+	$(".inpage_area").append("<div class=\"df_cont\">"+div+"</div>");
+
+	//$("#btn_inpage_" + cnt).html("<a href=\"javascript:delInpage();\">내지 삭제</a>");
+	$("#cnt_inpage_" + cnt).html(cnt+1);
+
+	//값 초기화.
+	$("select[name='inpage_paper_group[]']").eq(cnt).val("");
+	$("select[name='inpage_paper[]']").eq(cnt).val("");
+	$("select[name='inpage_paper_gram[]']").eq(cnt).val("");
+	$("input[name='inpage_print1_"+cnt+"']").prop('checked', false);
+	$("input[name='inpage_print2_"+cnt+"']").prop('checked', false);
+	$("span[name='inpage_senaka_"+cnt+"']").text("");
+	
+	var ul = $("#inpage_quick_view > ul:first").html();
+	//console.log(ul);
+	ul = ul.replace(new RegExp("inpage_page_0", 'gi'), "inpage_page_" + cnt);
+	ul = ul.replace(new RegExp("inpage_paper_group_0", 'gi'), "inpage_paper_group_" + cnt);
+	ul = ul.replace(new RegExp("inpage_paper_0", 'gi'), "inpage_paper_" + cnt);
+	ul = ul.replace(new RegExp("inpage_paper_gram_0", 'gi'), "inpage_paper_gram_" + cnt);
+	ul = ul.replace(new RegExp("inpage_print1_0", 'gi'), "inpage_print1_" + cnt);
+	ul = ul.replace(new RegExp("inpage_print3_0", 'gi'), "inpage_print3_" + cnt);
+	ul = ul.replace(new RegExp("inpage_print2_0", 'gi'), "inpage_print2_" + cnt);
+	
+	//console.log(ul);
+	$("#inpage_quick_view").append("<ul class=\"quick_view_list\" id=\"inpage_view_"+ cnt +"\">"+ul+"</ul>");
+
+	$("span[name='inpage_page_" + cnt + "']").text("");
+	$("span[name='inpage_paper_group_" + cnt + "']").text("");
+	$("span[name='inpage_paper_" + cnt + "']").text("");
+	$("span[name='inpage_paper_gram_" + cnt + "']").text("");
+	$("span[name='inpage_print1_" + cnt + "']").text("");
+	$("span[name='inpage_print3_" + cnt + "']").text("");
+	$("span[name='inpage_print2_" + cnt + "']").text("");
+}
+
+function delInpage() {
+	if ($('.inpage_area .df_cont').length > 1) {
+		$('.inpage_area > div:last').remove();
+		$("#inpage_quick_view > ul:last").remove();
+	}
+}
+
+$(function() {
+	//$(".seneka_data").hide();
+});
+
+window.onkeydown = function() {
+	var kcode = event.keyCode;
+	if(kcode == 8 || kcode == 116) {
+		if ($("input[name=storageid]").val() != "") {
+			if(confirm("편집(파일 업로드)을 완료한 경우 새로고침(F5 Key)을 하시면\n편집정보(업로드된 파일 정보)가 유실됩니다.\n새로고침을 하시겠습니까?") == true){
+				event.returnValue = true;
+			} else {
+				event.returnValue = false;
+			}
+		}
+		else {
+			event.returnValue = true;
+		}
+	}
+}
+
+$(window).load(function(){
+  	//첫번째 요소 선택하기.
+  	$('#opt_size').find("option:eq(1)").prop("selected", true);
+  	$("span[name='opt_size']").text($('#opt_size').children("option:selected").text());
+
+	var print_goods_type = "{print_goods_type}";
+	if (print_goods_type == "OS02") {
+		$('#cnt').find("option:eq(1)").prop("selected", true);
+	}
+	else {
+		$('#cnt').val("1");
+	}
+	$("span[name='cnt']").text($('#cnt').val());
+
+	//표지.
+  	$('#outside_wing').find("option:eq(1)").prop("selected", true);
+  	$("span[name='outside_wing']").text($('#outside_wing').children("option:selected").text());
+
+  	$('#outside_page').find("option:eq(0)").prop("selected", true);
+  	$("span[name='outside_page']").text($('#outside_page').children("option:selected").text());
+  	
+  	$('#outside_paper_group').find("option:eq(1)").prop("selected", true);
+  	getList("/print/get_option_list_book.alaskaprint.php");
+
+  	$('#outside_paper').find("option:eq(1)").prop("selected", true);
+  	getList("/print/get_option_list_book.alaskaprint.php");
+	$("span[name='outside_paper']").text($('#outside_paper').children("option:selected").text());
+
+  	$('#outside_paper_gram').find("option:eq(1)").prop("selected", true);
+  	$("span[name='outside_paper_gram']").text(" / "+ $('#outside_paper_gram').children("option:selected").text());
+
+  	$('#outside_print1').find("option:eq(1)").prop("selected", true);
+  	$("span[name='outside_print1']").text($('#outside_print1').children("option:selected").text());
+  	$('#outside_print2').find("option:eq(1)").prop("selected", true);
+	$("span[name='outside_print2']").text($('#outside_print2').children("option:selected").text());
+  	$('#outside_print3').find("option:eq(1)").prop("selected", true);
+	$("span[name='outside_print3']").text($('#outside_print3').children("option:selected").text());
+  	
+	//내지.
+	$("input[name='inside_page[]'").eq(0).val("1");
+	//$("span[name='inside_page_0']").text($("input[name='inside_page[]'").eq(0).val());
+	
+  	$("select[name='inside_paper_group[]']").eq(0).find("option:eq(1)").prop("selected", true);
+  	getList("/print/get_option_list_book.alaskaprint.php");
+
+  	$("select[name='inside_paper[]']").eq(0).find("option:eq(1)").prop("selected", true);
+  	getList("/print/get_option_list_book.alaskaprint.php");
+	//$("span[name='inside_paper_0']").text($("select[name='inside_paper[]']").eq(0).children("option:selected").text());
+
+  	$("select[name='inside_paper_gram[]']").eq(0).find("option:eq(1)").prop("selected", true);
+  	//$("span[name='inside_paper_gram_0']").text(" / "+ $("select[name='inside_paper_gram[]']").eq(0).children("option:selected").text());
+
+  	$('#inside_print1_0').find("option:eq(1)").prop("selected", true);
+  	//$("span[name='inside_print1_0']").text($('#inside_print1_0').children("option:selected").text());
+  	$('#inside_print2_0').find("option:eq(1)").prop("selected", true);
+	//$("span[name='inside_print2_0']").text($('#inside_print2_0').children("option:selected").text());
+  	$('#inside_print3_0').find("option:eq(1)").prop("selected", true);
+	//$("span[name='inside_print3_0']").text($('#inside_print3_0').children("option:selected").text());
+
+	//간지/면지.
+	$("input[name='inpage_page[]'").eq(0).val("1");
+	//$("span[name='inpage_page_0']").text($("input[name='inpage_page[]'").eq(0).val());
+	
+  	$("select[name='inpage_paper_group[]']").eq(0).find("option:eq(1)").prop("selected", true);
+  	getList("/print/get_option_list_book.alaskaprint.php");
+
+  	$("select[name='inpage_paper[]']").eq(0).find("option:eq(1)").prop("selected", true);
+  	getList("/print/get_option_list_book.alaskaprint.php");
+	//$("span[name='inpage_paper_0']").text($("select[name='inpage_paper[]']").eq(0).children("option:selected").text());
+
+  	$("select[name='inpage_paper_gram[]']").eq(0).find("option:eq(1)").prop("selected", true);
+  	//$("span[name='inpage_paper_gram_0']").text(" / "+ $("select[name='inpage_paper_gram[]']").eq(0).children("option:selected").text());
+
+  	$('#inpage_print1_0').find("option:eq(1)").prop("selected", true);
+  	//$("span[name='inpage_print1_0']").text($('#inpage_print1_0').children("option:selected").text());
+  	$('#inpage_print2_0').find("option:eq(1)").prop("selected", true);
+	//$("span[name='inpage_print2_0']").text($('#inpage_print2_0').children("option:selected").text());
+  	$('#inpage_print3_0').find("option:eq(1)").prop("selected", true);
+	//$("span[name='inpage_print3_0']").text($('#inpage_print3_0').children("option:selected").text());
+
+	//제본	
+	$('#opt_bind').find("option:eq(1)").prop("selected", true);
+	$("span[name='opt_bind']").text($('#opt_bind').children("option:selected").text());
+	
+	//제본방향	
+	$('#opt_bind_type').find("option:eq(1)").prop("selected", true);
+	$("span[name='opt_bind_type']").text($('#opt_bind_type').children("option:selected").text());
+	
+  	//후가공옵션 열기.
+  	/*$('.option_thumb').trigger('click');
+
+	//후가공 선택.
+	$(".after").each(function() {
+		//console.log(this);
+		//console.log($(this).attr("name"));
+		$("input[name="+$(this).attr("name")+"_check]").val("Y");
+		$(this).find("option:eq(1)").prop("selected", true);
+		//$("span[name='"+$(this).attr("name")+"']").text($(this).children("option:selected").text());
+		//console.log($("input[name="+$(this).attr("name")+"_check]").val());
+	});*/
+
+	//세나카 계산.
+	getSenaka();
+	
+	//우측 가격 표기.
+	getPaperInfo();
+	
+  	//가격계산.  
+  	calcuPrice();
+});
+</script>
+
+<!-- 파일업로드 창 -->
+{p.i->inc('/print/_upload_popup.htm')}
+<!-- 파일업로드 창 -->
+
+{ # footer }

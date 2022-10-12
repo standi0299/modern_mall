@@ -1,0 +1,160 @@
+{ # header_popup }
+
+
+<script type="text/javascript" src="/js/turnjs4/extras/jquery.min.1.7.js"></script>
+<script type="text/javascript" src="/js/turnjs4/extras/modernizr.2.5.3.min.js"></script>
+<script type="text/javascript" src="/js/turnjs4/lib/hash.js"></script>
+
+<div id="pop">
+	<table width="100%">
+		<tr><TD width="50%" align="left">	
+		<img src="../img/pop/h1_title24.png" {=__alt("미리보기")}/>
+		<div class="navi">
+			{preview_title}
+		</div>			
+	</TD>
+	<td align="right">
+		<a href="javascript:window.close()"><img class="btn_rollover" src="../img/pop/btn_close01.png" {=__alt("닫기")}/></a>		
+		</td>
+	</tr>	
+	</table>
+	
+
+<div class="magazine-viewport">
+	<div class="container">
+		<div class="magazine">					
+			<!--{ @ cover_loop }-->
+				<div class="{cover_display_type}" style="background-image:url({.value_.url})"></div>				
+			<!--{ / }-->			
+			
+			<!--{ @ page_loop }-->
+				<div class="{.value_.display_type}" style="background-image:url({.value_.url})"></div>				
+			<!--{ / }-->
+		</div>
+	</div>
+</div>
+
+
+</div>
+
+<script type="text/javascript">
+function loadApp() {
+
+ 	$('#canvas').fadeIn(1000);
+ 	var flipbook = $('.magazine');
+ 	// Check if the CSS was already loaded
+	
+	if (flipbook.width()==0 || flipbook.height()==0) {
+		setTimeout(loadApp, 10);
+		return;
+	}
+	
+	
+	$('.magazine .double').scissor();	
+	// Create the flipbook
+	flipbook.turn({			
+			// Magazine width
+			width: {preview_width},
+			// Magazine height
+			height: {preview_height},
+
+			// Duration in millisecond
+			duration: 1000,
+
+			// Hardware acceleration
+			acceleration: !isChrome(),
+
+			// Enables gradients
+			gradients: true,
+			// Auto center this flipbook
+			autoCenter: true,
+			
+			// Elevation from the edge of the flipbook when turning a page
+			elevation: 50,
+			
+			// The number of pages
+			pages: { page_cnt * 2},
+	});
+
+	// Events for thumbnails
+	$('.thumbnails').click(function(event) {		
+		var page;
+		if (event.target && (page=/page-([0-9]+)/.exec($(event.target).attr('class'))) ) {		
+			$('.magazine').turn('page', page[1]);
+		}
+	});
+
+	$('.thumbnails li').
+		bind($.mouseEvents.over, function() {			
+			$(this).addClass('thumb-hover');
+		}).bind($.mouseEvents.out, function() {			
+			$(this).removeClass('thumb-hover');
+		});
+
+	if ($.isTouch) {	
+		$('.thumbnails').
+			addClass('thumbanils-touch').
+			bind($.mouseEvents.move, function(event) {
+				event.preventDefault();
+			});
+	} else {
+		$('.thumbnails ul').mouseover(function() {
+			$('.thumbnails').addClass('thumbnails-hover');
+		}).mousedown(function() {
+			return false;
+		}).mouseout(function() {
+			$('.thumbnails').removeClass('thumbnails-hover');
+		});
+	}
+}
+
+
+yepnope({
+	test : Modernizr.csstransforms,
+	yep: ['/js/turnjs4/lib/turn.js'],
+	nope: ['/js/turnjs4/lib/turn.html4.min.js'],
+	both: ['/js/turnjs4/lib/scissor.min.js','/js/turnjs4/soft_magazine.js', '/js/turnjs4/soft_magazine.css'],
+	complete: loadApp
+});
+
+
+$j( document ).ready(function() {
+	//moveWinCenter();		
+	resizeTo(1100,800);
+});
+</script>
+
+
+<style>
+
+body{
+	background-image:url(../img/pop/preview_new_back.jpg);
+	background-position:left top;
+	background-repeat : repeat;
+}
+
+.page	{text-align: center; padding: 0px;}
+
+.magazine-viewport .magazine{
+	width:{preview_width}px;
+	height:{preview_height}px;
+	left:-510px;
+	top:100px;
+}
+
+.magazine-viewport .double{
+	width:{preview_width}px;
+	height:{preview_height}px;
+	background-size:100% 100%;
+}
+
+.magazine-viewport .page{
+	width:{preview_page_width}px;
+	height:{preview_height}px;
+	background-color:white;
+	background-repeat:no-repeat;
+	background-size:100% 100%;
+}
+
+</style>
+

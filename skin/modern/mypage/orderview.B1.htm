@@ -1,0 +1,201 @@
+{ # header }
+<!--orderview.B1.htm-->
+
+<!--본 컨텐츠 시작-->
+
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/mypage_20190110.css">
+<script src="/skin/modern/assets/B1/js/script_20190110.js"></script>
+
+<section class="content-container myPge-layout">
+
+    <div class="myPge-title">
+        {=__text("주문상세정보")}
+        <p>{=__text("주문일자")} : {orddt}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{=__text("주문번호")} : {payno}</p>
+    </div>
+    <div class="clear"></div>
+    <div class="myPageOrderInfo">
+        <div class="myPageodif Ordered">
+            <h1>{=__text("받는사람 정보")}</h1>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+                <colgroup>
+                    <col width="30%">
+                    <col width="*">
+                </colgroup>
+                <tr>
+                    <th>{=__text("배송방법")}</th>
+                    <td>
+                        <!--{ ? order_shiptype != '1' && order_shiptype != '' }-->
+                        {_r_order_shiptype[order_shiptype]}
+                        <!--{ : order_shiptype == '1' }-->
+                        {_r_order_shiptype[0]}
+                        <!--{ / }-->
+                    </td>
+                </tr>
+                <tr>
+                    <th>{=__text("받는사람")}</th>
+                    <td>{receiver_name}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("일반전화")}</th>
+                    <td>{receiver_name}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("휴대전화")}</th>
+                    <td>{receiver_mobile}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("주소")}</th>
+                    <td>[{receiver_zipcode}] {receiver_addr}<br>{receiver_addr_sub}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("추가 메모")}</th>
+                    <td>{request2}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("배송 메모")}</th>
+                    <td>{request}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="myPageodif Payment">
+            <h1>{=__text("결제 정보")}</h1>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+                <colgroup>
+                    <col width="30%">
+                    <col width="*">
+                </colgroup>
+                <tr>
+                    <th>{=__text("결제금액")}</th>
+                    <td>{=number_format(payprice+shipprice)}{=__text("원")} ({=__text("배송비")} {=number_format(shipprice)}{=__text("원 포함")})</td>
+                </tr>
+                <tr>
+                    <th>{=__text("결제방법")}</th>
+                    <td>{_r_paymethod[paymethod]}</td>
+                </tr>
+                <!--{ ? paymethod == "b" || paymethod == "v" }-->
+                <tr>
+                    <th>{=__text("계좌정보")}</th>
+                    <td>{bankinfo}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("입금자명")}</th>
+                    <td>{payer_name}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("입금여부")}</th>
+                    <td>
+                        <!--{ ? paystep > 1 || paystep < 90 }-->{=__text("입금")} {paydt}
+                        <!--{ / }-->
+                    </td>
+                </tr>
+                <!--{ / }-->
+                <tr>
+                    <th>&nbsp;</th>
+                    <td>
+                        <!--{ ? paymethod=='c' && paystep > 1}-->
+                        <!--{ ? _cfg.pg.module == "smartxpay" }-->
+                        <script language="JavaScript" src="//pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js"></script>
+                        <a href="javascript:showReceiptByTID('{_cfg.pg.lgd_mid}', '{pgcode}', '{authcode}')">[{=__text("카드영수증발급")}]</a>
+                        <!--{ : }-->
+                        <a href="javascript:popup('{receipt_url}',465,855)"><span style="color: red;">[{=__text("카드영수증발급")}]</span></a>
+                        <!--{ / }-->
+                        <!--{ / }-->
+
+                        <!--{ ? paymethod == "b" || paymethod == "v" }-->
+                        <!--{ ? pg_module != 'no' && (paymethod == "b" || paymethod == "v") && cash_status != '02' }-->
+                        <!--{ ? pg_module == 'kcp' }-->
+                        <a href="#" onclick="popup('/pg/kcp/cash/request.php?payno={_GET.payno}', 650, 700);">
+                            <!--{ : pg_module == 'inipaystdweb' }-->
+                            <a href="#" onclick="popup('/pg/INIPayStdWeb/cash/request.php?payno={_GET.payno}', 650, 700);">
+                                <!--{ / }-->
+                                {=__text("현금영수증신청하기")}</a>
+                            <!--{ / }-->
+                            <!--{ / }-->
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <div class="myPageodif draftRequest">
+            <h1>{=__text("주문 정보")}</h1>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable tb2">
+                <colgroup>
+                    <col width="140">
+                    <col width="60">
+                    <col width="120">
+                    <col width="*">
+                    <col width="60">
+                    <col width="140">
+                    <col width="120">
+                    <col width="120">
+                </colgroup>
+                <tr>
+                    <th>{=__text("주문번호")}</th>
+                    <th>{=__text("주문순번")}</th>
+                    <th colspan="2">{=__text("상품")}</th>
+                    <th>{=__text("수량")}</th>
+                    <th>{=__text("판매가")}</th>
+                    <th>{=__text("배송비")}</th>
+                    <th>{=__text("주문상태")}</th>
+                </tr>
+                <!--{ @ ord }-->
+                <!--{ @ .item }-->
+                <tr class="tr2">
+                    <!--{ ? !..index_ }-->
+                    <td rowspan="{=count(.item)}" style="background:#f5f5f5; word-break: break-all;">{payno}_{.ordno}</td>
+                    <!--{ / }-->
+                    <td>{..ordseq}</td>
+                    <td>{=goodsListImg(..goodsno, 100)}</td>
+                    <td style="text-align:left;">
+                        <strong>{=__text("상품번호")}&nbsp;:&nbsp;{..goodsno} [{..goodsnm}]</strong>
+                        <!--{ ? ..title }-->
+                        <br>{=__text("주문 제목")}&nbsp;-&nbsp;{..title}<br>
+                        <!--{ / }-->
+                        {..est_order_option_desc}
+                    </td>
+                    <td>
+                        <p class="num">{..order_cnt_select}&nbsp;{=__text("매")}</p>
+                        <p>x</p>
+                        <p class="num">{..unit_order_cnt}&nbsp;{=__text("건")}</p>
+                    </td>
+                    <td>
+                        <p class="price">{=number_format(..saleprice)}</p>
+                        <p>
+                            <!--{ ? ..dc_member }-->
+                                회원할인금액&nbsp;:&nbsp;{=number_format(..dc_member * ..ea)}<br>
+                            <!--{ / }-->
+                            <!--{ ? ..dc_coupon }-->
+                                쿠폰할인금액&nbsp;:&nbsp;{=number_format(..dc_coupon)}<br>
+                            <!--{ / }-->
+                            <br> {=__text("적립예정액")}&nbsp;:&nbsp;{=number_format(..set_emoney)}
+                        </p>
+                    </td>
+                    <td>
+                        <!--{ ? .shipprice }-->
+                        {=number_format(.shipprice)}
+                        <!--{ : }-->
+                        <!--{ ? .order_shiptype == '1' || .order_shiptype == '' }-->
+                        {=__text("무료")}
+                        <!--{ / }-->
+                        <!--{ / }-->
+                        <br>({=_r_rid[.rid]})
+                        <!--{ ? .order_shiptype != '1' && .order_shiptype != '' }-->
+                        { _r_order_shiptype[.order_shiptype]}
+                        <!--{ / }-->
+                    </td>
+                    <td class="red">{=_r_paystep[paystep]}</td>
+                </tr>
+                <!--{ / }-->
+                <!--{ / }-->
+            </table>
+        </div>
+
+        <div class="buttonBar">
+            <button class="botbtn List" onclick="location.href='orderlist.php'">{=__text("목록보기")}</button>
+        </div>
+    </div>
+
+
+    <!--본 컨텐츠 끝-->
+
+    { # footer }

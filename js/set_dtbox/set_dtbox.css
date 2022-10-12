@@ -1,0 +1,12 @@
+.dtbox .dt_input_div {float:left;}
+.dtbox .dt_input_div input{width:63px;vertical-align:middle;cursor:pointer;padding:5px;font:8pt 돋움;}
+.dtbox .dt_input_div img{vertical-align:middle;margin-left:5px;}
+.dtbox .dt_set_div {float:left;margin-left:10px;}
+.dtbox .dt_set_div input[type=button] {padding:2px 1px 1px 1px;cursor:pointer;margin:0 1px;border:1px solid #999999;background:#DEDEDE;color:#333333}
+.dtbox .dt_manual_div {clear:both;padding:8px 0 3px 0;}
+.dtbox .dt_manual_div img {vertical-align:middle;}
+.dtbox .dt_manual_year_div {float:left;margin-right:10px;color:#868686; font:9pt tahoma; padding-top:2px;}
+.dtbox .dt_manual_month_div {float:left;margin-right:10px;color:#868686;font:9pt tahoma; padding-top:2px;}
+.dtbox .dt_maunal_dir {display:block;float:left;height:16px;padding:1px 2px 1px 2px;cursor:pointer;}
+.dtbox .dt_manual_year {display:block;float:left;height:16px;padding:1px 1px 1px 1px;text-align:center;width:40px;}
+.dtbox .dt_manual_month {display:block;float:left;height:16px;padding:1px 1px 1px 1px;text-align:center;width:25px;}

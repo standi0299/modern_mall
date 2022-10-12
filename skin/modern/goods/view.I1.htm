@@ -1,0 +1,496 @@
+{ # header }
+
+<div id="content-wrapper">
+	<div id="content">
+	<!--본 컨텐츠 시작-->
+		<script>
+			function big_img_change(img_src){
+				document.getElementById('big_img').src=img_src;
+			}
+			function imgToggleClass(tg){
+				$j('.thumbelina').find('.on').removeClass('on');
+				$j(tg).parent().addClass('on');
+			}
+		</script>
+
+		<form name="fmView" method="post" id="fmView">
+		<input type="hidden" name="mode"/>
+		<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+		<input type="hidden" name="productid" value="{podsno}"/>
+		<input type="hidden" name="catno" value="{_GET.catno}"/>
+		<input type="hidden" name="podoptno"/>
+		<input type="hidden" name="storageid"/>
+		<input type="hidden" name="storageids"/>
+		<input type="hidden" name="editor_type"/>
+
+		<input type="hidden" name="cover_id" id="cover_id" value="{=implode('_', first_cover_id)}"/>
+		<input type="hidden" name="est_order_type" />
+
+		<section class="content-container detail-header">
+			<div class="h-group detail-data thumbnail-data">
+				<div class="col">
+					<table width="660px" height="100%" cellpadding=0 cellspacing=0 style="margin-top:0px;background-color: white;" border="0">
+					<tr>
+						<td valign="top" style="width: 80px;">
+							<div class="thumbelina">
+				            <ul>
+								<!--{ @ img }-->
+					          	<li <!--{ ? .index_ == 0 }-->class="on"<!--{ / }-->>
+										<a href="javascript:big_img_change('{.value_}');" onClick="imgToggleClass(this);"><img class="zoom-tiny-image" src="{.value_}" style="max-width:74px;" onerror="$j(this).attr('src','/skin/modern/img/noimg.png')" /></a>
+						  			</li>
+								<!--{ / }-->
+				            </ul>
+				        	</div>
+						</td>
+						<td valign="top" style="padding:0 10px;text-align:center;">
+							<img id="big_img" src="{img[0]}" alt='' title="{goodsnm}" style="max-width:{_cfg.img_w}px;max-height:{_cfg.img_w}px;" onerror="$j(this).attr('src','/skin/modern/img/noimg.png')" />
+						</td>
+					</tr>
+					</table>
+				</div>
+				
+				<div class="col" style="width:540px">
+					<div class="location">
+						<a href="../main/index.php">HOME</a>
+						<span> > </span>
+						{=f_getCategoryPos(_GET.catno,'<span> > </span>')}
+						</div>
+					<div class="detail-title">				
+						<div class="detail-title-tag" id="detail-title-tag">
+							<!--{ ? hash_tag }-->{hash_tag}<!--{ / }-->
+						</div>
+						<h2>{goodsnm}</h2>
+					</div>
+					
+					<!--{ ? !in_array(podskind,array(28,3180)) }-->
+					<!--{ @ r_opt }-->
+					<div class="h-group detail-option">
+						<div class="col">{?optnm[.index_]}{optnm[.index_]}{:}{=__text("옵션")}{.index_+1}{/}</div>
+						<div class="col select-box">
+							<label></label>
+							<select name="optno[]" onchange="updateOption(this)" required>
+							<option value="">{=__text("선택")}</option>
+							<!--{ ? .index_==0 }-->
+							<!--{ @ .item }-->
+							<option value="{..optno}" title="{..optnm}" stock="{..stock}" podoptno="{..podoptno}" productid="{..podsno}" <!--{?..optnm == f_getCaseNm(cgoods_size)}--> selected <!--{/}-->>{..optnm}<!--{ ? ..aprice && count(r_opt)==1 }--> (+{=number_format(..aprice)}{=__text("원")})<!--{ / }--></option>
+							<!--{ / }-->
+							<!--{ / }-->
+							</select>
+						</div>
+					</div>
+					<!--{ / }-->
+					<!--{ / }-->
+
+					<!--{ @ r_addopt }-->
+					<div class="h-group detail-option">
+						<div class="col">{.addopt_bundle_name}</div>
+						<div class="col select-box">
+							<label>{=__text("선택")}</label>
+							<select name="addopt[]" { ? .addopt_bundle_required }required{/}>
+							<option value="">{=__text("선택")}</option>
+							<!--{ @ .addopt }-->
+							<option value="{..addoptno}">{..addoptnm}<!--{ ? ..addopt_aprice && count(r_addopt)==1 }--> (+{=number_format(..addopt_aprice)}{=__text("원")})<!--{ / }--></option>
+							<!--{ / }-->
+							</select>
+						</div>
+					</div>
+					<!--{ / }-->
+					
+					<!--{ ? !podskind }-->
+					<div class="h-group detail-option">
+						<div class="col">{=__text("수량")}</div>
+						<div class="col">
+							<label></label>
+							<input type="text" name="ea" value="1" size="2" pt="_pt_numplus" onblur="refresh_price();"/> {?unitword}{unitword}{:}ea{/}
+						</div>
+					</div>
+					<!--{ : }-->
+					<input type="hidden" name="ea" value="1"/>
+					<!--{ / }-->
+					
+					<div class="detail-sell-data">
+						<div class="detail-price">
+							<!--{ ? podskind == "3055" }-->
+								
+								<div class="price-discount">
+									<!--{? price}-->
+									{=__text("판매가격")} 
+									<span id="goods_price">{=number_format(price)}{=__text("원")}</span>	
+									<!--{ / }-->			
+								</div>
+								
+							<!--{ : }-->
+								<!--{? cprice}-->
+									<div class="price-normal"><del>{=__text("소비자가격")} <span id="goods_cprice">{=number_format(cprice)}{=__text("원")}</span></del></div>
+								<!--{ / }-->
+								<div class="price-discount">
+									<!--{? price}-->
+									{=__text("판매가격")}
+									<!--{ ? strprice }-->
+										<span>{strprice}</span>
+										<!--{:}-->
+										<span id="goods_price">{=number_format(price)}{=__text("원")}</span>
+										<!--{? cprice}-->
+											<div class="price-normal" id="goods_cprice_x">(▼ {=number_format(cprice-price)}{=__text("원 할인")})</div>
+										<!--{ / }-->
+									<!--{ / }-->
+									<!--{ / }-->
+								</div>
+								
+						</div>
+						
+						<div style="" class="detail-tip">
+							<span>{csummary}</span>
+						</div>
+						<div class="h-group detail-option">
+							
+							<!--{ ? !podskind}-->
+							<a href="javascript:exec('cart');">
+								<img src="/skin/modern/assets/images/cart-btn.png" alt="">
+							</a>
+							<!--{ / }-->
+
+							<!--{ ? podskind > 0 }-->
+							<!--{ ? pods_editor_type && (podskind == "3040" || podskind == "3041" || podskind == "3050" || podskind == "3051" || podskind == "3052" || podskind == "3055") }-->
+								<!--{ ? pods_editor_type.editor_active_exe == "active" || pods_editor_type.editor_active_exe == "exe" }-->
+									<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn btn-lg edit-btn">{=__text("편집 시작하기")}</a>
+								<!--{ / }-->
+								<!--{ ? pods_editor_type.editor_web == "web" }-->
+									<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}', 'web');" class="btn btn-lg edit-btn"><!--{ @ f_banner_text('goods_view_edit_button2')}-->{.banner}<!--{ / }--></a>
+								<!--{ / }-->
+							<!--{ : }-->
+								<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn btn-lg edit-btn">{=__text("편집 시작하기")}</a>
+							<!--{ / }-->
+							<!--{ / }-->
+						</div>
+						<!--{ / }-->
+					</div>
+				</div>
+			</div>
+			
+			<div class="detail-data">
+				<div class="description">
+					<div class="description-btn">상품설명 자세히보기</div>
+					<div class="description-content" style="display:block;">
+						<div class="h-group">
+							<div class="col">{=__text("상품코드")}</div>
+							<div class="col">{goodsno}</div>
+						</div>
+						<!--{ ? goods_size != "" }-->
+						<div class="h-group">
+							<div class="col">{=__text("상품사이즈")}</div>
+							<div class="col">{goods_size}</div>
+						</div>
+						<!--{ / }-->
+						<div class="h-group">
+							<div class="col">{=__text("제작사")}</div>
+							<div class="col">{=get_releasenm(rid)}</div>
+						</div>
+						<!-- 브랜드가 존재 할때만 표시하도록 수정 / 14.05.12 / kjm -->
+						<!--{ ? brandno != 0 }-->
+						<div class="h-group">
+							<div class="col">{=__text("브랜드")}</div>
+							<div class="col">{=f_getBrandNm(brandno)}</div>
+						</div>
+						<!--{ / }-->
+
+						<!-- 원산지, 제조사 추가 / 14.05.12 / kjm -->
+						<!--{ ? origin }-->
+						<!--<div class="h-group">
+							<div class="col">{=__text("원산지")}</div>
+							<div class="col">{origin}</div>
+						</div>-->
+						<!--{ / }-->
+						<!--{ ? maker }-->
+						<!--<div class="h-group">
+							<div class="col">{=__text("제조사")}</div>
+							<div class="col">{maker}</div>
+						</div>-->
+						<!--{ / }-->
+			
+						<!--{ ? cgoods_size }-->
+						<!--<div class="h-group">
+							<div class="col">{=__text("상품사이즈")}</div>
+							<div class="col">{cgoods_size}</div>
+						</div>-->
+						<!--{ / }-->
+						<!--{ ? cresolution }-->
+						<!--<div class="h-group">
+							<div class="col">{=__text("권장해상도")}</div>
+							<div class="col">{cresolution}</div>
+						</div>-->
+						<!--{ / }-->
+						<!--{ ? trim(leadtime) }-->
+						<!--<div class="h-group">
+							<div class="col">{=__text("제작기간")}</div>
+							<div class="col">{leadtime}</div>
+						</div>-->
+						<!--{ / }-->
+						<div class="h-group">
+							<div class="col">{=__text("배송비")}</div>
+							<div class="col">
+								<!--{ @ f_get_delivery(goodsno) }-->
+								{?.shiptype==0}
+									{?.r_shiptype==0}
+									{=number_format(.shipprice)}
+									{:.r_shiptype==1}
+									{=__text("무료배송")}
+									{:}
+									{=number_format(.shipprice)}{=__text("원")}
+									({=number_format(.shipconditional)}{=__text("원 이상 주문시 무료")})
+									{/}
+								{:.shiptype==1}
+								{=__text("무료배송")}
+								{:.shiptype==2}
+								{=__text("개별배송비")} : {=number_format(.shipprice)}
+								{:.shiptype==3}
+								{=number_format(.shipprice)}{=__text("원")}
+								({=number_format(.shipconditional)}{=__text("원 이상 주문시 무료")})
+								{/}
+								<!--{ / }-->
+							</div>
+						</div>
+						<!--{ ? csummary }-->
+						<!--<div class="h-group">
+							<div class="col">{=__text("간략설명")}</div>
+							<div class="col">{csummary}</div>
+						</div>-->
+						<!--{ / }-->
+
+						<!--{ @ goods_desc }-->
+						<div class="h-group">
+							<div class="col">{.name}</div>
+							<div class="col">{.value}</div>
+						</div>
+						<!--{ / }-->
+					</div>
+				</div>
+				<div class="col detail-warning"></div>
+			</div>
+		</section>
+
+		<!-- 상세 내용 -->
+		<section class="content-container detail-content">	
+			<div style="text-align: center;">{desc}</div>
+		</section>
+
+		<!-- Q&A -->
+		<section class="content-container detail-content" id="detail-qna-list">
+			<div class="h-group detail-list-title">
+				<div class="col"><h4>Q&A</h4></div>
+				<div class="col right">
+					<!--<a href="javascript:popup('/goods/qna_write.php?catno={_GET.catno}&goodsno={_GET.goodsno}',800,600);" target="_top" class="write-form-btn">문의하기</a>-->
+				</div>
+			</div>
+			<div class="h-group" id="detail-qna-list-head">
+				<div class="col text-center detail-qna-author">{=__text("작성자")}</div>
+				<div class="col text-center detail-qna-text">{=__text("문의내용")}</div>
+				<div class="col text-center detail-qna-created-at">{=__text("등록일")}</div>
+				<div class="col text-center detail-qna-answer">{=__text("답변상태")}</div>
+			</div>
+			<div class="accordion-list">
+				<ul>
+				<!--{ ? qna }-->
+					<!--{ @ qna }-->
+					<li>
+						<div class="h-group question-title">
+							<div class="col text-center detail-qna-author">{.name}</div>
+							<div class="col text-left detail-qna-text">{.subject} <i><img src="/assets/images/password-bullet.png" alt=""></i></div>
+							<div class="col text-center detail-qna-created-at">{.regdt}</div>
+							<div class="col text-center detail-qna-answer">
+								<!--{ ? .status == "2" }-->{=__text("완료")}<!--{ : }-->{=__text("대기")}<!--{ / }-->
+							</div>
+						</div>
+						<div class="answer-text">
+							<div class="detail-qna-content">
+								<p>
+									<!--{ ? .secret && .mid != _sess.mid }-->{=__text("비밀글입니다.")}<!--{ : }-->{.content}<!--{ / }-->
+								</p>
+							</div>
+						</div>
+					</li>
+					<!--{ / }-->
+				<!--{ : }-->
+					<li>
+						<div class="h-group question-title">{=__text("등록된 Q&A가 없습니다.")}</div>
+					</li>
+				<!--{ / }-->
+				</ul>
+			</div>
+			<div class="h-group detail-list-title">
+				<div class="col right">
+					<a href="javascript:popup('/goods/qna_write.php?catno={_GET.catno}&goodsno={_GET.goodsno}',1200,700);" target="_top" class="write-form-btn">{=__text("문의하기")}</a>
+				</div>
+			</div>
+			{=pg_qna->page['navi']}
+		</section>
+
+		<section class="content-container detail-content review-list-wrap">
+			<div class="h-group detail-list-title">
+				<div class="col"><h4>{=__text("이용후기")}</h4></div>
+				<div class="col right">
+					<!--<a href="../mypage/review.php" target="_top" class="write-form-btn">후기작성</a>-->
+				</div>
+			</div>
+			<div class="accordion-list">
+				<ul>
+
+				<!--{ ? review }-->		
+
+					<!--{ @ review }-->
+
+					<li>
+						<div class="h-group question-title">
+							<!--<div class="col text-center review-thumbnail" style="background-image: url('https://lorempixel.com/97/97/food/1/97x97')"></div>-->
+							<div class="col text-left review-summary">
+								<div class="review-tag">[{=__text("트래블북")}]</div>
+								<div class="review-subject h-group">
+									<div class="col">
+										{.subject}
+									</div>
+									<div class="col">
+										{=f_degreeIcon(.degree)}
+									</div>
+								</div>
+								<p>
+									{.content}...
+								</p>
+							</div>
+							<div class="col text-right review-created-at">{.name} ({.regdt})</div>
+						</div>
+						<div class="answer-text">
+							<h2>{.opt}</h2>
+							{.content}
+						</div>
+					</li>
+
+					<!--{ / }-->
+
+				<!--{ : }-->
+					<li>
+						<div class="h-group question-title">{=__text("등록된 상품사용기가 없습니다.")}</div>
+					</li>
+				<!--{ / }-->
+
+				</ul>
+			</div>
+			<div class="h-group detail-list-title">
+				<div class="col right">
+					<a href="/mypage/orderlist.php" target="_top" class="write-form-btn">{=__text("후기작성")}</a>
+				</div>
+			</div>
+			{=pg_review->page['navi']}
+		</section>
+
+		</form>
+	<!--본 컨텐츠 끝-->	
+	</div>
+</div>
+
+
+<script type="text/javascript">
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var pod_signed = "{_pod_signed}"; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+
+<script src="/js/webtoolkit.base64.js"></script>
+
+<!--goods script-->
+<script src="/js/goods.php" type="text/javascript"></script>
+<!--goods script-->
+<script>
+//$j("body").attr('class','item-detail-page');
+
+$j(window).load(function(){
+
+	$j("select[name='optno[]']").change(function(){
+		refresh_price();
+	});
+	$j("select[name='addopt[]']").change(function(){
+		refresh_price();
+	});
+
+	/*
+	$j("select[name='cover_range']").change(function(){
+		refresh_price();
+	});
+	
+	$j("select[name='cover_type']").change(function(){
+		refresh_price();
+	});
+	
+	$j("select[name='cover_paper_code']").change(function(){
+		refresh_price();
+	});
+	
+	$j("select[name='cover_coating_code']").change(function(){
+		refresh_price();
+	});
+	*/
+	//좌측 옵션보기
+	$j("select[name='quick-optno[]']").change(function(){
+		refresh_price2();
+	});
+	$j("select[name='quick-addopt[]']").change(function(){
+		refresh_price2();
+	});
+});
+
+//확대이미지 zoom 처리
+
+function setCoverRange(obj){
+	var cover_id;
+	var cover_range = $j("#cover_range").val();
+	var cover_type = $j("#cover_type" ).val();
+	var cover_paper_code = $j("#cover_paper_code" ).val();
+	var cover_coating_code = $j("#cover_coating_code" ).val();
+	var goodsno = "<?=$_GET[goodsno]?>";
+
+	/*
+	alert(cover_range);
+	alert(cover_type);
+	alert(cover_paper_code);
+	alert(cover_coating_code);
+	*/
+
+	$j.ajax({
+		type : "POST",
+		url : "indb.php",
+		data : "mode=getCoverRangeOption&cover_range=" + cover_range +"&cover_type=" + cover_type + "&cover_paper_code=" + cover_paper_code + "&cover_coating_code=" + cover_coating_code + "&goodsno=" + goodsno,
+		success : function(data) {
+			//alert(data);
+			if(data){
+				data = JSON.parse(data);
+				
+				$j('#cover_range', '#cover_type', '#cover_paper_code', '#cover_coating_code').find('option').each(function() {
+					$j(this).remove();
+				});
+
+				document.getElementById("cover_range").innerHTML = data.cover_range;
+				document.getElementById("cover_type").innerHTML = data.cover_type;
+				document.getElementById("cover_paper_code").innerHTML = data.cover_paper_code;
+				document.getElementById("cover_coating_code").innerHTML = data.cover_coating_code;
+				refresh_price();
+
+			}
+
+			cover_id = $j("select[name='cover_range']").val()+"_"+$j("select[name='cover_type']").val()+"_"+$j("select[name='cover_paper_code']").val()+"_"+$j("select[name='cover_coating_code']").val();
+			$j("#cover_id").val(cover_id);
+
+			document.getElementById("cover_range_label").innerHTML = $j("#cover_range option:selected").text();
+			document.getElementById("cover_type_label").innerHTML = $j("#cover_type option:selected").text();
+			document.getElementById("cover_paper_code_label").innerHTML = $j("#cover_paper_code option:selected").text();
+			document.getElementById("cover_coating_code_label").innerHTML = $j("#cover_coating_code option:selected").text();
+
+		}
+	});
+
+	//cover_id = cover_range+"_"+cover_type+"_"+cover_paper_code+"_"+cover_coating_code;	
+	//window.location.href= 'http://'+'<?=$_SERVER["HTTP_HOST"]?>' + "/goods/view.php?catno="+'<?=$_GET[catno]?>'+'&goodsno='+'<?=$_GET[goodsno]?>'+'&cover_id='+cover_id;
+
+}
+</script>
+
+
+{ # footer }

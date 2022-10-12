@@ -1,0 +1,272 @@
+/*** Table CSS #01 (Form) ***/
+table.tb1 {
+	width: 100%; margin: 0; padding: 0;
+	border-top: 1px solid #D8D8D8;
+	border-bottom: 1px solid #D8D8D8;
+	border-left:1px solid #D8D8D8;
+	border-right:1px solid #D8D8D8;
+	border-collapse: collapse;
+}
+table.tb1 th{
+	width: 120px; padding: 8px 0 4px 0;
+	border: 1px solid #D8D8D8;
+/*	border-bottom: 1px solid #D8D8D8;*/
+	font: bold 8.5pt 돋움; letter-spacing: -1px; text-align: center;
+	color: #6F6C6D; background: #F5F4F0;
+}
+table.tb1 td{
+	padding: 6px 15px 6px 15px;
+	border: 1px solid #D8D8D8;
+/*	border-bottom: 1px solid #D7D7D7;*/
+	color: #6F6C6D;
+}
+
+/*** Table CSS #02 (List) ***/
+table.tb2 {
+	width: 100%; margin: 0; padding: 0;
+	border-collapse: collapse;
+}
+table.tb2 th{
+	padding: 15px 0 14px 0; text-align:center;
+	border-left: 1px solid #656263;
+	border-right: 1px solid #656263;
+	border-bottom: 1px solid #656263;
+	color: #fffde9; background: #656263;
+	font:bold 9pt 돋움; letter-spacing: -1px;
+}
+table.tb2 th a{
+	color: #ffffff;
+}
+table.tb2 td{
+	padding: 6px 5px;
+	border: 1px solid #D7D7D7;
+}
+table.tb2 .c1 {padding-left:10px}
+table.tb2 .p0 {padding:0;}
+
+/*** Table CSS #02 (List) ***/
+table.tb3 {
+	width: 100%; margin: 0; padding: 0;
+	border-collapse: collapse;
+}
+table.tb3 th{
+	padding: 10px 0 9px 0; text-align:center;
+	border-left: 1px solid #656263;
+	border-right: 1px solid #656263;
+	border-bottom: 1px solid #656263;
+	color: #fffde9; background: #656263;
+	font:8.5pt 돋움; letter-spacing: -1px;
+}
+table.tb3 th a{
+	color: #ffffff;
+}
+table.tb3 td{
+	padding: 6px 5px;
+	border: 1px solid #D7D7D7;
+}
+table.tb3 .c1 {padding-left:10px}
+table.tb3 .p0 {padding:0;}
+
+/*** Table CSS #03 (List) ***/
+table.tbbox {
+	width: 100%; margin: 0; padding: 0;
+	border-bottom: 1px solid #ebebeb;
+	border-left: 1px solid #ebebeb;
+	border-collapse: collapse;
+}
+table.tbbox th{
+	padding: 7px 0 3px 0; text-align:center;
+	border: 1px solid #444444;
+	color: #ffffff; background: #444444;
+	font: 8.5pt 돋움; letter-spacing: -1px;
+}
+table.tbbox td{
+	padding: 6px 5px;
+	border-bottom: 1px solid #ebebeb;
+	border-right: 1px solid #ebebeb;
+}
+table.tbbox .c1 {padding-left:10px}
+
+/*** Table CSS #08 (List) ***/
+table.tb8 {
+	width: 100%; margin: 0; padding: 0;
+	border-collapse: collapse;
+}
+table.tb8 th{
+	width: 100px; padding: 4px 0 4px 15px;
+	font: bold 8.5pt 돋움; letter-spacing: -1px; text-align: left;
+	color: #666666;
+}
+table.tb8 td{
+	padding: 6px 2px 6px 15px;
+	color: #999999;
+}
+
+/*** Table CSS #09 (List) ***/
+div.addoptbox_div {margin:5px;border:1px dotted #CCCCCC;background:#FFFFFF;width:695px;}
+table.addoptbox {
+	margin: 3px; padding: 0;
+	border-collapse: collapse;
+	width:690px;
+}
+table.addoptbox th{
+	padding: 5px 0; text-align:center;
+	border: 1px solid #d2d2d2;
+	background: #f2f2f2;
+	font: bold 8.5pt 돋움;
+	color: #696969;
+}
+table.addoptbox td{
+	padding: 5px;
+	border: 1px solid #d2d2d2;
+}
+table.addoptbox td input{
+	width:100px;
+}
+table.addoptbox td.no_left_border {border-left:0;}
+
+/*** Table CSS #09 (List Copy) ***/
+div.addoptbox_div2 {margin:5px;border:1px dotted #CCCCCC;background:#FFFFFF;width:100%;}
+table.addoptbox2 {
+	margin: 3px; padding: 0;
+	border-collapse: collapse;
+	width:99%;
+}
+table.addoptbox2 th{
+	padding: 5px 0; text-align:center;
+	border: 1px solid #d2d2d2;
+	background: #f2f2f2;
+	font: bold 8.5pt 돋움;
+	color: #696969;
+}
+table.addoptbox2 td{
+	padding: 5px;
+	border: 1px solid #d2d2d2;
+}
+table.addoptbox2 td input{
+	width:100px;
+}
+table.addoptbox2 td.no_left_border {border-left:0;}
+
+
+div.impoptbox_div {margin:5px;border:1px dotted #CCCCCC;background:#FFFFFF;width:695px;}
+table.impoptbox {
+	margin: 3px; padding: 0;
+	border-collapse: collapse;
+	width:690px;
+}
+table.impoptbox th{
+	padding: 5px 0; text-align:center;
+	border: 1px solid #d2d2d2;
+	background: #f2f2f2;
+	font: bold 8.5pt 돋움;
+	color: #696969;
+}
+table.impoptbox td{
+	padding: 5px;
+	border: 1px solid #d2d2d2;
+}
+table.impoptbox td input{
+	/*width:100px;*/
+}
+table.impoptbox td.no_left_border {border-left:0;}
+
+
+div.impoptbox_div2 {margin:5px;border:1px dotted #CCCCCC;background:#FFFFFF;width:100%;}
+table.impoptbox2 {
+	margin: 3px; padding: 0;
+	border-collapse: collapse;
+	width:99%;
+}
+table.impoptbox2 th{
+	padding: 5px 0; text-align:center;
+	border: 1px solid #d2d2d2;
+	background: #f2f2f2;
+	font: bold 8.5pt 돋움;
+	color: #696969;
+}
+table.impoptbox2 td{
+	padding: 5px;
+	border: 1px solid #d2d2d2;
+}
+table.impoptbox2 td input{
+	/*width:100px;*/
+}
+table.impoptbox2 td.no_left_border {border-left:0;}
+
+
+div.addoptbox_div3 {margin:5px;border:1px dotted #CCCCCC;background:#FFFFFF;width:100%; overflow: auto;}
+table.addoptbox3 {
+	margin: 3px; padding: 0;
+	border-collapse: collapse;
+	width:99%;
+}
+table.addoptbox3 th{
+	padding: 5px 0; text-align:center;
+	border: 1px solid #d2d2d2;
+	background: #f2f2f2;
+	font: bold 8.5pt 돋움;
+	color: #696969;
+}
+table.addoptbox3 td{
+	padding: 5px;
+	border: 1px solid #d2d2d2;
+}
+table.addoptbox3 td input{
+	width:25px;
+}
+table.addoptbox3 td.no_left_border {border-left:0;}
+
+/*** Table CSS #22 (List) ***/
+table.tb22 {
+	width: 100%; margin: 0; padding: 0;
+	border-collapse: collapse;
+}
+table.tb22 th{
+	padding: 10px 0 5px 0; text-align:center;
+	border: 1px solid #D7D7D7;
+	color: #656263; background: #f5f4f0;
+	font:bold 9pt 돋움; letter-spacing: -1px;
+}
+table.tb22 th a{
+	color: #ffffff;
+}
+table.tb22 td{
+	padding: 6px 5px;
+	border: 1px solid #D7D7D7;
+}
+table.tb22 .c1 {padding-left:10px}
+table.tb22 .p0 {padding:0;}
+
+table.item {
+	width: 100%; margin: 0; padding: 0;
+	border-collapse: collapse;
+}
+table.item td{
+	padding: 6px 5px;
+	border: 0px;
+}
+table.item .c1 {padding-left:10px}
+table.item .p0 {padding:0;}
+
+table.addoptbox4 {
+	margin: 3px; padding: 0;
+	border-collapse: collapse;
+	width:99%;
+}
+table.addoptbox4 th{
+	padding: 5px 0; text-align:center;
+	border: 1px solid #d2d2d2;
+	background: #f2f2f2;
+	font: bold 9pt 돋움;
+	color: #696969;
+}
+table.addoptbox4 td{
+	padding: 5px;
+	border: 1px solid #d2d2d2;
+	font: 9pt 돋움;
+}
+table.addoptbox4 td input{
+	width:50px;
+	text-align:right;
+}

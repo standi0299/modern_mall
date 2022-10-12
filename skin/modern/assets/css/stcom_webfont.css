@@ -1,0 +1,25 @@
+﻿/*웹폰트*/
+
+
+@font-face {
+    font-family: 'SegoeUI BoldItalic';
+    src: url(font/segoeuiz.eot);
+    src: url(font/segoeuiz.eot?#iefix) format('embedded-opentype'),
+        url(font/segoeuiz.woff2) format('woff2'),
+        url(font/segoeuiz.ttf) format('truetype');
+}
+
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans:400,700');
+/*font-family: 'Noto Sans', sans-serif;*/
+@import url('https://fonts.googleapis.com/css?family=Nunito+Sans');
+/*font-family: 'Nunito Sans', sans-serif;*/
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+/*font-family: 'Ubuntu', sans-serif;*/
+@import url('https://fonts.googleapis.com/css?family=Cabin:i');
+/*font-family: 'Cabin', sans-serif;*/
+@import url('https://fonts.googleapis.com/css?family=Bungee');
+/*font-family: 'Bungee', cursive;*/
+@import url('https://fonts.googleapis.com/css?family=Pacifico');
+/*font-family: 'Pacifico', cursive;*/
+@import url('https://fonts.googleapis.com/css?family=Quicksand:300,400,500,700');
+/*font-family: 'Quicksand', sans-serif;*/

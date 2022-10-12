@@ -1,0 +1,228 @@
+{ # header }
+<div id="login-edit-storage-page" >
+	<section class="content-container">
+		<!--
+		<div class="tablize">
+			<div class="table-row">
+				<div class="cell vertical-middle">
+					<h1 class="payment-title">{=__text("편집리스트")}</h1>
+				</div>
+				<div class="cell right vertical-middle text-right">
+
+				</div>
+			</div>
+		</div>
+		-->
+		<div id="order-page-menu">
+			<!--{ @ f_banner_s2('order_editlist_top_title')}-->{.banner}<!--{ / }-->
+		</div>
+		<!--
+		<div class="order-page-menu">
+			※{=__text("편집보관함은")} {_cfg.source_save_days}{=__text("일동안 보관됩니다.")}
+		</div>
+		-->
+	</section>
+
+	<form name="fmView">
+		<input type="hidden" name="mode"/>
+		<input type="hidden" name="mode2"/>
+		<input type="hidden" name="goodsno"/>
+		<input type="hidden" name="productid"/>
+		<input type="hidden" name="podoptno"/>
+		<input type="hidden" name="storageid"/>
+		<input type="hidden" name="storageids"/>
+		<input type="hidden" name="optno"/>
+		<input type="hidden" name="addopt"/>
+		<input type="hidden" name="ea"/>
+		<input type="hidden" name="mid" value="{_sess.mid}"/>
+	
+
+	
+		<div id="container-pupa">
+			<div class="container_inner">
+				<!--
+				<h2 class="category-title">편집보관함</h2>
+				<div class="bdt"></div>
+                -->
+                <div id="order-page-menu">
+			        <!--{ @ f_banner_s2('order_editlist_top_title2')}-->{.banner}<!--{ / }-->
+		        </div>
+				<!-- <p class="edit-list-caution">{_cfg.nameSite} 편집보관함은 {_cfg.source_save_days}일동안 보관됩니다.</p> -->
+				<div class="edit-list">
+					<ul>
+						<!--{ @ loop }-->
+						<li>
+							<div class="thumbnail-wrap">
+								<div class="thumbnail">
+									<div class="thumbnail-img" style="background-image:url({=goodsListImgSrc(.goodsno,'348','300','border:1px solid #dedede')});" ></div>
+								</div>
+							</div>
+							<div class="thumbnail-info">
+								<div class="thumbnail-info-top">
+									<p class="product-name">{.goodsnm}</p>
+									<p class="product-input">
+										<!--{ ? .title }-->
+										<span class="product-input"><!--<br>- {.title}<br>-->
+											<div id="{.storageid}_update" style="display: inline;">
+												<input type="text" id="{.storageid}_title1" value="{.title}" />
+												<a href="#" class="btn_modify" onclick="editTitle('{.storageid}','{.storageid}_title1');">{=__text("타이틀 수정")}</a>
+											</div>
+										</span>
+										<!--{ : }-->
+										<span class="desc">
+											<div id="{.storageid}_insert" style="display: inline;">
+												<input type="text" id="{.storageid}_title2" />
+												<a href="#" class="btn_modify" onclick="editTitle('{.storageid}','{.storageid}_title2');">{=__text("타이틀 추가")}</a>
+											</div>
+										</span>
+										<!--{ / }-->
+									</p>
+									<br>
+									<p class="product-option">
+										
+										<!--{ ? .opt }-->
+											{=__text("옵션")} : {.opt}<br/>
+										<!--{ / }-->
+										<!--{ ? .addopt }-->
+											<!--{ @ .addopt }-->
+												{..addopt_bundle_name} : {..addoptnm}
+											<!--{ / }-->
+										<!--{ / }-->
+										<!--{ ? .printopt_desc }-->
+											{.printopt_desc}
+										<!--{ / }-->
+										<!--{ ? .cover_range_data }-->
+											{.cover_range_data}
+										<!--{ / }-->
+										
+									</p>
+								</div>
+								<div class="thumbnail-info-bottom">
+									<div class="btn_wrap">
+										<span <!--{ ? _r_state[.state] == "편집중" }-->class="edit ing"<!--{ : }-->class="edit comp"<!--{ / }-->>{=_r_state[.state]}{ .ext_json_data }</span>
+	
+                    <!--{ ? .state != 9 }
+                      <!--{ ? f_decode_json_data(.ext_json_data, "editor_type") == "web" }-->
+                        	<a href="javascript:PodsCallEditorUpdate('{.pods_use}','{.podskind}','{.podsno}','{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','','edit','','','','','','{.cover_id}','{=f_decode_json_data(.ext_json_data, "editor_type")}')" class="btn_edit">{=__text("편집")}</a>
+                      	<!--{ : }-->
+                        	<a href="javascript:PodsCallEditorUpdate('{.pods_use}','{.podskind}','{.podsno}','{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','','edit','','','','','','{.cover_id}')" class="btn_edit">{=__text("편집")}</a>
+                      <!--{ / }-->
+								<!--{ / }-->
+									<a href="javascript:popup('../module/preview.php?goodsno={.goodsno}&storageid={.storageid}',1300,950, 1);" class="btn_preview">{=__text("미리보기")}</a>
+
+									<!--{ ? .pods_use != 3 }-->
+										<!--{ ? !.printopt_desc }-->
+											<!--{ ? .podskind != '3010' && f_decode_json_data(.ext_json_data, "editor_type") != "web"}-->
+												<a href="javascript:pods_editor_itembox_saveas('{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','{.pods_use}','{.podskind}', '{.cover_id}')"class="btn_copy">{=__text("복사")}</a>
+											<!--{ : }-->
+										<!--<a class="btn_delete"></a> <a class="btn_copy">{=__text("복사안됨")}</a> !-->
+
+										<!--{ / }-->
+										<!--{ / }-->
+									<!--{ / }-->
+
+										<a href="?mode=del&storageid={.storageid}" {=__onclick_confirm("해당 상품을 삭제하시겠습니까?")} class="btn_delete">{=__text("삭제")}</a>
+										
+									</div>
+									<p class="modify_txt1">최종수정 : {.updatedt}</p>
+									<p class="modify_txt2">삭제예정 : {.source_del_days}</p>
+								</div>
+							</div>
+						</li>
+						
+						<!--{ ? fmod(.key_+1, 3) == 0 }--></ul><ul><!--{ / }-->
+						<!--{ / }-->
+					
+				</div>
+			</div><!-- container_inner End -->
+		</div><!-- container-pupa End -->
+	
+	</form>
+</div>
+
+<script>
+	function pods_editor_itembox_saveas(goodsno,optno,storageid,productid,optionid,addopt,ea,podsuse,podskind,cover_id){
+
+		$j("input[name=cartno[]]").each(function(){
+			$j(this).attr("checked",false);
+		});
+
+		if (!optionid){
+			optionid = 1;
+		}
+
+		var fm = document.fmView;
+		fm.goodsno.value = goodsno;
+		fm.optno.value = optno;
+		fm.productid.value = productid;
+		fm.podoptno.value = optionid;
+		fm.addopt.value = addopt;
+		fm.ea.value = ea;
+
+		popupLayer("../module/popup_calleditor_v2.php?editmode=saveas&mode=edit&goodsno="+goodsno+"&optno="+optno+"&productid="+productid+"&podsno="+productid+"&optionid="+optionid+"&addopt="+addopt+"&storageid="+storageid+"&podskind="+podskind+"&pods_use="+podsuse+"&cover_id="+cover_id,"","","",1);
+	}
+
+	function pods_editor_itembox(goodsno,optno,storageid,productid,optionid,addopt,ea,podsuse){
+		if (!optionid){
+			optionid = 1;
+		}
+
+		if(podsuse == "3") {
+			CrossDomainCartOpenEditor(goodsno,optno,storageid,productid,optionid,addopt,ea,'');
+			return;
+		}
+		else {
+			popupLayer("../module/popup_calleditor_v2.php?mode=edit&goodsno="+goodsno+"&optno="+optno+"&productid="+productid+"&optionid="+optionid+"&addopt="+addopt+"&storageid="+storageid,"","","",1);
+		}
+	}
+
+	//photowiki skin의 기능을 수정해서 추가 / 17.01.31 / kjm
+	function editTitle(storageid,title){
+		var storageid = storageid;
+		var str = title.charAt(title.length - 1);
+		var title = document.getElementById(title).value;
+
+		if(!title){
+			alert({=__java("내용이 없습니다.")});
+			return;
+		}
+
+		var word = "";	
+		if(str == 1) word = {=__java("수정")};
+		else word = {=__java("추가")};
+
+		if(confirm({=__java("편집타이틀을")}+' '+word+{=__java("하시겠습니까?")}) == true){
+			location.href = "?mode=edittitle&storageid="+storageid+"&title="+title;
+		} else {
+			return;
+		}
+	}
+	
+	/*function exec(mode,mode2) {
+		if (!form_chk(document.fm)){
+			return;
+		}
+		var fm = document.fm;
+		fm.action =  "../order/cart.php";
+		fm.mode.value = mode;
+		fm.mode2.value = mode2;
+	
+		fm.submit();
+	}*/
+
+	function exec(mode, saveas) {
+		var saveas = saveas;
+
+		if (saveas != 'saveas' && !form_chk(document.fmView)){
+			return;
+		}
+		var fm = document.fmView;
+		fm.action =  "../order/cart.php";
+		fm.mode.value = mode;
+	
+		fm.submit();
+	}
+
+</script>
+
+{ # footer }

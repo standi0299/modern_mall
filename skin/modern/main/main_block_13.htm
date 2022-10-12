@@ -1,0 +1,159 @@
+<div class="container_inner">
+	<div class="main-product-list-wrap">
+		<ul class="main-product-list-btn">
+			<li class="on"><a href="#">Best Sellers</a></li>
+			<li><a href="#">New Arrivals</a></li>
+			<li><a href="#">Gift Under 50,000\</a></li>
+		</ul>
+		<div class="product-list">
+			<!-- first -->
+			<ul class="product-list-first">
+				<!--{ ? _blockDataArr.main_block_03.goods }-->
+					<!--{ @ _blockDataArr.main_block_03.goods }-->
+						<!--{ ? .key_ < 4 }-->
+						<li onclick="move_goods_view('{.goodsno}')" style="cursor: pointer">
+							<a>
+								<div class="thumbnail-wrap">
+									<div class="thumbnail">
+										<div class="thumbnail-img" style="background-image: url('{.clistimg}'), url('/skin/modern/img/noimg.png')">
+										</div>
+										<button type="button" class="btn_wish <!--{ ? .goods_like == 'Y' }-->on<!--{ / }-->" onclick="set_goods_like('{.goodsno}');"></button>
+									</div>
+								</div>
+								<div class="thumbnail-info">
+									<p class="product-name">{.goodsnm}</p>
+									<p class="product-price">{=number_format(.cprice)}원</p>
+									<p class="product-reduced-price">{=number_format(.price)}원</p>	
+								</div>
+							</a>
+						</li>
+						<!--{ / }-->
+					<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+			<!-- second -->
+			<ul class="product-list-second">
+				<!--{ ? _blockDataArr.main_block_03.goods }-->
+					<!--{ @ _blockDataArr.main_block_03.goods }-->
+						<!--{ ? .key_ >= 4 && .key_ < 8 }-->
+						<li onclick="move_goods_view('{.goodsno}')" style="cursor: pointer">
+							<a>
+								<div class="thumbnail-wrap">
+									<div class="thumbnail">
+										<div class="thumbnail-img" style="background-image: url('{.clistimg}'), url('/skin/modern/img/noimg.png')">
+										</div>
+										<button type="button" class="btn_wish <!--{ ? .goods_like == 'Y' }-->on<!--{ / }-->" onclick="set_goods_like('{.goodsno}');"></button>
+									</div>
+								</div>
+								<div class="thumbnail-info">
+									<p class="product-name">{.goodsnm}</p>
+									<p class="product-price">{=number_format(.cprice)}원</p>
+									<p class="product-reduced-price">{=number_format(.price)}원</p>	
+								</div>
+							</a>
+						</li>
+						<!--{ / }-->
+					<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+			<!-- third -->
+			<ul class="product-list-third">
+				<!--{ ? _blockDataArr.main_block_03.goods }-->
+					<!--{ @ _blockDataArr.main_block_03.goods }-->
+						<!--{ ? .key_ >= 8 }-->
+						<li onclick="move_goods_view('{.goodsno}')" style="cursor: pointer">
+							<a>
+								<div class="thumbnail-wrap">
+									<div class="thumbnail">
+										<div class="thumbnail-img" style="background-image: url('{.clistimg}'), url('/skin/modern/img/noimg.png')">
+										</div>
+										<button type="button" class="btn_wish <!--{ ? .goods_like == 'Y' }-->on<!--{ / }-->" onclick="set_goods_like('{.goodsno}');"></button>
+									</div>
+								</div>
+								<div class="thumbnail-info">
+									<p class="product-name">{.goodsnm}</p>
+									<p class="product-price">{=number_format(.cprice)}원</p>
+									<p class="product-reduced-price">{=number_format(.price)}원</p>	
+								</div>
+							</a>
+						</li>
+						<!--{ / }-->
+					<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+		</div>
+	</div><!-- main-product-list-wrap End -->
+</div><!-- container_inner End -->
+
+<!--{ @ f_banner_s2('main_block_04')}-->{.banner}<!--{ / }-->
+<!--{ @ f_banner_s2('main_block_05')}-->{.banner}<!--{ / }-->
+
+<div class="container_inner">
+	
+	<div class="main-cs-wrap">
+		<div class="cs-slide-wrap">
+			<div class="cs-slide">
+				<p>공지사항</p>
+				<ul>
+					<!--{ @ notice_list }-->
+					<li><a href="/board/view.php?no={.no}&board_id={.board_id}"><span>{.subject}</span><b>{=substr(.regdt, 0, 10)}</b></a></li>
+					<!--{ / }-->
+				</ul>
+				<a href="/board/list.php?board_id=notice" class="btn_more">더보기</a>
+			</div>
+			<div class="cs-slide">
+				<p>이벤트</p>
+				<ul>
+					<!--{ @ event_list }-->
+					<li><a href="/goods/event_view.php?eventno={.eventno}"><span>{.title}</span><b>{=substr(.regdt, 0, 10)}</b></a></li>
+					<!--{ / }-->
+				</ul>
+				<a href="/goods/event.php" class="btn_more">더보기</a>
+			</div>
+		</div>
+		<div class="main-cs-info">
+			<p class="title">고객만족센터</p>
+			<!--{ @ f_banner_s2('cs_phone_number')}-->{.banner}<!--{ / }-->
+			<div class="table">
+				<div class="td open">open</div>
+				<div class="td time">
+					{=nl2br(_cfg.cstime)}
+				</div>
+			</div>
+		</div>
+		<div class="main-cs-shortcut">
+			<ul>
+				<li><a href="/service/faq.php">자주묻는 질문</a></li>
+				<li><a href="/mypage/mycs.php">1:1문의</a></li>
+				<!--{ @ f_banner_s2('main_add_menu_M2')}-->{.banner}<!--{ / }-->
+			</ul>
+		</div>
+	</div>
+	
+	<!-- main-cs-wrap End -->
+	<div class="instagram-wrap">
+		<h3><a href="#"><img src="/skin/modern/assets/M2/images/title_insta.png" alt="instagram" /></a></h3>
+		<p>#3DFIGURE_PUPA</p>
+		<ul>
+			<!--{ @ insta_data }-->
+			<li>
+				<a href="{.link}" target="_blank">
+					<img src="{.images.low_resolution.url}" alt=""/>
+					<span class="hover"></span>
+				</a>
+			</li>
+			<!--{ / }-->
+		</ul>
+	</div><!-- instagram-wrap End -->
+	<div class="keyword-wrap">
+		<h3><a href="#"><img src="/skin/modern/assets/M2/images/title_keyword.png" alt="keyword" /></a></h3>
+		<a href="#" class="btn_search">검색버튼</a>
+		<div class="keyword-content">
+			<!--{ @ insta_data }-->
+				<!--{ @ .tags }-->
+					<a href="https://www.instagram.com/explore/tags/{..value_}" target="_blank">#{..value_}</a>
+				<!--{ / }-->
+			<!--{ / }-->
+		</div>
+	</div><!-- keyword-wrap End -->
+</div><!-- container_inner End -->

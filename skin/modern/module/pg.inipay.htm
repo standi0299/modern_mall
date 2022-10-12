@@ -1,0 +1,300 @@
+<script language=javascript src="//plugin.inicis.com/pay40.js"></script>
+
+<script language=javascript>
+StartSmartUpdate();
+</script>
+
+<!---------------------------------------------------------------------------------- 
+※ 주의 ※
+ 상단 자바스크립트는 지불페이지를 실제 적용하실때 지불페이지 맨위에 위치시켜 
+ 적용하여야 만일에 발생할수 있는 플러그인 오류를 미연에 방지할 수 있습니다.
+ 
+  <script language=javascript src="http://plugin.inicis.com/pay40.js"></script>
+  <script language=javascript>
+  StartSmartUpdate();	// 플러그인 설치(확인)
+  </script>
+-----------------------------------------------------------------------------------> 
+
+
+<script language=javascript>
+
+var openwin;
+
+function pay(frm)
+{
+	// MakePayMessage()를 호출함으로써 플러그인이 화면에 나타나며, Hidden Field
+	// 에 값들이 채워지게 됩니다. 일반적인 경우, 플러그인은 결제처리를 직접하는 것이
+	// 아니라, 중요한 정보를 암호화 하여 Hidden Field의 값들을 채우고 종료하며,
+	// 다음 페이지인 INIsecurepay.php로 데이터가 포스트 되어 결제 처리됨을 유의하시기 바랍니다.
+
+	if(document.ini.clickcontrol.value == "enable")
+	{
+		
+		if(document.ini.goodname.value == "")  // 필수항목 체크 (상품명, 상품가격, 구매자명, 구매자 이메일주소, 구매자 전화번호)
+		{
+			alert("상품명이 빠졌습니다. 필수항목입니다.");
+			return false;
+		}
+		else if(document.ini.price.value == "")
+		{
+			alert("상품가격이 빠졌습니다. 필수항목입니다.");
+			return false;
+		}
+		else if(document.ini.buyername.value == "")
+		{
+			alert("구매자명이 빠졌습니다. 필수항목입니다.");
+			return false;
+		} 
+		else if(document.ini.buyeremail.value == "")
+		{
+			alert("구매자 이메일주소가 빠졌습니다. 필수항목입니다.");
+			return false;
+		}
+		else if(document.ini.buyertel.value == "")
+		{
+			alert("구매자 전화번호가 빠졌습니다. 필수항목입니다.");
+			return false;
+		}
+		else if(document.INIpay == null || document.INIpay.object == null)  // 플러그인 설치유무 체크
+		{
+			alert("\n이니페이 플러그인 128이 설치되지 않았습니다. \n\n안전한 결제를 위하여 이니페이 플러그인 128의 설치가 필요합니다. \n\n다시 설치하시려면 Ctrl + F5키를 누르시거나 메뉴의 [보기/새로고침]을 선택하여 주십시오.");
+			return false;
+		}
+		else
+		{
+			/******
+			 * 플러그인이 참조하는 각종 결제옵션을 이곳에서 수행할 수 있습니다.
+			 * (자바스크립트를 이용한 동적 옵션처리)
+			 */
+			
+						 
+			if (MakePayMessage(frm))
+			{
+				disable_click();
+				openwin = window.open("../pg/inicis/sample/childwin.html","childwin","width=299,height=149");
+				return true;
+			}
+			else
+			{
+				alert("결제를 취소하셨습니다.");
+				return false;
+			}
+		}
+	}
+	else
+	{
+		return false;
+	}
+}
+
+
+function enable_click()
+{
+	document.ini.clickcontrol.value = "enable"
+}
+
+function disable_click()
+{
+	document.ini.clickcontrol.value = "disable"
+}
+
+function focus_control()
+{
+	if(document.ini.clickcontrol.value == "disable")
+		openwin.focus();
+}
+
+function _settle()
+{
+	if (pay(document.ini)) document.ini.submit();
+}
+
+</script>
+
+
+<script language="JavaScript" type="text/JavaScript">
+<!--
+function MM_reloadPage(init) {  //reloads the window if Nav4 resized
+  if (init==true) with (navigator) {if ((appName=="Netscape")&&(parseInt(appVersion)==4)) {
+    document.MM_pgW=innerWidth; document.MM_pgH=innerHeight; onresize=MM_reloadPage; }}
+  else if (innerWidth!=document.MM_pgW || innerHeight!=document.MM_pgH) location.reload();
+}
+MM_reloadPage(true);
+
+function MM_jumpMenu(targ,selObj,restore){ //v3.0
+  eval(targ+".location='"+selObj.options[selObj.selectedIndex].value+"'");
+  if (restore) selObj.selectedIndex=0;
+}
+//-->
+</script>
+</head>
+
+<!-----------------------------------------------------------------------------------------------------
+※ 주의 ※
+ 아래의 body TAG의 내용중에 
+ onload="javascript:enable_click()" onFocus="javascript:focus_control()" 이 부분은 수정없이 그대로 사용.
+ 아래의 form TAG내용도 수정없이 그대로 사용.
+------------------------------------------------------------------------------------------------------->
+
+<body onFocus="javascript:focus_control()">
+<form name=ini method=post action="../pg/inipay/return.php" onSubmit="return pay(this)">
+
+<table border=1 style="display:none">
+<tr> 
+  <td>결 제 방 법 </td>
+  <td><select name=gopaymethod >
+	  <option value="">[ 결제방법을 선택하세요. ] 
+	  <option value="Card" {_selected.paymethod.c}>신용카드 결제
+	  <option value="DirectBank" {_selected.paymethod.o}>실시간 은행계좌이체
+	  <option value="VBank" {_selected.paymethod.v}>무통장 입금 
+	  <option value="HPP" {_selected.paymethod.h}>핸드폰 결제						  						  
+	  <option value="VCard">인터넷안전 결제 
+	  <option value="PhoneBill">받는전화결제 
+	  <option value="Ars1588Bill">1588 전화 결제 
+	  <option value="OCBPoint">OK 캐쉬백포인트 결제
+	  <option value="Culture">문화상품권 결제
+	  <option value="kmerce">K-merce 상품권 결제
+	  <option value="TeenCash">틴캐시 결제
+	  <option value="dgcl">게임문화 상품권 결제
+	  <option value="sktgift">SKT 상품권 결제
+	  <option value="onlycard" >신용카드 결제(전용메뉴) 
+	  <option value="onlyisp">인터넷안전 결제 (전용메뉴) 
+	  <option value="onlydbank">실시간 은행계좌이체 (전용메뉴) 
+	  <option value="onlycid"> 신용카드/계좌이체/무통장입금(전용메뉴) 
+	  <option value="onlyvbank">무통장입금(전용메뉴) 
+	  <option value="onlyhpp"> 핸드폰 결제(전용메뉴) 
+	  <option value="onlyphone"> 전화 결제(전용메뉴) 
+	  <option value="onlyocb"> OK 캐쉬백 결제 - 복합결제 불가능(전용메뉴) 
+	  <option value="onlyocbplus"> OK 캐쉬백 결제- 복합결제 가능(전용메뉴) 
+	  <option value="onlyculture"> 문화상품권 결제(전용메뉴) 
+	  <option value="onlykmerce"> K-merce 상품권 결제(전용메뉴)
+	  <option value="onlyteencash">틴캐시 결제(전용메뉴)
+	  <option value="onlydgcl">게임문화 상품권 결제(전용메뉴)
+	  <option value="onlysktgift">SKT 상품권 결제(전용메뉴)
+	  </select></td>
+</tr>
+<tr> 
+  <td>상 품 명</td>
+  <td><input type=text name=goodname size=20 value="{=strip_tags(cart->item[0]['goodsnm'])}"></td>
+</tr>
+<tr> 
+  <td>가 격</td>
+  <td><input type=text name=price size=20 value="{payprice}"><br><font color=red><b>* 주의* LG카드는 반드시 1004원으로 결제테스트 하시기 바랍니다.</b></font></td>
+</tr>
+<tr> 
+  <td>성 명</td>
+  <td><input type=text name=buyername size=20 value="{nameorder}"></td>
+</tr>
+<tr> 
+  <td>전 자 우 편</td>
+  <td><input type=text name=buyeremail size=20 value="{email}"></td>
+</tr>
+
+<!-----------------------------------------------------------------------------------------------------
+※ 주의 ※
+보호자 이메일 주소입력 받는 필드는 소액결제(핸드폰 , 전화결제)
+중에  14세 미만의 고객 결제시에 부모 이메일로 결제 내용통보하라는 정통부 권고 사항입니다. 
+다른 결제 수단을 이용시에는 해당 필드(parentemail)삭제 하셔도 문제없습니다.
+------------------------------------------------------------------------------------------------------->  
+<tr> 
+  <td>보호자 전자우편</td>
+  <td><input type=text name=parentemail size=20 value="parents@parents.com"></td>
+</tr>
+<tr> 
+  <td>이 동 전 화</td>
+  <td><input type=text name=buyertel size=20 value="{orderer_phone_number}"></td>
+</tr>
+<tr> 
+  <td><input type=submit></td>
+</tr>
+</table>
+
+<!-- 
+상점아이디.
+테스트를 마친 후, 발급받은 아이디로 바꾸어 주십시오.
+-->
+<input type=hidden name=mid value="{?!escrow}{_cfg.pg.cid}{:}{_cfg.pg.eid}{/}">
+
+<!--
+화폐단위
+WON 또는 CENT
+주의 : 미화승인은 별도 계약이 필요합니다.
+-->
+<input type=hidden name=currency value="WON">
+
+
+<!--
+무이자 할부
+무이자로 할부를 제공 : yes
+무이자할부는 별도 계약이 필요합니다.
+카드사별,할부개월수별 무이자할부 적용은 아래의 카드할부기간을 참조 하십시오.
+무이자할부 옵션 적용은 반드시 매뉴얼을 참조하여 주십시오.
+-->
+<input type=hidden name=nointerest value="{?_cfg.pg.nointerest}yes{:}no{/}">
+
+
+<!--
+카드할부기간
+각 카드사별로 지원하는 개월수가 다르므로 유의하시기 바랍니다.
+
+value의 마지막 부분에 카드사코드와 할부기간을 입력하면 해당 카드사의 해당
+할부개월만 무이자할부로 처리됩니다 (매뉴얼 참조).
+-->
+<input type=hidden name=quotabase value="{_cfg.pg.quotaCard}">
+
+
+<!-- 기타설정 -->
+<!--
+SKIN : 플러그인 스킨 칼라 변경 기능 - 6가지 칼라(ORIGINAL, GREEN, ORANGE, BLUE, KAKKI, GRAY)
+HPP : 컨텐츠 또는 실물 결제 여부에 따라 HPP(1)과 HPP(2)중 선택 적용(HPP(1):컨텐츠, HPP(2):실물).
+Card(0): 신용카드 지불시에 이니시스 대표 가맹점인 경우에 필수적으로 세팅 필요 ( 자체 가맹점인 경우에는 카드사의 계약에 따라 설정) - 자세한 내용은 메뉴얼  참조.
+OCB : OK CASH BAG 가맹점으로 신용카드 결제시에 OK CASH BAG 적립을 적용하시기 원하시면 "OCB" 세팅 필요 그 외에 경우에는 삭제해야 정상적인 결제 이루어짐.
+no_receipt : 은행계좌이체시 현금영수증 발행여부 체크박스 비활성화 (현금영수증 발급 계약이 되어 있어야 사용가능)
+-->
+<input type=hidden name=acceptmethod size=20 value="HPP(2):Card(0):OCB:receipt:cardpoint">
+
+
+<!--
+상점 주문번호 : 무통장입금 예약(가상계좌 이체),전화결재 관련 필수필드로 반드시 상점의 주문번호를 페이지에 추가해야 합니다.
+결제수단 중에 은행 계좌이체 이용 시에는 주문 번호가 결제결과를 조회하는 기준 필드가 됩니다.
+상점 주문번호는 최대 40 BYTE 길이입니다.
+-->
+<input type=hidden name=oid size=40 value="{ordno}">
+
+
+<!--
+플러그인 좌측 상단 상점 로고 이미지 사용
+이미지의 크기 : 90 X 34 pixels
+플러그인 좌측 상단에 상점 로고 이미지를 사용하실 수 있으며,
+주석을 풀고 이미지가 있는 URL을 입력하시면 플러그인 상단 부분에 상점 이미지를 삽입할수 있습니다.
+-->
+<!--input type=hidden name=ini_logoimage_url  value="http://[사용할 이미지주소]"-->
+
+<!--
+좌측 결제메뉴 위치에 이미지 추가
+이미지의 크기 : 단일 결제 수단 - 91 X 148 pixels, 신용카드/ISP/계좌이체/가상계좌 - 91 X 96 pixels
+좌측 결제메뉴 위치에 미미지를 추가하시 위해서는 담당 영업대표에게 사용여부 계약을 하신 후
+주석을 풀고 이미지가 있는 URL을 입력하시면 플러그인 좌측 결제메뉴 부분에 이미지를 삽입할수 있습니다.
+-->
+<!--input type=hidden name=ini_menuarea_url value="http://[사용할 이미지주소]"-->
+
+<!--
+플러그인에 의해서 값이 채워지거나, 플러그인이 참조하는 필드들
+삭제/수정 불가
+uid 필드에 절대로 임의의 값을 넣지 않도록 하시기 바랍니다.
+-->
+<input type=hidden name=quotainterest value="">
+<input type=hidden name=paymethod value="">
+<input type=hidden name=cardcode value="">
+<input type=hidden name=cardquota value="">
+<input type=hidden name=rbankcode value="">
+<input type=hidden name=reqsign value="DONE">
+<input type=hidden name=encrypted value="">
+<input type=hidden name=sessionkey value="">
+<input type=hidden name=uid value=""> 
+<input type=hidden name=sid value="">
+<input type=hidden name=version value=4000>
+<input type=hidden name=clickcontrol value="">
+
+</form>
+<script>enable_click();</script>

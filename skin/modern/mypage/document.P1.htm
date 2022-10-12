@@ -1,0 +1,495 @@
+{ # header }
+
+<div id="my_tqb_menu">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="orderlist.php">{=__text("주문배송")}</a><li>
+		<li><a href="/order/editlist.php">{=__text("편집보관함")}</a><li>
+		<li><a href="coupon.php">{=__text("쿠폰·적립금")}</a><li>
+		<li><a href="/mypage/jjim_list.php">{=__text("찜목록")}</a><li>
+		<li><a href="/mypage/payback_intro.php">{=__text("페이백")}</a></li>
+		<li><a href="document.php" class="under_bor15">{=__text("서류발급신청")}</a><li>
+		<li><a href="/member/myinfo.php">{=__text("회원정보변경")}</a><li>
+	</ul>
+</div>
+
+<iframe style="display: none;" name="hiddenIfrm"></iframe>
+
+<div class="si_body">
+	<div class="login_px_docu">
+		<span class="login_px_text_span">{=__text("서류발급 신청")}</span>
+	</div>
+
+	<div class="gein">
+		<form name="fm" method="post" action="indb.php" target="hiddenIfrm" enctype="multipart/form-data" onsubmit="return chkFormData();">
+			<input type="hidden" name="mode" value="document">
+
+			<div class="cument" id="cument_view">
+				<div class="docu_list_line">
+					<ul style="padding-left:50px; margin:0;">
+						<li><input type="radio" id="document_type_CRD" class="lastbox1" name="document_type" value="CRD" onclick="location.href='document.php?document_type=CRD';"><label for="document_type_CRD">{=__text("현금영수증(소득공제)")}</label></li>
+						<li><input type="radio" id="document_type_CRE" class="lastbox1" name="document_type" value="CRE" onclick="location.href='document.php?document_type=CRE';"><label for="document_type_CRE">{=__text("현금영수증(지출증빙)")}</label></li>
+						<li style="width:120px;"><input type="radio" id="document_type_TI" class="lastbox1" name="document_type" value="TI" onclick="location.href='document.php?document_type=TI';"><label for="document_type_TI">{=__text("세금계산서")}</label></li>
+					</ul>
+				</div>
+
+				<!--{ ? _GET.document_type == 'CRD' }-->
+					<div class="docu_box" id="docu_box_one_1">
+						<div class="docu_list_line_order">
+							<ul style="padding-left:10px; margin:0;">
+								<li style="padding-top:35px;">
+									<ul>
+										<li style="width:120px;">
+											{=__text("주문번호")}
+										</li>
+										<li>
+											<select class="last_number_docu" name="payno" style="width:323px;" required>
+												<option value="">{=__text("주문번호 선택")}</option>
+												<!--{ @ list_payno }-->
+												<option value="{.payno}">{.payno}</option>
+												<!--{ / }-->
+											</select>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="docu_list_line_nph">
+							<ul style="padding-left:10px; margin:0;">
+								<li>
+									<ul>
+										<li style="width:120px;">
+											{=__text("핸드폰")}
+										</li>
+										<li>
+											<select class="last_number_docu" onchange="auto_set_pay" name="mobile[]">
+												<!--{ @ _r_mobile }-->
+												<option value="{.value_}">{.value_}</option>
+												<!--{ / }-->
+											</select>
+										</li>
+										<li>
+											<input type="text" class="number_p number_type" name="mobile[]" maxlength="4" onkeyup="auto_focus(this,2);">
+										</li>
+										<li>
+											<input type="text" class="number_p number_type" name="mobile[]" maxlength="4">
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="docu_list_line_ff">
+							<ul style="padding-left:10px;">
+								<li>
+									<ul>
+										<li class="r_li" style=" width:90px; padding-right:34px;">
+											{=__text("카드")}
+										</li>
+										<li>
+											<input type="text" class="docu_number number_type" name="card_num[]" maxlength="4" onkeyup="auto_focus(this,1);">
+										</li>
+										<li>
+											<input type="text" class="docu_number number_type" name="card_num[]" maxlength="4" onkeyup="auto_focus(this,2);">
+										</li>
+										<li>
+											<input type="text" class="docu_number number_type" name="card_num[]" maxlength="4" onkeyup="auto_focus(this,3);">
+										</li>
+										<li>
+											<input type="text" class="docu_number number_type" name="card_num[]" maxlength="4">
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="docu_list_line_dd">
+							<ul style="padding-left:10px;">
+								<li>
+									<ul>
+										<li style="width:120px;">
+											{=__text("이메일")}
+										</li>
+										<li>
+											<input type="text" class="docu_email" name="email[]" />
+										</li>
+										<li style="width:10px;">
+											@
+										</li>
+										<li style="width:135px;">
+											<input type="text" id="select_email" class="docu_email" name="email[]" />
+										</li>
+										<li>
+											<select class="email_docu" onchange="auto_set_email(this);">
+												<option value="">{=__text("직접입력")}</option>
+												<!--{ @ _r_email }-->
+												<option value="{.value_}">{.key_}</option>
+												<!--{ / }-->
+											</select>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				<!--{ : _GET.document_type == 'CRE' }-->
+					<div class="docu_box" id="docu_box_one_2">
+						<div class="docu_list_line_order">
+							<ul style="padding-left:10px; margin:0;">
+								<li style="padding-top:35px;">
+									<ul>
+										<li style="width:120px;">
+											{=__text("주문번호")}
+										</li>
+										<li>
+											<select class="last_number_docu" name="payno" style="width:323px;" required>
+												<option value="">{=__text("주문번호 선택")}</option>
+												<!--{ @ list_payno }-->
+												<option value="{.payno}">{.payno}</option>
+												<!--{ / }-->
+											</select>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="docu_list_line_n">
+							<ul style="padding-left:10px; margin:0;">
+								<li>
+									<ul>
+										<li style="width:120px;">
+											{=__text("사업자 번호")}
+										</li>
+										<li>
+											<input type="text" class="number_do number_type" name="licensee_num[]" maxlength="3" oninput="maxLengthCheck(this)">
+										</li>
+										<li>
+											<input type="text" class="number_do number_type" name="licensee_num[]" maxlength="2" oninput="maxLengthCheck(this)">
+										</li>
+										<li>
+											<input type="text" class="number_do number_type" name="licensee_num[]" maxlength="5" oninput="maxLengthCheck(this)">
+										</li>
+										<li>
+											<!--<button type="button" style="vertical-align:middle; width:100px;">{=__text("첨부하기")}</button>-->
+											<label for="document_file"><span id="file_btn" style="vertical-align:middle; width:100px; height:22px; display:inline-block; border:none; font-size:13px; text-align:center; background:linear-gradient(#D6D6D6,#EAEAEA); cursor:pointer;">{=__text("첨부하기")}</span></label>
+											<input type="file" id="document_file" name="document_file" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; border:0;">
+										</li>
+									</ul>
+									<!--{ ? document_file }-->
+									<div style="width:320px; margin-top:10px; font-size:13px;">
+										<input type="hidden" name="old_document_file" value="{document_file}">
+										<div style="display:inline-block; margin-right:10px;">{=__text("첨부파일")} : <a href="../data/document/{cid}/{document_file}" target="_blank">{document_file}</a></div>
+										<div style="display:inline-block;"><input type="checkbox" id="file_delete" name="file_delete" value="1"><label for="file_delete"> {=__text("삭제")}</label></div>
+									</div>
+									<!--{ / }-->
+
+								</li>
+							</ul>
+						</div>
+						<div class="docu_list_line_dd">
+							<ul style="padding-left:10px;">
+								<li>
+									<ul>
+										<li style="width:120px;">
+											{=__text("이메일")}
+										</li>
+										<li>
+											<input type="text" class="docu_email" name="email[]" />
+										</li>
+										<li style="width:10px;">
+											@
+										</li>
+										<li style="width:135px;">
+											<input type="text" id="select_email" class="docu_email" name="email[]" />
+										</li>
+										<li>
+											<select class="email_docu" onchange="auto_set_email(this);">
+												<option value="">{=__text("직접입력")}</option>
+												<!--{ @ _r_email }-->
+												<option value="{.value_}">{.key_}</option>
+												<!--{ / }-->
+											</select>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				<!--{ : _GET.document_type == 'TI' }-->
+					<div class="docu_box" id="docu_box_one_3">
+						<div class="docu_list_line_order">
+							<ul style="padding-left:10px; margin:0;">
+								<li style="padding-top:35px;">
+									<ul>
+										<li style="width:120px;">
+											{=__text("주문번호")}
+										</li>
+										<li>
+											<select class="last_number_docu" name="payno" style="width:323px;" required>
+												<option value="">{=__text("주문번호 선택")}</option>
+												<!--{ @ list_payno }-->
+												<option value="{.payno}">{.payno}</option>
+												<!--{ / }-->
+											</select>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="docu_list_line_n">
+							<ul style="padding-left:10px; margin:0;">
+								<li>
+									<ul>
+										<li style="width:120px;">
+											{=__text("사업자 번호")}
+										</li>
+										<li>
+											<input type="text" class="number_do number_type" name="licensee_num[]" maxlength="3">
+
+											<!--{ ? document_file }-->
+												<div style="width:320px; margin-top:10px; font-size:13px;">
+													<input type="hidden" name="old_document_file" value="{document_file}">
+													<div style="display:inline-block; margin-right:10px;">{=__text("첨부파일")} : <a href="../data/document/{cid}/{document_file}" target="_blank">{document_file}</a></div>
+													<div style="display:inline-block;"><input type="checkbox" id="file_delete" name="file_delete" value="1"><label for="file_delete"> {=__text("삭제")}</label></div>
+												</div>
+											<!--{ / }-->
+										</li>
+										<li>
+											<input type="text" class="number_do number_type" name="licensee_num[]" maxlength="2">
+										</li>
+										<li>
+											<input type="text" class="number_do number_type" name="licensee_num[]" maxlength="5">
+										</li>
+										<li>
+											<!--<button type="button" style="vertical-align:middle; width:100px;">{=__text("첨부하기")}</button>-->
+											<label for="document_file"><span id="file_btn" style="vertical-align:middle; width:100px; height:22px; display:inline-block; border:none; font-size:13px; text-align:center; background:linear-gradient(#D6D6D6,#EAEAEA); cursor:pointer;">{=__text("첨부하기")}</span></label>
+											<input type="file" id="document_file" name="document_file" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; border:0;">
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+						<div class="docu_list_line_dd">
+							<ul style="padding-left:10px;">
+								<li>
+									<ul>
+										<li style="width:120px;">
+											{=__text("이메일")}
+										</li>
+										<li>
+											<input type="text" class="docu_email" name="email[]" />
+										</li>
+										<li style="width:10px;">
+											@
+										</li>
+										<li style="width:135px;">
+											<input type="text" id="select_email" class="docu_email" name="email[]" />
+										</li>
+										<li>
+											<select class="email_docu" onchange="auto_set_email(this);">
+												<option value="">{=__text("직접입력")}</option>
+												<!--{ @ _r_email }-->
+												<option value="{.value_}">{.key_}</option>
+												<!--{ / }-->
+											</select>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</div>
+					</div>
+				<!--{ / }-->
+
+				<div><!--{ @ f_banner_s2('document_content') }-->{.banner}<!--{ / }--></div>
+			</div>
+
+			<!--{ ? _GET.document_type == 'CRD' || _GET.document_type == 'CRE' || _GET.document_type == 'TI' }-->
+				<div class="butn_re">
+					<ul>
+						<li class="id_re">
+							<ul>
+								<li>
+									<div style="width:110px; margin:auto; margin-top:5px;">
+										<button type="submit" class="over_btn_li">{=__text("완료")}</button>
+									</div>
+								</li>
+								<li>
+									<div style="width:110px; margin:auto; margin-top:5px;">
+										<button type="button" class="over_btn_li" style="border:1px solid #999; background:#fff; color:#999;" onclick="javascript:history.back();">{=__text("취소")}</button>
+									</div>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			<!--{ / }-->
+		</form>
+	</div>
+</div>
+<script>
+$j(function() {
+	$j("#document_type_{_GET.document_type}").attr("checked",true);
+
+	$j('.number_type').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+
+	$j("#document_file").change(function() {
+		if ($j(this).val()) {
+			$j("#file_btn").text({=__java("첨부완료")});
+		} else {
+			$j("#file_btn").text({=__java("첨부하기")});
+		}
+	});
+});
+</script>
+
+<script>
+function auto_set_email(obj) {
+	$j("#select_email").val($j(obj).val());
+}
+
+function auto_focus(obj,idx) {
+	switch (obj.name) {
+		case "mobile[]":
+			if (obj.value.length == 4) obj.form['mobile[]'][idx].focus();
+		break;
+
+		case "card_num[]":
+			if (obj.value.length == 4) obj.form['card_num[]'][idx].focus();
+		break;
+	}
+}
+
+function chkFormData() {
+	var fm = document.fm;
+	if ("{_GET.document_type}" == "CRD") {
+		var mobile_01 = fm['mobile[]'][0].value;
+		var mobile_02 = fm['mobile[]'][1].value;
+		var mobile_03 = fm['mobile[]'][2].value;
+
+		var card_num_01 = fm['card_num[]'][0].value;
+		var card_num_02 = fm['card_num[]'][1].value;
+		var card_num_03 = fm['card_num[]'][2].value;
+		var card_num_04 = fm['card_num[]'][3].value;
+
+		var return_flag = true;
+		var mobile_flag = true;
+		var card_flag = true;
+
+		if (mobile_01 == "" || mobile_01.length < "3") {
+			// alert("핸드폰 번호를 정확히 입력해주세요.");
+			// fm['mobile[]'][0].focus();
+			mobile_flag = false;
+		} else if (mobile_02 == "" || mobile_02.length < "3") {
+			// alert("핸드폰 번호를 정확히 입력해주세요.");
+			// fm['mobile[]'][1].focus();
+			mobile_flag = false;
+		} else if (mobile_03 == "" || mobile_03.length < "3") {
+			// alert("핸드폰 번호를 정확히 입력해주세요.");
+			// fm['mobile[]'][2].focus();
+			mobile_flag = false;
+		}
+
+		if (card_num_01 == "" || card_num_01.length < "4") {
+			// alert("카드 번호를 정확히 입력해주세요.");
+			// fm['card_num[]'][0].focus();
+			card_flag = false;
+		} else if (card_num_02 == "" || card_num_02.length < "4") {
+			// alert("카드 번호를 정확히 입력해주세요.");
+			// fm['card_num[]'][1].focus();
+			card_flag = false;
+		} else if (card_num_03 == "" || card_num_03.length < "4") {
+			// alert("카드 번호를 정확히 입력해주세요.");
+			// fm['card_num[]'][2].focus();
+			card_flag = false;
+		}else if (card_num_04 == "" || card_num_04.length < "4") {
+			// alert("카드 번호를 정확히 입력해주세요.");
+			// fm['card_num[]'][3].focus();
+			card_flag = false;
+		}
+
+		if(!mobile_flag && !card_flag){
+			alert('핸드폰 번호 또는 카드번호를 정확히 입력해주세요');
+			return_flag = false;
+		}
+
+		if (fm['email[]'][0].value == "") {
+			alert("이메일을 입력해주세요.");
+			fm['email[]'][0].focus();
+			return_flag = false;
+		} else if (fm['email[]'][1].value == "") {
+			alert("이메일을 입력해주세요.");
+			fm['email[]'][1].focus();
+			return_flag = false;
+		}
+
+		return return_flag;
+
+	} else if ("{_GET.document_type}" == "CRE") {
+
+		var licensee_01 = fm['licensee_num[]'][0].value;
+		var licensee_02 = fm['licensee_num[]'][1].value;
+		var licensee_03 = fm['licensee_num[]'][2].value;
+
+		if (licensee_01 == "" || licensee_01.length < "3") {
+			alert("사업자 번호를 정확히 입력해주세요.");
+			fm['licensee_num[]'][0].focus();
+			return false;
+		} else if (licensee_02 == "" || licensee_02.length < "2") {
+			alert("사업자 번호를 정확히 입력해주세요.");
+			fm['licensee_num[]'][1].focus();
+			return false;
+		} else if (licensee_03 == "" || licensee_03.length < "5") {
+			alert("사업자 번호를 정확히 입력해주세요.");
+			fm['licensee_num[]'][2].focus();
+			return false;
+		} else if (fm['email[]'][0].value == "") {
+			alert("이메일을 입력해주세요.");
+			fm['email[]'][0].focus();
+			return false;
+		} else if (fm['email[]'][1].value == "") {
+			alert("이메일을 입력해주세요.");
+			fm['email[]'][1].focus();
+			return false;
+		} else {
+			return true;
+		}
+	}
+
+	if ("{_GET.document_type}" == "TI") {
+		var licensee_01 = fm['licensee_num[]'][0].value;
+		var licensee_02 = fm['licensee_num[]'][1].value;
+		var licensee_03 = fm['licensee_num[]'][2].value;
+
+		if (licensee_01 == "" || licensee_01.length < "3") {
+			alert("사업자 번호를 정확히 입력해주세요.");
+			fm['licensee_num[]'][0].focus();
+			return false;
+		} else if (licensee_02 == "" || licensee_02.length < "2") {
+			alert("사업자 번호를 정확히 입력해주세요.");
+			fm['licensee_num[]'][1].focus();
+			return false;
+		} else if (licensee_03 == "" || licensee_03.length < "5") {
+			alert("사업자 번호를 정확히 입력해주세요.");
+			fm['licensee_num[]'][2].focus();
+			return false;
+		} else if (fm['document_file'].value == "") {
+			alert("파일을 첨부해주세요.");
+			fm['document_file'].focus();
+			return false;
+		} else if (fm['email[]'][0].value == "") {
+			alert("이메일을 입력해주세요.");
+			fm['email[]'][0].focus();
+			return false;
+		} else if (fm['email[]'][1].value == "") {
+			alert("이메일을 입력해주세요.");
+			fm['email[]'][1].focus();
+			return false;
+		} else {
+			return true;
+		}
+	}
+}
+</script>
+
+{ # footer }

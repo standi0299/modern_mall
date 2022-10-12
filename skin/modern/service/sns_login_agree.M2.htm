@@ -1,0 +1,125 @@
+{ # header }
+
+
+<form name="fm" method="post" onsubmit="return form_chk(this);" action="indb.php">
+	<input type="hidden" name="mode" value="sns_login">
+	<input type="hidden" name="id" value="{data.id}">
+	
+	<input type="hidden" name="type" value="{data.type}">
+	<!--<input type="hidden" name="email" value="{data.email}">-->
+	<input type="hidden" name="nickname" value="{data.nickname}">
+	<input type="hidden" name="mid" value="{data.mid}">
+	<input type="hidden" name="chkMid">
+	
+	<div id="container-pupa">
+		<div class="container_inner">
+			<div class="membership-naver-wrap">
+				<h3>SNS 회원가입</h3>
+				<div class="inner-wrap">
+					<div class="table">
+						<div class="row">
+							<div class="th">이름</div>
+							<div class="td">
+								<INPUT name="name" type="text" {=__placeholder("이름을 입력해 주세요.")} pt="_pt_txt" value="{data.name}" required>
+							</div>
+						</div>
+						<div class="row">
+							<div class="th">휴대폰</div>
+							<div class="td">
+								<div class="input-phone">
+									<INPUT name="mobile[]" value="{mobile[0]}" onkeyup="auto_focus(this,1);" type="text" maxlength="3" pt="_pt_numplus" type2="number" required>
+									<span>-</span>
+									<INPUT name="mobile[]" value="{mobile[1]}" onkeyup="auto_focus(this,2);" type="text" maxlength="4" pt="_pt_numplus" type2="number" required>
+									<span>-</span>
+									<INPUT name="mobile[]" value="{mobile[2]}" type="text" maxlength="4" pt="_pt_numplus" type2="number" required>
+								</div>
+							</div>
+						</div>
+						<div class="row">
+							<div class="th">이메일</div>
+							<div class="td">
+								<div class="input-mail">
+									<INPUT name="email[]" type="text" pt="_pt_txteng" value="{data.email[0]}" required>
+
+									<span>@</span>
+
+									<INPUT name="email[]" type="text" pt="_pt_txteng" value="{data.email[1]}" required>
+
+									<SELECT class="custom-select-wrap" onchange="auto_set_email(this,'email[]');">
+										<OPTION value="" {_selected.email[email[1]]}>{=__text("직접입력")}</OPTION>
+										<!--{ @ _r_email }-->
+										<option value="{.value_}" {_selected.email[.value_]}>{.key_}</option>
+										<!--{ / }-->
+						  			</SELECT>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="checkbox custom">
+						<input type="checkbox" id="chk_agree" name="" class="css-checkbox" required>
+						<label for="chk_agree" class="css-label">
+							<span>이용약관(필수), 개인정보처리방침(필수)에 모두 동의 합니다.</span>
+						</label>
+					</div>
+					<div class="box-guide">
+						<h4>이용약관(필수)</h4>
+						<div class="box-scroll">
+							{_cfg.agreement}
+						</div>
+					</div>
+					<div class="box-guide">
+						<h4>개인정보처리방침(필수)</h4>
+						<div class="box-scroll">
+							{_cfg.policy}
+						</div>
+					</div>
+					<div class="btn_wrap">
+						<a href="#" class="btn_join join-btn">회원가입</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<INPUT id="join-submit" style="display: none;" type="submit">
+</form>
+
+<script>
+var fm = document.fm;
+function chk_mid(){
+	$j.post("/member/indb.php", {mode: "chkMid", mid: fm.mid.value},
+	function(data){
+		fm.chkMid.value = "";
+		switch (data){
+			case "duplicate": alert({=__java("이미 등록된 아이디입니다")}); break;
+			case "good": 
+				//alert({=__java("사용이 가능한 아이디입니다")});
+				fm.chkMid.value = "chk";
+				break;
+			case "unable":  alert({=__java("사용이 불가능한 아이디입니다")}); break;
+			case "out":  alert({=__java("탈퇴한 아이디입니다")}); break;
+		}
+	});
+}
+
+$j(".join-btn").click(function() {
+	chk_mid();
+	$j("#join-submit").click();
+});
+
+$j(function() {
+	$j("body").attr("id", "join-form-page");
+	$j("body").attr("class", "");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	
+	$j('input[type2=number]').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+function auto_set_email(obj, name) {
+	$j("input[name=email[]]:last").val($j(obj).val());
+}
+</script>
+{ # footer }

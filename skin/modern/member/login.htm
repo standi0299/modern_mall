@@ -1,0 +1,148 @@
+{ # header }
+
+<script>
+	$j(document).ready(function(){
+		$j('[name="mid"]').val('');
+	});
+</script>
+
+<h2 class="text-center" ><a href="/" style="color: #000000;">{=getCfg('nameSite')}</a></h2>
+<!--{ ? _cid == 'imory' }-->
+	<!--{ @ f_banner_s2('member_login_imoryBanner')}-->{.banner}<!--{ / }-->
+<!--{ / }-->
+<section class="content-container login-content">
+	<form name="fmLogin" method="post" <!--{ ? _cfg.ssl_use == 'Y' && ssl_action }--> action="{ssl_action}" <!--{ : }--> action="indb.php" <!--{ / }--> onsubmit="return form_encode_submit(this);">
+		<input type="hidden" name="mode" value="login">
+		<input type="hidden" name="rurl" value="{rurl}">
+		<!--{ ? _GET.mode == "order" }-->
+		<input type="hidden" name="mode2" value="{_GET.mode}">
+		<input type="hidden" name="cartno" value="{_GET.cartno}">
+		<!--{ / }-->
+
+		<input type="hidden" name="mid_en">
+		<input type="hidden" name="password_en">
+
+		<div class="h-group">
+			<div class="col">
+				<h3>{=__text("로그인")}</h3>
+			</div>
+		<!--{ ? _cfg.sns_login.kidsnote_login_use != "Y" }-->
+			<div class="col right">
+				<div class="h-group" id="save-id-checked">
+					<div class="col">
+						<label for="save-id">{=__text("로그인 유지")}</label>
+					</div>
+					<div class="col checkbox-bullet">
+						<input type='checkbox' id="save-id" name="logining_flag" value="Y">
+						<label for="save-id"></label>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<input type="text" class="input" name="mid" {=__label("아이디")} required tabindex="1" {=__placeholder("아이디")}>
+		</div>
+		<div class="form-group">
+			<input type="password" class="input" name="password" {=__label("비밀번호")} required tabindex="2" {=__placeholder("비밀번호")}>
+		</div>
+
+		<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="3">{=__text("로그인")}</button>
+	<!--{ / }-->
+	</form>
+
+	<!--{ ? _cfg.sns_login.sns_login_use == "Y"}-->
+		<form id="login">
+			<input type="hidden" name="sns_code">
+		</form>
+
+		<!--{ ? _cfg.sns_login.naver_login_use == "Y" }-->
+		<a href="javascript:fnSnsLoginPop('naver');" class="btn btn-lg btn-block" id="api-login" style="margin-bottom:0;background-image:url('../img/naver_logo.png');">{=__text("네이버아이디로 로그인")}</a>
+		<!--{ / }-->
+
+		<!--{ ? _cfg.sns_login.kakao_login_use == "Y" }-->
+		<a href="javascript:fnSnsLoginPop('kakao');" class="btn btn-lg btn-block" id="api-login" style="margin-bottom:0;background-color:#fde811;background-image:url('../img/kakaotalk_logo.png');">{=__text("카카오아이디로 로그인")}</a>
+		<!--{ / }-->
+
+		<!--{ ? _cfg.sns_login.facebook_login_use == "Y" }-->
+		<a href="javascript:fnSnsLoginPop('facebook');" class="btn btn-lg btn-block" id="api-login" style="margin-bottom:0;background-color:#3b579d;background-image:url('../img/facebook_logo.png');">{=__text("페이스북아이디로 로그인")}</a>
+		<!--{ / }-->
+
+	<!--{ ? _cfg.sns_login.kidsnote_login_use == "Y" }-->
+		<a href="javascript:window.open('{ kidsnote_oauth_url }', 'kidsnoteLogin', 'width=700,height=600');" >{=__text("키즈노트아이디로 로그인")}</a>
+	<!--{ / }-->
+	<!--{ / }-->
+
+	<!--{ ? _cfg.sns_login.kidsnote_login_use != "Y" }-->
+	<div class="text-center" id="link-wrap">
+		<a href="../member/reminderid.php">{=__text("아이디찾기")}</a>
+		<span>|</span>
+		<a href="../member/reminderpw.php">{=__text("비밀번호찾기")}</a>
+		<span>|</span>
+		<a href="../member/register.php">{=__text("간편회원가입")}</a>
+	</div>
+	<!--{ / }-->
+</section>
+
+<!--{ ? _cfg.member_system.order_system != "close" }-->
+	<!--{ ? _GET.mode == "order" }-->
+		<!--{ ? !_cfg.design[_cfg.skin].nonmember_order }-->
+		<section class="content-container login-content">
+			<h3>{=__text("비회원 주문")}</h3>
+			<form name="fmNomemberOrder" action="../order/order.php">
+				<!--{ ? _GET.cartno }-->
+				<input type="hidden" name="cartno" value="{_GET.cartno}">
+				<!--{ / }-->
+				<input type="hidden" name="buyGuest" value="1">
+
+				<button type="submit" class="btn btn-primary btn-lg btn-block">{=__text("비회원으로 주문하기")}</button>
+			</form>
+		</section>
+		<!--{ / }-->
+	<!--{ / }-->
+
+	<!--{ ? _GET.rurl == "/mypage/orderlist.php" }-->
+	<section class="content-container login-content">
+		<h3>{=__text("비회원 주문조회")}</h3>
+		<form method="post" action="indb.php" onsubmit="return form_chk(this);">
+			<input type="hidden" name="mode" value="guest">
+
+			<div class="form-group">
+				<input type="text" class="input" name="payno" {=__label("주문번호")} required {=__placeholder("주문번호")}>
+			</div>
+			<div class="form-group">
+				<input type="text" class="input" name="email" {=__label("이메일")} required {=__placeholder("이메일")}>
+			</div>
+
+			<button type="submit" class="btn btn-primary btn-lg btn-block">{=__text("주문조회")}</button>
+		</form>
+	</section>
+
+	<section class="content-container login-content" id="est_option">
+		<h3>{=__text("비회원 견적의뢰 주문조회")}</h3>
+		<form method="post" action="indb.php" onsubmit="return form_chk(this);">
+			<input type="hidden" name="mode" value="guest_extra_cart">
+
+			<div class="form-group">
+				<input type="text" class="input" name="order_name" {=__label("이름")} required {=__placeholder("이름")}>
+			</div>
+			<div class="form-group">
+				<input type="text" class="input" name="order_mobile" {=__label("핸드폰번호")} required {=__placeholder("핸드폰번호")}>
+			</div>
+
+			<button type="submit" class="btn btn-primary btn-lg btn-block">{=__text("주문조회")}</button>
+		</form>
+	</section>
+	<!--{ / }-->
+<!--{ / }-->
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "login-page");
+	$j("body").attr("class", "");
+
+	if ("{=getCfg('est_option_flag')}" == "1") $j("#est_option").show();
+	else $j("#est_option").hide();
+});
+</script>
+
+{ # footer }

@@ -1,0 +1,44 @@
+
+<!-- 상품리스트 -->
+<table style="width:100%; height:1px; background-color:#ffffff; border-top:1px solid #cccccc; margin-top:0px" border="0" cellspacing="0" cellpadding="0"><tr><td> </td></tr></table>
+
+<table cellpadding="0" cellspacing="0" width="100%" border="0" style="background-color: #f7f7f7; table-layout:fixed;">
+	<tr>
+		<!--{ @ loop[_editor[0].podsno] }-->
+		
+		<!--{ ? .index_ && .index_%_cfg.cells==0 }-->
+		</tr>
+		<tr>
+		<!--{ / }-->
+		<td align="center" valign="top" width="{100/_cfg.cells}%" style="padding-top:10px">
+
+			<div class="list-type-tile">
+				<div class="col tile-content">
+					<div class="thumbnail-link">
+						<div class="zoom-focus">
+							<!--<a href="javascript:setWishlist('{_sess.mid}', '{data.catno}', '{data.goodsno}');" class="focus-btn pick-btn"></a>-->
+							<a class="focus-btn zoom-btn" href="javascript:previewLayer('{data.catno}','{data.goodsno}','{.templateSetIdx}','{.templateData[0].templateIdx}');"></a>						
+						</div>
+						<div class="thumbnail" style="background: url('{.templateData[0].templateURL}'), url('/skin/modern/img/noimg.png'); background-size: {?_cfg.listimg_w} {_cfg.listimg_w}px {/} {?_cfg.listimg_h} {_cfg.listimg_h}px {/};"></div>
+					</div>					
+					<div class="title text-center ellipsis">
+						<a href="../goods/view.php?catno={data.catno}&goodsno={data.goodsno}&templateSetIdx={.templateSetIdx}&templateIdx={.templateData[0].templateIdx}&url={data.url}">{.templateSetName}</a>
+					</div>
+					<div class="price text-center">
+					</div>
+					<div class="tags text-center">
+					</div>
+				</div>
+			</div>
+				
+		</td>
+		
+		<!--{ : }-->
+
+		<td align="center" valign="top" width="100%" style="padding-top:10px">
+			<div style="padding-bottom:10px;"> <img src="/skin/{_cfg.skin}/img/temp_img.png" /> </div>		
+		</td>		
+		
+		<!--{ / }-->
+	</tr>
+</table>

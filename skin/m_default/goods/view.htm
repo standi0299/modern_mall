@@ -1,0 +1,376 @@
+{ # header }
+
+<script>
+var select_podoptno = "";
+var select_podsno = "";
+var select_optno = [];
+var select_addoptno = [];
+var select_addoptnm = [];
+</script>
+
+<form name="fmView">
+	<input type="hidden" name="mode" />
+	<input type="hidden" name="goodsno" value="{goodsno}" />
+	<input type="hidden" name="productid" value="{podsno}" />
+	<input type="hidden" name="podoptno" />
+	<input type="hidden" name="podsno" />
+	<input type="hidden" name="storageid" />
+	<input type="hidden" name="ea" value="1" />
+	<input type="hidden" name="optno[]" />
+	<input type="hidden" name="addoptno[]" />
+	<input type="hidden" name="addoptnm[]" />
+
+	<section class="contents">
+		<!--{ ? r_printopt }-->
+		<ul class="selectSize">
+			<dl>
+				<dt class="linePrice" style="padding-left:1px;">{=__text("기본금액")}</dt>
+				<!--{ ? cprice && cprice > price }-->
+				<dd class="linePrice"><span id="goods_cprice" class="price through">{=number_format(cprice)}{=__text("원")}</span> <span id="goods_price" class="price">{=number_format(price)}{=__text("원")}</span> <span id="goods_discount" class="price">({=number_format((cprice - price) / cprice * 100)}%)</span></dd>
+				<!--{ : }-->
+				<dd class="linePrice"><span id="goods_price" class="price" style="color:#666;">{=number_format(price)}{=__text("원")}</span></dd>
+				<!--{ / }-->
+			</dl>
+			<p>{=__text("인화옵션")}</p>
+			
+			<!--{ @ r_printopt }-->
+			<li><span class="size">{.printoptnm}</span> <!--{ ? .print_size }--><span class="standard">({.print_size})</span><!--{ / }--><br />
+				<span class="price" style="color:#999;">{=__text("1장당")} </span>
+				<!--{ ? .print_cprice && .print_cprice > .print_price }-->
+				<span class="price through">{=number_format(.print_cprice)}{=__text("원")}</span> <span class="price">{=number_format(.print_price)}{=__text("원")}</span>
+				<!--{ : }-->
+				<span class="price through"></span> <span class="price" style="color:#999;">{=number_format(.print_price)}{=__text("원")}</span>
+				<!--{ / }-->
+				<!--{ ? state !=0 }-->
+				<div style="background:red;color:#FFFFFF;padding:3px 0 6px 0;text-align:center;">{=__text("본 상품은 품절등의 이유로 판매가 불가한 상품입니다.")}</div>
+				<!--{ : }-->
+					<!--{ ? podskind > 0 }-->
+					<a href="javascript:pods_editor_view('{.printoptnm}')"><!--{ @ f_banner_s2('btn_mobile_prd_make_print','img')}-->{..banner}<!--{ / }--></a>
+					<!--{ / }-->
+				<!--{ / }-->
+			</li>
+			<!--{ / }-->
+		</ul>
+		<!--{ : }-->
+		<!--{ ? img }-->
+		<div id="slider1_container">
+			<div u="loading" style="position: absolute; top: 0px; left: 0px;">
+				<div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block; background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;"></div>
+				<div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center; top: 0px; left: 0px;width: 100%;height:100%;"></div>
+			</div>
+
+			<div class="slider" u="slides">
+				<!--{ @ img }-->
+				<div>
+					<img u="image" src="{.value_}" width="{_cfg.img_w}" onerror="$j(this).attr('src','/data/noimg.png')" />
+				</div>
+				<!--{ / }-->
+			</div>
+
+			<div u="navigator" class="jssorb21">
+				<div u="prototype"></div>
+			</div>
+		</div>
+		
+		<script>
+		jQuery(document).ready(function ($) {
+			var options = {
+				$AutoPlay: false,
+        		$AutoPlaySteps: 1,
+        		$FillMode: 1,
+        		$HWA: false,
+
+        		$BulletNavigatorOptions: {
+            		$Class: $JssorBulletNavigator$,
+            		$ChanceToShow: 2,
+            		$AutoCenter: 1,
+            		$Steps: 1,
+            		$Lanes: 1,
+            		$SpacingX: 1,
+            		$SpacingY: 10,
+            		$Orientation: 1
+        		}
+    		};
+        
+    		var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+
+    		function ScaleSlider() {
+        		var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
+        		if (parentWidth)
+            		jssor_slider1.$ScaleWidth(Math.min(parentWidth, 600));
+        		else
+            		window.setTimeout(ScaleSlider, 30);
+    		}
+    
+    		ScaleSlider();
+
+    		$(window).bind("load", ScaleSlider);
+    		$(window).bind("resize", ScaleSlider);
+    		$(window).bind("orientationchange", ScaleSlider);
+		});
+		</script>
+		<!--{ / }-->
+		<div class="detailArea">
+			<p>{=__text("상품옵션")}</p>
+			<dl>
+				<!--## 20150820 / minks / 2차옵션까지 쓰지 않을 것으로 판단되어 1차옵션만 출력 -> 2차옵션은 후에 개발예정 ##-->
+				<!--{ ? !in_array(podskind,array(28,3180)) }-->
+				<!--{ @ r_opt }-->
+				<!--{ ? .index_ == 0 }-->
+				<dt>{?optnm[.index_]}{optnm[.index_]}{:}{=__text("옵션")}{.index_+1}{/}</dt>
+				<!--{ @ .item }-->
+				<!--{ ? ..index_ == 0 }-->
+				<dd><a href="#optSelect_{.index_}" target="_self" class="layerPop" id="txtOptSelect_{.index_}" value="{..podoptno}" value2="{..optno}" value3="{..podsno}" cnt="{..size_}">{..optnm}</a></dd>
+				<!--{ / }-->
+				<!--{ / }-->
+				
+				<div id="optSelect_{.index_}" class="pop optionSel" style="overflow:auto;-ms-overflow-style:none;">
+					<ul>
+						<!--{ @ .item }-->
+						<li><a href="#" {?..index_==0}class="select"{/} value="{..podoptno}" value2="{..optno}" value3="{..podsno}">{..optnm}</a></li>
+						<!--{ / }-->
+					</ul>
+				</div>
+				
+				<script>
+				if ($j("#txtOptSelect_{.index_}").attr("cnt") > 5) $j("#optSelect_{.index_}").css("height", "300px");
+				
+				//처음 옵션값
+				select_podoptno = $j("#txtOptSelect_{.index_}").attr("value");
+				select_optno['{.index_}'] = $j("#txtOptSelect_{.index_}").attr("value2");
+				select_podsno = $j("#txtOptSelect_{.index_}").attr("value3");
+				
+				$("#optSelect_{.index_} a").on({
+					click : function(e){
+						e.preventDefault();
+						//레이어에서 선택한 옵션값
+						select_podoptno = $(this).attr("value");
+						select_optno['{.index_}'] = $(this).attr("value2");
+						select_podsno = $(this).attr("value3");
+						$j("input[name=podoptno]").val(select_podoptno);
+						$j("input[name=optno[]]").val(select_optno);
+						$j("input[name=podsno]").val(select_podsno);
+						refresh_price();
+	
+						var _text = $(this).text();
+						$("#optSelect_{.index_} a").removeClass("select");
+						$(this).addClass("select");
+						$("#txtOptSelect_{.index_}").text(_text);
+						$("#optSelect_{.index_}").hide();
+						$("#wrap").removeClass("dimed_on");
+					}
+				});
+				</script>
+				<!--{ / }-->
+				<!--{ / }-->
+				<!--{ / }-->
+				
+				<!--{ @ r_addopt }-->
+				<dt>{.addopt_bundle_name}</dt>
+				<!--{ @ .addopt }-->
+				<!--{ ? ..index_ == 0 }-->
+				<dd><a href="#addoptSelect_{.addopt_bundle_no}" target="_self" class="layerPop" id="txtAddoptSelect_{.addopt_bundle_no}" value="{..addoptno}" value2="{..addoptnm}" cnt="{..size_}">{..addoptnm}</a></dd>
+				<!--{ / }-->
+				<!--{ / }-->
+				
+				<div id="addoptSelect_{.addopt_bundle_no}" class="pop optionSel" style="overflow:auto;-ms-overflow-style:none;">
+					<ul>
+						<!--{ @ .addopt }-->
+						<li><a href="#" {?..index_==0}class="select"{/} value="{..addoptno}" value2="{..addoptnm}">{..addoptnm}</a></li>
+						<!--{ / }-->
+					</ul>
+				</div>
+				
+				<script>
+				if ($j("#txtAddoptSelect_{.addopt_bundle_no}").attr("cnt") > 5) $j("#addoptSelect_{.addopt_bundle_no}").css("height", "300px");
+				
+				//처음 옵션값
+				select_addoptno['{.index_}'] = $j("#txtAddoptSelect_{.addopt_bundle_no}").attr("value");
+				select_addoptnm['{.index_}'] = $j("#txtAddoptSelect_{.addopt_bundle_no}").attr("value2");
+				
+				$("#addoptSelect_{.addopt_bundle_no} a").on({
+					click : function(e){
+						e.preventDefault();
+						//레이어에서 선택한 옵션값
+						select_addoptno['{.index_}'] = $(this).attr("value");
+						select_addoptnm['{.index_}'] = $(this).attr("value2");
+						$j("input[name=addoptno[]]").val(select_addoptno);
+						$j("input[name=addoptnm[]]").val(select_addoptnm);
+						refresh_price();
+						
+						var _text = $(this).text();
+						$("#addoptSelect_{.addopt_bundle_no} a").removeClass("select");
+						$(this).addClass("select");
+						$("#txtAddoptSelect_{.addopt_bundle_no}").text(_text);
+						$("#addoptSelect_{.addopt_bundle_no}").hide();
+						$("#wrap").removeClass("dimed_on");
+					}
+				});
+				</script>
+				<!--{ / }-->
+				
+				<!--{ @ exp }-->
+				<dt>{.name}</dt>
+				<dd>{.value}</dd>
+				<!--{ / }-->
+				<!--{ ? origin }-->
+				<dt>{=__text("원산지")}</dt>
+				<dd>{origin}</dd>
+				<!--{ / }-->
+				<!--{ ? leadtime }-->
+				<dt>{=__text("제작기간")}</dt>
+				<dd>{leadtime}</dd>
+				<!--{ / }-->
+				<!--{ ? _sess && _cfg.mobile_member_use == "Y" }-->
+				<dt>{=__text("적립금")}</dt>
+				<dd id="goods_reserve">{=number_format(reserve)}원</dd>
+				<!--{ / }-->
+				<!--{ ? pageprice }-->
+				<dt>{=__text("페이지추가")}</dt>
+				<dd>{=number_format(pageprice)}{=__text("원")} ({=__text("본 가격은 추가단위당의 가격입니다.")})</dd>
+				<!--{ / }-->
+				<dt class="linePrice">{=__text("금액")}</dt>
+				<!--{ ? cprice && cprice > price }-->
+				<dd class="linePrice"><span id="goods_cprice" class="price through">{=number_format(cprice)}{=__text("원")}</span> <span id="goods_price" class="price">{=number_format(price)}{=__text("원")}</span> <span id="goods_discount" class="price">({=number_format((cprice - price) / cprice * 100)}%)</span></dd>
+				<!--{ : }-->
+				<dd class="linePrice"><span id="goods_price" class="price" style="color:#666;">{=number_format(price)}{=__text("원")}</span></dd>
+				<!--{ / }-->
+			</dl>
+			<div class="btnArea">
+				<!--{ ? state !=0 }-->
+				<div style="background:red;color:#FFFFFF;padding:3px 0 6px 0;text-align:center;display:inline-block;width:100%;">{=__text("본 상품은 품절등의 이유로 판매가 불가한 상품입니다.")}</div>
+				<!--{ : }-->
+					<!--{ ? podskind > 0 }-->
+					<a href="javascript:pods_editor_view('')" target="_self" class="default prd_make_banner"><!--{ @ f_banner_s2('btn_mobile_prd_make','img')}-->{.banner}<!--{ / }--></a>
+					<!--{ : }-->
+						<!--{ ? _SERVER.REMOTE_ADDR == "210.96.184.229" || _ici_admin }-->
+							<a href="javascript:exec('cart')" target="_self" class="default prd_make_banner"><!--{ @ f_banner_s2('btn_mobile_prd_make','img')}-->{.banner}<!--{ / }--></a>
+						<!--{ / }-->
+					<!--{ / }-->
+				<!--{ / }-->
+			</div>
+			<!--{ ? desc }-->
+			<section id="mainWrap" style="margin:20px auto;">
+				<nav>
+					<div align="center">{desc}</div>
+				</nav>
+			</section>
+			<div class="btnArea">
+				<!--{ ? state !=0 }-->
+				<div style="background:red;color:#FFFFFF;padding:3px 0 6px 0;text-align:center;display:inline-block;width:100%;">{=__text("본 상품은 품절등의 이유로 판매가 불가한 상품입니다.")}</div>
+				<!--{ : }-->
+					<!--{ ? podskind > 0 }-->
+					<a href="javascript:pods_editor_view('')" target="_self" class="default prd_make_banner"><!--{ @ f_banner_s2('btn_mobile_prd_make','img')}-->{.banner}<!--{ / }--></a>
+					<!--{ : }-->
+						<!--{ ? _SERVER.REMOTE_ADDR == "210.96.184.229" || _ici_admin }-->
+							<a href="javascript:exec('cart')" target="_self" class="default prd_make_banner"><!--{ @ f_banner_s2('btn_mobile_prd_make','img')}-->{.banner}<!--{ / }--></a>
+						<!--{ / }-->
+					<!--{ / }-->
+				<!--{ / }-->
+			</div>
+			<!--{ / }-->
+		</div>
+		<!--{ / }-->
+	</section>
+</form>
+
+<script>
+$j(window).ready(function(){
+	$j("input[name=podoptno]").val(select_podoptno);
+	$j("input[name=podsno]").val(select_podsno);
+	$j("input[name=optno[]]").val(select_optno);
+	$j("input[name=addoptno[]]").val(select_addoptno);
+	$j("input[name=addoptnm[]]").val(select_addoptnm);
+	$(".prd_make_banner").viewimageresize2();
+	if (!'{r_printopt}') refresh_price();
+});
+function pods_editor_view(printoptnm){
+	var productid = $j("input[name=productid]").val();
+	if (!productid || productid==0){
+		productid = "{podsno}";
+	}
+	var optionid = $j("input[name=podoptno]").val();
+	if (!optionid){
+		optionid = 1;
+	}
+	var optno = "";
+	if ($j("input[name='optno[]']").length){
+		optno = $j("input[name='optno[]']").val();
+	}
+	var addoptno = [];
+	if ($j("input[name='addoptno[]']").length){
+		addoptno = $j("input[name='addoptno[]']").val();
+	}
+	var addoptnm = [];
+	if ($j("input[name='addoptnm[]']").length){
+		addoptnm = $j("input[name='addoptnm[]']").val();
+		addoptnm = addoptnm.replace(/,/g,"^");
+	}
+	var ea = 1;
+	if ($j("input[name=ea]").length){
+		var ea = $j("input[name=ea]").val();
+	}
+	var podsno = $j("input[name=podsno]").val();
+	if (podsno) productid = podsno;
+
+	var param = {cid:'{cid}', goodsno:'{goodsno}', catno:'{_GET.catno}', pods_use:'{pods_use}', podskind:'{podskind}', podsno:productid, optno:optno, addopt:addoptno}; //배열 선언
+	param = Base64.encode(JSON.stringify(param)); //json으로 변환후 인코딩
+	var sessdata = encodeURIComponent('{sessdata}');
+	var sessionparam = "sub_option:"+ addoptnm +",param:"+ param +",pname:{goodsnm},sessdata:"+ sessdata;
+	var userid = ('{_sess.mid}') ? '{_sess.mid}' : '{cartkey}';
+	var adminmode = ('{_ici_admin}' == '1') ? "Y" : "N";
+	if('{cid}' == 'pixstory'){	
+		var configurl = "http://2018.podstation.net/CommonRef/Config/ConfigVer30.aspx?editor={podskind}&storageid=&pid="+ productid +"&siteid={siteid}&userid="+ userid +"&dp={defaultpage}&minp={minpage}&maxp={maxpage}&opt="+ optionid +"&p_siteid={p_siteid}&dpcnt="+ ea +"&sessionparam="+ sessionparam +"&adminmode="+ adminmode +"&printoptnm="+ printoptnm;	
+	}else{
+		var configurl = "http://podstation20.ilark.co.kr/CommonRef/Config/ConfigVer30.aspx?editor={podskind}&storageid=&pid="+ productid +"&siteid={siteid}&userid="+ userid +"&dp={defaultpage}&minp={minpage}&maxp={maxpage}&opt="+ optionid +"&p_siteid={p_siteid}&dpcnt="+ ea +"&sessionparam="+ sessionparam +"&adminmode="+ adminmode +"&printoptnm="+ printoptnm;
+	}	
+	location.href = "mpod.{_COOKIE.domain_code}.{cid}://newwork?version=1.0&configurl="+ encodeURIComponent(configurl) +"&editortype={podskind}&storageid=&counter=1"; //url 인코딩
+	return;
+}
+function refresh_price(){
+	var optno = $j("input[name='optno[]']").val();
+	var addoptno = [];
+	if ($j("input[name='addoptno[]']").length){
+		addoptno = $j("input[name='addoptno[]']").val();
+	}
+	get_goods_price("{goodsno}",optno,addoptno,"set_price_str","");
+	get_goods_cprice("{goodsno}",optno,addoptno,"set_cprice_str");
+	if('{_cfg.mobile_member_use}' == "Y") get_goods_reserve("{goodsno}",optno,addoptno,"set_reserve_str");
+}
+function set_price_str(ret){
+	$j("#goods_price").html(comma(ret)+{=__java("원")});
+	set_discount_str();
+}
+function set_cprice_str(ret){
+	$j("#goods_cprice").html(comma(ret)+{=__java("원")});
+	var cprice = 0;
+	var price = parseInt(uncomma($j("#goods_price").html()));
+	if ($j("#goods_cprice").html()){
+		cprice = parseInt(uncomma($j("#goods_cprice").html()));
+	}
+	set_discount_str();
+}
+function set_discount_str(){
+	var discount = (parseInt(uncomma($j("#goods_cprice").html())) - parseInt(uncomma($j("#goods_price").html()))) / parseInt(uncomma($j("#goods_cprice").html())) * parseInt(100);
+	$j("#goods_discount").html("(" + Math.round(discount) + "%)");
+}
+function set_reserve_str(ret){
+	$j("#goods_reserve").html(comma(ret)+{=__java("원")});
+}
+function exec(mode){
+	var fm = document.fmView;
+	if (!form_chk(fm)) return;
+	fm.action = "../order/cart.php";
+	fm.mode.value = mode;
+	fm.submit();
+}
+$(".layerPop").on({
+	click : function(e){
+		e.preventDefault();
+		$($(this).attr("href")).show();
+		$("#wrap").addClass("dimed_on");
+	}
+});
+</script>
+
+{ # footer }

@@ -1,0 +1,128 @@
+{ # header }
+
+
+<div style="background-color: #fafafa;">
+
+<!--{ @ f_banner_s2('register_banner1')}-->{.banner}<!--{ / }-->
+<!--{ @ f_banner_s2('register_banner2')}-->{.banner}<!--{ / }-->
+
+<div class="regist_bg"></div>
+
+<form name="fm" method="post" onsubmit="return form_chk(this);" action="indb.php">
+	<input type="hidden" name="mode" value="sns_login">
+	<input type="hidden" name="id" value="{data.id}">
+	
+	<input type="hidden" name="type" value="{data.type}">
+	<!--<input type="hidden" name="email" value="{data.email}">-->
+	<input type="hidden" name="nickname" value="{data.nickname}">
+	<input type="hidden" name="mid" value="{data.mid}">
+	<input type="hidden" name="chkMid">
+
+<div id="regist_wrap">
+<table class="tbl01">
+<tbody>
+	<tr>
+		<th>{=__text("이름")} <span>*</span></th>
+		<td><INPUT name="name" class="input2018" type="text" {=__placeholder("이름을 입력해 주세요.")} pt="_pt_txt" value="{data.name}" required></td>
+	</tr>
+	<tr>
+		<th>{=__text("휴대폰")}<span>*</span></th>
+		<td>
+			<SELECT class="input2018" style="width:25%" name="mobile[]" pt="_pt_numplus" type2="number" required>
+				<OPTION value="">선택</OPTION>						 
+				<!--{ @ _r_mobile }-->
+				<option value="{.value_}" {_selected.mobile[.value_]}>{.value_}</option>
+				<!--{ / }-->
+			</SELECT> - 
+			<INPUT name="mobile[]" class="input2018" style="width:25%" value="{mobile[1]}" onkeyup="auto_focus(this,2);" type="text" maxlength="4" pt="_pt_numplus" type2="number" required {=__placeholder("휴대폰")}>
+			- <INPUT name="mobile[]" class="input2018" style="width:25%" value="{mobile[2]}" type="text" maxlength="4" pt="_pt_numplus" type2="number" required {=__placeholder("휴대폰")}>
+		</td>
+	</tr>
+	<tr>
+		<th>{=__text("이메일주소")}<span>*</span></th>
+		<td>
+			<INPUT name="email[]" class="input2018" style="width:25%" type="text" pt="_pt_txteng" value="{data.email[0]}" required {=__placeholder("이메일주소")}> @ 
+			<INPUT name="email[]" class="input2018" style="width:25%" type="text" pt="_pt_txteng" value="{data.email[1]}" required {=__placeholder("이메일주소")}>
+			<SELECT class="input2018" style="width:28%" onchange="auto_set_email(this,'email[]');">
+				<OPTION value="" {_selected.email[email[1]]}>{=__text("직접입력")}</OPTION>	
+				<!--{ @ _r_email }-->
+				<option value="{.value_}" {_selected.email[.value_]}>{.key_}</option>
+				<!--{ / }-->				
+  			</SELECT>
+		</td>
+	</tr>
+</tbody>
+</table>
+</div>
+
+<div id="regist_wrap">
+<table class="tbl01">
+<tbody>
+	<tr>
+		<td class="title" style="border-bottom:1px solid #ddd;padding:10px 0 15px;">{=__text("이용약관(필수),개인정보처리방침(필수)에 모두 동의합니다.")}
+		<DIV style="float:right;"><INPUT id="checkbox-all" type="checkbox" class="check2018" checked required {=__label("약관")}><LABEL for="checkbox-all"></LABEL></DIV>
+		</td>
+	</tr>
+	<tr>
+		<td class="title">{=__text("이용약관")} <span>*</span><br>
+		<textarea class="textarea" rows="3">{_cfg.agreement}</textarea>
+		</td>
+	</tr>
+	<tr>
+		<td class="title">{=__text("개인정보취급방침")} <span>*</span><br>
+		<textarea  class="textarea" rows="3">{_cfg.policy}</textarea>
+		</td>
+	</tr>
+</tbody>
+</table>
+</div>
+<INPUT id="join-submit" style="display: none;" type="submit">
+</form>
+
+<DIV style="margin: 50px auto 100px; width:W700px;text-align:center;">
+	<A class="btn btn2018_2 join-btn" href="#">{=__text("가입하기")}</A>
+	<A class="btn btn2018_3" href="javascript:history.back();">{=__text("취소하기")}</A> 
+</DIV>
+
+</div>
+
+<script>
+var fm = document.fm;
+function chk_mid(){
+	$j.post("/member/indb.php", {mode: "chkMid", mid: fm.mid.value},
+	function(data){
+		fm.chkMid.value = "";
+		switch (data){
+			case "duplicate": alert({=__java("이미 등록된 아이디입니다")}); break;
+			case "good": 
+				//alert({=__java("사용이 가능한 아이디입니다")});
+				fm.chkMid.value = "chk";
+				break;
+			case "unable":  alert({=__java("사용이 불가능한 아이디입니다")}); break;
+			case "out":  alert({=__java("탈퇴한 아이디입니다")}); break;
+		}
+	});
+}
+
+$j(".join-btn").click(function() {
+	chk_mid();
+	$j("#join-submit").click();
+});
+
+$j(function() {
+	$j("body").attr("id", "join-form-page");
+	$j("body").attr("class", "");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	
+	$j('input[type2=number]').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+function auto_set_email(obj, name) {
+	$j("input[name=email[]]:last").val($j(obj).val());
+}
+</script>
+{ # footer }

@@ -1,0 +1,304 @@
+<!--낱장(책자)_프리셋2_100106-->
+<div style="width:960px; min-height:500px;padding-bottom:40px;">
+	<div class="estimateq">
+		<!--{? horizon_view_flag == "1" }--><!--2단가로상품보이기-->
+		<div class="sam_photo2"><img id="img" src="{img[0]}" onerror="$j(this).attr('src','/data/noimg.png')" {=__alt("상품이미지")} /></div>
+		<!--{ : }-->
+		<div class="estimateL">
+			<div class="sam_photo">
+				<img id="img" src="{img[0]}" width="300" onerror="$j(this).attr('src','/data/noimg.png')" {=__alt("상품이미지")} />
+			</div>
+			<div class="contl">
+				<!--{ @ img }-->
+					<a href="#"><img src="{.value_}" width="60" onclick="$j('#img').attr('src', this.src);"  onerror="$j(this).attr('src','/data/noimg.png')" /></a>
+				<!--{ / }-->
+			</div>
+		</div>		
+		<!--{ / }-->
+		
+		<div class="{_estimateClass}">
+			<!--{? horizon_view_flag == "1" }--><!--2단가로상품보이기-->
+			<div class="lt_area">
+			<!--{ / }-->
+
+				<!--내지-->
+				<div class="box">
+					<h3 class="est_title">{=__text("기본")}</h3>
+					<div id="option_item_select_PP">
+					<table cellpadding="0" cellspacing="0" class="estTable">
+						<colgroup>
+							<col class="inp-w-80" /><col width="*" />
+						</colgroup>						
+						<tbody>
+						<!--{ ? horizon_view_flag != "1" && OrderMemoArr[98] == 'Y' }-->
+						<tr>
+							<th>{=__text("주문 제목")}</th>
+							<td>
+								<ul>
+									<li>
+									  <input type="text" class="textType inp-w-300" name="est_title" />
+									</li>
+								</ul>
+							</td>
+						</tr>
+						<!--{ / }-->	
+						<tr>
+							<th><span name="item_select_PP_1">{adminExtraOption->getDisplayName("2")}</span></th>
+							<td class="won_area">								
+								{adminExtraOption->MakePageSelectOption(preset, "F-FIX")}
+							  	<span class="won">
+									<span class="price-view">
+										<input type='hidden' name='option_supply_price_PP' id='option_supply_price_PP'>
+										<input type='hidden' name='option_price_PP' id='option_price_PP'>
+										<div id='price_text_PP'>0{=__text("원")}</div>
+									</span>			  		
+							  	</span>								
+							</td>
+						</tr>						
+						</tbody>
+					</table>
+					</div>
+					<div id="option_item_select_OP">					
+					<table cellpadding="0" cellspacing="0" class="estTable1">
+						<colgroup>
+							<col class="inp-w-80" /><col width="*" />
+						</colgroup>
+						<tbody>
+						<tr>
+							<th><span name="item_select_DOCUMENT_1">{adminExtraOption->getDisplayName("1")}</span></th>
+						  	<td>{adminExtraOption->MakeSelectOptionTag("1","","documentOnchange","")}</td>
+						</tr>
+						<!--{ ? adminExtraOption->getOptionKindUse("17") !== 'N' }-->
+						<tr>
+							<th><span name="item_select_PT_17">{adminExtraOption->getDisplayName("17")}</span></th>
+							<td>{adminExtraOption->MakeSelectOptionTag("17","","forwardAction","inp-w-150")}</td>
+						</tr>
+						<!--{ / }-->
+						<!--{ ? adminExtraOption->getOptionKindUse("18") !== 'N' }-->
+						<tr>
+							<th><span name="item_select_IC_18">{adminExtraOption->getDisplayName("18")}</span></th>
+							<td>{adminExtraOption->MakeSelectOptionTag("18","","forwardAction","inp-w-150")}</td>
+						</tr>
+						<!--{ / }-->						
+						<!--{ ? adminExtraOption->getOptionKindUse("19") !== 'N' }-->
+						<tr>
+							<th><span name="item_select_CT_19">{adminExtraOption->getDisplayName("19")}</span></th>
+							<td>{adminExtraOption->MakeSelectOptionTag("19","","forwardAction","inp-w-150")}</td>
+						</tr>
+						<!--{ / }-->		
+						<!--{ ? adminExtraOption->getOptionKindUse("20") !== 'N' }-->
+						<tr>
+							<th><span name="item_select_ET_20">{adminExtraOption->getDisplayName("20")}</span></th>
+							<td>{adminExtraOption->MakeSelectOptionTag("20","","forwardAction","inp-w-150")}</td>
+						</tr>
+						<!--{ / }-->
+						<tr>
+							<th><span>{adminExtraOption->MakeOrderCntDisplayName(goodsno,"OCNT")}</span></th>
+							<td class="won_area">
+								<span>{adminExtraOption->MakeOrderCntSelect(goodsno,"OCNT","order_cnt_select")}</span>
+							  	<span class="won">
+									<span class="price-view">
+										<input type='hidden' name='option_supply_price_OP' id='option_supply_price_OP'>
+										<input type='hidden' name='option_price_OP' id='option_price_OP'>
+										<div id='price_text_OP'>0{=__text("원")}</div>
+									</span>			  		
+							  	</span>
+							</td>
+						</tr>
+						</tbody>
+					</table>
+					</div>					
+				</div>
+				<div class="space"> </div>						
+
+				<!--후가공-->
+				<div id="after_option" class="box">
+					<h3 class="est_title">{=__text("후가공")}</h3>	
+					<table cellpadding="0" cellspacing="0" class="estTable">
+						<colgroup><col class="inp-w-120" /><col width="*" /></colgroup>
+						<tbody>
+						<!--{ @ afterOptionSelectArr }-->
+								
+						<tr>
+							<th>
+								<input type="checkbox" name="chk_item_select_{.code}_0" id="chk_item_select_{.code}_0" onclick="onClickChkAfterOption();" />
+								<span name="item_select_{.code}_{.optionKindIndex}">{.name}</span>								
+							</th>
+							<td class="won_area">
+								<div id="option_item_select_{.code}">		
+								{adminExtraOption->MakeSelectOptionTag(.optionKindIndex,"","forwardAction","inp-w-150")}&nbsp;{=AfterOptionHelpInfo(.code)}
+							  	<span class="won">
+									<span class="price-view">
+										<input type='hidden' name='option_supply_price_{.code}' id='option_supply_price_{.code}'>
+										<input type='hidden' name='option_price_{.code}' id='option_price_{.code}'>
+										<div id='price_text_{.code}'>0{=__text("원")}</div>
+									</span>			  		
+							  	</span>
+								</div>	  	
+							</td>
+						</tr>
+						
+						<!--{ / }-->	
+						</tbody>
+					</table>
+				</div>
+				<div class="space"> </div>
+			
+			<!--{? horizon_view_flag == "1" }--><!--2단가로상품보이기-->
+			</div>
+			<!--{ / }-->
+			
+			<!--{? horizon_view_flag == "1" }--><!--2단가로상품보이기-->
+			<div class="rt_area">
+			<!--{ / }-->
+				
+				<!--box-->
+				
+				<!--est_title-->
+				<!--{ ? horizon_view_flag == "1" && OrderMemoArr[98] == 'Y' }-->
+				<div class="box">
+					<table cellpadding="0" cellspacing="0" class="estTable2">
+						<colgroup>
+							<col class="inp-w-80" /><col width="*" />
+						</colgroup>
+						<tbody>
+						<tr>
+							<th>{=__text("주문 제목")}</th>
+							<td><input type="text" class="textType inp-w-300" name="est_title" /></td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+				<!--{ / }-->				
+				
+				<!--price box-->
+				<div class="estBox type3 price-view">
+					<div>
+						<span class="amount" id="select_option_sum" >0 {=__text("원")}</span>						
+						<!--{? horizon_view_flag == "1" }--><!--2단가로상품보이기--><br><!--{ / }-->
+						<span class="amount2" id="select_option_sum_desc">0 {=__text("원")}</span>
+					</div>
+					<input type="hidden" id="select_option_supply_price" name="select_option_supply_price" />
+		        	<input type="hidden" id="select_option_sum_price" name="select_option_sum_price" />
+				</div>
+				<div class="space"> </div>
+				
+				<!--est_order_memo-->
+				<!--{ ? OrderMemoArr[99] == 'Y' }-->
+				<div class="box">
+					<table cellpadding="0" cellspacing="0" class="estTable2">
+						<colgroup>
+							<col class="inp-w-80" /><col width="*" />
+						</colgroup>
+						<tbody>
+						<tr>
+							<th>{=__text("주문 메모")}</th>
+							<td><textarea name="est_order_memo" style="width: 300px;height: 60px;"> </textarea></td>
+						</tr>
+					</tbody>
+					</table>
+				</div>
+				<!--{ / }-->
+				<!--text box-->
+				<!--<p class="txt1">※ 견적금액은 견적서 발행일로부터 15일까지 유효합니다.</p>-->
+
+				<!--{ ? extra_info != "" }-->
+					<p class="txt1">{extra_info}</p>
+				<!--{ / }-->	
+				
+				<!--{ ? podskind > 0 }-->
+					<p class="txt2">{=__text("제작상품은 제작 후 장바구니에 담을 수 있습니다.")}</p>
+				<!--{ / }-->
+			
+				<!--{ ? state !=0 }-->
+					<p class="txt2">{=__text("본 상품은 품절등의 이유로 판매가 불가한 상품입니다.")}</p>
+				<!--{ : }-->
+					<div class="estbtn">
+						{_editorBtn}
+					</div>				
+				<!--{ / }-->
+			
+			<!--{? horizon_view_flag == "1" }--><!--2단가로상품보이기-->
+			</div>
+			<!--{ / }-->
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+$j(window).load(function() {
+	//전체 수량
+	$j("#unit_order_cnt").removeAttr("onchange");
+    $j("#unit_order_cnt").change(function(){
+    	//마지막 항목 가격을 기본적으로 뿌려준다.
+  		//forwardOrderCntAction();
+  		priceSum();
+    });
+    
+    //sub select
+	$j("#item_select_PP_1").each(function(){
+		forwardAction(this);
+	});
+	//sub select
+	
+   	//수량 사용자 직접 입력 관련 이벤트 처리
+	$j("input[name^='input_']").each(function(){
+		//console.log($j(this));
+		$j(this).val("1");
+		$j(this).attr("style","width: 30px; height: 20px;");
+		$j(this).bind('focusout', function(){
+			getRangeSelectCnt(this);
+		});
+		// onkeyup="this.value=number_filter(this.value);"
+		$j(this).bind('keyup', function(){
+			this.value = number_filter(this.value);
+		});
+	});
+
+	//수량 사용자 직접 입력 창
+	if('{adminExtraOption->getUserCntInputFlage(goodsno, "OCNT")}' == 'Y') {
+		$j("#unit_order_cnt").attr("style","display:none;");
+		$j("#order_cnt_select").attr("style","display:none;");
+	}
+	else {
+		$j("#input_unit_order_cnt").attr("style","display:none;");
+		$j("#input_order_cnt_select").attr("style","display:none;");
+	}
+
+	//견적가격 노출 여부 기능 추가 2015.07.01 by kdk
+	if($j("#extra_price_view_flag").val() == "0") {
+		$j(".price-view").hide();
+	}
+
+	//자동견적결제(견적의뢰)일 경우 비규격 처리 2015.07.06 by kdk
+	if($j("#extra_auto_pay_flag").val() == "0") {
+		//비규격 추가한다.
+		$j("#item_select_DOCUMENT_1").prepend("<option value=''>"+{=__java("비규격")}+"</option>");
+	}
+
+	//규격 읽기전용 처리 2015.12.23 by kdk
+	$j("#document_x").attr("readonly",true);
+	$j("#document_y").attr("readonly",true);
+
+	//견적 두번째 수량(unit_order_cnt) 표시 여부 추가 2016.04.14 by kdk
+	if('{extra_unitcnt_view_flag}' == '1') {
+		////alert('{extra_unitcnt_view_flag}');
+		$j("#unit_order_cnt").attr("style","display:none;");
+		$j("#input_unit_order_cnt").attr("style","display:none;");
+		$j("span[name='x']").attr("style","display:none;");
+		$j("span[name='unit_order_cnt']").attr("style","display:none;");
+	}
+
+	//면적당 계산을 위해 이벤트 처리 / 16.11.08 / kdk
+	if('{_extra_price_type}' == "SIZE") {
+		$j("input[name^='document_']").each(function(){
+			$j(this).bind('focusout', function(){
+				getRangeInputCnt(this);
+			});
+			$j(this).bind('keyup', function(){
+				this.value = number_filter(this.value);
+			});
+		});
+	}
+});
+</script>

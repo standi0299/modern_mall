@@ -1,0 +1,95 @@
+{ # header }
+
+<section class="content-container my-page-layout">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col">
+				<a href="../../mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/cancellist.php">{=__text("주문/취소관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/wishlist.php">{=__text("위시리스트")}</a>
+			</li>
+		</ul>
+
+		<div class="tab-content-wrap">
+			<div class="tab-content" id="order-history">
+				<div id="welcome-text">
+					{=__text("어서오세요")}!
+				</div>
+				<div class="title-wrap" style="margin-top:60px;">
+					<h2>
+						{=__text("나의 최근 주문")}
+					</h2>
+				</div>
+				<table class="set-table" id="order-table">
+					<thead>
+					<tr>
+						<td class="text-center order-id">{=__text("주문일자")}</td>
+						<td class="text-center order-id">{=__text("주문번호")}</td>
+						<td class="text-center order-title">{=__text("주문상품")}</td>
+						<td class="text-center order-count">{=__text("주문수량")}</td>
+						<td class="text-center order-price">{=__text("결제금액")}</td>
+					</tr>
+					</thead>
+					<tbody>
+					<!--{ @ f_getOrderData(5) }-->
+					<tr>
+						<td class="text-center order-id">
+							{=substr(.orddt,0,10)}
+						</td>
+						<td class="text-center order-id">
+							<a href="orderview.php?payno={.payno}">
+								<span>{.payno}</span>
+							</a>
+						</td>
+						<td class="order-title">
+							<div class="h-group">
+								{=mb_strcut(.goodsnm, 0, 40, "utf-8")}<!--{ ? strlen(.goodsnm) > 40 }-->..<!--{ / }--> {.opt} 
+								<!--{ ? .cnt > 1 }-->{=__text("외")} {.cnt-1}{=__text("건")}<!--{ / }-->
+							</div>
+						</td>
+						<td class="text-center order-count">{=number_format(.ea)}{=__text("개")}</td>
+						<td class="text-center order-price">{=number_format(.payprice)}{=__text("원")}</td>
+					</tr>
+					<!--{ : }-->
+					<tr>
+						<td class="text-center order-id" colspan="5" align="center" height="200" style="padding-top:80px;">{=__text("주문내역이 존재하지 않습니다.")}</td>
+					</tr>
+					<!--{ / }-->
+					</tbody>
+				</table>
+				<div class="list-pagination" style="margin-bottom: 20px;">&nbsp;</div>				
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	//$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	//
+	$j(".tab-menu li").css("height", "61px");
+	//$j(".tab-menu li a").css("font-size", "16px");
+	$j(".order-id").css("width", "100px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+
+function noChk() {
+	if ($j("input[name=no[]]:checked").val() == undefined) {
+		alert({=__java("삭제할 찜 상품을 선택해주세요.")});
+		return false;
+	} else {
+		return true;
+	}
+}
+</script>
+
+{ # footer }

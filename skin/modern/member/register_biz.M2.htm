@@ -1,0 +1,409 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<form name="fm" method="post" <!--{ ? _cfg.ssl_use == 'Y' && ssl_action}--> action="{ssl_action}" <!--{ : }--> action="indb.php" <!--{ / }--> onsubmit="return form_chk2()&&form_encode_submit(this);">
+			<input type="hidden" name="mode" value="{mode}">
+			<input type="hidden" name="chkMid">
+			<input type="hidden" name="chkPassword">
+			<input type="hidden" name="chkResno">
+			<input type="hidden" name="domain" value="{_SERVER.HTTP_HOST}">
+			<input type="hidden" name="rurl" value="{rurl}">
+			
+			<input type="hidden" name="mid_en">
+			<input type="hidden" name="password_en">
+			<input type="hidden" name="password2_en">
+			<input type="hidden" name="email_en">
+			
+			<div class="membership-wrap">
+				<div class="membership-top">
+					<sup>BIZ</sup>
+					<h3>회원가입</h3>
+					<a href="/member/register.php">일반회원 가입</a>
+				</div>
+				<div class="input-wrap">
+					<p>학교/기업/스튜디오/단체는 대량구매 혜택 및 맞춤서비스가 제공되는<br />BIZ회원으로 가입해 주세요.</p>
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span class="req">아이디/이메일</span>
+							</div>
+							<div class="td">
+								<input type="text" name="mid" required/>
+							</div>
+							<a href="#" class="btn_overlap" onclick="chk_mid();">중복확인</a>
+						</div>
+						<div class="row bottom-row">
+							<div class="th">
+								<span class="req">이메일(확인)</span>
+							</div>
+							<div class="td">
+								<input type="text" name="email" required/>
+							</div>
+						</div>
+					</div>
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span class="req">비밀번호</span>
+							</div>
+							<div class="td">
+								<input type="password" name="password" required/>
+							</div>
+						</div>
+						<div class="row bottom-row">
+							<div class="th">
+								<span class="req">비밀번호 확인</span>
+							</div>
+							<div class="td">
+								<input type="password" name="password2" required/>
+							</div>
+						</div>
+					</div>
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span class="req">담당자</span>
+							</div>
+							<div class="td">
+								<input type="text" name="name" required/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="th vt20">
+								<span class="req">연락처</span>
+							</div>
+							<div class="td">
+								<div class="input-phone pb60">
+									<input type="text" class="wd56" name="mobile[]" maxlength="3"/>
+									<span>-</span>
+									<input type="text" class="wd71" name="mobile[]" maxlength="4" onkeyup="auto_focus(this,2);" />
+									<span>-</span>
+									<input type="text" class="wd71" name="mobile[]" maxlength="4"/>
+								</div>
+								<div class="checkbox custom sms-checkbox">
+									<input type="checkbox" id="chk_sms" name="issms" class="css-checkbox" value="1">
+									<label for="chk_sms" class="css-label">
+										<span>SMS수신동의 합니다.<br />
+										(언제든지 회원정보페이지에서 수신거부로 변경할 수 있습니다.)</span>
+									</label>
+								</div>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="th">
+								<span class="req">그룹선택</span>
+							</div>
+							<div class="td">
+								<select name="grpno" class="custom-select-wrap">
+									<option value="">선택</option>
+									<!--{ @ grp_list }-->
+										<option value="{.grpno}">{.grpnm}</option>
+									<!--{ / }-->
+								</select>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="th">
+								<span class="req">상호명</span>
+							</div>
+							<div class="td">
+								<input type="text" name="cust_name" required/>
+							</div>
+						</div>
+						
+						<div class="row">
+							<div class="th input-corp">
+								사업자등록번호
+							</div>
+							<div class="td">
+								<div class="input-corp">
+									<input type="text" class="wd64" name="cust_no[]"/>
+									<span>-</span>
+									<input type="text" class="wd56" name="cust_no[]"/>
+									<span>-</span>
+									<input type="text" class="wd77" name="cust_no[]"/>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="agree-wrap">
+						<div class="checkbox custom">
+							<input type="checkbox" id="chk_agree" name="" class="css-checkbox" value="" required>
+							<label for="chk_agree" class="css-label">
+								<!--{ @ f_banner_s2('member_regist_chk') }-->{.banner}<!--{ / }-->
+							</label>
+						</div>
+					</div>
+					<button class="membership_btn btn_join"><span>회원가입</span></button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+
+<script type="text/javascript">
+var fm = document.fm;
+
+function reset_chk_mid() {
+	fm.chkMid.value = "";
+}
+
+function chk_mid() {	
+	if (!fm.mid.value) {
+		alert("아이디를 입력해주세요.");
+		fm.mid.focus();
+		return;
+	}
+
+	if (!_pattern(fm.mid)) {
+		alert("아이디는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.");
+		fm.chkMid.value = "";
+		fm.mid.focus();
+		return;
+	}
+	
+	$j.post("indb.php", {mode: "chkMid", mid_en: Base64.encode(fm.mid.value)},
+	function(data) {
+		var msg = "";
+		fm.chkMid.value = "";
+		
+		switch (data) {
+			case "duplicate": 
+				msg = "이미 등록된 아이디입니다."; 
+				break;
+			case "good": 
+				msg = "사용이 가능한 아이디입니다.";
+				fm.chkMid.value = "chk";
+				break;
+			case "unable":  
+				msg = "사용이 불가능한 아이디입니다."; 
+				break;
+			case "out":  
+				msg = "사용이 불가능한 아이디입니다."; 
+				break;
+		}
+		
+		alert(msg);
+		
+		if (!fm.chkMid.value) {
+			fm.mid.value = "";
+			fm.mid.focus();
+		}
+	});
+}
+
+function chk_password() {
+	if (!fm.password.value) {
+		alert("비밀번호를 입력해주세요.");
+		fm.password.focus();
+		return false;
+	} else if (!_pattern(fm.password)) {
+		alert("비밀번호는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.");
+		fm.password.value = "";
+		fm.password.focus();
+		return false;
+	}
+
+	if (!fm.password2.value) {
+		alert("비밀번호 확인을 위해 한번 더 입력해주세요.");
+		fm.password2.focus();
+		return false;
+	}
+	
+	fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+	
+	//비밀번호와 비밀번호확인이 다르면 비밀번호확인 텍스트박스 값을 지워줌 / 14.04.25 / kjm
+	if(!fm.chkPassword.value) {
+		alert("비밀번호가 일치하지 않습니다."+"\n"+"다시 입력해주세요.");
+		fm.password.value = '';
+		fm.password2.value = '';
+		fm.password.focus();
+		return false;
+	}
+	
+	return true;
+}
+
+function auto_set_email(obj, name) {
+	$j("input[name=email[]]:last").val($j(obj).val());
+}
+
+function sms_auth_send() {
+	var obj = document.fm.sms_code;
+	
+	if (!obj.form['mobile[]'][0].value || !obj.form['mobile[]'][1].value || !obj.form['mobile[]'][2].value) {
+		alert("핸드폰번호를 입력해주세요.");
+		return;
+	} 
+	
+	var mobile_num = obj.form['mobile[]'][0].value + obj.form['mobile[]'][1].value + obj.form['mobile[]'][2].value;
+		
+	$j.post("indb.php", {mode: "register_sms_send", mobile_number: mobile_num},
+	function(data) {		
+		switch (data) {
+			case "1": alert("발송되었습니다."); break;
+		}
+	});
+}
+
+function auto_focus(obj,idx) {
+	//return;	/* 자동포커스 이동 사용하지 않을시 주석제거 */
+
+	switch (obj.name) {
+		/*case "resno[]":
+			if (obj.value.length == 6) obj.form['resno[]'][idx].focus();
+			break;
+		case "phone[]":
+		case "cust_ceo_phone[]":
+		case "cust_phone[]":
+		case "cust_fax[]":
+			if ((idx == 1 && obj.value.length == 3) || (idx == 2 && obj.value.length == 4)) obj.form[obj.name][idx].focus();
+			break;*/
+		case "mobile[]":
+			if (obj.value.length == 4) obj.form['mobile[]'][idx].focus();
+			break;
+	}
+}
+
+function form_encode_submit_member(){
+	if(form_chk2())
+	{
+		fm.mid_en.value = Base64.encode(fm.mid.value);
+		fm.mid.value = '';
+		if(typeof(fm.password) != "undefined"){
+			fm.password_en.value = Base64.encode(fm.password.value);
+			fm.password.value = '';
+		}
+		if(typeof(fm.password2) != "undefined"){
+			fm.password2_en.value = Base64.encode(fm.password2.value);
+			fm.password2.value = '';
+		}
+		return true;
+	}
+	else return false;
+}
+
+function form_chk2() {
+	if (!fm.mid.value) {
+		alert('아이디를 입력해주세요.');
+		fm.mid.focus();
+		return false;
+	} else if (!_pattern(fm.mid)) {
+		alert('아이디는 영문 소문자,숫자,-,_를 혼합하여 6~20자');
+		fm.mid.value = "";
+		fm.mid.focus();
+		return false;
+	}
+
+	if (fm.chkMid.value != "chk") {
+		alert("아이디 중복 확인해주세요.");
+		fm.mid.focus();
+		return false;
+	} 
+
+	if (fm.name.value == "") {
+		alert("이름을 확인해주세요.");
+		fm.name.focus();
+		return false;
+	} else if (!_pattern(fm.name)) {
+		alert('입력형식이 올바르지 않습니다.');
+		fm.name.value = "";
+		fm.name.focus();
+		return false;
+	}
+
+	if (!chk_password()) {
+		return false;
+	}
+	
+	if (fm.chkPassword.value != "chk") {
+		alert("비밀번호를 확인해주세요.");
+		fm.password.focus();
+		return false;
+	}
+
+	if (fm['email[]'] != undefined) {
+		if ((fm['email[]'][0].value == "")) {
+			alert("이메일주소를 확인해주세요.");
+			fm['email[]'][0].focus();
+			return false;
+		} else if (!_pattern(fm['email[]'][0])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['email[]'][0].value = "";
+			fm['email[]'][0].focus();
+			return false;
+		}
+		
+		if ((fm['email[]'][1].value == "")) {
+			alert("이메일주소를 확인해주세요.");
+			fm['email[]'][1].focus();
+			return false;
+		} else if (!_pattern(fm['email[]'][1])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['email[]'][1].value = "";
+			fm['email[]'][1].focus();
+			return false;
+		}
+	}
+
+	if (fm['mobile[]'] != undefined) {
+		if ((fm['mobile[]'][0].value == "")) {
+			alert("핸드폰번호를 확인해주세요.");
+			fm['mobile[]'][0].focus();
+			return false;
+		}
+		
+		if ((fm['mobile[]'][1].value == "")) {
+			alert("핸드폰번호를 확인해주세요.");
+			fm['mobile[]'][1].focus();
+			return false;
+		} else if (!_pattern(fm['mobile[]'][1])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['mobile[]'][1].value = "";
+			fm['mobile[]'][1].focus();
+			return false;
+		}
+
+		if ((fm['mobile[]'][2].value == "")) {
+			alert("핸드폰번호를 확인해주세요.");
+			fm['mobile[]'][2].focus();
+			return false;
+		} else if (!_pattern(fm['mobile[]'][2])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['mobile[]'][2].value = "";
+			fm['mobile[]'][2].focus();
+			return false;
+		}
+	}
+/*
+	if (!$j("#checkbox-all:checked").is(":checked")) {
+		alert("이용약관(필수),개인정보처리방침(필수)에 모두 동의합니다.");
+		return false;
+	} 
+*/
+	return true;
+}
+
+$j(".join-btn").click(function() {
+	$j("#join-submit").click();
+});
+
+$j(function() {
+	$j("body").attr("id", "join-form-page");
+	$j("body").attr("class", "");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	
+	$j('input[type2=number]').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+</script>
+
+{ # footer }

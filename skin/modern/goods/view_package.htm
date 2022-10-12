@@ -1,0 +1,464 @@
+{ # header }
+<!--view_package.htm-->
+
+<!--{ ? !_cfg.list_catnav }-->
+<section class="content-container location-sort">
+	<div class="h-group">
+		<div class="col location">
+			<a href="../main/index.php">HOME</a>
+			<span> > </span>
+			{=f_getCategoryPos(_GET.catno,'<span> > </span>')}
+		</div>		
+	</div>
+</section>
+<!--{ / }-->
+
+<!--
+<form name="fmCart">
+<input type="hidden" name="mode" value="cart"/>
+<input type="hidden" name="catno" value="{_GET.catno}" />
+<input type="hidden" name="goodsno" value="{goodsno}" />
+<input type="hidden" name="goods_group_code" value="{goods_group_code}" />
+<input type="hidden" name="productid" />
+<input type="hidden" name="podoptno" />
+<input type="hidden" name="storageid" />
+<input type="hidden" name="ea" value="1" />
+</form>
+-->
+
+<form onsubmit="return false;">
+
+<div id="index-page">
+   <!--sub_main_banner-->
+   	<div><!--{ @ f_banner_s2('goods_view_pack_title')}-->{.banner}<!--{ / }--></div>
+   <!--sub_main_banner-->
+       <section class="section section-primary section-padding order_cont">
+        <div class="content-container">
+            <div class="list-container">
+                <div class="h-group list-type-tile tile-row-3">
+					 <div class="xs-12-12 text-left">
+					 	 <!--{ ? addtionitem.package }-->
+					 	 <ul class="pack_prd cf {_css_other}">					 		 	
+					 		<!--{ @ addtionitem.package }-->
+					 	 	<li>
+					 	 		{=goodsListImg(.goodsno)}
+					 	 		<p>{.goodsnm}</p>
+					 	 		<div class="separator"></div>
+					 	 		<ul>
+					 	 			<li>{.csummary} </li>
+									<li>
+										<span id="span_{.goodsno}">
+											<!--{ ? _cart_package_goods_data[.goodsno] }-->
+												<!--{ ? _cart_package_goods_data[.goodsno].error }-->
+													{_cart_package_goods_data[.goodsno].errmsg}
+													<input type="text" name="edit_progress" value="{_cart_package_goods_data[.goodsno].edit_progress}"/>
+												<!--{ : }-->
+													{=__text("편집완료")} <input type="text" name="edit_progress" value="100%" readonly="readonly" />
+												<!--{ / }-->
+											<!--{ : }-->
+												<input type="text" name="edit_progress" value="" readonly="readonly" />
+											<!--{ / }-->											
+											<input type="hidden" name="c_cartno" value="{_cart_package_goods_data[.goodsno].cartno}"/>
+										</span>
+									</li>
+					 	 		</ul>
+					 	 		<a href="#layer2" goodsno="{.goodsno}" goodsnm="{.goodsnm}" pods_use="{.pods_use}" podskind="{.podskind}" podsno="{.podsno}" cartno="{_cart_package_goods_data[.goodsno].cartno}" storageid="{_cart_package_goods_data[.goodsno].storageid}" class="btn_example"><button>{=__text("디자인 편집")}</button></a>
+					 	 	</li>
+					 	 	
+					 	 	<div id="opt_{.goodsno}" style="display: none;">
+								<!--{ @ .r_opt }-->
+								<li>
+									{?.optnm[..index_]}{.optnm[..index_]}{:}{=__text("옵션")}{..index_+1}{/}
+									<select name="optno[]" onchange="updateOption(this)" required>
+									<option value="">{=__text("선택")}</option>
+									<!--{ ? ..index_==0 }-->
+									<!--{ @ ..item }-->
+									<option value="{...optno}" title="{...optnm}" stock="{...stock}" podoptno="{...podoptno}" productid="{...podsno}">{...optnm}</option>
+									<!--{ / }-->
+									<!--{ / }-->
+									</select>
+								</li>
+								<!--{ / }-->
+								
+								<!--{ @ .r_addopt }-->
+								<li>
+									{..addopt_bundle_name}>
+									<select name="addopt[]" { ? ..addopt_bundle_required }required{/}>
+									<option value="">{=__text("선택")}</option>
+									<!--{ @ ..addopt }-->
+									<option value="{...addoptno}">{...addoptnm}</option>
+									<!--{ / }-->
+									</select>
+								</li>
+								<!--{ / }-->					 	 	
+					 	 	</div>
+					 	 	
+					 	 	<!--{ / }-->
+					 	 </ul>
+					 	 <!--{ / }-->
+					 </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   <!--sub_selector-->
+       <div class="sub_selector pack_selector">
+           <div class="content-container">
+               <div class="h-group">
+                   <div class="xs-6-12 cf">
+                       <div class="selector_pack">
+                           <img src="{img[0]}" width="100%" alt="{goodsnm}">
+                       </div>
+                   </div>
+                   <div class="xs-6-12">
+                       <div class="selector_text">
+                           <h2>{goodsnm}</h2>
+                           <ul>
+                               <!--{ @ goods_desc }-->
+               	   				<li>{.name} <span>{.value}</span></li>
+               	   			   <!--{ / }-->
+                           </ul>
+                           <div class="selector_order">
+                               <div class="price2">
+								<!--{? cprice}-->
+									<del>{=__text("소비자가격")} {=number_format(cprice)}{=__text("원")}</del>
+								<!--{ / }-->                               	
+                               	<br>
+								<!--{ ? strprice }-->
+									<span>{strprice}</span>
+								<!--{ : }-->
+									<span id="goods_price">{=number_format(price)}{=__text("원")}</span>
+									<!--{? cprice}-->
+										<span class="price-normal" id="goods_cprice_x">(▼ {=number_format(cprice-price)}{=__text("원 할인")})</span>
+									<!--{ / }-->
+								<!--{ / }-->                               	
+                               </div>
+                               <a href="javascript:void(0);" onclick="goCart();"><button class="order">{=__text("주문하기")}</button></a>
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+       <section class="section section-primary section-padding order_cont">
+        <div class="content-container">
+            <div class="list-container">
+                <div class="h-group list-type-tile tile-row-3">
+					<div class="xs-12-12 text-left">
+                         <div class="pack_step">
+                         	<!--{ @ f_banner_s2('goods_view_pack_info')}-->{.banner}<!--{ / }-->
+                         </div>
+					</div>
+                </div>
+            </div>
+        </div>
+    </section>
+   <!--sub_selector-->
+</div>
+</form>
+
+<!--popup-->
+<div class="dim_layer">
+    <div class="dimBg"></div>
+    <div id="layer2" class="pop_layer">
+        <div class="pop_container">
+            <div class="pop_conts">
+                <!--content //-->
+                <form name="fmView" onsubmit="return false;">
+				<input type="hidden" name="mode" id="mode" />
+                <input type="hidden" name="goodsno" id="goodsno" />
+                <input type="hidden" name="productid" id="productid" />
+                <input type="hidden" name="podoptno" id="podoptno" />
+
+                <input type="hidden" name="pods_use" id="pods_use" />
+                <input type="hidden" name="podskind" id="podskind" />
+                <input type="hidden" name="podsno" id="podsno" />
+                <input type="hidden" name="storageid" id="storageid" />
+                <input type="hidden" name="cartno" id="cartno" />
+                <input type="hidden" name="package_mode" id="package_mode" value="Y" />
+                <input type="hidden" name="rurl" value="{_SERVER.REQUEST_URI}">
+                
+                <div class="btn_r">
+                    <a href="#" class="btn_layerClose"><img src="/skin/modern/assets/images/interpro/ic_close.png" alt=""></a>
+                </div>
+               	<div class="selector_text">
+               	   	<h2 id="goods_name">
+               	   	</h2>
+                   	<ul id="goods_option">
+                   	</ul>
+                   	<div class="selector_order">
+                       	<div class="price"><br></div>
+                       	<button class="order" onclick="callEditorPackage();">{=__text("편집하기")}</button>
+                   	</div>
+               	</div>
+               	</form>                
+                <!--// content-->
+            </div>
+        </div>
+    </div>
+</div>
+<!--popup-->
+
+<script type="text/javascript">  
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var pod_signed = "{_pod_signed}"; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+
+<script>
+$j("body").attr('class','item-detail-page');
+
+$j(window).load(function(){});
+
+$j(document).ready(function($){
+    $j('.btn_example').click(function(){
+        //var fm = document.fmView;
+		//if (!form_chk(fm)) return false;
+
+        var $href = $j(this).attr('href');
+        var $goodsno = $j(this).attr('goodsno');
+		var $goodsnm = $j(this).attr('goodsnm');
+		var $div_opt = $j('#opt_' + $goodsno);
+        
+        var $pods_use = $j(this).attr('pods_use');
+        var $podskind = $j(this).attr('podskind');
+		var $podsno = $j(this).attr('podsno');
+		var $storageid = $j(this).attr('storageid');
+		var $cartno = $j(this).attr('cartno');
+
+		var $prog = $('#span_'+$goodsno).children("input[name='edit_progress']").val();
+		if($prog == "100%") {
+			alert({=__java("편집이 완료되었습니다.")});
+			return false;
+		}
+
+        //console.log($goodsno);
+        //console.log($goodsnm);
+        //console.log($div_opt.html());
+        
+        $j('#goodsno').val($goodsno);
+        $j('#goods_name').text($goodsnm);
+        //$j('#goods_option').append($div_opt.html());
+        $j('#goods_option').html($div_opt.html());
+
+		$j('#pods_use').val($pods_use);
+		$j('#podskind').val($podskind);
+		$j('#podsno').val($podsno);
+		$j('#storageid').val($storageid);
+		$j('#cartno').val($cartno);
+
+        layer_popup($href);
+
+        return false;
+    });
+
+    function layer_popup(el){
+        var $el = $j(el);        //레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+
+        isDim ? $j('.dim_layer').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $j(document).width(),
+            docHeight = $j(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn_layerClose').click(function(){
+            isDim ? $j('.dim_layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $j('.layer .dimBg').click(function(){
+            $j('.dim_layer').fadeOut();
+            return false;
+        });
+    }
+});
+
+function updateOption(obj){
+	var goodsno = $j("#goodsno").val();
+	var selected_opt = obj.options[obj.selectedIndex];
+
+	if ($j(selected_opt).attr("productid") && $j(selected_opt).attr("productid")!=0){
+		$j("#productid").val($j(selected_opt).attr("productid"));
+	} else {
+		$j("#productid").val("{podsno}");
+	}
+	if ($j(selected_opt).attr("podoptno")){
+		$j("#podoptno").val($j(selected_opt).attr("podoptno"));
+	} else {
+		$j("#podoptno").val("");
+	}
+
+	var opt = obj.form["optno[]"][1];
+	if (opt.tagName!="SELECT" || obj==opt) return;
+	opt.options.length = 1;
+
+	$j.post("indb.php", {mode:"ajax_updateOption", goodsno:goodsno, opt1:obj.options[obj.selectedIndex].title}, function(data){
+		data = evalJSON(data);
+		for (var i=0;i<data.length;i++){
+			var txt = data[i].opt2;
+			//if (data[i].aprice!="0") txt += " (+" + comma(data[i].aprice) + "원"+")";
+			opt[i+1] = new Option(txt, data[i].optno);
+			opt[i+1].stock = data[i].stock;
+			opt[i+1].productid = data[i].podsno;
+			opt[i+1].podoptno = data[i].podoptno;
+		}
+	});	
+}
+
+function callEditorPackage(){
+	var goodsno = $j("#goodsno").val();
+	var pods_use = $j("#pods_use").val();
+    var podskind = $j("#podskind").val();
+	var podsno = $j("#podsno").val();
+	
+	var storageid = $j("#storageid").val();
+	var cartno = $j("#cartno").val();
+
+	var templateSetIdx = "";
+	var templateIdx = "";
+
+	if(podskind > 0) {
+		//편집상품 편집기 호출.
+
+		if(storageid == "") {
+			//신규모드
+			call_exec(pods_use, podskind, podsno, templateSetIdx, templateIdx);
+		}
+		else {
+			//수정모드
+			var productid = $j("#productid").val();
+			if (!productid || productid==0){
+				productid = "{podsno}";
+			}
+			var optionid = $j("#podoptno").val();
+			if (!optionid){
+				optionid = 1;
+			}
+			var optno = "";
+			if ($j("select[name='optno[]']:last").length){
+				optno = $j("select[name='optno[]']:last").val();
+			}
+			var addopt = [];
+			var i = 0;
+			$j("select[name='addopt[]']").each(function(){
+				addopt[i] = $j(this).val();
+				i++;
+			});
+			addopt = addopt.join(",");
+
+			var ea = 1;
+
+			PodsCallEditorUpdate(pods_use,podskind,podsno,goodsno,optno,storageid,productid,optionid,addopt,ea);
+		}
+	}
+	else {
+		//일반상품 장바구니 처리.
+		procCart(goodsno);
+	}
+
+	return;
+}
+
+//대표 패키지상품 장바구니 저장.(편집완료)
+function procParentCart() {
+    //var goodsno = $j("input[name=goodsno]").attr("value");
+    //var params = $j("form[name=fmCart]").serialize(); // serialize() : 입력된 모든Element(을)를 문자열의 데이터에 serialize 한다.
+
+	var params = "mode=cart&catno={_GET.catno}&goodsno={goodsno}&est_goodsnm={goodsnm}&goods_group_code={goods_group_code}&productid=&podoptno=&storageid=&ea=1";
+
+	//console.log("params : "+params);
+	var c_cartno = [];
+	var c_cartno_idx = 0;
+	$j("input[name='c_cartno']").each(function(){
+		if ($j(this).val() && $j(this).val()!=""){
+			c_cartno[c_cartno_idx] = $j(this).val();
+		}
+		c_cartno_idx++;
+	});
+	c_cartno = c_cartno.join(",");
+	//console.log("c_cartno : "+c_cartno);
+
+	params += "&c_cartno="+c_cartno;
+	//console.log("params : "+params);
+
+	//ajax 전송
+    $j.ajax({
+        type : "POST",
+        url : "/order/cart.php",
+        data : "package_mode=Y&" + params,
+        success:function(data){
+        	//console.log("data : "+data);
+            if(data == "") {
+				alert({=__java("대표 패키지상품 장바구니 등록에 실패하였습니다.")});
+            }
+            else {
+				location.href = '/order/cart.php';
+            }
+        },   
+        error:function(e){
+            alert(e.responseText);
+        }
+    });
+}
+
+//일반 패키지상품 장바구니 저장.
+function procCart(goodsno) {
+    var params = "mode=cart&catno={_GET.catno}&goodsno="+goodsno+"&goods_group_code={goods_group_code}&productid=&podoptno=&storageid=&ea=1";
+	//console.log("params : "+params);
+
+	//ajax 전송
+    $j.ajax({
+        type : "POST",
+        url : "/order/cart.php",
+        data : "ajax_mode=Y&package_mode=Y&" + params,
+        success:function(data){
+        	//console.log("data : "+data);
+            if(data == "") {
+				alert({=__java("일반 패키지상품 장바구니 등록에 실패하였습니다.")});
+            }
+            else {
+				//편집완료.
+				//$j("#span_"+goodsno).text("편집완료");
+				$j("#span_"+goodsno).html({=__java("편집완료")}+" <input name=\"edit_progress\" type=\"text\" value=\"100%\" readonly=\"readonly\"><input name=\"c_cartno\" type=\"hidden\" value=\""+data+"\">");
+				$j('.dim_layer').fadeOut();
+            }
+        },   
+        error:function(e){
+            alert(e.responseText);
+        }
+    });
+}
+
+//장바구니 이동.
+function goCart() {
+	var bCheck = true;
+	$j("input[name=edit_progress]").each(function(){
+		if ($j(this).val()!="100%"){
+			bCheck = false;
+		}
+	});
+
+	if(!bCheck) {
+		alert({=__java("편집을 완료해 주세요.")} + "\n" + {=__java("주문을 하시려면 편집을 완료 해야합니다.")});
+		return false;
+	}
+	else {
+		procParentCart();
+		//location.href = '/order/cart.php';		
+	}
+}
+</script>
+
+{ # footer }

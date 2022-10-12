@@ -1,0 +1,304 @@
+{ # header }
+<div id="container-pupa">
+	<form name="fm" method="post" action="indb.php" onsubmit="return form_chk2()&&form_encode_submit(this);">
+		
+		<input type="hidden" name="mode" value="{mode}">
+		<input type="hidden" name="chkMid">
+		<input type="hidden" name="chkPassword">
+		<input type="hidden" name="chkResno">
+		<input type="hidden" name="domain" value="{_SERVER.HTTP_HOST}">
+		<input type="hidden" name="rurl" value="{rurl}">
+		
+		<input type="hidden" name="mid_en">
+		<input type="hidden" name="password_en">
+		<input type="hidden" name="password2_en">
+		<input type="hidden" name="email_en">
+		
+		<div class="container_inner">
+			<div class="membership-wrap">
+				<h3>회원정보 수정</h3>
+				<div class="input-wrap">
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								아이디/이메일
+							</div>
+							<div class="td">
+								<input type="hidden" name="mid" value="{mid}">
+								{mid}
+							</div>
+						</div>
+						<div class="row bottom-row">
+							<div class="th">
+								이름
+							</div>
+							<div class="td">
+								<input type="text" name="name"  value="{name}"/>
+							</div>
+						</div>
+						<div class="row bottom-row">
+							<div class="th vt15">이메일(확인)</div>
+							<div class="td">
+								<input type="text" name="email" value="{email[0]}@{email[1]}"/>
+								<div class="checkbox custom mail-checkbox">
+									<input type="checkbox" id="ismail" name="ismail" class="css-checkbox" value="1" {_checked.ismail['1']}>
+									<label for="chk_mail" class="css-label">
+										<span>상품/이벤트 정보 이메일 수신동의 [선택]</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="table">
+						<div class="row">
+							<div class="th">배송지</div>
+							<div class="td">
+								<a href="javascript:popup('/order/p.address.php','_blank','toolbar=no,scrollbars=yes,resizable=no,width=840,height=914,left=0,top=0')" class="btn_address_change">배송지 수정</a>
+							</div>
+						</div>
+					</div>
+					<div class="table">
+						<!--
+						<div class="row">
+							<div class="th">현재 비밀번호</div>
+							<div class="td">
+								<input type="password" />
+							</div>
+						</div>
+						-->
+						<div class="row bottom-row">
+							<div class="th">신규 비밀번호</div>
+							<div class="td">
+								<input type="password" name="password"/>
+							</div>
+						</div>
+						<div class="row bottom-row">
+							<div class="th vt15">신규 비밀번호 확인</div>
+							<div class="td">
+								<input type="password" name="password2"/>
+								<p class="pw-caution">영문/숫자/특수문자 조합 6~16자리</p>
+							</div>
+						</div>
+					</div>
+					<div class="table">
+						<div class="row">
+							<div class="th vt20">전화번호</div>
+							<div class="td">
+								<div class="input-phone">
+									<input type="text" class="wd56" name="mobile[]" value="{mobile[0]}"/>
+									<span>-</span>
+									<input type="text" class="wd71" name="mobile[]" value="{mobile[1]}"/>
+									<span>-</span>
+									<input type="text" class="wd71" name="mobile[]" value="{mobile[2]}"/>
+								</div>
+								<div class="checkbox custom phone-checkbox">
+									<input type="checkbox" id="chk_sms1" name="" class="css-checkbox" value="">
+									<label for="chk_sms1" class="css-label">
+										<span>개인정보 수집 및 이용동의 [필수]</span>
+									</label>
+								</div>
+								<div class="checkbox custom phone-checkbox">
+									<input type="checkbox" id="chk_sms2" name="" class="css-checkbox" value="">
+									<label for="chk_sms2" class="css-label">
+										<span>상품/이벤트 정보 SMS 수신 동의 [선택]</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span>생년월일</span>
+							</div>
+							<div class="td td_birth">
+								<select name="calendar" class="custom-select-wrap sel_solar">
+									<option value="s" {_selected.calendar['s']}>{=__text("양력")}</option>
+									<option value="i" {_selected.calendar['i']}>{=__text("음력")}</option>
+								</select>
+								<select name="birth_year" class="custom-select-wrap sel_year">
+									<!--{ @ _r_years }-->
+									<option value="{.value_}" {_selected.birth_year[.value_]}>{.value_}</option>
+									<!--{ / }-->
+								</select>
+								<select name="birth[]" class="custom-select-wrap sel_month">
+									<option value="01" {_selected.birth[0]['01']}>1</option>
+							      <option value="02" {_selected.birth[0]['02']}>2</option>
+							      <option value="03" {_selected.birth[0]['03']}>3</option>
+							      <option value="04" {_selected.birth[0]['04']}>4</option>
+							      <option value="05" {_selected.birth[0]['05']}>5</option>
+							      <option value="06" {_selected.birth[0]['06']}>6</option>
+							      <option value="07" {_selected.birth[0]['07']}>7</option>
+							      <option value="08" {_selected.birth[0]['08']}>8</option>
+							      <option value="09" {_selected.birth[0]['09']}>9</option>
+							      <option value="10" {_selected.birth[0]['10']}>10</option>
+							      <option value="11" {_selected.birth[0]['11']}>11</option>
+							      <option value="12" {_selected.birth[0]['12']}>12</option>
+								</select>
+								<select name="birth[]" class="custom-select-wrap sel_day">
+									<option value="01" {_selected.birth[1]['01']}>1</option>
+							      <option value="02" {_selected.birth[1]['02']}>2</option>
+							      <option value="03" {_selected.birth[1]['03']}>3</option>
+							      <option value="04" {_selected.birth[1]['04']}>4</option>
+							      <option value="05" {_selected.birth[1]['05']}>5</option>
+							      <option value="06" {_selected.birth[1]['06']}>6</option>
+							      <option value="07" {_selected.birth[1]['07']}>7</option>
+							      <option value="08" {_selected.birth[1]['08']}>8</option>
+							      <option value="09" {_selected.birth[1]['09']}>9</option>
+							      <option value="10" {_selected.birth[1]['10']}>10</option>
+							      <option value="11" {_selected.birth[1]['11']}>11</option>
+							      <option value="12" {_selected.birth[1]['12']}>12</option>
+							      <option value="13" {_selected.birth[1]['13']}>13</option>
+							      <option value="14" {_selected.birth[1]['14']}>14</option>
+							      <option value="15" {_selected.birth[1]['15']}>15</option>
+							      <option value="16" {_selected.birth[1]['16']}>16</option>
+							      <option value="17" {_selected.birth[1]['17']}>17</option>
+							      <option value="18" {_selected.birth[1]['18']}>18</option>
+							      <option value="19" {_selected.birth[1]['19']}>19</option>
+							      <option value="20" {_selected.birth[1]['20']}>20</option>
+							      <option value="21" {_selected.birth[1]['21']}>21</option>
+							      <option value="22" {_selected.birth[1]['22']}>22</option>
+							      <option value="23" {_selected.birth[1]['23']}>23</option>
+							      <option value="24" {_selected.birth[1]['24']}>24</option>
+							      <option value="25" {_selected.birth[1]['25']}>25</option>
+							      <option value="26" {_selected.birth[1]['26']}>26</option>
+							      <option value="27" {_selected.birth[1]['27']}>27</option>
+							      <option value="28" {_selected.birth[1]['28']}>28</option>
+							      <option value="29" {_selected.birth[1]['29']}>29</option>
+							      <option value="30" {_selected.birth[1]['30']}>30</option>
+							      <option value="31" {_selected.birth[1]['31']}>31</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="withdrawal-wrap">
+						<a href="/member/leave.php" class="btn_withdrawal">회원탈퇴</a>
+					</div>
+					<div style="height: 5px;"></div>
+					<div class="btn_wrap">
+						<button class="btn_cancel"><span>취소</span></button>
+						<button class="btn_join"><span>확인</span></button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+var fm = document.fm;
+fm.chkPassword.value = "chk";
+
+function chk_password() {
+	if (fm.old_password.value) {
+		$j.post("indb.php", {mode: "chkPassword", mid_en: Base64.encode(fm.mid.value), password_en: Base64.encode(fm.old_password.value)},
+		function(data) {
+			if (data == "Ok") {
+				if (!fm.password.value) {
+					alert({=__java("신규 비밀번호를 입력해주세요.")});
+					fm.password.focus();
+					return;
+				} else if (!_pattern(fm.password)) {
+					alert({=__java("비밀번호는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.")});
+					fm.password.value = "";
+					fm.password.focus();
+					return;
+				}
+			
+				if (!fm.password2.value) {
+					alert({=__java("신규 비밀번호 확인을 위해 한번 더 입력해주세요.")});
+					fm.password2.focus();
+					return;
+				}
+				
+				fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+				
+				//비밀번호와 비밀번호확인이 다르면 비밀번호확인 텍스트박스 값을 지워줌 / 14.04.25 / kjm
+				if(!fm.chkPassword.value) {
+					alert({=__java("신규 비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")});
+					fm.password.value = '';
+					fm.password2.value = '';
+					fm.password.focus();
+				}
+			} else {
+				alert({=__java("현재 비밀번호가 일치하지 않습니다.")});
+				fm.old_password.value = '';
+				fm.password.value = '';
+				fm.password2.value = '';
+				fm.old_password.focus();
+			}
+		});
+	} else {
+		if (fm.password.value || fm.password2.value) {
+			alert({=__java("현재 비밀번호를 입력해주세요.")});
+			fm.password.value = '';
+			fm.password2.value = '';
+			fm.old_password.focus();
+		} else {
+			fm.chkPassword.value = "chk";
+		}
+	}
+}
+
+function auto_set_email(obj, name) {
+	$j("input[name=email[]]:last").val($j(obj).val());
+}
+
+function auto_focus(obj,idx) {
+	//return;	/* 자동포커스 이동 사용하지 않을시 주석제거 */
+
+	switch (obj.name) {
+		case "phone[]":
+		case "cust_ceo_phone[]":
+		case "cust_phone[]":
+		case "cust_fax[]":
+			if ((idx == 1 && obj.value.length == 3) || (idx == 2 && obj.value.length == 4)) obj.form[obj.name][idx].focus();
+			break;
+		case "mobile[]":
+			if (obj.value.length == 4) obj.form['mobile[]'][idx].focus();
+			break;
+	}
+}
+
+function form_chk2() {	
+	if (fm.chkPassword.value != "chk") {
+		alert({=__java("비밀번호를 확인해주세요.")});
+		fm.password.focus();
+		return false;
+	} 
+	
+	if (fm['cust_no[]'] != undefined) {
+		if ((fm['cust_no[]'][0].value || fm['cust_no[]'][1].value || fm['cust_no[]'][2].value) && fm.cust_no_check.value != "ok") {
+			alert({=__java("사업자등록번호를 확인해주세요.")});
+			fm['cust_no[]'][0].focus();
+			return false;
+		} 
+	}
+	
+	return true;
+}
+
+$j(function() {
+	$j("body").attr("id", "account-page");
+	$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+	$j(".form-group").css("margin", "15px 0 0 0");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	
+	$j('input[type2=number]').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }

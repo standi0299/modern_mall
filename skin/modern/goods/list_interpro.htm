@@ -1,0 +1,170 @@
+{ # header }
+
+<!--본 컨텐츠 시작-->
+<!--list_interpro.htm-->
+<div id="index-page">
+   <!--sub_main_banner-->
+       <div class="sub_main_banner">
+		<!--{? _category.header }-->
+			{_category.header}
+		<!--{ / }-->       	
+       </div>
+   <!--sub_main_banner-->
+   <!--select_cont-->
+       <div class="select_cont_wrap">
+           <div class="content-container">
+              <h2 class="text-center">{catnm}{=__text("선택")}</h2>
+               <div class="list-container">
+               	<div class="h-group">
+               	    <div class="xs-12-12 cf">
+               	   		
+               	   		<!--{ @ loop }-->
+               	   		<div class="select_cont {_css_other}">
+               	   			<img src="{.clistimg}" alt="{.goodsnm}">
+               	   			<dl>
+               	   				<dt>{.goodsnm}</dt>
+               	   				<div class="separator"></div>
+               	   				<dd>
+               	   					<ul>
+               	   						<!--{ @ .goods_desc }-->
+               	   						<li>{..name} {..value}</li>
+               	   						<!--{ / }-->
+               	   					</ul>
+               	   				</dd>
+               	   				<p>{.csummary}</p>
+               	   				<a href="../goods/view.php?catno={.catno}&goodsno={.goodsno}"><button>{=__text("주문하기")}</button></a>
+               	   			</dl>
+               	   		</div>
+						<!--{ / }-->
+               	   		
+               	    </div>
+               	</div>
+               </div>
+           </div>
+       </div>
+   	<!--select_cont-->
+    
+    <!--sub_main_block_02-->
+    
+	<!--{ @ f_banner_s2('category_list_make_tip_'+ _GET.catno)}-->
+	<section class="section section-primary section-padding make_tip">
+		{.banner}
+	</section>
+	<!--{ / }-->
+	    
+    <!--<section class="section section-primary section-padding make_tip">
+        <div class="content-container">
+            <h2>제작TIP</h2>
+            <div class="list-container">
+                <div class="h-group list-type-tile tile-row-3">
+                     <div class="xs-6-12 text-left">
+                        <div class="tip_big">
+                              <a href="#">
+                                 <img src="img/business_test2.jpg" alt="용지선택">
+                                 <dl>
+                                     <dt>용지선택법</dt>
+                                     <dd>키다리프린트에서 용지 선택법에 대해서 설명해드립니다.<br>
+                             용도에 따른 용지선택법 한번 알아보고 가세요. 감사합니다.<br>
+                             키다리프린트에서 용지 선택법에 대해서 설명해드립니다.<br>
+                             용도에 따른 용지선택법 한번 알아보고 가세요. 감사합니다.</dd>
+                                     <dd class="more">더 알아보기...</dd>
+                                 </dl>
+                             </a>
+                         </div>
+                     </div>
+                     <div class="xs-6-12 text-left">
+                         <div class="tip_small">
+                             <ul>
+                                 <li class="cf s_00">
+                                     <a href="#">
+                                         <dl>
+                                             <dt>용지선택법</dt>
+                                             <dd>키다리프린트에서 용지 선택법에 대해서 설명
+해드립니다.<br>
+용도에 따른 용지선택법 한번 알아보고 가세요.
+감사합니다.</dd>
+                                         </dl>
+                                          <img src="img/small_business_test2.jpg" alt="용지선택2">
+                                     </a>
+                                 </li>
+                                 <li class="cf s_01">
+                                     <a href="#">
+                                         <dl>
+                                             <dt>용지선택법</dt>
+                                             <dd>키다리프린트에서 용지 선택법에 대해서 설명
+해드립니다.<br>
+용도에 따른 용지선택법 한번 알아보고 가세요.
+감사합니다.</dd>
+                                         </dl>
+                                          <img src="img/small_business_test2.jpg" alt="용지선택2">
+                                     </a>
+                                 </li>
+                                 <li class="cf s_02">
+                                     <a href="#">
+                                         <dl>
+                                             <dt>용지선택법</dt>
+                                             <dd>키다리프린트에서 용지 선택법에 대해서 설명
+해드립니다.<br>
+용도에 따른 용지선택법 한번 알아보고 가세요.
+감사합니다.</dd>
+                                         </dl>
+                                          <img src="img/small_business_test2.jpg" alt="용지선택2">
+                                     </a>
+                                 </li>
+                             </ul>
+                         </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+    <!--sub_main_block_02-->
+    
+    <!--sub_main_block_03-->
+    <!--<section class="section section-primary section-padding">
+        <div class="content-container">
+            <h2>업종카테고리</h2>
+            <div class="list-container business_cat">
+                <div class="business_cat_case">
+                    <ul class="h-group list-type-tile tile-row-3">
+                         <li>
+                             <a href="category.html">
+                                 <dl>
+                                     <img src="../img/interpro/korean_food.jpg" alt="한식" >
+                                     <dt>한식</dt>
+                                     <dd>한식에 관련된 템플릿을 한데 모아 보여드립니다.</dd>
+                                 </dl>
+                             </a>
+                         </li>
+                         <li>
+                             <a href="category.html">
+                                <dl>
+                                     <img src="../img/interpro/korean_food.jpg" alt="한식" >
+                                     <dt>한식</dt>
+                                     <dd>한식에 관련된 템플릿을 한데 모아 보여드립니다.</dd>
+                                 </dl>
+                             </a>
+                         </li>
+                         <li>
+                             <a href="category.html">
+                                <dl>
+                                     <img src="../img/interpro/korean_food.jpg" alt="한식" >
+                                     <dt>한식</dt>
+                                     <dd>한식에 관련된 템플릿을 한데 모아 보여드립니다.</dd>
+                                 </dl>
+                             </a>
+                         </li>
+                    </ul>
+                </div>
+                <button id="arrowLeft" class="arrowLeft"><img src="../img/interpro/ic_chevron_left.png" alt="이전" ></button>
+                <button id="arrowRight" class="arrowRight"><img src="../img/interpro/ic_chevron_right.png" alt="다음" ></button>
+            </div>
+        </div>
+    </section>-->
+    <!--sub_main_block_03-->
+    
+</div>
+
+<!--본 컨텐츠 끝-->
+
+{ # footer }

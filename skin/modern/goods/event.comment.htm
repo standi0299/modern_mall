@@ -1,0 +1,84 @@
+{ # header_popup }
+
+<style type="text/css">
+.noticeBox {
+	padding:30px;
+	border:1px #CFCFCF dashed;
+	margin-bottom:20px;
+	text-align:center;
+	font-family: '돋움'; font-size: 9pt; letter-spacing: -1px;
+	color:#BF3030;
+}
+.eventBox {
+	margin:15px 0;
+	border:10px #F2F2F2 solid;
+	padding:20px;
+}
+li a {
+	font-size:14px;
+	font-weight:bold;
+	color:#898989;
+}
+li a.selected {
+	color:black;
+}
+</style>
+
+<div id="iframe">
+	<div class="eventBox">
+		<!--{ ? !_sess }-->
+		<div class="noticeBox">{=__text("로그인 후 작성하실 수 있습니다.")}</div>
+		<!--{ : _sess && !_permission_write }-->
+		<div class="noticeBox">{=__text("이미 작성하였거나, 작성권한이 없습니다.")}</div>
+		<!--{ : }-->
+		<div style="margin-bottom:20px;padding:10px;background:#F2F2F2;">
+			<form action="indb.php" method="post">
+				<input type="hidden" name="mode" value="write_event_comment">
+				<input type="hidden" name="eventno" value="{_GET.eventno}">
+				
+				<table width="100%">
+					<tr>
+						<td width="100%"><textarea name="comment" style="width:98%;height:65px;padding:5px;" required></textarea></td>
+						<td align="right" width="170"><input type="image" src="../img/btn_comment.gif"></td>
+					</tr>
+				</table>
+				<div style="margin:10px 5px;">* {=__text("통신예절에 어긋나는 글이나 상업적인 글, 타 사이트에 관련된 글을 도용한 글은 관리자에 의해 사전통보 없이 삭제될 수 있습니다.")}</div>
+			</form>
+		</div>
+		<!--{ / }-->
+		
+		<table width="100%" class="tb1" style="border-top: 1px solid #e5e5e5;">
+			<!--{ @ loop }-->
+			<tr align="center">
+				<td width="150">{=pg->idx-.index_}</td>
+				<td class="c1" style="padding:20px 0;line-height:130%;">{=nl2br(.comment)}</td>
+				<td width="150">
+					{=substr(.regdt,0,10)}<br>****{=substr(.mid,4)}
+					<!--{ ? .mid == _sess.mid && !.emoney }-->
+					<div style="margin-top:5px;"><a href="indb.php?mode=delete_event_comment&eventno={_GET.eventno}" {=__onclick_confirm("정말로 삭제하시겠습니까?")}><img src="../img/cbtn_del.gif"></a></div>
+					<!--{ / }-->
+				</td>
+			</tr>
+			<!--{ / }-->
+		</table>
+		
+		<!--{ ? loop }-->
+		<div class="page">{pg->page['navi']}</div>
+		<!--{ / }-->
+	</div>
+</div>
+
+<script type="text/javascript">
+$j(function() {
+	$j(".page ul").css("display", "inline-block");
+	$j(".page ul").css("list-style", "none");
+	$j(".page ul li").css("float", "left");
+	$j(".page ul li").css("margin", "5px");
+});
+
+$j(window).load(function() {
+	$j("#event_comment", parent.document).height($j("#iframe").height() + 30);
+});
+</script>
+
+{ # footer_popup }

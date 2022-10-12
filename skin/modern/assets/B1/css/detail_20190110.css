@@ -1,0 +1,50 @@
+.pd_detail_form h1{font-size:18px; font-weight:bold; color:#4a90e2; margin:15px 0 16px;}
+.pd_detail_form li span.form_tit2 { display: inline-block; width: 74px; font-size: 13px; font-weight: 700; }
+.pd_detail_form .custom_select2 { vertical-align: middle; margin: 0 0 0 6px; display: inline-block; border: 1px solid #aaa; width: 306px; border-radius: 5px; overflow: hidden; background: #fff url("http://riaap.co.kr/skin/modern/assets/alaskaprint/images/ico_select.png") no-repeat; background-position:calc(100% - 10px) 50%; color:#333; }
+.pd_detail_form .custom_select2.whf { display: block; margin-bottom: 4px; }
+.pd_detail_form .custom_select2 select { padding: 9px 8px; width: 100%; border: none; box-shadow: none; background: transparent; background-image: none; -webkit-appearance: none; }
+.pd_detail_form .custom_select2 select:focus { outline: none; }
+.pd_detail_form ul{border-top:1px solid #aaa; border-bottom: 1px solid #aaa; padding: 16px 0 8px; }
+
+.sample_choice{border-bottom: 1px solid #aaa; padding:0 0 16px 0;}
+.sample_choice button{display:block; margin:0 0 10px 0; background:#f9c433; color:#fff; font-weight:bold; font-size:18px; text-align:center; padding:15px 0; line-height:18px; width:100%; border-radius:5px;}
+.sample_choice button:hover{background:#e7ab05;}
+.sample_choice p.txt{text-align:center;}
+
+.pd_detail_form .custom_textarea2 { display: block; }
+.pd_detail_form .custom_textarea2 textarea { border: 1px solid #aaa; width: 100%; background: #fff; padding: 8px; border-radius: 5px; resize: none; line-height:24px; }
+.pd_detail_form li span.form_tit2{color:#333;}
+
+.file_add{margin:20px 0 5px;}
+.inputfile { width: 0.1px; height: 0.1px; opacity: 0; overflow: hidden; position: absolute; z-index: -1; } 
+.inputfile + label { font-size: 14px; /* 20px */ font-weight: 700; text-overflow: ellipsis; white-space: nowrap; cursor: pointer; display: inline-block; overflow: hidden; padding: 0.625rem 1.25rem; /* 10px 20px */ } 
+.no-js .inputfile + label { display: none; } 
+.inputfile:focus + label, .inputfile.has-focus + label { outline: 1px dotted #000; outline: -webkit-focus-ring-color auto 5px; } 
+.inputfile + label * { /* pointer-events: none; */ /* in case of FastClick lib use */ } 
+.inputfile + label svg { width: 1em; height: 1em; vertical-align: middle; fill: currentColor; margin-top: -0.25em; /* 4px */ margin-right: 0.25em; /* 4px */ } /* style 6 */ 
+.inputfile-6 + label { color: #999; } 
+.inputfile-6 + label { padding: 0; } 
+.inputfile-6:focus + label, .inputfile-6.has-focus + label, .inputfile-6 + label:hover { border-color: #722040; } 
+.inputfile-6 + label span, .inputfile-6 + label strong { padding: 0.625rem 1.25rem; /* 10px 20px */ } 
+.inputfile-6 + label span { border: 1px solid #aaa; border-radius:5px; width: 274px; min-height: 25px; display: inline-block; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; vertical-align: top; } 
+.inputfile-6 + label strong { height: 100%; border:1px solid #333; border-radius:5px; color: #333; margin:0 0 0 5px; background-color: #fff; display: inline-block; } 
+.inputfile-6:focus + label strong, .inputfile-6.has-focus + label strong, .inputfile-6 + label:hover strong { background-color: #333; color:#fff; } 
+@media screen and (max-width: 50em) { .inputfile-6 + label strong { display: block; } } 
+
+.sian_order{}
+.sian_order button{display:block; margin:0 0 10px 0; background:#dd1d20; color:#fff; font-weight:bold; font-size:18px; text-align:center; padding:15px 0; line-height:18px; width:100%; border-radius:5px;}
+.sian_order button:hover{background:#c30508;}
+
+.pd_detail_right_wrap .pd_quick_view .quick_view_list li{font-size:12px; margin:8px 0; padding-left:15px;}
+.pd_quick_btn2{margin:20px 0 0 0;}
+.pd_quick_btn2 button{display:block; margin:0 0 10px 0; background:#1083e7; color:#fff; font-weight:bold; font-size:18px; text-align:center; padding:15px 0; line-height:18px; width:100%; border-radius:5px;}
+.pd_quick_btn2 button:hover{background:#006ac6;}
+.pd_detail_right_wrap .pd_quick_view .pd_quick_totalprice span.price{letter-spacing:1px;}
+.templit_info{background:#ebebeb; border-radius:5px; padding:10px; font-size:12px; margin:74px 0 0 0;}
+.templit_info p{margin:3px 0;}
+.templit_image{background:#ebebeb; border-radius:5px; padding:10px; font-size:12px; margin:20px 0 0 0; /*height:355px;*/}
+.templit_image p.img{height:290px; display: table-cell; vertical-align: middle;}
+.templit_image p.templit_btn{/*margin:0 6px;*/ margin: 10px 6px;}
+.templit_image p.templit_btn button{width:80px; display:inline-block; padding:10px; border-radius:5px; line-height:14px; color:#fff; font-size:14px; text-align:center;}
+.templit_image p.templit_btn button.btn1{background:#333;}
+.templit_image p.templit_btn button.btn2{background:#ff0000;}

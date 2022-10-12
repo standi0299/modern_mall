@@ -1,0 +1,27 @@
+<div class="tema_poto">
+	<div class="page_top">
+		<ul id="tema_poto">
+			<li class="tema_logo_img">
+				<a href="/">
+					<div class="tema_logo">						
+						<img src="/data/top_logo/{_cid}/top_logo.png" alt="픽스토리 로고" height="30"/>						
+					</div>
+				</a>
+			</li>
+			
+	<!--{ @ sub_cate }-->									
+			<li>
+				<!--{ ? .catnm == "전체" }-->
+				<a href="/goods/list.php?catno={.catno}&intro_flag=Y" { ? (_GET.catno == .catno) || (substr(_GET.catno,0,3) != '025' && (substr(_GET.catno,0,6) == .catno)) }class="pageing"{ / }>{.catnm}</a>
+				<!--{ : }-->
+				<a href="/goods/list.php?catno={.catno}" { ? (_GET.catno == .catno) || (substr(_GET.catno,0,3) != '025' && (substr(_GET.catno,0,6) == .catno)) }class="pageing"{ / }>{.catnm}</a>
+				<!--{ / }-->
+			</li>
+	<!--{ / }-->				
+			
+		</ul>
+		<div class="jipjip">
+			<a href="/mypage/jjim_list.php">찜목록</a>
+		</div>
+	</div>
+</div>

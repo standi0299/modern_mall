@@ -1,0 +1,184 @@
+<!-- 쿠폰 적용하기 팝업 -->
+<link rel="stylesheet" href="/skin/modern/assets/M3/css/slick.css">
+<link rel="stylesheet" href="/skin/modern/assets/M3/css/pupa_common.css">
+<link rel="stylesheet" href="/skin/modern/assets/M3/css/pupa_custom.css">
+	
+<a href="javascript:closePop('pop-coupon');" class="close">닫기</a>
+<div class="pop-top">
+	<h2>쿠폰 적용하기</h2>
+</div>
+<div class="inner">
+	<!--{ ? err_msg }-->
+		{err_msg}
+	<!--{ : }-->
+	<form name="coupon_fm" id="coupon_fm" method="post" target="hiddenIfrm" action="layer.coupon.php">
+		<input type="hidden" name="mode" value="set_coupon">
+		<input type="hidden" name="cartno" value="{cartno}">
+		<div class="pop-coupon-wrap">
+			<h3>쿠폰 선택</h3>
+			<table>
+				<colgroup>
+					<col width="*" />
+					<col width="60" />
+					<col width="260" />
+					<col width="110" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>상품명</th>
+						<th>수량</th>
+						<th>쿠폰선택</th>
+						<th>할인/적립 금액</th>
+					</tr>
+				</thead>
+				
+				<tbody>
+					<!--{ @ cartitem }-->
+					<tr cartno="{.cartno}">
+						<td>{.goodsnm}</td>
+						<td>{.ea}{=__text("개")}</td>
+						<td>
+							<input type="hidden" name="ctype[{.cartno}]" id="coupon_{.cartno}_ctype" value="">
+							<input type="hidden" name="coupon[{.cartno}]" id="coupon_{.cartno}_value" value="">
+							<select name="select_coupon" id="coupon_{.cartno}" class="custom-select-wrap" onchange="coupon_select(this);" cartno="{.cartno}">								
+								<option ctype="discount" value="" no="" class="select_coupon_price">쿠폰 선택 안함</option>
+								<!--{ @ .coupon.discount }-->
+								<option ctype="discount" value="{..no}" cartno="{.cartno}" no="{..no}" amount="{..coupon_dc+0}" class="select_coupon_price">{..coupon_name}할인</option>
+								<!--{ / }-->
+								
+								<!--{ @ .coupon.saving }-->
+								<option ctype="saving" value="{..no}" no="{..no}" amount="{..coupon_dc+0}" class="select_coupon_price">{..coupon_name}적립</option>
+								<!--{ / }-->
+							</select>
+						</td>
+						<td><i class="red" id="coupon_{.cartno}_amount">0</i>{=__text("원")}</td>
+					</tr>
+					<!--{ / }-->
+				</tbody>
+			</table>
+		</div>
+	</form>
+	
+	<div class="pop-coupon-total-price">
+		<div class="table">
+			<div class="th">쿠폰 할인 금액</div>
+			<div class="td bar"><i class="red" id="tot_dc_coupon">0</i>{=__text("원")}</div>
+			<div class="th">쿠폰 적립 금액</div>
+			<div class="td"><i class="red" id="tot_save_coupon">0</i>원</div>
+		</div>
+	</div>
+	<!--{ / }-->
+	
+	<div class="pop-btn">
+		<a href="javascript:closePop('pop-coupon');" class="btn_cancel">취소</a>
+		<a href="javascript:set_coupon();" class="btn_submit">확인</a>
+	</div>
+</div>
+
+<script>
+	function set_coupon()
+	{
+		document.coupon_fm.submit();
+	}
+	
+	
+	function coupon_select(obj)
+	{
+		//var ctype = $j('option:selected', obj).attr('ctype');		
+		var element = $j(obj).find('option:selected'); 
+    	var ctype = element.attr("ctype");
+
+		if (ctype == "discount") {
+			chk_saving(obj);
+			chk_discount(obj);
+			set_radio();
+		} else if (ctype == "saving") {
+			chk_discount(obj);
+			chk_saving(obj);
+			set_radio();
+		} else {
+			chk_coupon_money(obj);
+		}
+	}
+
+	function chk_discount(obj){
+		set_option_data(obj, "discount");
+
+		var total_coupon_price = 0;
+		$j(".custom-select-wrap").each(function(){
+			var chk_element = $j(this).find('option:selected'); 
+			var ctype = chk_element.attr("ctype");
+			if (ctype == "discount") 
+			{
+				var c_price = parseInt($j(chk_element).attr("amount"));
+				if (c_price > 0)
+					total_coupon_price += c_price;
+			}
+		});
+		$j("#tot_dc_coupon").html(comma(total_coupon_price));
+		//set_radio();
+	}
+
+	function chk_saving(obj){
+		set_option_data(obj, "saving");
+
+		var total_coupon_price = 0;
+		$j(".custom-select-wrap").each(function(){
+			var chk_element = $j(this).find('option:selected'); 
+			var ctype = chk_element.attr("ctype");
+			if (ctype == "saving")
+			{
+				var c_price = parseInt($j(chk_element).attr("amount"));
+				if (c_price > 0)
+					total_coupon_price += parseInt($j(chk_element).attr("amount"));
+			}
+		});
+		$j("#tot_save_coupon").html(comma(total_coupon_price));
+		//set_radio();
+		//chk_discount(obj);
+	}
+	
+	function chk_coupon_money(obj)
+	{
+		//분할정액 쿠폰 처리
+		//미오디오와 상의해서 쿠폰이 필요한 시점에 개발 진행한다. / 18.07.09 / kjm
+	}
+	function set_option_data(obj, type_value)
+	{
+		var element = $j(obj).find('option:selected'); 
+
+    	var price_id = $j(obj).attr("id") + "_amount";
+    	$j("#" + price_id).html(comma(element.attr("amount")));
+    
+    	var ctype_id = $j(obj).attr("id") + "_ctype";
+    	$j("#" + ctype_id).val(type_value);
+
+    	var coupon_id = $j(obj).attr("id") + "_value";
+    	$j("#" + coupon_id).val($j(obj).val());
+	}
+	
+	function set_radio(){
+		var select_no = new Array();
+		var index = 0;
+		$j(".custom-select-wrap").each(function(){
+			$j(this).children().removeAttr('disabled');
+
+			var element = $j(this).find('option:selected');
+			select_no[index] = $j(element).attr("no");
+			index++;
+		});
+
+		//이미 선택된 쿠폰항목도 제거한다.
+		$j(".custom-select-wrap").each(function(){
+			//$j(this).children().removeAttr('disabled');		
+			for (var i=0; i < select_no.length; i++) 
+			{
+				if (select_no[i])
+				{
+					$j(this).children('option[no=' + select_no[i] + ']').attr('disabled', true);
+				}
+			};
+			//$j(this).attr('disabled', false);
+		});
+	}
+</script>

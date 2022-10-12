@@ -1,0 +1,1933 @@
+<script src="../../../js/pods_editor.M3.js"></script>{ # header } { ? !allowMobilePGCheck() }
+<!--{ ? _cfg.pg.module == 'inicis' }-->
+<script language=javascript src="http://plugin.inicis.com/pay61_secuni_cross.js" charset='euc-kr'></script>
+<script language=javascript charset='euc-kr'>
+    StartSmartUpdate();
+</script>
+<!--{ : _cfg.pg.module == 'kcp' }-->
+<script type="text/javascript" src='http://pay.kcp.co.kr/plugin/payplus_un.js'></script>
+<script type="text/javascript">
+    /* 플러그인 설치(확인) */
+    StartSmartUpdate();
+</script>
+<!--{ / }-->
+{ / }
+<!-- 절사 금액 합계 초기화-->
+<!--<? {total_cuttingmoney} = 0 ?>-->
+<form name="fm" id="ordForm" enctype="multipart/form-data">
+
+    <input type="hidden" name="coupon" id="input_coupon" />
+    <input type="hidden" name="mid" value="{_sess.mid}">
+    <!--{ @ _REQUEST.cartno }-->
+    <input type="hidden" name="cartno[]" value="{.value_}">
+    <!--{ / }-->
+
+    <input type="hidden" name="rid_cartno" />
+    <input type="hidden" name="mode" id="mode" />
+    <input type="hidden" name="order_shiptype" id="order_shiptype" />
+
+    <input type="hidden" name="totprice_number" id="totprice_number">
+    <input type="hidden" name="dc_coupon" id="dc_coupon">
+
+    <input type="hidden" name="shipping_extra_price" id="shipping_extra_price">
+
+    <div class="ctmm_map">
+        <div class="ctheader">
+            <span style="position:relative; left:-206px; width:200px; height:36px; font-size:1.7em; margin:26px 10px; display:inline-block;">주문결제</span>
+            <div class="step_location">
+                <img src="/skin/modern/assets/P1/img/page2.png" alt="주문결제" />
+            </div>
+        </div>
+        <div class="ctmm_content">
+            <div class="ctmm_content_head">
+                <ul>
+                    <li style="width:390px;">상품정보</li>
+                    <li style="width:125px;">상품금액</li>
+                    <li style="width:110px;">수량</li>
+                    <li style="width:140px;">주문금액</li>
+                    <li style="width:140px;">예상적립금</li>
+                    <li style="width:140px;">쿠폰적용</li>
+                </ul>
+            </div>
+
+            <!--{ @ cart->item }-->
+            <!--{ @ .value_ }-->
+            <div class="ce_cont">
+                <div class="ce_cont_map">
+                    <div class="ce_cont_se">
+                        <div class="ce_img">
+                            {=goodsListImg(..goodsno, "", "", "width: 120px; height: 120px")}
+                        </div>
+                        <div class="ce_list">
+                            <ul style="padding:0px;">
+                                <li><span><strong>{..goodsnm}</strong></span></li>
+                                <li>
+                                    <span style="font-size:13px;">
+										<!--{ ? ..catno1 == "002" || ..catno1 == "014" }-->
+											{..catnm1}
+
+											<!--{ ? ..mobile_opt }-->
+												 / {..mobile_opt}
+											<!--{ / }-->
+
+											<!--{ ? ..addopt }-->
+												<!--{ @ ..addopt }-->
+													 / {...addoptnm}
+												<!--{ / }-->
+											<!--{ / }-->
+
+											<!--{ ? ..addpage }-->
+												 / <!--{ ? ..addpage > 0 }-->+<!--{ / }-->{..addpage}p
+											<!--{ : }-->
+												 / +0p
+											<!--{ / }-->
+										<!--{ : ..catno1 == "006" || ..catno1 == "016" || ..catno1 == "019" }-->
+											{..catnm1}
+
+											<!--{ ? ..catnm2 }-->
+												 / {..catnm2}
+											<!--{ / }-->
+
+											<!--{ ? ..catnm3 }-->
+												 / {..catnm3}
+											<!--{ / }-->
+
+											<!--{ ? ..catnm4 }-->
+												 / {..catnm4}
+											<!--{ / }-->
+										<!--{ : ..catno1 == "023" || ..catno1 == "020" }-->
+											{..catnm1}
+
+											<!--{ ? ..mobile_opt }-->
+												 / {..mobile_opt}
+											<!--{ / }-->
+
+											<!--{ ? ..addopt }-->
+												<!--{ @ ..addopt }-->
+													 / {...addoptnm}
+												<!--{ / }-->
+											<!--{ / }-->
+										<!--{ : ..catno1 == "018" || ..catno1 == "025" }-->
+											{..catnm1}
+										<!--{ : }-->
+											<!--{ ? ..mobile_opt }-->
+												{..mobile_opt}
+												<!--{ ? ..addopt || ..printopt }-->
+													 /
+												<!--{ / }-->
+											<!--{ / }-->
+
+											<!--{ ? ..addopt }-->
+												<!--{ @ ..addopt }-->
+													<!--{ ? ...index_ == 0 }-->
+														{...addoptnm}
+													<!--{ : }-->
+														 / {...addoptnm}
+													<!--{ / }-->
+												<!--{ / }-->
+											<!--{ / }-->
+
+											<!--{ ? ..printopt }-->
+												<!--{ @ ..printopt }-->
+													<!--{ ? ...index_ == 0 }-->
+														{...printoptnm} {...ea}장
+													<!--{ : }-->
+														 / {...printoptnm} {...ea}장
+													<!--{ / }-->
+												<!--{ / }-->
+											<!--{ / }-->
+										<!--{ / }-->
+									</span>
+                                </li>
+                                <li>
+                                    <span style="font-size:13px;">
+										<!--{ ? ..title }-->
+											{..title}
+										<!--{ / }-->
+									</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="vasemm_2">
+                    <div class="vase_mapmm_2" style="padding:45px 0;">
+                        <ul style="padding:0;">
+                            <li><span class="vase_listmm_2">{=number_format(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - ..grpdc)}원</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="vasemm_1">
+                    <div class="vase_mapmm_1">
+                        <ul style="padding:0;">
+                            <li><span class="vase_listmm_1">{..ea}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="vasemm_4">
+                    <div class="vase_mapmm_4">
+                        <ul style="padding:0;">
+                            <li>
+                                <!--{ ? cutmoney_use == 1}-->
+                                    <!--{ ? cutmoney_money == 1 }-->
+                                        <!--{ ? ..org_saleprice.res_mod > 0 && ..org_saleprice.res_mod != 0}-->
+                                        <!--{* 절사 설정(1),절사 금액표시설정(1),절사금액 양수시*}-->
+                                        <span class="vase_listmm_4"><!--{=number_format( ((..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - ..grpdc) * ..ea) + ..org_saleprice.res_mod )  }-->원</span>
+                                        <span id="cutmoney_{..cartno}" class="cutmoney_price">+<!--{=number_format(..org_saleprice.res_mod)}-->원</span>
+                                        <!--{ : ..org_saleprice.res_mod < 0 && ..org_saleprice.res_mod != 0}-->
+                                        <!--{* 절사 설정(1),절사 금액표시설정(1),절사금액 음수시*}-->
+                                        <span class="vase_listmm_4"><!--{=number_format( ((..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - ..grpdc) * ..ea) + ..org_saleprice.res_mod )  }-->원</span>
+                                        <span id="cutmoney_{..cartno}" class="cutmoney_price"><!--{=number_format(..org_saleprice.res_mod)}-->원</span>
+                                        <!--{ / }-->
+                                    <!--{ : }-->
+                                    <!--{* 절사 설정(1),절사 금액표시 미설정(0)*}-->
+                                    <span class="vase_listmm_4"><!--{=number_format( ((..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - ..grpdc) * ..ea) + ..org_saleprice.res_mod )  }-->원</span>
+                                    <!--{ / }-->
+                                <!--{ : }-->
+                                <!--{* 절사 설정(0)*}-->
+                                <span class="vase_listmm_4"><!--{=number_format((..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - ..grpdc) * ..ea)}-->원</span>
+                                <!--{ / }-->
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!--{ ? _sess.mid }-->
+                <div class="vasemm_4">
+                    <div class="vase_mapmm_6">
+                        <ul style="padding:0;">
+                            <li><span class="vase_listmm_4">{=number_format(..emoney)}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="vasemm_4_1">
+                    <div class="vase_mapmm_7">
+                        <ul style="padding:0;">
+                            <li><button type="button" class="cupb" onclick="popupCoupon();">쿠폰적용</button></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--{ / }-->
+            </div>
+                <!--{ ? cutmoney_money == 1 && ..org_saleprice.res_mod != 0}-->
+                        <!--<? {total_cuttingmoney} += {=..org_saleprice.res_mod}; ?>-->
+                <!--{ / }-->
+                    <?
+                        {ship_cnt_dc_rid}[] = {..rid};
+                        {ship_cnt_dc_size}[] = {..size_};
+                    ?>
+            <!--{ / }-->
+            <!--{ / }-->
+        </div>
+            <!--{ ?cutmoney_flag == "1" }-->
+            <p class="total_cutmoney_price_caution">{=__text(cutmoney_text)}</p>
+            <!--{ / }-->
+            <?
+                // 중복 제작사 제거
+                {unique} = array_unique({ship_cnt_dc_rid});
+                {duplicates} = array_diff_assoc({ship_cnt_dc_rid}, {unique});
+
+                foreach({ship_cnt_dc_rid} as {ship_cnt_key} => {ship_cnt_value}){
+                    foreach({duplicates} as {dup_k} => {dup_v}){
+                        if({ship_cnt_value} == {dup_v}){
+                            unset({ship_cnt_dc_rid}[{dup_k}]);
+                            unset({ship_cnt_dc_size}[{dup_k}]);
+                        }
+                    }
+                }
+            ?>
+                {?ship_dc.ship_dc_cfg.ship_cfg_dc == "1" && ship_dc.ship_dc_cfg.ship_cfg_type == "N"}
+                    <?
+                        {ship_data_dc_json} = json_encode({ship_dc.ship_dc_data});
+                        {ship_cnt_dc_rid_json} = json_encode({ship_cnt_dc_rid});
+                        {ship_cnt_dc_size_json} = json_encode({ship_cnt_dc_size});
+                    ?>
+                {:}
+                    <?
+                        {ship_data_dc_json} = "0";
+                        {ship_cnt_dc_rid_json} = "0";
+                        {ship_cnt_dc_size_json} = "0";
+                    ?>
+                {/}
+        <div class="can_price">
+            <!--금액칸-->
+            <div class="can_price_body">
+                <div class="can_price_head">
+                    <ul>
+                        <li style="width:90px;">상품금액</li>
+                        <li style="width:210px;">적립금 사용</li>
+                        <li style="width:77px;">쿠폰할인</li>
+                        <li style="width:208px;">프로모션 할인</li>
+                        <li style="width:80px;">배송비</li>
+                        <li style="width:250px;">최종 결제금액</li>
+                    </ul>
+                </div>
+                <div class="can_ba">
+                    <div class="can_price_m">
+                        <ul>
+                            <li style="width:100px;">{=number_format(cart->itemprice - cart->dc)}원</li>
+                            <li><img src="/skin/modern/assets/P1/img/m1.png" alt="마이너스" /></li>
+                            <li style="width:100px;" id="use_emoney_price">0원</li>
+                            <li><img src="/skin/modern/assets/P1/img/m1.png" alt="마이너스" /></li>
+                            <li style="width:100px;" id="coupon_dc_price">0원</li>
+                            <li><img src="/skin/modern/assets/P1/img/m1.png" alt="마이너스" /></li>
+                            <li style="width:100px;" id="dc_sale_code_coupon">0원</li>
+                            <li><img src="/skin/modern/assets/P1/img/m2.png" alt="플러스" /></li>
+                            <li style="width:100px;" id="total_ship_price">
+                                {=number_format(cart->totshipprice)}원
+                                <div id="shipping_extra_div" style="display: none;">
+                                    <spna id="extra_ship_price"></spna>
+                                </div>
+                            </li>
+                            <li><img src="/skin/modern/assets/P1/img/m3.png" alt="합계" /></li>
+                            <li style="width:156px; color:#d81b60;" id="totprice">
+                                {=number_format(cart->itemprice - cart->dc + cart->totshipprice)}원
+                                    <!--{ ? total_cuttingmoney != 0 }-->
+                                        <!--{ ? total_cuttingmoney > 0 }-->
+                                        <span class="cutmoney_total_price" id="total_cut_money">(+<!--{=number_format(total_cuttingmoney)}-->원)</span>
+                                        <!--{ : }-->
+                                        <span class="cutmoney_total_price" id="total_cut_money">(<!--{=number_format(total_cuttingmoney)}-->원)</span>
+                                        <!--{ / }-->
+                                    <!--{ / }-->
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="can_price_mp">
+                        <ul>
+                            <li>적립금
+                                <input type="text" name="emoney" id="emoney" class="raap number_type" onchange="totprice()" <!--{ ? (emoney < _cfg.emoney.emoney_use_min) || ((cart->itemprice - cart->dc)
+                                < _cfg.emoney.emoney_min_orderprice) || !_sess.mid }-->disabled
+                                    <!--{ / }-->/>&nbsp;원
+                            </li>
+                            <li>(잔액 : {=number_format(emoney)}원)
+                                <button type="button" class="can_price_btn" onclick="all_use_emoney_check();">전체사용</button>
+                            </li>
+                            <!--<li>쿠폰사용({my_coupon_cnt}개)
+								<button type="button" class="can_price_btn" onclick="popupCoupon()">쿠폰사용</button>
+							</li>-->
+
+                            <!--{ ? _sess.mid }-->
+                            <li>프로모션코드 할인
+                                <input type="text" name="sale_code_coupon" id="sale_code_coupon" class="raap" />
+                                <button type="button" class="can_price_btn" onclick="javascript:saleCodeApply()">코드적용</button>
+                            </li>
+                            <!--{ / }-->
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="price_px">
+            <!--{ @ f_banner_s2('pix_order_noti') }-->{.banner}
+            <!--{ / }-->
+        </div>
+
+        <div class="basong_j">
+            <span style="width:200px; height:36px; font-size:1.7em; margin:19px 0 10px 0; display:inline-block;">주문자 정보</span>
+            <div class="basong_list">
+                <div class="basong_f">
+                    <div class="basong_span">
+                        <span class="ba_f">주문자</span>
+                    </div>
+                    <div class="basong_s">
+                        <ul style="margin:0;">
+                            <li><input type="text" class="rip1" name="orderer_name" value="{name}" label="주문자" required></li>
+                            <li style="width:140px; position:relative; left:40px;">연락처
+                                <li style="width:100px;">
+                                    <input type="text" class="number_p number_type" name="orderer_mobile[0]" value="{mobile[0]}" label="연락처" required>
+                                </li>
+                                <li style="width:100px;">
+                                    <input type="text" class="number_p number_type" name="orderer_mobile[1]" value="{mobile[1]}" label="연락처" required>
+                                </li>
+                                <li style="width:100px;">
+                                    <input type="text" class="number_p number_type" name="orderer_mobile[2]" value="{mobile[2]}" label="연락처" required>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="basong_f">
+                    <div class="basong_span">
+                        <span class="ba_f">이메일</span>
+                    </div>
+                    <div class="basong_s">
+                        <ul style="margin:0;">
+                            <li>
+                                <input type="text" class="order_pp input_orderer_email" name="orderer_email[0]" value="{email[0]}" label="이메일" />
+                            </li>
+                            <li style="width:10px; padding-left:10px;">@</li>
+                            <li>
+                                <input type="text" id="select_email" class="order_pp input_orderer_email" name="orderer_email[1]" value="{email[1]}"  onfocusout="validateEmailDomain(this)" label="이메일" />
+                            </li>
+                            <li>
+                                <select class="order_add" onchange="auto_set_email(this);">
+									<option value="" {_selected.email[email[1]]}>직접입력</option>
+									<!--{ @ _r_email }-->
+										<option value="{.value_}" {_selected.email[.value_]}>{.key_}</option>
+									<!--{ / }-->
+								</select>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="basong">
+            <span style="width:200px; height:36px; font-size:1.7em; margin:19px 0 10px 0; display:inline-block;">배송정보</span>
+            <div class="basong_list">
+                <div class="basong_f">
+                    <div class="basong_span">
+                        <span class="ba_f">배송방법</span>
+                    </div>
+
+                    <div class="basong_s">
+                        <ul style="margin:0; padding:0; position:relative; left:-18px;">
+                            <li><input type="radio" name="shiptype" id="shiptype_1" label="배송방법" value="1" onclick="delever_req(false,'1');" onchange="address_onchange_init(false,false,true)" required checked><label for="shiptype_1">택배</label></li>
+                            <li><input type="radio" name="shiptype" id="shiptype_9" label="배송방법" value="9" onclick="delever_req(true,'9');" onchange="address_onchange_init(true,true,false)" required><label for="shiptype_9">방문수령(고객센터)</label></li>
+                            <li><input type="radio" name="shiptype" id="shiptype_5" label="배송방법" value="5" onclick="delever_req(false,'5');" onchange="address_onchange_init(false,false,false)" required><label for="shiptype_5">퀵서비스(착불)</label></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="basong_f">
+                    <div class="basong_span">
+                        <span class="ba_f">수령지</span>
+                    </div>
+
+                    <div class="basong_s">
+                        <ul style="margin:0; padding-left:18px;">
+                            <li><input type="radio" name="copyInfo" id="copyInfo_1" onclick="same_check(true)"><label for="copyInfo_1">회원 정보와 동일</label></li>
+                            <li><input type="radio" name="copyInfo" id="copyInfo_2" onclick="same_check(false)"><label for="copyInfo_2">새로입력</label></li>
+
+                            <!--{ ? _sess.mid }-->
+                            <li style="width:350px;" class="my_address_call_btn">
+                                <button type="button" class="can_price_btn" onclick="javascript:popup('p.address.php','_blank','toolbar=no,scrollbars=yes,resizable=no,width=840,height=914,left=0,top=0');">나의 주소록</button>
+                                <input type="checkbox" name="add_my_address" id="add_my_address" value="Y"> <label for="add_my_address">배송정보 나의 주소록에 추가</label>
+                            </li>
+                            <!--{ / }-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="basong_f">
+                    <div class="basong_span">
+                        <span class="ba_f">수령인</span>
+                    </div>
+
+                    <div class="basong_s">
+                        <ul style="margin:0;">
+                            <li><input type="text" name="receiver_name" class="rip" label="수령인" required></li>
+                            <li style="width:140px; position:relative; left:40px;">연락처
+                                <li style="width:100px;">
+                                    <input type="text" name="receiver_mobile[0]" class="number_p number_type" label="연락처" required>
+                                </li>
+                                <li style="width:100px;">
+                                    <input type="text" name="receiver_mobile[1]" class="number_p number_type" label="연락처" required>
+                                </li>
+                                <li style="width:100px;">
+                                    <input type="text" name="receiver_mobile[2]" class="number_p number_type" label="연락처" required>
+                                </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="basong_add">
+                    <div class="basongadd_span">
+                        <span class="ba_f">주소</span>
+                    </div>
+
+                    <div class="basong_sadd">
+                        <ul style="margin:0;">
+                            <li style="width:150px; float:left; padding:10px 10px 3px 15px;"><input type="text" name="receiver_zipcode" id="receiver_zipcode" class="rip" style="width:150px;" label="우편번호" readonly required></li>
+                            <li class="ciask"><button type="button" onclick="popupZipcode('_zcrn_r');">우편번호 찾기</button></li>
+                            <li style="width:300px; clear:both; padding:3px 15px;"><input type="text" name="receiver_addr" pvalue="orderer_addr" class="rip" style="width:500px;" label="주소" readonly required></li>
+                            <li style="width:300px; clear:both; padding:3px 15px;"><input type="text" name="receiver_addr_sub" class="rip" style="width:500px;" label="상세주소" required></li>
+                        </ul>
+                    </div>
+                </div>
+                <!--{ ? _cfg.order_request2_hide != 1}-->
+                <div class="basong_fdd">
+                    <div class="basongfdd_span">
+                        <span class="ba_f">제작요청</span>
+                    </div>
+
+                    <div class="basongfdd_s">
+                        <ul style="margin:0;">
+                            <li><input type="text" name="request2" class="rip" style="width:500px;"></li>
+                        </ul>
+                        <div class="fedds" style="margin-left:10px;"><span class="fdd_1">(제작관련 / 고객센터에 남기실 말씀./100글자)</span></div>
+                    </div>
+                </div>
+                <!--{ / }-->
+                <div class="basong_fdd">
+                    <div class="basongfdd_span">
+                        <span class="ba_f">배송메모</span>
+                    </div>
+
+                    <div class="basongfdd_s">
+                        <ul style="margin:0;">
+                            <li><input type="text" name="request" class="rip" style="width:500px;"></li>
+                        </ul>
+                        <div class="fedds" style="margin-left:10px;"><span class="fdd_1">(택배기사님께 메모 남겨주세요./100글자)</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pay_px">
+            <div class="pay_px_body">
+                <span style="width:200px; height:36px; font-size:1.7em; margin:19px 0 10px 0; display:block;">결제정보</span>
+                <div class="pay_px_list">
+
+                    <!--{ @ _cfg.pg.paymethod }-->
+                    <!--{ ? .value_ != 'b' }-->
+                    <div class="basong_pirce">
+                        <div class="basong_span_px">
+                            <input type="radio" class="card_px" name="paymethod" id="paymethod_{.value_}" label="결제정보" value="{.value_}" required { ? !.index_ }checked{ / }><label for="paymethod_{.value_}">{_r_paymethod[.value_]}</label>
+                        </div>
+
+                        <div class="basong_pay">
+                            <ul style="margin:0; padding:0;">
+                                <li>
+                                    <!--{ ? .value_ == 'c' }-->
+                                    신용카드,삼성페이등 간편 결제
+                                    <!--{ : .value_ == 'v' || .value_ == 've' }-->
+                                    에스크로서비스
+                                    <!--{ ? _cfg.pg.escrow == '1' }-->
+                                    <input type="radio" id="escrow_1" name="escrow" value="1" /><label for="escrow_1">신청</label>
+                                    <input type="radio" id="escrow_0" name="escrow" value="0" checked/><label for="escrow_0">미신청</label>
+                                    <!--{ / }-->
+                                    <!--{ : .value_ == 'o' || .value_ == 'oe' }-->
+                                    은행 수수료 없이 결제 즉시 확인 가능
+                                    <!--{ : .value_ == 'e' }-->
+                                    최종결제금액이 0원일때, 자동 적용
+                                    <!--{ : }-->
+                                    {_cfg.paymethod_info[.value_]}
+                                    <!--{ / }-->
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <!--{ / }-->
+                    <!--{ / }-->
+
+                  <!--{ ? _cfg.pg.paymethod.b == 'b' }-->
+                  <div class="basong_pirce_m" style="height: 250px !important;">
+                    <div class="basong_span_px_m" style="height: 250px !important;">
+                      <input type="radio" class="card_px_mm" name="paymethod" id="paymethod_b" value="b"
+                             onclick=""><label for="paymethod_b">무통장 입금</label>
+                    </div>
+
+                    <div class="basong_pay">
+                      <ul style="margin:0; padding:0;">
+                        <li>
+                          <select name="bankinfo" class="mu_pay" id="bank_info_required" label="무통장 입금 계좌">
+                            <option value=""> 입금계좌선택</option>
+                            <!--{ @ r_bank }-->
+                            <option value="{r_bank.value_}" { ? !r_bank.index_ }selected{ / }>{r_bank.value_}</option>
+                            <!--{ / }-->
+                          </select>
+                        </li>
+                        <li style="float:left; padding-left:20px;">입금자<input type="text" class="mu_pay_text" name="payer_name" value="{name}" label="입금자"></li>
+                        <!--	<li style="clear:both;">입금자 성함, 금액, 입금은행이 정확히 일치 해야 합니다.</li>-->
+                      </ul>
+                    </div>
+                    <!--현금 영수증-->
+                    <div class="basong_span_mm" style="width:450px !important;">                    	
+                      <input type="radio" id="depo1" class="mu_de" name="chk_document_info" value="Y" onclick="documentRadio('depo1')">
+                        <label for="depo1">현금영수증(소득공제)</label>
+                      <input type="radio" id="depo2" class="mu_de" name="chk_document_info" value="Y" onclick="documentRadio('depo2')">
+                        <label for="depo2">현금영수증(지출증빙)</label>
+                      <input type="radio" id="depo3" class="mu_de" name="chk_document_info" value="Y" onclick="documentRadio('depo3')">
+                        <label for="depo3">세금계산서</label>
+                      
+                    </div>
+
+                    <div class="docu_box" id="docu_box_one_1" style="display:none;">
+                      <div class="docu_list_line_nph">
+                        <ul style="padding-left:0px; margin:0;">
+                          <li style="width: 550px !important;">
+                            <ul>
+                              <li style="width:120px;">
+                                {=__text("핸드폰")}
+                              </li>
+                              <li>
+                                <select class="last_number_docu" onchange="auto_set_pay" name="mobile_docu_1_0">
+                                  <!--{ @ _r_mobile }-->
+                                  <option value="{.value_}">{.value_}</option>
+                                  <!--{ / }-->
+                                </select>
+                              </li>
+                              <li>
+                                <input type="text" class="number_p number_type" name="mobile_docu_1_1" maxlength="4" onkeyup="auto_focus(this,2);">
+                              </li>
+                              <li>
+                                <input type="text" class="number_p number_type" name="mobile_docu_1_2" maxlength="4">
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="docu_list_line_ff">
+                        <ul style="padding-left:0px;">
+                          <li style="width: 550px !important;">
+                            <ul>
+                              <li class="r_li" style=" width:90px; padding-right:34px;">
+                                {=__text("카드")}
+                              </li>
+                              <li>
+                                <input type="text" class="docu_number number_type" name="card_num_docu_1_0" maxlength="4" onkeyup="auto_focus(this,1);">
+                              </li>
+                              <li>
+                                <input type="text" class="docu_number number_type" name="card_num_docu_1_1" maxlength="4" onkeyup="auto_focus(this,2);">
+                              </li>
+                              <li>
+                                <input type="text" class="docu_number number_type" name="card_num_docu_1_2" maxlength="4" onkeyup="auto_focus(this,3);">
+                              </li>
+                              <li>
+                                <input type="text" class="docu_number number_type" name="card_num_docu_1_3" maxlength="4">
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <div class="docu_list_line_dd">
+                        <ul style="padding-left:0px;">
+                          <li style="width: 550px !important;">
+                            <ul>
+                              <li style="width:50px;">
+                                {=__text("이메일")}
+                              </li>
+                              <li style="width: 110px !important;">
+                                <input type="text" class="docu_email" name="email_docu_1_0" style="width: 110px !important;" />
+                              </li>
+                              <li style="width:10px;">
+                                @
+                              </li>
+                              <li style="width:110px !important;">
+                                <input type="text" id="select_email_docu_1" class="docu_email" name="email_docu_1_1" style="width:110px !important;" />
+                              </li>
+                              <li>
+                                <select class="email_docu" onchange="auto_set_email_docu(this,'#select_email_docu_1');">
+                                  <option value="">{=__text("직접입력")}</option>
+                                  <!--{ @ _r_email }-->
+                                  <option value="{.value_}">{.key_}</option>
+                                  <!--{ / }-->
+                                </select>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+                    <div class="docu_box" id="docu_box_one_2" style="display:none;">
+                      <div class="docu_list_line_n">
+                        <ul style="padding-left:10px; margin:0;">
+                          <li  style="width: 550px !important;">
+                            <ul>
+                              <li style="width:120px;">
+                                {=__text("사업자 번호")}
+                              </li>
+                              <li>
+                                <input type="text" class="number_do number_type" name="licensee_num_docu_2_0" maxlength="3">
+                              </li>
+                              <li>
+                                <input type="text" class="number_do number_type" name="licensee_num_docu_2_1" maxlength="2">
+                              </li>
+                              <li>
+                                <input type="text" class="number_do number_type" name="licensee_num_docu_2_2" maxlength="5">
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="docu_list_line_dd">
+                        <ul style="padding-left:10px;">
+                          <li style="width: 550px !important;">
+                            <ul>
+                              <li style="width:50px;">
+                                {=__text("이메일")}
+                              </li>
+                              <li style="width: 110px !important;">
+                                <input type="text" class="docu_email" name="email_docu_2_0" style="width: 110px !important;" />
+                              </li>
+                              <li style="width:10px;">
+                                @
+                              </li>
+                              <li style="width:110px !important;">
+                                <input type="text" id="select_email_docu_2" class="docu_email" name="email_docu_2_1" style="width:110px !important;" />
+                              </li>
+                              <li>
+                                <select class="email_docu" onchange="auto_set_email_docu(this,'#select_email_docu_2');">
+                                  <option value="">{=__text("직접입력")}</option>
+                                  <!--{ @ _r_email }-->
+                                  <option value="{.value_}">{.key_}</option>
+                                  <!--{ / }-->
+                                </select>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="docu_list_line_n">
+                        <ul style="padding-left:10px; margin:0;">
+                          <li style="width: 550px !important;">
+                            <ul>
+                              <li>
+                                <label for="document_file_docu_2">
+                                <span id="file_btn_docu_2" style="vertical-align:middle; width:100px; height:22px; display:inline-block; border:none; font-size:13px; text-align:center; background:linear-gradient(#D6D6D6,#EAEAEA); cursor:pointer;">{=__text("첨부하기")}</span></label>
+                                <input type="file" id="document_file_docu_2" name="document_file_docu_2" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; border:0;">
+                              </li>
+                            </ul>
+
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+
+
+                    <div class="docu_box" id="docu_box_one_3" style="display:none;">
+                      <div class="docu_list_line_n">
+                        <ul style="padding-left:10px; margin:0;">
+                          <li  style="width: 550px !important;">
+                            <ul>
+                              <li style="width:120px;">
+                                {=__text("사업자 번호")}
+                              </li>
+                              <li>
+                                <input type="text" class="number_do number_type" name="licensee_num_docu_3_0" maxlength="3">
+                              </li>
+                              <li>
+                                <input type="text" class="number_do number_type" name="licensee_num_docu_3_1" maxlength="2">
+                              </li>
+                              <li>
+                                <input type="text" class="number_do number_type" name="licensee_num_docu_3_2" maxlength="5">
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="docu_list_line_dd">
+                        <ul style="padding-left:10px;">
+                          <li style="width: 550px !important;">
+                            <ul>
+                              <li style="width:50px;">
+                                {=__text("이메일")}
+                              </li>
+                              <li style="width: 110px !important;">
+                                <input type="text" class="docu_email" name="email_docu_3_0" style="width: 110px !important;" />
+                              </li>
+                              <li style="width:10px;">
+                                @
+                              </li>
+                              <li style="width:110px !important;">
+                                <input type="text" id="select_email_docu_3" class="docu_email" name="email_docu_3_1" style="width:110px !important;" />
+                              </li>
+                              <li>
+                                <select class="email_docu" onchange="auto_set_email_docu(this,'#select_email_docu_3');">
+                                  <option value="">{=__text("직접입력")}</option>
+                                  <!--{ @ _r_email }-->
+                                  <option value="{.value_}">{.key_}</option>
+                                  <!--{ / }-->
+                                </select>
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                      <div class="docu_list_line_n">
+                        <ul style="padding-left:10px; margin:0;">
+                          <li style="width: 550px !important;">
+                            <ul>
+                              <li>
+                                <label for="document_file_docu_3"><span id="file_btn_docu_3" style="vertical-align:middle; width:100px; height:22px; display:inline-block; border:none; font-size:13px; text-align:center; background:linear-gradient(#D6D6D6,#EAEAEA); cursor:pointer;">{=__text("첨부하기")}</span></label>
+                                <input type="file" id="document_file_docu_3" name="document_file_docu_3" style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; border:0;">
+                              </li>
+                            </ul>
+                          </li>
+                        </ul>
+                      </div>
+                    </div>
+                      <!--  end 개인 소득공제용 id : 1 -->
+
+
+                    <!--  start 개인 지출증빙 id : 3 -->
+                    <!--
+                    <div class="last_box" id="last_view3" style="display:none;">
+                      <div class="last_box_list2" id="last_box_contents_1">
+                        <div class="last_box_n">
+                          <ul style="padding:0; margin:0;">
+                            <li>
+                              <input type="text" class="number_1 number_type" id="number" name="document_number[0]">
+                              <input type="text" class="number_1 number_type" id="number" name="document_number[1]">
+                              <input type="text" class="number_1 number_type" id="number" name="document_number[2]">
+                            </li>
+                            <li>
+                              <input type="text" class="number_2 number_type" id="number2" name="document_card_num[0]" style="display:none;">
+                              <input type="text" class="number_2 number_type" id="number2" name="document_card_num[1]" style="display:none;">
+                              <input type="text" class="number_2 number_type" id="number2" name="document_card_num[2]" style="display:none;">
+                              <input type="text" class="number_2 number_type" id="number2" name="document_card_num[3]" style="display:none;">
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    -->
+                    <!--  end 개인 지출증빙 id : 3 -->
+                    <!--세금 계산서-->
+                    <!--
+                    <div class="last_box" id="last_view2" style="display:none;">
+                      <div class="last_box_list2" id="last_box_contents_1">
+                        <div class="last_box_n">
+                          <ul style="padding:0; margin:0;">
+                            <li>
+                              &nbsp;&nbsp;&nbsp;사업자번호 : <input type="text" class="upload" id="upload" style=" width:200px; margin-left:5px;" name="document_licensee_num">
+                              <input type="hidden" name="document_type2" value="0">
+                              <label for="document_file" style="" id="filename"><span id="file_btn"
+                                                                                      style=" width:66px; height:24px; margin-left:10px; background-color:#DDDDDD; position:relative; cursor:pointer;">첨부하기</span></label>
+                              <input type="file" id="document_file" name="document_file"
+                                     style="position:absolute; width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; border:0;">
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    -->
+                  </div>
+                  <!--{ / }-->
+
+                    <div class="button_pay_text">
+                        <!--{ @ f_banner_s2('pix_pay_noti') }-->{.banner}
+                        <!--{ / }-->
+                    </div>
+                </div>
+                <div class="su_px">
+                        <div class="su_px_body">
+                            <div class="su_px_list">
+                                <ul style="margin-top:-5px;">
+                                    <li class="cong1">총 주문금액</li>
+                                    <li class="cong2">
+                                        {=number_format(cart->itemprice - cart->dc)}원
+                                        <!--{ ? total_cuttingmoney != 0 }-->
+                                                    <!--{ ? total_cuttingmoney > 0 }-->
+                                                            (+{=number_format(total_cuttingmoney)}{=__text("원")})
+                                                        <!--{ : }-->
+                                                            ({=number_format(total_cuttingmoney)}{=__text("원")})
+                                                    <!--{ / }-->
+                                        <!--{ / }-->
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="su_px_list_2">
+                                <ul>
+                                    <li class="cong1">할인금액</li>
+                                    <li class="cong2" id="total_dc_price">(-)0원</li>
+                                </ul>
+                            </div>
+                            <div class="su_px_list_2">
+                                <ul>
+                                    <li class="cong1">- 적립금</li>
+                                    <li class="cong2" id="use_emoney_price_last">0원</li>
+                                </ul>
+                            </div>
+                            <div class="su_px_list_2">
+                                <ul>
+                                    <li class="cong1">- 쿠폰사용</li>
+                                    <li class="cong2" id="coupon_dc_price2">0원</li>
+                                </ul>
+                            </div>
+                            <div class="su_px_list_2">
+                                <ul>
+                                    <li class="cong1">- 프로모션할인</li>
+                                    <li class="cong2" id="dc_sale_code_coupon_last">0원</li>
+                                </ul>
+                            </div>
+                            <div class="su_px_list">
+                                <ul>
+                                    <li class="cong1">배송비</li>
+                                        <li class="cong2" id="total_ship_price2">{=number_format(cart->totshipprice)}원</li>
+                                </ul>
+                            </div>
+                            <div class="su_px_list_3">
+                                <ul>
+                                    <li class="cong1" style="margin-top:17px;">최종결제금액</li>
+                                    <li class="cong2" style="margin-top:11px; color:#d81b60; font-size:20px;" id="totprice_last">{=number_format(cart->itemprice - cart->dc + cart->totshipprice)}원</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                <div class="qu_ckeckbox">
+                    <label>주문할 상품의 상품명, 상품가격, 배송정보를 확인 하였으며, 구매에 동의 하시겠습니까?</label><a href="#" class="showMask"><button type="button">약관보기</button></a><br>
+                    <!--{ ? !_sess.mid }--><label>비회원 약관동의</label><a href="#" class="showMask_b"><button type="button">약관보기</button></a><br>
+                    <!--{ / }-->
+                    <input type="checkbox" id="order_agree" label="구매 동의" required checked><label for="order_agree">동의합니다.</label>
+                </div>
+                <!--레이어 팝업-->
+                <div class="mask"></div>
+                <div class="window_order" style="position:absolute; top:1480px;">
+                    <div class="btn_agg">
+                        <h2>이용약관</h2>
+                        <input type="button" class="close" value="X" />
+                    </div>
+                    <div class="agg_text">
+                        <!--{ ? _sess.mid }-->
+                        {=getCfg('personal_data_referral')}
+                        <!--{ : }-->
+                        {=getCfg('personal_data_referral_nonmember')}
+                        <!--{ / }-->
+                    </div>
+                </div>
+
+                <!--{ ? !_sess.mid }-->
+                <div class="mask_bor2"></div>
+                <div class="window_order_b" style="position:absolute; top:1480px;">
+                    <div class="btn_agg">
+                        <h2>개인정보 수집 및 이용약관</h2>
+                        <input type="button" class="close" value="X" />
+                    </div>
+                    <div class="agg_text">
+                        {=getCfg('nonmember_agreement')}
+                    </div>
+                </div>
+                <!--{ / }-->
+                <!--레이어 팝업-->
+
+                <div class="button_pay_or">
+                    <button type="button" class="button_pay_sleft" onclick="location.href='/order/cart.php'">장바구니</button>
+                    <button type="button" class="button_pay_rleft" onclick="orderProc(this);">결제하기</button>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+{ # pg }
+<script type="text/javascript" src="/js/jquery.form.js"></script>
+<script>
+    var zipcodeInputFlag = true;
+</script>
+<!--{ ? _language_locale == "ja_JP" }-->
+<script>
+    var zipcodeInputFlag = false;
+</script>
+<script type='text/javascript' src='http://api.zipaddress.net/sdk/zipaddr.js'></script>
+<script type='text/javascript' src='/js/jp_zipcode_script.js'></script>
+<!--{ / }-->
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script>
+    function order_shiptype(rid_cartno, key) {
+        //같은 제작사라도 상품의 개별배송비가 있을 경우 구분해야 하기 때문에 key를 붙여준다.
+        var sel_ID = "order_shiptype_" + key;
+
+        document.fm.rid_cartno.value = rid_cartno;
+        document.fm.mode.value = 'order_shiptype_update';
+
+        var target = document.getElementById(sel_ID);
+
+        document.fm.order_shiptype.value = target.options[target.selectedIndex].value;
+        document.fm.action = 'order.php';
+
+        document.fm.submit();
+    }
+
+    function same_check(chk) {
+        if (chk == false) {
+            $j("[name=receiver_name]").val("");
+
+            $j("[name=receiver_mobile[0]]").val("");
+            $j("[name=receiver_mobile[1]]").val("");
+            $j("[name=receiver_mobile[2]]").val("");
+
+            $j("[name=receiver_zipcode]").val("");
+
+            $j("[name=receiver_addr]").val("");
+            $j("[name=receiver_addr_sub]").val("");
+
+        } else {
+            $j("[name=receiver_name]").val('{name}');
+
+            $j("[name=receiver_mobile[0]]").val('{mobile[0]}');
+            $j("[name=receiver_mobile[1]]").val('{mobile[1]}');
+            $j("[name=receiver_mobile[2]]").val('{mobile[2]}');
+
+            $j("[name=receiver_zipcode]").val('{zipcode}');
+
+            $j("[name=receiver_addr]").val('{address}');
+            $j("[name=receiver_addr_sub]").val('{address_sub}');
+
+            getShippingExtraPrice(); //chunter
+        }
+    }
+
+    $j(function() {
+        same_check(false);
+        $j("#totdc").html(comma("{cart->dc}") + "원");
+        $j("[name=emoney]").bind('keydown', 'ctrl+v', function() {
+            alert("ctrl+v 는 사용하실수 없습니다");
+            return false
+        });
+        $j("[name=emoney]").bind('contextmenu', function() {
+            alert("우측버튼을 사용하실수 없습니다.");
+            return false
+        });
+    });
+
+    function _zcrn_o() {
+        var zipcode = arguments[0];
+        $j("[name=orderer_zipcode]").val(zipcode);
+        //$j("[name=orderer_zipcode[1]]").val(zipcode[1]);
+        $j("[name=orderer_addr]").val(arguments[1]);
+        $j("[name=orderer_addr_sub]").val("");
+        $j("[name=orderer_addr_sub]").trigger("focus");
+    }
+
+    function _zcrn_r() {
+        var zipcode = arguments[0];
+        $j("[name=receiver_zipcode]").val(zipcode);
+        //$j("[name=receiver_zipcode[1]]").val(zipcode[1]);
+        $j("[name=receiver_addr]").val(arguments[1]);
+        $j("[name=receiver_addr_sub]").val("");
+        $j("[name=receiver_addr_sub]").trigger("focus");
+
+        getShippingExtraPrice(); //kdk
+    }
+
+    function totprice() {
+
+        var emoney = parseInt(memberEmoney);
+        var grpdc = "{cart->dc}";
+        var dc_coupon = parseInt($j("input[name=dc_coupon]").val() * 1);
+        var dc_sale_code_coupon = $j("#dc_sale_code_coupon").html().replace("원", "").replace(",","");
+        //console.log(emoney);
+        var totship = 0;
+
+        // 190704 jtkim 적립금 사용시 배송비 계산
+        var ship_data_dc_json = {ship_data_dc_json};
+        var ship_cnt_dc_rid_json = {ship_cnt_dc_rid_json};
+        var ship_cnt_dc_size_json = {ship_cnt_dc_size_json};
+        var ship_data_dc_arr = [];      //배송비 합계 array 초기화
+        var ship_emoney_list_obj = {};  //제작사별 할인 배송비 object 초기화
+        // console.log("ship_data_dc_json",ship_data_dc_json);
+        // console.log("ship_cnt_dc_rid_json",ship_cnt_dc_rid_json);
+        // console.log("ship_cnt_dc_size_json",ship_data_dc_json);
+        if(ship_data_dc_json != 0){
+            var ship_cnt_total = 0;
+            var ship_cfg_promotion = parseInt($j("#dc_sale_code_coupon").html().replace("원", "").replace(",",""));
+
+            if (isNaN(ship_cfg_promotion)) ship_cfg_promotion = 0;
+            var ship_cfg_emoney = parseInt($j("input[name=emoney]").val() * 1);
+
+            //제작사 계산
+            $j.each(ship_cnt_dc_size_json, function(index, i){
+                ship_cnt_total += i;
+                $j.each(ship_cnt_dc_rid_json, function(index2,i2){
+                    if(index == index2) {
+                        ship_emoney_list_obj[i2] = i;
+                    }
+                });
+            });
+
+            // 제작사의 상품별 균등하게 나누어진 금액
+            var each_ship_emoney = parseInt( (ship_cfg_emoney+ship_cfg_promotion) / ship_cnt_total);
+            // 균등하게 나누어지고 남은금액
+            var each_ship_emoney_mod = parseInt( (ship_cfg_emoney+ship_cfg_promotion) % ship_cnt_total);
+
+            //할인 금액 계산 (균등하게 나누며 나머지 발생시 상위 업체에게 나머지 할인금액 지급)
+            // i 제작사별 상품수 , index 제작사명
+            $j.each(ship_emoney_list_obj, function(index,i){
+                ship_emoney_list_obj[index] = i * each_ship_emoney;
+                if( each_ship_emoney_mod > 0 ){
+                    if( i < each_ship_emoney_mod){
+                        ship_emoney_list_obj[index] += i;
+                        each_ship_emoney_mod -= i;
+                    }else{
+                        ship_emoney_list_obj[index] += each_ship_emoney_mod;
+                        each_ship_emoney_mod -= each_ship_emoney_mod;
+                    }
+                }
+            });
+
+            //제작사별 할인금액 분배
+            $j.each(ship_data_dc_json, function(index, i){
+                $j.each(i, function(index2,i2){
+                    //일반배송
+                    if(i2.shiptype=="0"){
+                        ship_data_dc_arr.push(parseInt(i2.shipprice));
+                    //무료배송
+                    }else if(i2.shiptype=="1"){
+                        //ship_data_dc_arr.push(0);
+                    //조건부 배송
+                    }else if(i2.shiptype=="3"){
+                        $j.each(ship_emoney_list_obj,function(index3,i3){
+                            if(index2 == index3 && ((i2.orderprice-i3) < i2.shipconditional) ){
+                                ship_data_dc_arr.push(parseInt(i2.shipprice));
+                            }
+                        });
+                    }
+                });
+            });
+
+            for(var i=0; i<ship_data_dc_arr.length;i++){
+                totship += ship_data_dc_arr[i];
+            }
+        }else{
+            totship = "{cart->totshipprice}";
+        }
+
+        //추가배송비 / 20190226 / kdk
+        var extship = parseInt($j("#shipping_extra_price").val());
+        if (extship > 0) totship = parseInt(totship) + parseInt(extship);
+
+        if (grpdc == '') grpdc = 0;
+        if (isNaN(dc_coupon)) dc_coupon = 0;
+        if (isNaN(dc_sale_code_coupon)) dc_sale_code_coupon = 0;
+        if (totship == '') totship = 0;
+
+        var able_emoney = parseInt("{cart->itemprice - cart->dc}") - parseInt(dc_coupon) - parseInt(dc_sale_code_coupon);
+        var tmembership_use = "{_cfg.pg.tmembership_use}";
+
+        if (parseInt($j("input[name=emoney]").val()) > parseInt(emoney)) $j("input[name=emoney]").val(emoney);
+        if (parseInt($j("input[name=emoney]").val()) > parseInt(able_emoney)) $j("input[name=emoney]").val(able_emoney);
+
+        var emoney_use_max = '{_cfg.emoney.emoney_use_max}';
+        if ((emoney_use_max > 0) && (parseInt($j("input[name=emoney]").val()) > parseInt(emoney_use_max))) {
+            alert("적립금 최대 사용액(" + emoney_use_max + "원)보다 많습니다.");
+            $j("input[name=emoney]").val(0);
+        }
+
+        if ($j(":input[name=shiptype]:checked").val() == "5" || $j(":input[name=shiptype]:checked").val() == "9") {
+            totship = 0;
+        }
+
+        var emoney = parseInt($j("input[name=emoney]").val() * 1);
+        var price = parseInt("{cart->itemprice}") + parseInt(totship);
+
+        $j("#totdc").html(eval(grpdc + emoney + dc_coupon + dc_sale_code_coupon) + "원");
+
+        var totPrice = parseInt(price) - parseInt(grpdc) - parseInt(emoney) - parseInt(dc_coupon) - parseInt(dc_sale_code_coupon);
+        var totalDcPrice = parseInt(emoney) + parseInt(dc_coupon) + parseInt(dc_sale_code_coupon);
+
+
+
+        $j("#total_ship_price2").html(comma(totship) + "원");
+        $j("#total_ship_price").html(comma(totship) + "원");
+
+        $j("#totprice_number").val(comma(totPrice));
+        $j("#totprice").html(comma(totPrice) + "원");
+        $j("#totprice2").html(comma(totPrice) + "원");
+        $j("#totprice_last").html(comma(totPrice) + "원");
+
+        $j("#use_emoney").html(comma(emoney) + "원");
+        $j("#use_emoney_price").html(comma(emoney) + "원");
+        $j("#use_emoney_price_last").html(comma(emoney) + "원");
+
+        $j("#coupon_dc_price").html(comma(dc_coupon) + "원");
+        $j("#coupon_dc_price2").html(comma(dc_coupon) + "원");
+        $j("#dc_sale_code_coupon_last").html(comma(dc_sale_code_coupon) + "원");
+
+        $j("#total_dc_price").html("(-)" + comma(totalDcPrice) + "원");
+
+        //var totshipprice = "{cart->totshipprice}";
+        var totshipprice = totship;
+        var itemprice = "{cart->itemprice}";
+
+
+
+        var saleprice = itemprice - totshipprice;
+        var payprice = totPrice - totshipprice;
+
+        /*
+        $j.ajax({
+        	type: "post",
+        	url: "orderpayment.indb.php",
+        	data: "mode=getCalcEmoney&payprice=" + payprice + "&saleprice=" + saleprice,
+        	success: function(data) {
+        		$j("#totemoney").html(comma(data));
+        	}
+        });
+        */
+    }
+
+    function popupCoupon() {
+        var coupon = $j("#input_coupon").val();
+        popup('../module/p.coupon.php?cartno={_cartno}&coupon=' + coupon, 700, 800, '1', '', 'popup_coupon');
+    }
+</script>
+
+
+<script>
+    $j(function() {
+        $j("#copyInfo_2").trigger("click");
+
+        if ("{=count(_cfg.pg.paymethod)}" == 1 && "{_cfg.pg.paymethod.b}" == "b") {
+            $j("#paymethod_b").trigger("click");
+        }
+
+        //비회원이면...
+        if ("{_sess.mid}" == "") {
+            $j(".input_orderer_email").attr("required", true);
+            $j("#copyInfo_1").attr("disabled", true);
+        }
+
+        $j('.number_type').css('ime-mode', 'disabled').keypress(function(event) {
+            if (event.which && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+
+        $j("#document_file").change(function() {
+            if ($j(this).val()) {
+                $j("#file_btn").text("첨부완료");
+            } else {
+                $j("#file_btn").text("첨부하기");
+            }
+        });
+    });
+    /** 주소록입력 **/
+    function _address(addressno) {
+        if (!addressno) return;
+        $j.post("indb.address.php", {
+                mode: "ajaxGetAddress",
+                addressno: addressno
+            },
+            function(data) {
+                if (!data) return;
+
+                /** 새로입력체크 **/
+                $j("#copyInfo_2").trigger("click");
+
+                var r = evalJSON(data);
+                var receiver_zipcode = r.receiver_zipcode.split("-");
+                var receiver_phone = r.receiver_phone.split("-");
+                var receiver_mobile = r.receiver_mobile.split("-");
+
+                $j("[name=receiver_name]").val(r.receiver_name);
+
+                $j("[name=receiver_phone[0]]").val(receiver_phone[0]);
+                $j("[name=receiver_phone[1]]").val(receiver_phone[1]);
+                $j("[name=receiver_phone[2]]").val(receiver_phone[2]);
+
+                $j("[name=receiver_mobile[0]]").val(receiver_mobile[0]);
+                $j("[name=receiver_mobile[1]]").val(receiver_mobile[1]);
+                $j("[name=receiver_mobile[2]]").val(receiver_mobile[2]);
+
+                $j("[name=receiver_zipcode]").val(receiver_zipcode);
+                //$j("[name=receiver_zipcode[1]]").val(receiver_zipcode[1]);
+                $j("[name=receiver_addr]").val(r.receiver_addr);
+                $j("[name=receiver_addr_sub]").val(r.receiver_addr_sub);
+
+                //나의주소록 선택시 추가배송지역 체크 추가
+                getShippingExtraPrice();
+            });
+    }
+
+    function auto_focus(obj, idx) {
+        //return;	/* 자동포커스 이동 사용하지 않을시 주석제거 */
+
+        switch (obj.name) {
+            case "orderer_phone[1]":
+                if (obj.value.length == 4) obj.form['orderer_phone[2]'].focus();
+                break;
+            case "orderer_mobile[1]":
+                if (obj.value.length == 4) obj.form['orderer_mobile[2]'].focus();
+                break;
+            case "receiver_mobile[1]":
+                if (obj.value.length == 4) obj.form['receiver_mobile[2]'].focus();
+                break;
+            case "receiver_phone[1]":
+                if (obj.value.length == 4) obj.form['receiver_phone[2]'].focus();
+                break;
+        }
+    }
+
+    function goods_view(goodsno, catno) {
+        var url = "../goods/view.php?goodsno=" + goodsno + "&catno=" + catno;
+        location.href = url;
+    }
+
+    function address_onchange_init(addressFlag,myAddressFlag,addShipFlag){
+        if(addressFlag == true){
+            $j("[name=receiver_zipcode]").val('');
+            $j("[name=receiver_addr]").val('');
+            $j("[name=receiver_addr_sub]").val('');
+        }
+
+        if(myAddressFlag == true){
+            $j(".my_address_call_btn").hide();
+        }else{
+            $j(".my_address_call_btn").show();
+        }
+
+        if(addShipFlag == true){
+            getShippingExtraPrice();
+        }
+    }
+
+
+    function saleCodeApply() {
+
+
+        var totship = "{cart->totshipprice}";
+
+        if (totship == '') totship = 0;
+
+        if ($j(":input[name=shiptype]:checked").val() == "5" || $j(":input[name=shiptype]:checked").val() == "9") {
+            totship = 0;
+        }
+
+        if ($j("#totprice_number").val() == totship) {
+            alert("할인 적용 금액이 없습니다.");
+        } else {
+            var promotion_sale_code = $j('#sale_code_coupon').val();
+            if (!promotion_sale_code) return;
+            $j.post("/module/indb.php", {
+                    mode: "sale_code_calcu",
+                    sale_code: promotion_sale_code,
+                    cartno: "{_cartno}"
+                },
+                function(data) {
+
+                    if (!data) return;
+
+                    var r = evalJSON(data);
+                    $j("#dc_sale_code_coupon").text("0" + "원");
+                    $j("#sale_code_coupon_msg").text("");
+
+                    if (r.sale_code_price > 0)
+                        $j("#dc_sale_code_coupon").text(comma(r.sale_code_price) + "원");
+                    else
+                        $j("#sale_code_coupon_msg").text(r.sale_code_msg);
+
+                    totprice();
+                });
+
+        }
+    }
+
+    (function($) {
+        $(document).ready(function() {
+            $('#receiver_addr_sub').bind("focus", function() {
+                //alert('aaaa');
+                getShippingExtraPrice();
+            });
+        });
+    })(jQuery1_11_0);
+
+    function getShippingExtraPrice() {
+        var r_zipcode = $j('#receiver_zipcode').val();
+        if (!r_zipcode) return;
+        $j.post("/module/indb.php", {
+                mode: "shipping_extra_calcu",
+                zipcode: r_zipcode,
+                cartno: "{_cartno}"
+            },
+            function(data) {
+                if (!data) return;
+
+                var r = evalJSON(data);
+
+                $j("#shipping_extra_price").val('0');
+                //$j("#shipping_extra_msg").text('');
+                if (r.shipping_extra_price > 0) {
+                    $j("#shipping_extra_div").show();
+                    $j("#shipping_extra_price").val(r.shipping_extra_price);
+
+                    //추가 배송비.
+                    $j("#extra_ship_price").html("(추가 " + comma(r.shipping_extra_price) + "원)");
+                } else {
+                    $j("#shipping_extra_div").hide();
+                    //$j("#shipping_extra_msg").text(r.shipping_extra_msg);
+
+                    $j("#extra_ship_price").html("");
+                }
+                totprice();
+            });
+    }
+
+    var memberEmoney = '{emoney}';
+
+    //적립금 전체 사용 처리.
+    function all_use_emoney_check() {
+        if ($j("#emoney").attr("disabled") == false) {
+            //기본 할인, 쿠폰할인  적용된 결제금액. 배송비를 제외한 상품 가격 구하기.
+            var dc_coupon = parseInt($j("input[name=dc_coupon]").val() * 1);
+            var dc_sale_code_coupon = $j("#dc_sale_code_coupon").html().replace("원", "");
+
+            if (isNaN(dc_coupon)) dc_coupon = 0;
+            if (isNaN(dc_sale_code_coupon)) dc_sale_code_coupon = 0;
+
+            var totPrice = parseInt("{cart->itemprice - cart->dc}") - parseInt(dc_coupon) - parseInt(dc_sale_code_coupon);
+
+            if (isNaN(totPrice)) totPrice = 0;
+
+            if (parseInt(memberEmoney) > parseInt(totPrice))
+                $j("#emoney").val(totPrice);
+            else
+                $j("#emoney").val(memberEmoney);
+
+            totprice();
+        }
+    }
+
+    function orderProc(obj) {
+        var result = form_chk(document.fm);
+        if (result) {
+          if($j("#paymethod_b").is(":checked")){
+            if ($j("#depo1").is(":checked")) {
+              // var dtype = $j(":select[name=document_type]:selected").val();
+              var dflag = true;
+              var mflag = true;
+              var cflag = true;
+
+              // 소득공제의 경우 핸드폰 번호 또는 카드만 입력 처리 210930 jtkim
+
+              if (!$j(":input[name=mobile_docu_1_0]").val()) {
+                // $j(":input[name=mobile_docu_1_0]").focus();
+                mflag = false;
+              } else if (!$j(":input[name=mobile_docu_1_1]").val()) {
+                // $j(":input[name=mobile_docu_1_1]").focus();
+                mflag = false;
+              } else if (!$j(":input[name=mobile_docu_1_2]").val()) {
+                // $j(":input[name=mobile_docu_1_2]").focus();
+                mflag = false;
+              }
+
+              if (!$j(":input[name=card_num_docu_1_0]").val()) {
+                // $j(":input[name=card_num_docu_1_0]").focus();
+                cflag = false;
+              } else if (!$j(":input[name=card_num_docu_1_1]").val()) {
+                // $j(":input[name=card_num_docu_1_1]").focus();
+                cflag = false;
+              } else if (!$j(":input[name=card_num_docu_1_2]").val()) {
+                // $j(":input[name=card_num_docu_1_2]").focus();
+                cflag = false;
+              } else if (!$j(":input[name=card_num_docu_1_3]").val()) {
+                //$j(":input[name=card_num_docu_1_3]").focus();
+                cflag = false;
+              }
+
+              if(!mflag && !cflag){
+                dflag = false;
+              }
+
+              if (!$j(":input[name=email_docu_1_0]").val()) {
+                $j(":input[name=email_docu_1_0]").focus();
+                dflag = false;
+              } else if (!$j(":input[name=email_docu_1_1]").val()) {
+                $j(":input[name=email_docu_1_1]").focus();
+                dflag = false;
+              }
+
+              if (!dflag) {
+                alert("현금영수증 정보를 입력해주세요.");
+                return false;
+              }
+            }else if($j("#depo2").is(":checked")){
+
+              var dflag = true;
+
+              if (!$j(":input[name=licensee_num_docu_2_0]").val()) {
+                $j(":input[name=licensee_num_docu_2_0]").focus();
+                dflag = false;
+              } else if (!$j(":input[name=licensee_num_docu_2_1]").val()) {
+                $j(":input[name=licensee_num_docu_2_1]").focus();
+                dflag = false;
+              } else if (!$j(":input[name=licensee_num_docu_2_2]").val()) {
+                $j(":input[name=licensee_num_docu_2_2]").focus();
+                dflag = false;
+              }
+
+              if (!$j(":input[name=email_docu_2_0]").val()) {
+                $j(":input[name=email_docu_2_0]").focus();
+                dflag = false;
+              } else if (!$j(":input[name=email_docu_2_1]").val()) {
+                $j(":input[name=email_docu_2_1]").focus();
+                dflag = false;
+              }
+
+              if (!$j(":input[name=document_file_docu_2]").val()){
+                alert('파일 첨부가 필요합니다.');
+                return false;
+              }
+
+              if(!dflag){
+                alert('세금계산서 정보를 입력해주세요.');
+                return false;
+              }
+
+            }else if($j("#depo3").is(":checked")) {
+
+              var dflag = true;
+
+              if (!$j(":input[name=licensee_num_docu_3_0]").val()) {
+                $j(":input[name=licensee_num_docu_3_0]").focus();
+                dflag = false;
+              } else if (!$j(":input[name=licensee_num_docu_3_1]").val()) {
+                $j(":input[name=licensee_num_docu_3_1]").focus();
+                dflag = false;
+              } else if (!$j(":input[name=licensee_num_docu_3_2]").val()) {
+                $j(":input[name=licensee_num_docu_3_2]").focus();
+                dflag = false;
+              }
+
+              if (!$j(":input[name=email_docu_3_0]").val()) {
+                $j(":input[name=email_docu_3_0]").focus();
+                dflag = false;
+              } else if (!$j(":input[name=email_docu_3_1]").val()) {
+                $j(":input[name=email_docu_3_1]").focus();
+                dflag = false;
+              }
+
+
+
+              if (!$j(":input[name=document_file_docu_3]").val()){
+                alert('파일 첨부가 필요합니다.');
+                return false;
+              }
+
+
+
+              if(!dflag){
+                alert('세금계산서 정보를 입력해주세요.');
+                return false;
+              }
+
+            }
+          }
+
+
+			// console.log("price");
+            // console.log($("#total_ship_price").html().replace("원", "").replace(",",""));
+            $j(obj).attr("disabled", true);
+
+            // 할인 배송비 계산
+            // var totshipprice = parseInt($("#total_ship_price").html().replace("원", "").replace(",",""));
+            // var totsaleprice = parseInt($("#totprice").html().replace("원", "").replace(",",""));
+            var totshipprice = parseInt($("#total_ship_price").html().replace("원", "").replace(/,/g , ''));
+            var totsaleprice = parseInt($("#totprice").html().replace("원", "").replace(/,/g , ''));
+            var ship_data_dc_json = {ship_data_dc_json};
+            var ship_cnt_dc_rid_json = {ship_cnt_dc_rid_json};
+            var ship_cnt_dc_size_json = {ship_cnt_dc_size_json};
+            var ship_emoney_list_obj = {};  //제작사별 할인 배송비 object 초기화
+            var ship_dc_list_obj = {};      //ajax data 넘길 object초기화
+            var ship_dc_list = "";
+            var ship_dc_cnt = 0;
+
+                if(ship_data_dc_json != 0){
+                    var ship_cnt_total = 0;
+                    var ship_cfg_promotion = parseInt($j("#dc_sale_code_coupon").html().replace("원", "").replace(",",""));
+
+                    if (isNaN(ship_cfg_promotion)) ship_cfg_promotion = 0;
+                    var ship_cfg_emoney = parseInt($j("input[name=emoney]").val() * 1);
+
+                    //제작사 계산
+                    $j.each(ship_cnt_dc_size_json, function(index, i){
+                        ship_cnt_total += i;
+                        $j.each(ship_cnt_dc_rid_json, function(index2,i2){
+                            if(index == index2) {
+                                ship_emoney_list_obj[i2] = i;
+                            }
+                        });
+                    });
+
+                    // 제작사의 상품별 균등하게 나누어진 금액
+                    var each_ship_emoney = parseInt( (ship_cfg_emoney+ship_cfg_promotion) / ship_cnt_total);
+                    // 균등하게 나누어지고 남은금액
+                    var each_ship_emoney_mod = parseInt( (ship_cfg_emoney+ship_cfg_promotion) % ship_cnt_total);
+
+                    //할인 금액 계산 (균등하게 나누며 나머지 발생시 상위 업체에게 나머지 할인금액 지급)
+                    // i 제작사별 상품수 , index 제작사명
+                    $j.each(ship_emoney_list_obj, function(index,i){
+                        ship_emoney_list_obj[index] = i * each_ship_emoney;
+                        if( each_ship_emoney_mod > 0 ){
+                            if( i < each_ship_emoney_mod){
+                                ship_emoney_list_obj[index] += i;
+                                each_ship_emoney_mod -= i;
+                            }else{
+                                ship_emoney_list_obj[index] += each_ship_emoney_mod;
+                                each_ship_emoney_mod -= each_ship_emoney_mod;
+                            }
+                        }
+                    });
+
+                    //제작사별 배송금액 설정
+                    // key(제작사) : value(배송비)
+                    $j.each(ship_data_dc_json, function(index, i){
+                        $j.each(i, function(index2,i2){
+                            //일반배송
+                            if(i2.shiptype=="0"){
+                                ship_dc_cnt++;
+                                ship_dc_list += "&rid_" + ship_dc_cnt + "=" + i2.rid + "&rid_shipprice_" + ship_dc_cnt + "=" + parseInt(i2.shipprice);
+                            //조건부 배송
+                            }else if(i2.shiptype=="3"){
+                                $j.each(ship_emoney_list_obj,function(index3,i3){
+                                    if(index2 == index3 && ((i2.orderprice-i3) < i2.shipconditional) ){
+                                        ship_dc_cnt++;
+                                        ship_dc_list += "&rid_" + ship_dc_cnt + "=" + i2.rid + "&rid_shipprice_" + ship_dc_cnt  + "=" + parseInt(i2.shipprice);
+                                    }
+                                });
+                            }
+                        });
+                    });
+                }
+            $j.ajax({
+                type: "post",
+                url: "orderpayment.indb.php",
+                data:  "&totshipprice=" + totshipprice + "&totsaleprice=" + totsaleprice + "&ship_dc_cnt=" + ship_dc_cnt + ship_dc_list + "&" + $j("#ordForm").serialize(),
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.error) {
+                        alert(data.error);
+                        $j(obj).attr("disabled", false);
+                        return false;
+                    }
+
+
+                    if( $j("#paymethod_b").is(":checked") ) {
+                      documentFileUpload(data.payno);
+                    }
+
+                    if (data.code == "09") {
+                        alert(data.msg);
+                        if (data.action) eval(data.action);
+                        $j(obj).attr("disabled", false);
+                    } else {
+                        var st = $(":input:radio[name=paymethod]:checked").val();
+                        if (st == "kp") {
+                            //카카오페이 결제.
+                            $j(obj).attr("disabled", false);
+                            window.open(data.action, "kakaopay_window", "height=500, width=600,scroll=yes, scrollbars=yes, status=yes, help=yes, center=yes toolbar=yes, directories=yes, menubar=yes, resizable=yes");
+                        } else {
+                            if (data.pay_client_type == "PC") {
+                                //아니시스 PC
+                                $("input[name=timestamp]").val(data.timestamp);
+                                $("input[name=signature]").val(data.signature);
+                                $("input[name=mKey]").val(data.mKey);
+
+                                $("input[name=goodname]").val(data.goodname);
+                                $("input[name=oid]").val(data.payno);
+                                $("input[name=price]").val(data.totprice);
+
+                                $("input[name=buyername]").val(data.buyername);
+                                $("input[name=buyertel]").val(data.buyertel);
+                                $("input[name=buyeremail]").val(data.buyeremail);
+                                //console.log(data);
+
+                                $("select[name=gopaymethod]").val(data.gopaymethod).prop("selected", true);
+                                //document.SendPayForm_id.gopaymethod.value = data.paymethod;
+                                eval(data.action);
+                                $j(obj).attr("disabled", false);
+                            } else {
+                                //이니시스 모바일
+                                $("input[name=P_OID]").val(data.payno);
+                                $("input[name=P_GOODS]").val(data.goodname);
+                                $("input[name=P_AMT]").val(data.totprice);
+                                $("input[name=P_MNAME]").val(data.buyername);
+                                $("input[name=P_MOBILE]").val(data.buyertel);
+                                $("input[name=P_EMAIL]").val(data.buyeremail);
+
+                                $("select[name=paymethod]").val(data.gopaymethod).prop("selected", true);
+                                eval(data.action);
+                            }
+                        }
+                    }
+                    return false;
+                }
+
+
+            });
+        } else return false;
+    }
+
+    function delever_req(flag, type) {
+
+        if (flag == true) {
+            $j("[name=receiver_name]").attr("disabled", true);
+
+
+            $j("[name=receiver_mobile[0]]").attr("disabled", true);
+            $j("[name=receiver_mobile[1]]").attr("disabled", true);
+            $j("[name=receiver_mobile[2]]").attr("disabled", true);
+
+            $j("[name=receiver_zipcode]").attr("disabled", true);
+            $j("[name=receiver_addr]").attr("disabled", true);
+            $j("[name=receiver_addr_sub]").attr("disabled", true);
+        } else {
+            $j("[name=receiver_name]").attr("disabled", false);
+
+
+            $j("[name=receiver_mobile[0]]").attr("disabled", false);
+            $j("[name=receiver_mobile[1]]").attr("disabled", false);
+            $j("[name=receiver_mobile[2]]").attr("disabled", false);
+
+            $j("[name=receiver_zipcode]").attr("disabled", false);
+            $j("[name=receiver_addr]").attr("disabled", false);
+            $j("[name=receiver_addr_sub]").attr("disabled", false);
+        }
+
+        var emoney = parseInt($j("input[name=emoney]").val() * 1);
+        var grpdc = "{cart->dc}";
+        var dc_coupon = parseInt($j("input[name=dc_coupon]").val() * 1);
+        var dc_sale_code_coupon = $j("#dc_sale_code_coupon").html().replace("원", "");
+        var totship = "{cart->totshipprice}";
+
+        if (isNaN(emoney)) emoney = 0;
+        if (grpdc == '') grpdc = 0;
+        if (isNaN(dc_coupon)) dc_coupon = 0;
+        if (isNaN(dc_sale_code_coupon)) dc_sale_code_coupon = 0;
+        if (totship == '') totship = 0;
+
+        if (type == "5" || type == "9") {
+            totship = 0;
+        }
+
+        var price = parseInt("{cart->itemprice}") + parseInt(totship);
+        var totPrice = parseInt(price) - parseInt(grpdc) - parseInt(emoney) - parseInt(dc_coupon) - parseInt(dc_sale_code_coupon);
+
+        $j("#totprice_number").val(comma(totPrice));
+        $j("#totprice").html(comma(totPrice) + "원");
+        $j("#totprice2").html(comma(totPrice) + "원");
+        $j("#totprice_last").html(comma(totPrice) + "원");
+
+        $j("#total_ship_price").html(comma(totship) + "원");
+        $j("#total_ship_price2").html(comma(totship) + "원");
+    }
+
+    function auto_set_email(obj) {
+        $j("#select_email").val($j(obj).val());
+    }
+
+    function auto_set_email_docu(obj,selector) {
+        $j(selector).val($j(obj).val());
+    }
+
+
+    //email validation 추가 201229 jtkim
+    function validateEmailDomain(domain){
+        var emailReg = /^(([\w-]+\.)+[\w-]{2,4})?$/;
+        if(!emailReg.test( $j(domain).val() )){
+            alert('유효하지 않은 메일 주소입니다');
+            $j("#select_email").val('');
+        }
+    }
+
+    $j("#document_file_docu_2").change(function() {
+      if ($j(this).val()) {
+        $j("#file_btn_docu_2").text("첨부완료");
+      } else {
+        $j("#file_btn_docu_2").text("첨부하기");
+      }
+    });
+
+    $j("#document_file_docu_3").change(function() {
+      if ($j(this).val()) {
+        $j("#file_btn_docu_3").text("첨부완료");
+      } else {
+        $j("#file_btn_docu_3").text("첨부하기");
+      }
+    });
+
+
+    //기존 indb 처리시 헤더 content type이 application/x-www-form-urlencoded 형태로 전송되기 때문 파일 업로드 별도 작업 필요 210810 jtkim
+    function documentFileUpload(payno) {
+        jQuery.noConflict();
+        var document_card_num = false;
+        var document_licensee_num = false;
+        var document_file = false;
+        var document_email = false;
+        var document_mobile = false;
+        var dtype = false;
+        // var dtype = $j(":select[name=document_type]:selected").val();
+
+        if ($j("#depo1").is(":checked")) {
+            dtype = 'CRD';
+            document_mobile = $j(":input[name=mobile_docu_1_0]").val() + '-' + $j(":input[name=mobile_docu_1_1]").val() +'-'+$j(":input[name=mobile_docu_1_2]").val();
+            document_card_num = $j(":input[name=card_num_docu_1_0]").val() + '-' + $j(":input[name=card_num_docu_1_1]").val() + '-' + $j(":input[name=card_num_docu_1_2]").val() + '-' + $j(":input[name=card_num_docu_1_3]").val();
+            document_email =  $j(":input[name=email_docu_1_0]").val() + '@' + $j(":input[name=email_docu_1_1]").val();
+        }
+
+        if($j("#depo2").is(":checked")){
+            dtype = 'CRE';
+            document_licensee_num = $j(":input[name=licensee_num_docu_2_0").val() + '-' + $j(":input[name=licensee_num_docu_2_1]").val() + '-' + $j(":input[name=licensee_num_docu_2_2]").val();
+            document_email =  $j(":input[name=email_docu_2_0]").val() + '@' + $j(":input[name=email_docu_2_1]").val();
+            document_file = $j("#document_file_docu_2")[0].files[0];
+        }
+
+        if($j("#depo3").is(":checked")){
+            dtype = 'TI';
+            document_licensee_num = $j(":input[name=licensee_num_docu_3_0").val() + '-' + $j(":input[name=licensee_num_docu_3_1]").val() + '-' + $j(":input[name=licensee_num_docu_3_2]").val();
+            document_email =  $j(":input[name=email_docu_3_0]").val() + '@' + $j(":input[name=email_docu_3_1]").val();
+            document_file = $j("#document_file_docu_3")[0].files[0];
+        }
+
+
+        var document_form = new FormData();
+        document_form.append('mode','order_document_upload');
+
+        if($j("input[name=chk_document_info]").val()) document_form.append('chk_document_info', $j("#chk_document_info").val());
+        if(dtype) document_form.append('document_type',dtype);
+        if(document_card_num) document_form.append('document_card_num',document_card_num);
+        if(document_mobile) document_form.append('document_mobile',document_mobile);
+        if(document_email) document_form.append('document_email',document_email);
+        if(document_file) document_form.append('document_file', document_file);
+        if(document_licensee_num) document_form.append('document_licensee_num', document_licensee_num);
+        if(payno) document_form.append('payno',payno);
+        // console.log($j("input[name=chk_document_info]").val(), document_number, dtype,document_type2,document_card_num,document_licensee_num,document_file);
+        // console.log(document_form, payno);
+        $.ajax({
+            url: "orderpayment.document.php",
+            enctype: "multipart/form-data",
+            processData: false,
+            contentType: false,
+            data: document_form,
+            type: 'POST',
+            success: function(result){
+                if(result == 'true'){
+                    return true;
+                }
+                return false;
+            },
+            error : function(e){
+                return false;
+            }
+        });
+    }
+
+    function documentRadio(type){
+      switch(type){
+        case 'depo1' :
+            $j('#docu_box_one_1').show();
+            $j('#docu_box_one_2').hide();
+            $j('#docu_box_one_3').hide();
+          break;
+        case 'depo2' :
+            $j('#docu_box_one_1').hide();
+            $j('#docu_box_one_2').show();
+            $j('#docu_box_one_3').hide();
+          break;
+        case 'depo3' :
+            $j('#docu_box_one_1').hide();
+            $j('#docu_box_one_2').hide();
+            $j('#docu_box_one_3').show();
+          break;
+      }
+    }
+
+</script>
+
+<style>
+    #paymethod_info .paymethod_info_div {
+        display: none;
+    }
+</style>
+
+<script>
+    $j(window).load(function() {
+        $j("input[type=radio][name=paymethod]").click(function() {
+            $j(".paymethod_info_div[paymethod=" + $j(this).val() + "]", "#paymethod_info").show();
+            $j(".paymethod_info_div[paymethod!=" + $j(this).val() + "]", "#paymethod_info").hide();
+        });
+        $j("input[type=radio][name=paymethod]:checked").trigger("click");
+
+        if ("{=getCfg('est_option_flag')}" == "1") $j(".name-warning").show();
+        else $j(".name-warning").hide();
+
+        /*$j(".ce_img img").each(function() {
+        	$j(this).css("display", "inline-block");
+
+        	if ($j(this).width() < $j(this).height()) {
+        		$j(this).css("width", "auto");
+        		if ($j(this).height() > 120) $j(this).css("height", "120px");
+
+        		var marginWidth = (120 - $j(this).width()) / 2;
+        		$j(this).css("margin-left", marginWidth);
+        	} else {
+        		if ($j(this).width() > 120) $j(this).css("width", "120px");
+        		$j(this).css("height", "auto");
+
+        		var marginHeight = (120 - $j(this).height()) / 2;
+        		$j(this).css("margin-top", marginHeight);
+        	}
+        });*/
+    });
+
+    $(document).ready(function() {
+        // showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+        $('.showMask').click(function(e) {
+            // preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+            e.preventDefault();
+            wrapWindowByMask('.mask', '.window_order');
+        });
+
+        // 닫기(close)를 눌렀을 때 작동합니다.
+        $('.window_order .close').click(function(e) {
+            e.preventDefault();
+            $('.mask, .window_order').hide();
+        });
+
+        // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+        $('.mask').click(function() {
+            $(this).hide();
+            $('.window_order').hide();
+        });
+    });
+
+    $(document).ready(function() {
+        // showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+        $('.showMask_b').click(function(e) {
+            // preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+            e.preventDefault();
+            wrapWindowByMask('.mask_bor2', '.window_order_b');
+        });
+
+        // 닫기(close)를 눌렀을 때 작동합니다.
+        $('.window_order_b .close').click(function(e) {
+            e.preventDefault();
+            $('.mask_bor2, .window_order_b').hide();
+        });
+
+        // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+        $('.mask_bor2').click(function() {
+            $(this).hide();
+            $('.window_order_b').hide();
+        });
+    });
+
+    function wrapWindowByMask(val, val2) {
+        // 화면의 높이와 너비를 변수로 만듭니다.
+        var maskHeight = $(document).height();
+        var maskWidth = $(window).width();
+
+        // 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
+        $(val).css({
+            'width': maskWidth,
+            'height': maskHeight
+        });
+
+        // fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
+        $(val).fadeIn(1000);
+        $(val).fadeTo("slow", 0.8);
+
+        // 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
+        var left = ($(window).scrollLeft() + ($(window).width() - $(val2).width()) / 2);
+        var top = ($(window).scrollTop() + ($(window).height() - $(val2).height()) / 2);
+
+        // css 스타일을 변경합니다.
+        $(val2).css({
+            'left': left,
+            'top': top,
+            'position': 'absolute'
+        });
+
+        // 레이어 팝업을 띄웁니다.
+        $(val2).show();
+    }
+</script>
+
+{ # footer }

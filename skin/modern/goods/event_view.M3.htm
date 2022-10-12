@@ -1,0 +1,97 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<div class="event-view-wrap">
+			<div class="event-view-top">
+				<p class="event-title">{title}</p>
+				<div class="event-date">
+					<span class="<!--{ ? end_event == "Y" }-->end<!--{ : }-->ing<!--{ / }-->"><!--{ ? end_event == "Y" }-->종료<!--{ : }-->진행중<!--{ / }--></span>
+					<!-- <span class="end">종료</span> -->
+					<u>{sdate} ~ {edate}</u>
+				</div>
+			</div>
+			<div class="event-view-content">
+				{contents}
+			</div>
+			
+			<!--{ ? use_comment }-->
+			<div class="event-view-comment">
+				<form name="frm" action="indb.php" method="post">
+						<input type="hidden" name="mode" value="write_event_comment">
+						<input type="hidden" name="eventno" value="{_GET.eventno}">
+				<div class="view-comment-top">
+						<p>댓글 달기</p>
+						<textarea name="comment" required></textarea>
+					
+					<button class="btn_submit" onclick="document.frm.submit();"><span>확인</span></button>
+				</div>
+				</form>
+				<ul class="view-comment-list">
+					<!--{ @ loop }-->
+					<li>
+						<div class="view-comment-list-top">
+							<a href="#">{.mid}</a>
+							<span>({.regdt})</span>
+						</div>
+						{=nl2br(.comment)}
+						<!--{ ? .mid == _sess.mid }-->
+						<a href="#" class="btn_delete" onclick="del_comment('{.no}', '{.mid}')">삭제</a>
+						<!--{ / }-->
+					</li>
+					<!--{ / }-->
+				</ul>
+				<div class="paging-wrap">
+					{pg->page['navi_m2']}
+				</div>
+			</div>
+			<!--{ / }-->
+			
+		</div>
+		<!-- 진행중인 다른 이벤트 -->
+		<div class="event-list event-list-another">
+			<div class="event-list-another-top">
+				<h3 class="table-title">진행중인 다른 이벤트</h3>
+				<a href="/goods/event.php" class="btn_list">목록</a>
+			</div>
+			<ul>
+				<!--{ @ list }-->
+					<!--{ ? .index_ < 3 }-->
+					<li>
+						<a href="event_view.php?eventno={.eventno}">
+							<div class="event-img" style="background-image:url(/data/event/{_cid}/{.eventno}/{.eventno});"></div>
+							<div class="event-date">
+								<span class="ing">진행중</span>
+								<u>{.sdate} ~ {.edate}</u>
+							</div>
+							<div class="event-title">
+								{.title}
+							</div>
+						</a>
+					</li>
+					<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script>
+	function del_comment(no){
+		if(confirm("정말 삭제하시겠습니까?") == true){
+			$j.ajax({
+				type: "post",
+				url: "indb.php",
+				data: "mode=delete_comment&no="+ no,
+				success: function(ret) {
+					if(ret == "ok"){
+						alert("삭제 완료하였습니다.");
+						location.reload();
+					}
+				}
+			});
+		}
+	}
+</script>
+
+{ # footer }

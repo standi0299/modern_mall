@@ -1,0 +1,231 @@
+{ # header_popup }
+
+
+<script src="/js/jquery-1.9.1.min.js" type="text/javascript"></script>
+
+<style>
+.zcell {padding:5px 0; border-bottom:1px solid #efefef;}
+</style>
+
+
+
+<script>
+	function _zr(zipcode,address){
+		opener.{_GET.rfunc}(zipcode,address);
+		window.close();
+	}
+
+	function searchDivButton() {
+		document.form1.currentPage.value='1';
+		getAddr(); //jsonp사용시 enter검색
+	}
+	
+	function enterSearch() {
+		var evt_code = (window.netscape) ? ev.which : event.keyCode;
+		if (evt_code == 13) {
+			event.keyCode = 0;
+			document.form1.currentPage.value='1';
+			getAddr(); //jsonp사용시 enter검색 
+		}
+	}
+
+	function getAddr(){
+		if (document.form1.keyword.value.length<2){
+			alert({=__java("검색어는 2자이상이어야 합니다")});
+			return;
+		}
+
+		$.ajax({
+			 url :"http://www.juso.go.kr/addrlink/addrLinkApiJsonp.do"  //인터넷망
+			,type:"post"
+			,data:$("#form").serialize()
+			,dataType:"jsonp"
+			,jsonp: "callback"
+      	//,jsonpCallback: "Callback"
+			,crossDomain:true
+			,success:function(xmlStr){
+
+				if(navigator.appName.indexOf("Microsoft") > -1){
+					var xmlData = new ActiveXObject("Microsoft.XMLDOM");
+					xmlData.loadXML(xmlStr.returnXml);
+				}else{
+					var xmlData = xmlStr.returnXml;
+				}
+
+				$("#list").html("");
+				var errCode = $(xmlData).find("errorCode").text();
+				var errDesc = $(xmlData).find("errorMessage").text();
+				if(errCode != "0"){
+					alert(errCode+"="+errDesc);
+				}else{
+					if(xmlStr != null){
+						makeList(xmlData);
+						pageDivMake(xmlData);
+					}
+				}
+			}
+    		,error: function(xhr,status, error){
+    			alert({=__java("에러발생")});
+    		}
+		});
+		function Callback(data) {
+ 		}
+	}
+
+	function pageDivMake(xmlStr){
+		var total = $(xmlStr).find("totalCount").text();
+		//$('#totalCntDiv').text("(총 "+total+"건)");	 // 총건수 셋팅
+		var pageNum = document.form1.currentPage.value;
+		var paggingStr = "";
+		if(total < 1) {
+		} else {
+			var PAGEBLOCK=5;
+			var pageSize=document.form1.countPerPage.value;;
+			var totalPages = Math.floor((total-1)/pageSize) + 1;
+			var firstPage = Math.floor((pageNum-1)/PAGEBLOCK) * PAGEBLOCK + 1;
+
+			if( firstPage <= 0 ) firstPage = 1;
+
+			var lastPage = firstPage-1 + PAGEBLOCK;
+			if( lastPage > totalPages ) lastPage = totalPages;
+
+			var nextPage = lastPage+1 ;
+			var prePage = firstPage-5 ;
+
+			if( firstPage > PAGEBLOCK ){
+				paggingStr +=  "<a href='javascript:goPageDiv("+prePage+");' class='prev'></a>&nbsp;&nbsp;" ;
+			}
+
+			for( i=firstPage; i<=lastPage; i++ ){
+				if( pageNum == i )
+					paggingStr += "<a href='javascript:goPageDiv("+i+");'>" + i + "</a>&nbsp;&nbsp;";
+				else
+					paggingStr += "<a href='javascript:goPageDiv("+i+");'>" + i + "</a>&nbsp;&nbsp;";
+			}
+
+			if( lastPage < totalPages ){
+				paggingStr +=  "<a href='javascript:goPageDiv("+nextPage+");' class='next'></a>";
+			}
+
+			$("#zipcode_page").html(paggingStr);
+		}
+	}
+
+	function makeList(xmlStr){
+		var htmlStr = "";
+		
+		$(xmlStr).find("juso").each(function(){
+			var roadAddress = $(this).find('roadAddr').text();
+
+			htmlStr += "<a href=\"javascript:_zr('" + $(this).find('zipNo').text() + "','" + roadAddress + "');\" class=\"table\">";
+			htmlStr += "<div class=\"th\">"+$(this).find('zipNo').text()+"</div>";
+			htmlStr += "<div class=\"td\">";
+
+			htmlStr += "<ul>";
+
+			htmlStr += "<li>";
+			//htmlStr += "<a href=\"javascript:_zr('" + $(this).find('zipNo').text() + "','" + roadAddress + "');\">";
+			htmlStr += "<span>도로명</span>";
+			htmlStr += "<p>" + roadAddress + "</p>";
+			//htmlStr += "</a>";
+			htmlStr += "</li>";
+
+			htmlStr += "<li>";
+			htmlStr += "<span>지번</span>";
+			htmlStr += "<p>" + $(this).find('jibunAddr').text() + "</p>";
+			htmlStr += "</li>";
+			htmlStr += "</ul>";
+			htmlStr += "</div>";
+			htmlStr += "</a>";
+			/*
+			htmlStr += "<a href=\"javascript:_zr('" + $(this).find('zipNo').text() + "','" + roadAddress + "');\">";
+			htmlStr += "["+{=__java("도로명")}+"] " + roadAddress + "</a>";
+			htmlStr += "<br>["+{=__java("지")}+"&nbsp;&nbsp&nbsp"+{=__java("번")}+"] " + $(this).find('jibunAddr').text();
+
+			htmlStr += "</td>";
+			htmlStr += "</tr>";
+
+			 //htmlStr += "<div class='zcell''>";
+			htmlStr += "<tr>";
+			htmlStr += "<th width='60'>"+$(this).find('zipNo').text()+"</th>";
+			htmlStr += "<td style='word-break:break_all;'>";
+			htmlStr += "<a href=\"javascript:_zr('" + $(this).find('zipNo').text() + "','" + roadAddress + "');\">";
+			htmlStr += "["+{=__java("도로명")}+"] " + roadAddress + "</a>";
+			htmlStr += "<br>["+{=__java("지")}+"&nbsp;&nbsp&nbsp"+{=__java("번")}+"] " + $(this).find('jibunAddr').text();
+
+			htmlStr += "</td>";
+			htmlStr += "</tr>";
+			//htmlStr += "</div>";
+			*/
+		});
+		
+		$(".postcode-result").html(htmlStr);
+	}
+	
+	// 페이지 이동
+	function goPageDiv(pageNum){
+		document.form1.currentPage.value=pageNum;
+		getAddr();
+	}
+
+</script>
+
+<script language="JavaScript">
+$(window).load(function() {
+	var scollWidth = 17;
+	var strWidth = $('#pop-postcode').outerWidth() + scollWidth + (window.outerWidth - window.innerWidth);
+
+	var strHeight = $('#pop-postcode').outerHeight() + (window.outerHeight - window.innerHeight);
+	//resize 
+	window.resizeTo( strWidth, strHeight );
+});
+</script>
+
+
+<!-- 우편번호찾기 팝업 -->
+<div id="pop-postcode" style="position:relative;display:block;">
+	<a href="#" onclick="window.close();" class="close">닫기</a>
+	<div class="pop-top">
+		<h2>우편번호 찾기</h2>
+	</div>
+	
+	<form name="form1" id="form" method="post" onsubmit="return false;">
+	<input type="hidden" name="currentPage" value="1"/>
+	<input type="hidden" name="countPerPage" value="10"/> 
+	<input type="hidden" name="confmKey" value="{data.confmKey}"/><!-- 요청 변수 설정 (승인키) -->
+	
+	<div class="inner">
+		<div class="postcode-search-wrap">
+			<input type="text" placeholder="주소를 입력하세요 (도로명, 지번, 건물명)" name="keyword" value="" required onkeydown="enterSearch();"/>
+			<button class="btn_postcode_search">검색</button>
+			<script>
+				$j(function(){
+					$j('.btn_postcode_search').click(function(){
+						$j('.postcode-tip').hide();
+						$j('.postcode-result').show();
+						document.form1.currentPage.value='1';
+						searchDivButton(); //jsonp사용시 enter검색 
+					});
+				});
+			</script>
+		</div>
+		<!-- 검색팁 -->
+		<div class="postcode-tip">
+			<div>TIP 이렇게 검색하세요!</div>
+			<p>지번 주소 검색 예)</p>
+			<p class="red">가산동 12-3</p>
+			<p>도로명 + 건물번호 주소 검색 예)</p>
+			<p class="red">남부순환로, 통일로 140</p>
+			<p>건물명 검색 예)</p>
+			<p class="red">전쟁기념관, 스타타워</p>
+		</div>
+		
+		
+		<div style="display: none; overflow: auto; height:530px;" class="postcode-result">
+		</div>
+		<div class="paging-wrap mt30" id="zipcode_page"></div>	
+		<!-- 검색결과 / 검색버튼 누르면 검색팁 사라지고 검색결과 노출-->
+		
+	</div>
+	</form>
+</div>

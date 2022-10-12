@@ -1,0 +1,19 @@
+<script>
+	(function($){
+		$(document).ready(function(){			
+			$(window).scroll(function() {
+				// 현재 스크롤 위치를 가져온다.
+				var scrollTop = $(window).scrollTop();
+				//var newPosition = scrollTop + floatPosition + "px"; 
+				if( scrollTop > 140 ) {
+   				//alert(scrollTop);
+    			$( '#site-header' ).hide();
+    			//$( '#site-header' ).css( { position: 'fixed', top: 0, height: '0px' } );
+    			//$( '#header-area .header-content' ).css( { paddingTop: '0px' } );
+   			} else {
+   				$( '#site-header' ).show();
+   			} 
+			}).scroll();
+		});
+	})(jQuery1_11_0);
+</script>

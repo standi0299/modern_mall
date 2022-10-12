@@ -1,0 +1,115 @@
+<iframe style="display: none;" height="1" width="1" name="hiddenIfrm" id="hiddenIfrm"></iframe>
+
+<form name="frm2" id="frm2" method="post" action="indb.php" target="hiddenIfrm">
+<input type="hidden" name="orderinfo" value="{orderinfo}" />
+<input type="hidden" name="payno" value="{payno}" />
+<!--{ @ _POST.cartno }-->
+<input type="hidden" name="cartno[]" value="{.value_}" />
+<!--{ / }-->
+<input type="hidden" name="coupon" value='{_POST.coupon}' />
+<input type="hidden" name="paymethod" value="{_POST.paymethod}" />
+<input type="hidden" name="bankinfo" value="{_POST.bankinfo}" />
+<input type="hidden" name="payer_name" value="{_POST.payer_name}" />
+<input type="hidden" name="mobile_type" value="Y" />
+<input type="hidden" name="iso_type" value="N" />
+</form>
+
+<div id="loadmoreajaxloader">
+	<center><img src="../img/loading_s.gif" /></center>
+</div>
+
+<div id="buttonlayer" style="display: none;">
+	<BR\><BR\>
+	<center><input type='button' onclick='_settle();' value='결제창 수동 호출' style="padding: 10px 10px;text-align:center;text-decoration:none;display:inline-block;font-size:16px;"></center>
+</div>
+
+<!--{ ? paymethod!='b' && paymethod!='e' && paymethod!='t' && _cfg.pg.module!='no' }-->{ # pg }<!--{ / }-->
+
+<script type="text/javascript" src="/js/jquery-1.9.1.min.js"></script>
+<script>
+function formSubmitAjax()
+{
+	//var f = document.getElementById('frm2');
+	document.frm2.target = "";
+	document.frm2.iso_type.value = "Y";
+	//alert('click');
+	var formData = $("#frm2").serialize();
+	//alert(formData);
+	
+	$.ajax({  	
+  	url: "indb.php",
+  	type: "POST",
+  	data : formData,
+  	dataType: "json",
+  	cache : false,
+	 	
+  	success:function(data)
+  	{
+			//var loadL = document.getElementById('loadmoreajaxloader');
+			//loadL.style.display= "none";			
+			//var buttonL = document.getElementById('buttonlayer');
+			//buttonL.style.display= "block";		
+			//var orderL = document.getElementById('orderFormDiv');
+			//orderL.style.display= "block";
+    	    	
+    	if (data.result == "OK")
+    	{
+    		//alert(data.result);
+    		_settle();
+    	}
+   	},
+   	
+   	error: function(xhr,status, error){
+    	alert("status:"+status+"\n"+"code:"+xhr.status+"\n"+"message:"+xhr.responseText+"\n"+"error:"+error);
+    }
+	});
+}	
+
+function iOS() {
+	
+	if((navigator.userAgent.match(/iPhone/i)) || (navigator.userAgent.match(/iPod/i)) || (navigator.userAgent.match(/Safari/))) 
+	{
+		return true;
+	}
+	
+	var isIphone = navigator.userAgent.indexOf("iPhone") != -1 ;
+	var isIpod = navigator.userAgent.indexOf("iPod") != -1 ;
+	var isIpad = navigator.userAgent.indexOf("iPad") != -1 ;
+
+	// now set one variable for all iOS devices
+	var isIos = isIphone || isIpod || isIpad ;
+	
+	if (isIos)
+	{
+		return isIos;
+	} else {
+
+	  var iDevices = [
+	    'iPad Simulator',
+	    'iPhone Simulator',
+	    'iPod Simulator',
+	    'iPad',
+	    'iPhone',
+	    'iPod'
+	  ];
+	
+	  if (!!navigator.platform) {
+	    while (iDevices.length) {
+	      if (navigator.platform === iDevices.pop()){ return true; }
+	    }
+	  }
+	
+	  return false;
+	 }
+}
+
+$(document).ready(function() {
+	if (iOS() && (document.frm2.paymethod.value == "c" || document.frm2.paymethod.value == "v"))
+	{
+		formSubmitAjax();
+	} else {
+		document.frm2.submit();
+	}
+});
+
+</script>

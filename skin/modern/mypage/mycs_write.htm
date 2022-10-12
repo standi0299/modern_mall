@@ -1,0 +1,166 @@
+{ # header }
+
+<section class="content-container">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col">
+				<a href="../../board/list.php?board_id=notice">{=__text("공지사항")}</a>
+			</li>
+			<li class="col">
+				<a href="../../service/faq.php">{=__text("자주 묻는 질문")}</a>
+			</li>
+			<li class="col active">
+				<a href="../../mypage/mycs.php">{=__text("문의하기")}</a>
+			</li>
+			<!--{ ? board_list }-->
+				<!--{ @ board_list }-->
+				<li class="col">
+					<a href="../../board/list.php?board_id={.value_['id']}">{.value_['name']}</a>
+				</li>
+				<!--{ / }-->
+			<!--{ / }-->
+		</ul>
+		<div class="tab-content-wrap">
+			<div class="tab-content" id="inquiry">
+				<div class="inquiry-content h-group" id="inquiry-tab">
+					<div class="col text-center">
+						<i><img src="../img/inquiry-bullet.png" alt=""></i>
+						<p>{=__text("운영시간")}</p>
+						<p>
+							<span style="width:300px;display:inline-block;overflow:hidden;white-space:nowrap;line-height:1.8em;">
+								{ _cfg.cstime }
+							</span>
+						</p>
+					</div>
+					<div class="col" id="tab-bar">
+						<i></i>
+					</div>
+					<div class="col">
+						<a href="../../mypage/mycs_write.php" class="active">
+							{=__text("문의하기")}
+						</a>
+					</div>
+					<div class="col">
+						<a href="../../mypage/mycs.php">
+							{=__text("1:1 문의내역")}
+						</a>
+					</div>
+				</div>
+				<div class="inquiry-content">
+					<form method="post" action="indb.php" enctype="multipart/form-data" onsubmit="return form_chk(this);">
+						<input type="hidden" name="mode" value="{_mode}">
+						<input type="hidden" name="no" value="{no}">
+						<input type="hidden" name="rurl" value="../mypage/mycs.php">
+
+						<div id="inquiry-form">
+							<h3>{=__text("문의정보")}</h3>
+							<div class="form-horizontal">
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("문의유형")}</label>
+									<div class="col select-box email-select">
+										<label id="category_label">{=__text("선택하세요.")}</label>
+										<select name="category" required>
+											<option value="">{=__text("선택하세요.")}</option>
+											<!--{ @ _r_cs_category }-->
+												<!--{ ? .key_ != '9' }-->
+												<option value="{.key_}" {=_selected.category[.key_]}>{.value_}</option>
+												<!--{ / }-->
+											<!--{ / }-->
+										</select>
+									</div>
+									<script>
+									$j(function() {
+										$j("#category_label").text($j("select[name=category] option:selected").text());
+									});
+									</script>
+								</div>
+
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("주문번호")}</label>
+									<div class="col select-box email-select">
+										<label id="payno_label">{=__text("선택하세요.")}</label>
+										<select name="payno">
+											<option value="">{=__text("선택하세요.")}</option>
+											<!--{ @ payno }-->
+											<option value="{.payno}" {=_selected.payno[.payno]}>{.payno}</option>
+											<!--{ / }-->
+										</select>
+									</div>
+									<script>
+									$j(function() {
+										$j("#payno_label").text($j("select[name=payno] option:selected").text());
+									});
+									</script>
+								</div>
+							</div>
+							<hr>
+							<h3>{=__text("문의하기")}</h3>
+							<div class="form-horizontal">
+								<div class="form-group h-group" id="set-title">
+									<label class="col label-control text-left">{=__text("제목")}</label>
+									<div class="col">
+										<input type="text" class="input" name="subject" value="{subject}" {=__label("제목")} required {=__placeholder("제목을 입력하세요.")}>
+									</div>
+								</div>
+
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("내용")}</label>
+									<div class="col">
+										<textarea name="content" {=__label("내용")} required {=__placeholder("내용을 입력하세요.")}>{content}</textarea>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<label class="col label-control text-left">{=__text("파일첨부하기")}</label>
+									<div class="col" style="margin: -10px 0 0 30px;">
+										<div class="h-group" id="add-file-wrap">
+											<div class="col" id="add-file" style="margin-right:10px;">
+												<label for="photo-file"><span>{=__text("파일첨부")}</span></label>
+												<input type="file" id="photo-file" class="fileupload_input" name="file">
+											</div>
+											<div class="col">
+												<label for="photo-file" id="file_label" style="cursor: pointer;">{=__text("파일을 첨부해주세요.")}</label>
+												<b style="font-size:12px;">({=__text("파일이 여러 개인 경우는 압축파일로 압축하여 1개만 업로드해주세요.")})</b>
+											</div>
+										</div>
+										<!--{ ? img }-->
+										<div>
+											<label class="col label-control text-left">{=__text("기존파일")} : <a href="../data/board/{cid}/cs/{img}" target="_blank">{img}</a></label>
+											<input type="checkbox" id="file_delete" name="delfile" value="1"><label class="label-control" for="file_delete">{=__text("삭제")}</label>
+										</div>
+										<!--{ / }-->
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="text-center" style="margin:0 auto;">
+							<button type="submit" class="btn btn-primary btn-lg btn-half" style="width:238px;margin-right:20px;">{=__text("확인")}</button>
+							<button type="button" class="btn btn-primary btn-lg btn-half" style="width:238px;background-color:white;color:#6bcdfd;" onclick="javascript:history.back();">{=__text("취소")}</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "cs-layout");
+
+	$j(".fileupload_input").change(function() {
+		if ($j(this).val()) {
+			$j("#file_label").text({=__java("파일이 첨부되었습니다.")});
+		} else {
+			$j("#file_label").text({=__java("파일을 첨부해주세요.")});
+		}
+	});
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }

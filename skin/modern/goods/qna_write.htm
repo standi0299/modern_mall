@@ -1,0 +1,89 @@
+{ # header_popup }
+
+<!--[if lt IE 10]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-shim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-sham.min.js"></script>
+<![endif]-->
+
+<!--[if lt IE 9]>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+<script src="/skin/modern/assets/js/es3-vendors/ie-checker-min.js"></script>
+<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+<script src="/skin/modern/assets/js/app-ie8.js"></script>
+<![endif]-->
+	
+<!--[if gt IE 8]><!-->	
+<script src="/skin/modern/assets/js/vendors.js?last_modified=1705101012"></script>
+<script src="/skin/modern/assets/js/app.min.js?last_modified=1705101012"></script>
+<!--<![endif]-->
+	
+<link rel="stylesheet" href="/skin/modern/assets/css/vendors.css">
+<link rel="stylesheet" href="/skin/modern/assets/css/app.css">
+
+<section style="margin:40px auto 55px;text-align:center;"><!--{ @ f_banner_s2('goods_qna_write_title')}-->{.banner}<!--{ / }--></section>
+
+<section id="review-foam-layout" style="width:750px;">
+	<h3>{=__text("QnA 작성")}</h3>
+	<form method="post" action="indb.php" onsubmit="return form_chk(this)">
+		<input type="hidden" name="mode" value="{_mode}">
+		<input type="hidden" name="catno" value="{_GET.catno}">
+		<input type="hidden" name="goodsno" value="{_GET.goodsno}">
+		<input type="hidden" name="no" value="{_GET.no}">
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("상품명")}</div>
+			<div class="col">{_goodsnm}</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("작성자")}</div>
+			<div class="col">{_sess.name}</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("제목")}</div>
+			<div class="col">
+				<input type="text" class="input" name="subject" value="{subject}" required {=__label("제목")} style="border:transparent;border-bottom:1px solid #b7b7b7;">
+			</div>
+		</div>
+		
+		<div class="h-group" id="write-hidden">
+			<div class="col">
+				<input type="checkbox" id="review-hidden" name="secret" value="1" {=_checked.secret['1']}>
+			</div>
+			<div class="col">
+				<label for="review-hidden" style="top:1px;font-family:'Noto Sans KR','Apple SD Gothic Neo','Malgun Gothic,sans-serif;">{=__text("비밀글로 작성합니다.")}</label>
+			</div>
+		</div>
+		
+		<textarea name="content" id="" class="review-content" cols="30" rows="10" required {=__label("내용")}>{content}</textarea>
+		
+		<div class="h-group" id="review-submit">
+			<div class="col">
+				<input type="submit" id="qna_write-submit" style="display:none;">
+				<a href="#" id="qna_write-btn" class="btn-primary">{=__text("확인")}</a>
+			</div>
+			<div class="col">
+				<a href="javascript:this.close()" class="btn-blue-link">{=__text("취소")}</a>
+			</div>
+		</div>
+	</form>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "review-form-page");
+	$j("body").attr("class", "");
+	$j("html,body").css("height", "auto");
+	$j(".form-data>div.col:last-child").css("width", "675px");
+	$j("#write-hidden").css("margin-top", "10px");
+});
+
+$j("#qna_write-btn").click(function() {
+	$j("#qna_write-submit").click();
+});
+</script>

@@ -1,0 +1,764 @@
+{ # header }
+<!--orderpayment.B1.htm-->
+
+<!--본 컨텐츠 시작-->
+
+{ ? !allowMobilePGCheck() }
+<!--{ ? _cfg.pg.module == 'inicis' }-->
+<script language=javascript src="//plugin.inicis.com/pay61_secuni_cross.js" charset='euc-kr'></script>
+<script language=javascript charset='euc-kr'>
+    StartSmartUpdate();
+</script>
+<!--{ : _cfg.pg.module == 'kcp' }-->
+<script type="text/javascript" src='http://pay.kcp.co.kr/plugin/payplus_un.js'></script>
+<script type="text/javascript">
+    /* 플러그인 설치(확인) */
+    StartSmartUpdate();
+</script>
+<!--{ / }-->
+{ / }
+
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/mypage_20190110.css">
+
+<style>
+    .orderInput6 {
+        border: 1px solid #ccc;
+        padding: 5px 10px;
+        width: 25%;
+    }
+</style>
+
+<form name="fm" id="ordForm">
+
+    <input type="hidden" name="coupon" id="input_coupon" />
+    <input type="hidden" name="mid" value="{_sess.mid}">
+    <!--{ @ _REQUEST.cartno }-->
+    <input type="hidden" name="cartno[]" value="{.value_}">
+    <!--{ / }-->
+
+    <input type="hidden" name="rid_cartno" />
+    <input type="hidden" name="mode" id="mode" value="orderpayment" />
+    <input type="hidden" name="order_shiptype" id="order_shiptype" />
+
+    <!--{ @ _POST.cartno }-->
+    <input type="hidden" name="cartno[]" value="{.value_}">
+    <!--{ / }-->
+
+
+    <input type="hidden" name="totprice_number" id="totprice_number">
+    <input type="hidden" name="dc_coupon" id="dc_coupon">
+
+    <input type="hidden" name="design_draft_flag" value="{_REQUEST.design_draft_flag}">
+
+    <section class="content-container order-layout">
+
+        <div class="orderStep">
+            <ul>
+                <li class="buma_order_first"><img src="/skin/modern/assets/B1/img/order-step-icon1.jpg"></li>
+                <li class="buma_order_second"><img src="/skin/modern/assets/B1/img/order-step-icon2-on.jpg"></li>
+                <li class="buma_order_third"><img src="/skin/modern/assets/B1/img/order-step-icon3.jpg"></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="myPageOrderInfo">
+            <div class="myPageodif draftRequest">
+                <h1>{=__text("상품 정보")}</h1>
+                <!--상품정보-->
+                {p.i->inc('/order/_cart_order_pay_info.B1.htm')}
+                <!--상품정보-->
+            </div>
+
+            <div class="myPageOrderInfo">
+                <div class="myPageodif Ordered">
+                    <h1>{=__text("주문자 정보")}</h1>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+                        <colgroup>
+                            <col width="30%">
+                            <col width="*">
+                        </colgroup>
+                        <tr>
+                            <th>{=__text("주문자명")}</th>
+                            <td><input type="text" class="orderInput1" name="orderer_name" value="{name}" pt="_pt_txt" required onkeyup="chkTextByte(this,20)"></td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("일반전화")}</th>
+                            <td>
+                                <input type="text" class="orderInput6" name="orderer_phone[0]" value="{phone[0]}" pt="_pt_numplus" size="4" maxlength="4"> -
+                                <input type="text" class="orderInput6" name="orderer_phone[1]" value="{phone[1]}" pt="_pt_numplus" size="4" onkeyup="auto_focus(this,2)" maxlength="4"> -
+                                <input type="text" class="orderInput6" name="orderer_phone[2]" value="{phone[2]}" pt="_pt_numplus" size="4" maxlength="4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("휴대전화")}</th>
+                            <td>
+                                <input type="text" class="orderInput6" name="orderer_mobile[0]" value="{mobile[0]}" pt="_pt_numplus" size="4" maxlength="4"> -
+                                <input type="text" class="orderInput6" name="orderer_mobile[1]" value="{mobile[1]}" pt="_pt_numplus" size="4" onkeyup="auto_focus(this,2)" maxlength="4"> -
+                                <input type="text" class="orderInput6" name="orderer_mobile[2]" value="{mobile[2]}" pt="_pt_numplus" size="4" maxlength="4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("이메일")}</th>
+                            <td><input type="text" class="orderInput1" name="orderer_email" value="{email}" pt="_pt_email" onkeyup="chkTextByte(this,50)"></td>
+                        </tr>
+                        <!-- 주문자와 동일 : 주소추가 -->
+                        <input type="hidden" class="orderInput1" name="orderer_zipcode" value="{zipcode}">
+                        <input type="hidden" class="orderInput1" name="orderer_addr" value="{address}">
+                        <input type="hidden" class="orderInput1" name="orderer_addr_sub" value="{address_sub}">
+                    </table>
+                    <h1 style="float:left; margin:40px 0 15px 0;">{=__text("배송지 정보")}</h1>
+
+                    <div class="dlvryInchc">
+                        <div class="h-group" id="shpngMthd-checked">
+                            <div class="col checkbox-bullet">
+                                <input type="radio" name="copyInfo" id="copyInfo_1" onclick="same_check(true)" value='{=__text("주문자와 동일")}'>
+                                <label for="copyInfo_1" style="margin:0;"></label>
+                            </div>
+                            <div class="col">
+                                <label for="copyInfo_1">{=__text("주문자와 동일")}</label>
+                            </div>
+                        </div>
+                        <div class="h-group" id="shpngMthd-checked">
+                            <div class="col checkbox-bullet">
+                                <input type="radio" name="copyInfo" id="copyInfo_2" onclick="same_check(false)" value='{=__text("새로 입력")}' checked="checked">
+                                <label for="copyInfo_2" style="margin:0;"></label>
+                            </div>
+                            <div class="col">
+                                <label for="copyInfo_2">{=__text("새로 입력")}</label>
+                            </div>
+                        </div>
+                        <button class="dlvryBtn" onclick="javascript:popup('p.address.php',1200,930)">{=__text("내배송지에서추가")}</button>
+                    </div>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+                        <colgroup>
+                            <col width="30%">
+                            <col width="*">
+                        </colgroup>
+                        <tr>
+                            <th>{=__text("배송방법")}</th>
+                            <td class="shpngMthd">
+                                <div class="h-group" id="shpngM-checked">
+                                    <div class="col checkbox-bullet">
+                                        <input type="radio" id="shpngM1" name="shiptype" value="1" onclick="delever_req(false,'1');" required checked="checked">
+                                        <label for="shpngM1" style="margin:0;"></label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="shpngM1">{=__text("기본배송")}</label>
+                                    </div>
+                                </div>
+                                <div class="h-group" id="shpngM-checked">
+                                    <div class="col checkbox-bullet">
+                                        <input type="radio" id="shpngM2" name="shiptype" value="5" onclick="delever_req(false,'5');" required>
+                                        <label for="shpngM2" style="margin:0;"></label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="shpngM2">{=__text("퀵서비스")}</label>
+                                    </div>
+                                </div>
+                                <div class="h-group" id="shpngM-checked">
+                                    <div class="col checkbox-bullet">
+                                        <input type="radio" id="shpngM3" name="shiptype" value="9" onclick="delever_req(true,'9');" required>
+                                        <label for="shpngM3" style="margin:0;"></label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="shpngM3">{=__text("방문수령")}</label>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("수령인명")}</th>
+                            <td><input type="text" class="orderInput1 readonly" name="receiver_name" pvalue="orderer_name" required></td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("일반전화")}</th>
+                            <td>
+                                <input type="text" class="orderInput6 readonly" name="receiver_phone[0]" pvalue="orderer_phone[0]" pt="_pt_numplus" size="4" maxlength="4"> -
+                                <input type="text" class="orderInput6 readonly" name="receiver_phone[1]" pvalue="orderer_phone[1]" pt="_pt_numplus" size="4" onkeyup="auto_focus(this,2)" maxlength="4"> -
+                                <input type="text" class="orderInput6 readonly" name="receiver_phone[2]" pvalue="orderer_phone[2]" pt="_pt_numplus" size="4" maxlength="4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("휴대전화")}</th>
+                            <td>
+                                <input type="text" class="orderInput6 readonly" name="receiver_mobile[0]" pvalue="orderer_mobile[0]" pt="_pt_numplus" size="4" maxlength="4"> -
+                                <input type="text" class="orderInput6 readonly" name="receiver_mobile[1]" pvalue="orderer_mobile[1]" pt="_pt_numplus" size="4" onkeyup="auto_focus(this,2)" maxlength="4"> -
+                                <input type="text" class="orderInput6 readonly" name="receiver_mobile[2]" pvalue="orderer_mobile[2]" pt="_pt_numplus" size="4" maxlength="4">
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("주소")}</th>
+                            <td>
+                                <p style="margin-bottom: 7px;">
+                                    <input type="text" class="orderInput3 readonly" name="receiver_zipcode" id="receiver_zipcode" pvalue="orderer_zipcode" required>
+                                    <button type="button" class="dlvryBtn2" onclick="if($j('#copyInfo_1').attr('checked')==false){popupZipcode('_zcrn_r')}">{=__text("우편번호찾기")}</button>
+                                </p>
+                                <p style="margin-bottom: 7px;"><input type="text" class="orderInput2 readonly" name="receiver_addr" pvalue="orderer_addr" required>
+                                </p>
+                                <p><input type="text" class="orderInput2 readonly" name="receiver_addr_sub" id="receiver_addr_sub" pvalue="orderer_addr_sub" required placeholder="상세주소를 입력하세요." onkeyup="chkTextByte(this,50)"></p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("추가 메모")}</th>
+                            <td><input type="text" class="orderInput2" name="request2"></td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("배송 메모")}</th>
+                            <td><input type="text" class="orderInput2" name="request"></td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="myPageodif Payment">
+                    <h1>{=__text("결제 정보")}</h1>
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable tb3">
+                        <colgroup>
+                            <col width="35%">
+                            <col width="*">
+                        </colgroup>
+                        <tr class="discount-cont">
+                            <th>{=__text("그룹할인")}</th>
+                            <td>{=number_format(cart->dc)} {=__text("원")}</td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("적립금")}({=__text("잔액")}:{=number_format(emoney)}원)</th>
+                            <td><input type="text" class="orderInput5" name="emoney" size="10" class="textType" onchange="totprice()" pt="_pt_numplus">{=__text("원")}</td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("상품할인쿠폰")}</th>
+                            <td><button type="button" class="dlvryBtn2" id="price-coupon" onclick="popupCoupon()">{=__text("쿠폰사용")}</button><input type="text" class="orderInput5" name="dc_coupon" id="dc_coupon" size="10" readonly>{=__text("원")}</td>
+                        </tr>
+                        <!--{ ? _sess.mid }-->
+                        <tr>
+                            <th>{=__text("프로모션코드 할인")}</th>
+                            <td>
+                                <p><input type="text" class="orderInput5" name="dc_sale_code_coupon" id="dc_sale_code_coupon">{=__text("원")}</p>
+                                <p>
+                                    <button type="button" class="dlvryBtn2" id="sale-price-coupon" onclick="saleCodeApply()">코드적용</button>
+                                    <input type="text" class="orderInput1" placeholder="코드를 입력하세요." style="margin:8px 18px 0 10px;" size="20" name="sale_code_coupon" id="sale_code_coupon">
+                                </p>
+                                <div id="sale_code_coupon_msg"></div>
+                            </td>
+                        </tr>
+                        <!--{ / }-->
+                        <tr>
+                            <th class="td2">{=__text("총 판매가")}</th>
+                            <td class="td2">{=number_format(cart->itemprice)}{=__text("원")}</td>
+                        </tr>
+                        <tr>
+                            <th class="td2">{=__text("총 할인금액")}</th>
+                            <td class="td2"><span id="totdc"></span></td>
+                        </tr>
+                        <tr>
+                            <th class="td2">{=__text("배송비")}</th>
+                            <td class="td2">{=number_format(cart->totshipprice)}{=__text("원")}</td>
+                        </tr>
+                        <tr>
+                            <th class="td3">{=__text("합계금액")}</th>
+                            <td class="td3" id="totprice">{=number_format(cart->itemprice - cart->dc + cart->totshipprice)}{=__text("원")}</td>
+                        </tr>
+                        <tr>
+                            <th class="td3">{=__text("결제 방법")}</th>
+                            <td class="pymntMthd">
+                                <!--{ @ _cfg.pg.paymethod }-->
+                                <div class="h-group" id="pymntM-checked" style="margin:0 0 10px 0;">
+                                    <div class="col checkbox-bullet">
+                                        <input type="radio" id="pymnt-{.value_}" name="paymethod" value="{.value_}" onclick="sel_bank_info('{.value_}')" required {?!.index_}checked{/}>
+                                        <label for="pymnt-{.value_}" style="margin:0;"></label>
+                                    </div>
+                                    <div class="col">
+                                        <label for="pymnt-{.value_}">{_r_paymethod[.value_]}</label>
+                                    </div>
+                                </div>
+                                <!--{ / }-->
+
+                                <div class="makeDpst" style="display: none" id="sel_bank_info">
+                                    <div class="makeD">
+                                        <div class="custom_select2">
+                                            <select class="selectType " name="bankinfo" id="bank_info_required">
+                                                <option value="">{=__text("입금계좌선택")}</option>
+                                                <!--{ @ r_bank }-->
+                                                <option value="{.value_}">{.value_}</option>
+                                                <!--{ / }-->
+                                            </select>
+                                        </div>
+                                        <div style="margin:8px 0 0 0;">
+                                            <input type="text" class="orderInput2" name="payer_name" value="{name}" required>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="buttonBar" style="margin-top:50px;">
+                <button type="button" class="botbtn order" onclick="history.back(-1);">{=__text("취소하기")}</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                <button type="button" class="botbtn List" onclick="orderProc();">{=__text("주문하기")}</button>
+            </div>
+        </div>
+
+    </section>
+
+</form>
+
+<!--{ ? paymethod!='b' && paymethod!='e' && paymethod!='t'}-->{ # pg }
+<!--{ / }-->
+
+<script>
+    function sel_bank_info(paymethod) {
+        if (paymethod == 'b') {
+            $j("#sel_bank_info").show();
+            $j("#bank_info_required").attr("required", true);
+        } else {
+            $j("#sel_bank_info option:eq(0)").attr("selected", "selected");
+            $j("#sel_bank_info").hide();
+            $j("#bank_info_required").attr("required", false);
+        }
+    }
+
+    var memberEmoney = '{emoney}';
+
+
+    function orderProc() {
+        var result = form_chk(document.fm);
+        if (result) {
+            $j.ajax({
+                type: "post",
+                url: "orderpayment.indb.php",
+                data: $j("#ordForm").serialize(),
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.error) {
+                        alert(data.error);
+                        return false;
+                    }
+
+                    if (data.code == "09") {
+                        alert(data.msg);
+                        if (data.action)
+                            eval(data.action);
+                    } else {
+
+                        var st = $(":input:radio[name=paymethod]:checked").val();
+                        if (st == "kp") {
+                            //카카오페이 결제.
+                            window.open(data.action, "kakaopay_window", "height=500, width=600,scroll=yes, scrollbars=yes, status=yes, help=yes, center=yes toolbar=yes, directories=yes, menubar=yes, resizable=yes");
+                        } else {
+                            if (data.pay_client_type == "PC") {
+                                //아니시스 PC
+                                $("input[name=timestamp]").val(data.timestamp);
+                                $("input[name=signature]").val(data.signature);
+                                $("input[name=mKey]").val(data.mKey);
+
+                                $("input[name=goodname]").val(data.goodname);
+                                $("input[name=oid]").val(data.payno);
+                                $("input[name=price]").val(data.totprice);
+
+                                $("input[name=buyername]").val(data.buyername);
+                                $("input[name=buyertel]").val(data.buyertel);
+                                $("input[name=buyeremail]").val(data.buyeremail);
+
+                                $("select[name=gopaymethod]").val(data.gopaymethod).prop("selected", true);
+                                //document.SendPayForm_id.gopaymethod.value = data.paymethod;
+                                eval(data.action);
+                            } else {
+                                //이니시스 모바일
+                                $("input[name=P_OID]").val(data.payno);
+                                $("input[name=P_GOODS]").val(data.goodname);
+                                $("input[name=P_AMT]").val(data.totprice);
+                                $("input[name=P_UNAME]").val(data.buyername);
+                                //$("input[name=P_MNAME]").val(data.buyername);			//가맹점이릉
+                                $("input[name=P_MOBILE]").val(data.buyertel);
+                                $("input[name=P_EMAIL]").val(data.buyeremail);
+
+                                $("select[name=paymethod]").val(data.gopaymethod).prop("selected", true);
+                                eval(data.action);
+                            }
+                        }
+                    }
+                    return false;
+                }
+            });
+        } else return false;
+    }
+
+    function delever_req(flag, type) {
+
+        if (flag == true) {
+            $j("[name=receiver_name]").attr("disabled", true);
+
+
+            $j("[name=receiver_mobile[0]]").attr("disabled", true);
+            $j("[name=receiver_mobile[1]]").attr("disabled", true);
+            $j("[name=receiver_mobile[2]]").attr("disabled", true);
+
+            $j("[name=receiver_zipcode]").attr("disabled", true);
+            $j("[name=receiver_addr]").attr("disabled", true);
+            $j("[name=receiver_addr_sub]").attr("disabled", true);
+        } else {
+            $j("[name=receiver_name]").attr("disabled", false);
+
+
+            $j("[name=receiver_mobile[0]]").attr("disabled", false);
+            $j("[name=receiver_mobile[1]]").attr("disabled", false);
+            $j("[name=receiver_mobile[2]]").attr("disabled", false);
+
+            $j("[name=receiver_zipcode]").attr("disabled", false);
+            $j("[name=receiver_addr]").attr("disabled", false);
+            $j("[name=receiver_addr_sub]").attr("disabled", false);
+        }
+
+        var emoney = parseInt($j("input[name=emoney]").val() * 1);
+        var grpdc = "{cart->dc}";
+        var dc_coupon = parseInt($j("input[name=dc_coupon]").val() * 1);
+        var dc_sale_code_coupon = parseInt($j("#dc_sale_code_coupon").html().replace('<?=_("원")?>', ""));
+        var totship = "{cart->totshipprice}";
+
+        if (isNaN(emoney)) emoney = 0;
+        if (grpdc == '') grpdc = 0;
+        if (isNaN(dc_coupon)) dc_coupon = 0;
+        if (isNaN(dc_sale_code_coupon)) dc_sale_code_coupon = 0;
+        if (totship == '') totship = 0;
+
+        if (type == "5" || type == "9") {
+            totship = 0;
+        }
+
+        var price = parseInt("{cart->itemprice}") + parseInt(totship);
+        var totPrice = parseInt(price) - parseInt(grpdc) - parseInt(emoney) - parseInt(dc_coupon) - parseInt(dc_sale_code_coupon);
+
+        $j("#totprice_number").val(comma(totPrice));
+        $j("#totprice").html(comma(totPrice) + '<?=_("원")?>');
+        $j("#totprice2").html(comma(totPrice) + '<?=_("원")?>');
+        $j("#totprice_last").html(comma(totPrice) + '<?=_("원")?>');
+
+        $j("#total_ship_price").html(comma(totship) + '<?=_("원")?>');
+        $j("#total_ship_price2").html(comma(totship) + '<?=_("원")?>');
+    }
+
+    function aa(paymethod) {
+        console.log(paymethod);
+
+        //주문자명을 기본입력값 처리 / 20190304 / kdk.
+        $j("input[name=payer_name]").val($j("input[name=orderer_name]").val());
+
+        if (paymethod == "b") {
+            $j('#bank_info').show();
+        } else {
+            $j('#bank_info').hide();
+        }
+    }
+
+    function order_shiptype(rid_cartno, key) {
+        //같은 제작사라도 상품의 개별배송비가 있을 경우 구분해야 하기 때문에 key를 붙여준다.
+        var sel_ID = "order_shiptype_" + key;
+
+        document.fm.rid_cartno.value = rid_cartno;
+        document.fm.mode.value = 'order_shiptype_update';
+
+        var target = document.getElementById(sel_ID);
+
+        document.fm.order_shiptype.value = target.options[target.selectedIndex].value;
+        document.fm.action = 'order.php';
+
+        document.fm.submit();
+    }
+
+    function same_check(chk) {
+        if (chk == false) {
+            $j(".readonly").attr("readonly", false);
+            $j(".abs").attr("readonly", true);
+            $j(".readonly").val("");
+        } else {
+            $j(".readonly").attr("readonly", true);
+            $j(".readonly").each(function() {
+                var objname = $j(this).attr("pvalue");
+                var value = $j("[name=" + objname + "]").val();
+                $j(this).val(value);
+            });
+            getShippingExtraPrice(); //chunter
+        }
+    }
+
+    $j(function() {
+        same_check(false);
+        $j("#totdc").html(comma(parseInt("{cart->dc}")) + '<?=_("원")?>');
+        $j("[name=emoney]").bind('keydown', 'ctrl+v', function() {
+            alert('<?=_("ctrl+v 는 사용하실수 없습니다.")?>');
+            return false
+        });
+        $j("[name=emoney]").bind('contextmenu', function() {
+            alert('<?=_("우측버튼을 사용하실수 없습니다.")?>');
+            return false
+        });
+    });
+
+    function _zcrn_o() {
+        var zipcode = arguments[0];
+        $j("[name=orderer_zipcode]").val(zipcode);
+        $j("[name=orderer_addr]").val(arguments[1]);
+        $j("[name=orderer_addr_sub]").val("");
+        $j("[name=orderer_addr_sub]").trigger("focus");
+    }
+
+    function _zcrn_r() {
+        var zipcode = arguments[0];
+        $j("[name=receiver_zipcode]").val(zipcode);
+        $j("[name=receiver_addr]").val(arguments[1]);
+        $j("[name=receiver_addr_sub]").val("");
+        $j("[name=receiver_addr_sub]").trigger("focus");
+    }
+
+    function totprice() {
+
+        var emoney = parseInt("{emoney}");
+        var grpdc = parseInt("{cart->dc*1}");
+        var dc_coupon = parseInt(uncomma($j("input[name=dc_coupon]").val()) * 1);
+        var able_emoney = parseInt("{cart->itemprice - cart->dc}") - parseInt(dc_coupon);
+
+        var dc_sale_code_coupon = parseInt(uncomma($j("#dc_sale_code_coupon").val()) * 1);
+        var shipping_extra_price = parseInt($j("#shipping_extra_price").val() * 1);
+        if (isNaN(shipping_extra_price)) shipping_extra_price = 0;
+
+        var tmembership_use = "{_cfg.pg.tmembership_use}";
+
+        if (tmembership_use == 1)
+            var dc_partnership = parseInt($j("input[name=dc_partnership]").val() * 1);
+        else
+            var dc_partnership = 0;
+
+        if ($j("input[name=emoney]").val() > emoney) $j("input[name=emoney]").val(emoney);
+        if ($j("input[name=emoney]").val() > able_emoney) $j("input[name=emoney]").val(able_emoney);
+
+        var emoney = parseInt($j("input[name=emoney]").val() * 1);
+        var price = parseInt("{cart->itemprice + cart->totshipprice}");
+
+        $j("#totdc").html(comma(grpdc + emoney + dc_coupon + dc_sale_code_coupon + dc_partnership) + '<?=_("원")?>');
+
+        $j("#totprice").html(comma(price + shipping_extra_price - grpdc - emoney - dc_coupon - dc_sale_code_coupon - dc_partnership) + '<?=_("원")?>');
+
+        if (dc_partnership < 1)
+            $j("#dc_partnership").val("0");
+    }
+
+    function popupCoupon() {
+        var coupon = $j("#input_coupon").val();
+        popup('../module/p.coupon.php?cartno={_cartno}&coupon=' + coupon, 700, 800, '1', '', 'popup_coupon');
+    }
+</script>
+
+
+<script>
+    $j(function() {
+        //$j("#copyInfo_2").trigger("click");
+
+        //배송지 정보 주문자와 동일하게 처리.
+        $j("#copyInfo_1").trigger("click");
+
+        //비회원이면...
+        if ("{_sess.mid}" == "" && "{_REQUEST.buyGuest}" == "1") {
+            $j(".discount-cont").hide();
+        }
+
+    });
+    /** 주소록입력 **/
+    function _address(addressno) {
+        if (!addressno) return;
+        $j.post("indb.address.php", {
+                mode: "ajaxGetAddress",
+                addressno: addressno
+            },
+            function(data) {
+                if (!data) return;
+
+                /** 새로입력체크 **/
+                $j("#copyInfo_2").trigger("click");
+
+                var r = evalJSON(data);
+                var receiver_zipcode = r.receiver_zipcode.split("-");
+                var receiver_phone = r.receiver_phone.split("-");
+                var receiver_mobile = r.receiver_mobile.split("-");
+
+                $j("[name=receiver_name]").val(r.receiver_name);
+
+                $j("[name=receiver_phone[0]]").val(receiver_phone[0]);
+                $j("[name=receiver_phone[1]]").val(receiver_phone[1]);
+                $j("[name=receiver_phone[2]]").val(receiver_phone[2]);
+
+                $j("[name=receiver_mobile[0]]").val(receiver_mobile[0]);
+                $j("[name=receiver_mobile[1]]").val(receiver_mobile[1]);
+                $j("[name=receiver_mobile[2]]").val(receiver_mobile[2]);
+
+                $j("[name=receiver_zipcode]").val(receiver_zipcode);
+                $j("[name=receiver_addr]").val(r.receiver_addr);
+                $j("[name=receiver_addr_sub]").val(r.receiver_addr_sub);
+            });
+    }
+
+    function auto_focus(obj, idx) {
+        //return;	/* 자동포커스 이동 사용하지 않을시 주석제거 */
+
+        switch (obj.name) {
+            case "orderer_phone[1]":
+                if (obj.value.length == 4) obj.form['orderer_phone[2]'].focus();
+                break;
+            case "orderer_mobile[1]":
+                if (obj.value.length == 4) obj.form['orderer_mobile[2]'].focus();
+                break;
+            case "receiver_mobile[1]":
+                if (obj.value.length == 4) obj.form['receiver_mobile[2]'].focus();
+                break;
+            case "receiver_phone[1]":
+                if (obj.value.length == 4) obj.form['receiver_phone[2]'].focus();
+                break;
+        }
+    }
+
+    function goods_view(goodsno, catno) {
+        var url = "../goods/view.php?goodsno=" + goodsno + "&catno=" + catno;
+        location.href = url;
+    }
+
+
+    function saleCodeApply() {
+        var totship = "{cart->totshipprice}";
+
+        if (totship == '') totship = 0;
+
+        if ($j(":input[name=shiptype]:checked").val() == "5" || $j(":input[name=shiptype]:checked").val() == "9") {
+            totship = 0;
+        }
+
+        if ($j("#totprice_number").val() == totship) {
+            alert("할인 적용 금액이 없습니다.");
+        } else {
+            var promotion_sale_code = $j('#sale_code_coupon').val();
+            if (!promotion_sale_code) return;
+            $j.post("/module/indb.php", {
+                    mode: "sale_code_calcu",
+                    sale_code: promotion_sale_code,
+                    cartno: "{_cartno}"
+                },
+                function(data) {
+                    if (!data) return;
+
+                    var r = evalJSON(data);
+
+                    $j("#dc_sale_code_coupon").text("0" + "원");
+                    $j("#sale_code_coupon_msg").text("");
+
+                    if (r.sale_code_price > 0)
+                        $j("#dc_sale_code_coupon").text(comma(r.sale_code_price) + "원");
+                    else
+                        $j("#sale_code_coupon_msg").text(r.sale_code_msg);
+
+                    totprice();
+                });
+        }
+    }
+
+    (function($) {
+        $(document).ready(function() {
+            $('#receiver_addr_sub').bind("focus", function() {
+                getShippingExtraPrice();
+            });
+        });
+    })(jQuery1_11_0);
+
+    function getShippingExtraPrice() {
+        var r_zipcode = $j('#receiver_zipcode').val();
+        if (!r_zipcode) return;
+        $j.post("/module/indb.php", {
+                mode: "shipping_extra_calcu",
+                zipcode: r_zipcode,
+                cartno: "{_cartno}"
+            },
+            function(data) {
+                if (!data) return;
+
+                var r = evalJSON(data);
+
+                $j("#shipping_extra_price").val('0');
+                $j("#shipping_extra_msg").text('');
+                if (r.shipping_extra_price > 0) {
+                    $j("#shipping_extra_div").show();
+                    $j("#shipping_extra_price").val(r.shipping_extra_price);
+                    $j("#shipping_extra_msg").html("<p>" + comma(r.shipping_extra_price) + "원</p>");
+                } else {
+                    $j("#shipping_extra_div").hide();
+                    $j("#shipping_extra_msg").text(r.shipping_extra_msg);
+                }
+                totprice();
+            });
+    }
+</script>
+
+<script>
+    $j("#dc_partnership_type").click(function() {
+        var dc_partnership_type = $j(this).val();
+
+        var dc_partnership = 0;
+
+        // 결제금액처리
+        $j("#dc_partnership").val(dc_partnership); //input변경
+        $j("#txt_dc_partnership").text(dc_partnership); //txt변경
+        //totprice();											//결제금액다시계산
+
+        //총 결제금액
+        var payprice = $j("#totprice").html();
+
+        //배송비
+        var shipprice = parseInt("{cart->totshipprice}");
+
+        //var dc_partnership = {cart->max_dc_partnership};
+        var dc_partnership = (payprice - shipprice) * 0.1;
+
+        // 팝업창
+        if (dc_partnership_type == "tworld") popup("../module/tworld/tworld.php?dc_partnership=" + dc_partnership, 550, 330);
+    });
+
+    // TWORLD 콜백
+    function dc_partnership_tworld_callback(no, point) {
+        var point = parseInt(point);
+        var max_dc_partnership = parseInt("{=cart->max_dc_partnership}");
+        var dc_partnership = (point >= max_dc_partnership) ? max_dc_partnership : 0;
+
+        // 결제금액처리
+        $j("#dc_partnership").val(dc_partnership); //input변경
+        $j("#dc_partnership").text(dc_partnership); //txt변경
+        totprice(); //결제금액다시계산
+
+        // 결제방법처리 (for 국민은행)
+        //set_paymethod();
+
+        // dc_partnership_tworld PK값설정
+        $j("#dc_partnership_tworld_no").val(no);
+
+        return true;
+    }
+</script>
+
+<style>
+    #paymethod_info .paymethod_info_div {
+        display: none;
+    }
+</style>
+<script>
+    $j(window).load(function() {
+        $j("input[type=radio][name=paymethod]").click(function() {
+            $j(".paymethod_info_div[paymethod=" + $j(this).val() + "]", "#paymethod_info").show();
+            $j(".paymethod_info_div[paymethod!=" + $j(this).val() + "]", "#paymethod_info").hide();
+        });
+        $j("input[type=radio][name=paymethod]:checked").trigger("click");
+
+        if ("{=getCfg('est_option_flag')}" == "1") $j(".name-warning").show();
+        else $j(".name-warning").hide();
+    });
+</script>
+
+<!--본 컨텐츠 끝-->
+
+{ # footer }

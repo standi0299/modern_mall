@@ -1,0 +1,65 @@
+{# header_popup}
+
+<!--estimate-->
+<link href="/css/estimate.css" rel="stylesheet" type="text/css" />
+<!--estimate-->
+
+<form method="post" action="indb.php" name="addopt_change_form">
+<input type="hidden" name="mode" value="cartaddoptupdate">
+<input type="hidden" name="cartno" value="{_GET.cartno}">
+<input type="hidden" name="showMessage" value="Y">
+
+<div style="width:560px; min-height:500px;padding-bottom:40px;">
+	<div class="estimateq">
+		<div class="estimateC">
+
+			<!--옵션변경-->
+			<div class="box">
+				<h3 class="est_title" style="color:#1e5ea8 !important;">{=__text("옵션변경")}</h3>
+				<div id="option_item_select_PP">
+				<table cellpadding="0" cellspacing="0" class="estTable" style="border-top: 1px solid #1e5ea8 !important;">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>						
+					<tbody>
+
+					<!-- { @ loop } -->
+						<!-- { @ .value_ } -->
+							<tr>
+								<td>
+									{..addopt_bundle_name}
+								</td>
+								<td>
+									<select name="addoptno[]" class="custom-select-wrap-bank">
+										<!-- { @ ..addopt } -->
+										<option value="{...addoptno}" <!--{ ? data[..key_] == ...addoptno }--> selected <!--{ / }-->>{...addoptnm}</option>
+										<!-- { / } -->
+									</select>
+								</td>
+							</tr>
+						<!-- { / } -->
+					<!-- { / } -->						
+					
+					</tbody>
+				</table>
+				</div>					
+			</div>
+			<div class="space"> </div>						
+
+			<div class="estbtn">
+				<a onclick="addopt_change_submit()"><!--{ @ f_banner_s2('M2_addopt_change_submit') }-->{.banner}<!--{ / }--></a>
+			</div>
+        
+		</div>		
+	</div>
+</div>
+
+</form>
+<script>
+	function addopt_change_submit(){
+		var fm = document.addopt_change_form;
+		fm.action = "indb.php";
+		fm.mode = "cartaddoptupdate";
+		fm.submit();
+	}
+</script>

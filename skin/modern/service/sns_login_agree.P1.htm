@@ -1,0 +1,301 @@
+{ # header }
+
+<div class="sign_body">	
+	<div class="login_px_text">
+		<span class="login_px_text_span">회원가입</span>
+	</div>
+	
+	<form name="fm" method="post" action="indb.php" onsubmit="return form_chk(this);">
+		<input type="hidden" name="mode" value="sns_login">
+		<input type="hidden" name="id" value="{data.id}">
+		
+		<input type="hidden" name="type" value="{data.type}">
+		<input type="hidden" name="nickname" value="{data.nickname}">
+		<input type="hidden" name="mid" value="{data.mid}">
+		<input type="hidden" name="chkMid">
+		
+		<div class="sign_list">
+			<ul>
+				<li>
+					<span class="id_px">이름<span class="st">*</span></span>
+					<input type="text" class="text_idpw" name="name" pt="_pt_txt" value="{data.name}" required/>	
+				</li>
+				<li>
+					<span class="id_px">이메일<span class="st">*</span></span>
+					<input type="text" class="text_pp" name="email[]" pt="_pt_txteng" value="{data.email[0]}" required/>
+						@	
+					<input type="text" id="select_email" class="text_pp" name="email[]" pt="_pt_txteng" value="{data.email[1]}" required/>
+					<select class="email_add" onchange="auto_set_email(this);">
+						<option value="" {_selected.email[email[1]]}>직접입력</option>
+						<!--{ @ _r_email }-->
+						<option value="{.value_}" {_selected.email[.value_]}>{.key_}</option>
+						<!--{ / }-->
+					</select>						
+				</li>
+				<li class="check_sns">
+					<input type="checkbox" name="ismail" id="ismail" value="1" />	
+					<label for="ismail" style="font-size:13px;">이메일 정보수신에 동의합니다.</label>
+				</li>
+				<li>
+					<span class="id_px">연락처<span class="st">*</span></span>
+					<input type="text" class="text_pp number_type" name="mobile[]" value="{mobile[0]}" maxlength="3" pt="_pt_numplus" required onkeyup="auto_focus(this,1);"/>
+					<input type="text" class="text_pp number_type" name="mobile[]" value="{mobile[1]}" maxlength="4" pt="_pt_numplus" required onkeyup="auto_focus(this,2);"/>
+					<input type="text" class="text_pp number_type" name="mobile[]" value="{mobile[2]}" maxlength="4" pt="_pt_numplus" required/>	
+				</li>
+				<li class="check_sns">
+					<input type="checkbox" name="issms" id="issms" value="1" />	
+					<label for="issms" style="font-size:13px;">SMS 수신에 동의합니다.</label>
+				</li>
+				<li>
+					<!--{ @ f_banner_s2('pix_sns_register_info') }-->{.banner}<!--{ / }-->
+				</li>
+				<li>
+					<div class="14_add" style="width:650px; font-size:11px; margin-top:5px;">
+						<input type="checkbox" id="checkbox-all" name="oneone" />	
+						<label for="checkbox-all">
+							만 14세 이상이며, {_cfg.nameSite} <a href="#" class="showMask"><button type="button" style="border:none; background:0; text-decoration:underline; cursor:pointer; outline:0;">이용약관</button></a> 및 
+							<a href="#" class="showMask_gain"><button type="button" style="border:none; background:0; text-decoration:underline; cursor:pointer;outline:0;">개인정보 수집 및 이용</button></a>에 대한 내용을 확인하고 동의 합니다.
+						</label>
+					</div>
+				</li>
+				<li>
+					<div style="width:275px; margin:auto; margin-top:5px;">
+						<button type="button" class="over_btn" onclick="form_chk2();">완료</button>	
+					</div>	
+				</li>
+			</ul>
+		</div>
+	</form>
+	
+	<!--레이어 팝업-->
+	<div class="mask"></div>
+    <div class="window">
+		<div class="btn_agg">
+			<h2>이용약관</h2>
+			<input type="button" href="#" class="close" value="X"/>
+		</div>
+		
+		<div class="agg_text">
+			{_cfg.agreement}
+		</div>
+    </div>
+    <!--레이어 팝업-->
+    
+    <!--개인정보 레이어 팝업-->
+    <div class="mask_gain"></div>
+    <div class="window_gain">
+		<div class="btn_agg">
+			<h2>개인정보 수집 및 이용약관</h2>
+			<input type="button" href="#" class="close_gain" value="X"/>
+		</div>
+		
+		<div class="agg_text_2">
+			{_cfg.policy}
+		</div>
+    </div>
+    <!--개인정보 레이어 팝업-->
+</div>
+
+<script>
+var fm = document.fm;
+
+$j(function() {
+	$j('.number_type').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+function auto_set_email(obj) {
+	$j("#select_email").val($j(obj).val());
+}
+
+function auto_focus(obj,idx) {
+	switch (obj.name) {
+		case "mobile[]":
+			if ((idx == 1 && obj.value.length == 3) || (idx == 2 && obj.value.length == 4)) {
+				obj.form['mobile[]'][idx].focus();
+			}
+		break;
+	}
+}
+
+$(document).ready(function(){
+	// showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+	$('.showMask').click(function(e){
+		// preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+		e.preventDefault();
+		wrapWindowByMask('.mask','.window');
+	});
+	
+	// 닫기(close)를 눌렀을 때 작동합니다.
+	$('.window .close').click(function (e) {
+		e.preventDefault();
+		$('.mask, .window').hide();
+	});
+	
+	// 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+	$('.mask').click(function () {
+		$(this).hide();
+		$('.window').hide();
+	});
+});
+
+$(document).ready(function(){
+	// showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+	$('.showMask_gain').click(function(e){
+		// preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+		e.preventDefault();
+		wrapWindowByMask('.mask_gain','.window_gain');
+	});
+	
+	// 닫기(close)를 눌렀을 때 작동합니다.
+	$('.window_gain .close_gain').click(function (e) {
+		e.preventDefault();
+		$('.mask_gain, .window_gain').hide();
+	});
+	
+	// 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+	$('.mask_gain').click(function () {
+		$(this).hide();
+		$('.window_gain').hide();
+	});
+});
+
+function wrapWindowByMask(val, val2){
+	// 화면의 높이와 너비를 변수로 만듭니다.
+	var maskHeight = $(document).height();
+	var maskWidth = $(window).width();
+	
+	// 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
+	$(val).css({'width':maskWidth,'height':maskHeight});
+	
+	// fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
+	$(val).fadeIn(1000);
+	$(val).fadeTo("slow",0.8);
+	
+	// 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
+	var left = ( $(window).scrollLeft() + ( $(window).width() - $(val2).width()) / 2 );
+	var top = ( $(window).scrollTop() + ( $(window).height() - $(val2).height()) / 2 );
+	
+	// css 스타일을 변경합니다.
+	$(val2).css({'left':left,'top':top, 'position':'absolute'});
+	
+	// 레이어 팝업을 띄웁니다.
+	$(val2).show();
+}
+</script>
+
+<script>
+var fm = document.fm;
+
+function form_chk2() {
+	if (!fm.mid.value) {
+		alert({=__java("아이디가 없습니다.")});
+		return;
+	}
+	
+	$j.post("/member/indb.php", {mode: "chkMid", mid_en: Base64.encode(fm.mid.value)},
+	function(data) {
+		fm.chkMid.value = "";
+		
+		switch (data) {
+			case "duplicate": 
+				alert({=__java("이미 등록된 아이디입니다.")});
+				break;
+			case "good": 
+				//alert({=__java("사용이 가능한 아이디입니다.")});
+				fm.chkMid.value = "chk";
+				break;
+			case "unable": 
+				alert({=__java("사용이 불가능한 아이디입니다.")});
+				break;
+			case "out": 
+				alert({=__java("사용이 불가능한 아이디입니다.")});
+				break;
+		}
+		
+		if (fm.chkMid.value == "chk") {
+			if (fm.name.value == "") {
+				alert({=__java("이름을 확인해주세요.")});
+				fm.name.focus();
+				return;
+			} else if (!_pattern(fm.name)) {
+				alert({=__java("입력형식이 올바르지 않습니다.")});
+				fm.name.value = "";
+				fm.name.focus();
+				return;
+			}
+		
+			if (fm['email[]'] != undefined) {
+				if ((fm['email[]'][0].value == "")) {
+					alert({=__java("이메일을 확인해주세요.")});
+					fm['email[]'][0].focus();
+					return;
+				} else if (!_pattern(fm['email[]'][0])) {
+					alert({=__java("입력형식이 올바르지 않습니다.")});
+					fm['email[]'][0].value = "";
+					fm['email[]'][0].focus();
+					return;
+				}
+				
+				if ((fm['email[]'][1].value == "")) {
+					alert({=__java("이메일을 확인해주세요.")});
+					fm['email[]'][1].focus();
+					return;
+				} else if (!_pattern(fm['email[]'][1])) {
+					alert({=__java("입력형식이 올바르지 않습니다.")});
+					fm['email[]'][1].value = "";
+					fm['email[]'][1].focus();
+					return;
+				}
+			}
+		
+			if (fm['mobile[]'] != undefined) {
+				if ((fm['mobile[]'][0].value == "")) {
+					alert({=__java("연락처를 확인해주세요.")});
+					fm['mobile[]'][0].focus();
+					return;
+				} else if (!_pattern(fm['mobile[]'][0])) {
+					alert({=__java("입력형식이 올바르지 않습니다.")});
+					fm['mobile[]'][0].value = "";
+					fm['mobile[]'][0].focus();
+					return;
+				}
+				
+				if ((fm['mobile[]'][1].value == "")) {
+					alert({=__java("연락처를 확인해주세요.")});
+					fm['mobile[]'][1].focus();
+					return;
+				} else if (!_pattern(fm['mobile[]'][1])) {
+					alert({=__java("입력형식이 올바르지 않습니다.")});
+					fm['mobile[]'][1].value = "";
+					fm['mobile[]'][1].focus();
+					return;
+				}
+		
+				if ((fm['mobile[]'][2].value == "")) {
+					alert({=__java("연락처를 확인해주세요.")});
+					fm['mobile[]'][2].focus();
+					return;
+				} else if (!_pattern(fm['mobile[]'][2])) {
+					alert({=__java("입력형식이 올바르지 않습니다.")});
+					fm['mobile[]'][2].value = "";
+					fm['mobile[]'][2].focus();
+					return;
+				}
+			}
+		
+			if (!$j("#checkbox-all:checked").is(":checked")) {
+				alert({=__java("이용약관 및 개인정보처리방침에 동의해주세요.")});
+				return;
+			}
+			
+			fm.submit();
+		}
+	});
+}
+</script>
+		
+{ # footer }

@@ -1,0 +1,170 @@
+{ + header }<!DOCTYPE html>
+<html>
+<head>
+	<title>{_cfg.seo_title}</title>
+	<meta http-equiv="Content-type" content="text/html; charset=UTF-8" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+	
+	<meta name="path_role" content="{_cfg.seo_role}" />
+	<meta name="author" content="{_cfg.seo_author}" />
+	<meta name="description" content="{_cfg.seo_description}" />
+	<meta name="keywords" content="{_cfg.seo_keywords}" />
+	
+	<meta property="og:title" content="{_cfg.seo_title}" />
+	<meta property="og:description" id="og_description" content="{_cfg.seo_description}" />
+	<meta property="og:image" content="{ogGoodsImage}" />
+	<meta property="og:url" content="//{_SERVER['HTTP_HOST']}{_SERVER['REQUEST_URI']}" />
+	<meta property="og:site_name" content="{_cfg.seo_author}" />
+	<meta property="og:type" content="website" />
+	
+	<link rel="shortcut icon" href="/data/favicon/{_cid}/{_cfg.skin}/favicon.ico" type="image/x-icon" />
+	
+	<!-- <link rel="stylesheet" href="//cdn.rawgit.com/moonspam/NanumSquare/master/nanumsquare.css" type="text/css"> -->
+
+	<link rel="stylesheet" href="/skin/modern/assets/css/vendors.css" type="text/css">
+	<link rel="stylesheet" href="/skin/modern/img/setup/css/common.css" type="text/css">
+	<link rel="stylesheet" href="/skin/modern/assets/I1/css/app.css" type="text/css">
+	<link rel="stylesheet" href="/skin/modern/assets/I1/css/custom.css" type="text/css">
+	<script src="/js/global_langs.php"></script>
+	<!--[if lt IE 10]>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-shim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es5-shim/4.5.7/es5-sham.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/json3/3.3.2/json3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-shim.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-shim/0.34.2/es6-sham.min.js"></script>
+	<![endif]-->
+
+	<!--[if lt IE 9]>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+	<script src="/skin/modern/assets/js/es3-vendors/ie-checker-min.js"></script>
+	<script src="https://code.jquery.com/jquery-1.12.4.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bxslider/4.2.12/jquery.bxslider.min.js"></script>
+	<script src="/skin/modern/assets/js/app-ie8.js"></script>
+	<![endif]-->
+
+
+	
+	<!--[if gt IE 8]><!-->
+	<script src="/skin/modern/assets/js/vendors.js?last_modified=1705101012"></script>
+	<script src="/skin/modern/assets/js/app.min.js?last_modified=1705101012"></script>
+	<!--<![endif]-->
+
+	<script>jsLocale = '{_language_locale}';</script>
+
+	<!-- document.domain 스크립트 추가 부분 -->
+	<!--{ ? _cfg.service_domain != "" }-->
+		<script>
+			document.domain = '{_cfg.service_domain}';
+		</script>
+	<!--{ / }-->
+
+	<script src="<?=makeUrlWithVersion('/js/common.js')?>"></script>
+	<script src="<?=makeUrlWithVersion('/js/common.defer.js')?>" defer=defer></script>
+	<script src="<?=makeUrlWithVersion('/js/popupLayer.js')?>" defer=defer></script>
+	<script src="<?=makeUrlWithVersion('/js/form_chk.js')?>" defer=defer></script>
+	<script src="<?=makeUrlWithVersion('/js/webtoolkit.base64.js')?>"></script>
+
+	<!--{ ? _ici_admin }-->
+	<script src="<?=makeUrlWithVersion('/js/dp_goods.js')?>" defer="defer"></script>
+	<script src="<?=makeUrlWithVersion('/js/edit_banner_s2.js')?>" defer="defer"></script>
+	<!--{ : }-->
+		<!--{ ? _cfg.mouse_event_use != "N" }-->
+	<script src="<?=makeUrlWithVersion('/js/documentMouseEvent.js')?>" defer="defer"></script>
+		<!--{ / }-->
+	<!--{ / }-->
+	<script src='/locale/translation_not.js'></script>
+	
+	<script src="<?=makeUrlWithVersion('/js/jquery.js')?>"></script>
+	<script>var $j = jQuery.noConflict();</script>
+	<script src="/js/plugin/ui/jquery.hotkeys.js" type="text/javascript"></script>
+
+	<script src="<?=makeUrlWithVersion('/js/calendar.M2.js')?>"></script>
+
+
+
+	<!--[if lt IE 9]>
+	<script src="/js/plugin/ui/jquery.easing.compatibility.js"></script>
+	<![endif]-->
+	<!--[if gte IE 9]>
+	<script src="/js/plugin/ui/jquery.easing.js" type="text/javascript"></script>
+	<![endif]-->
+	
+	<script src="/js/jquery.cookie.js" type="text/javascript"></script>
+	<script src="/js/jquery.scroll-follow.js" type="text/javascript"></script>
+	<script src="/js/ui.core.js" type="text/javascript"></script>
+	<script src="/js/easySlider.js" type="text/javascript"></script>
+	
+	<script src="/js/plugin/ui/ui.widget.js" type="text/javascript"></script>
+	<script src="/js/plugin/ui/ui.mouse.js" type="text/javascript"></script>
+	<script src="/js/plugin/ui/ui.draggable.js" type="text/javascript"></script>	
+	
+
+	<!--EditorCall-->
+	<script src="<?=makeUrlWithVersion('/js/pods_editor.js')?>" type="text/javascript"></script>
+	<!--<script src="/js/pods_editor.php" type="text/javascript"></script>-->
+	<!--EditorCall-->
+	<!--CrossDomainEditorCall-->
+	<!--<script src="/js/pods_wpod_editor.js" type="text/javascript"></script>-->
+	<!--CrossDomainEditorCall-->
+	
+	
+	<script type="text/javascript" charset='utf-8' src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+	<script> 
+   window.jQuery1_11_0 = jQuery.noConflict(true); 
+	</script>
+	<script src="<?=makeUrlWithVersion('/js/common_modern.js')?>"></script>
+	
+	<script src="/skin/modern/assets/js/app.custom.js"></script>
+	
+	<!--{ ? _cfg.pg.npay_use == '1' }-->
+		<script type="text/javascript" src="//wcs.naver.net/wcslog.js"></script>		
+		<script type="text/javascript">
+			if(!wcs_add) var wcs_add={};
+			wcs_add["wa"]="{_cfg.pg.npay_commkey}";
+			//유입 추적 함수 호출			
+			wcs.inflow(location.hostname);
+			//로그 수집 함수 호출
+			wcs_do();
+		</script>
+	<!--{ / }-->
+	
+	<script src="/skin/modern/assets/I1/js/app.default.js" type="text/javascript"></script>
+
+</head>
+
+<!--ExeInstallInfo-->
+{ # slide_exe_info }
+<!--ExeInstallInfo-->
+
+
+<body class="item-detail-page"><!--{ ? _ici_admin  && !_COOKIE.tophidden }--><div style="padding:5px;background:red;color:#FFFFFF;">{=__text("현재 관리자로 접속중 입니다.")} ({=__text("서비스 스킨")} : {=f_getSkinName()} , {=__text("편집 스킨")} : {_cfg.skin})</div><!--{ / }-->
+{ # right_slide_area }
+
+<div>
+	<div id="app-container">
+	{ # top }
+	</div>
+	
+	{ + footer }
+	
+	
+	<div id="site-footer">
+		{ # bottom }
+	</div>
+</div>
+
+<!-- ### 필수객체 ### 폼처리를 위한 히든프레임 (삭제하시면 안됩니다) -->
+<iframe style="display: none; width: 100%; height: 600px" name="hiddenIfrm"></iframe>
+
+<!--{ ? _mainpage }-->
+<script src="<?=makeUrlWithVersion('/js/mainpopup.js')?>"></script>
+<script src="/js/jquery.event.drag.min.js"></script>
+<script src="/js/jquery.event.drop-2.0.min.js"></script>
+	<!--{ @ f_popup() }-->
+	<script>$j(function(){mainpopup('{.popupno}','{.width}','{.height}','{.top}','{.left}')});</script>
+	<!--{ / }-->
+<!--{ / }-->
+
+<div id="editor_layer" class="dh_layer" style="display:none;z-index:100000; position: absolute; left:0px; top:0px; overflow: auto; overflow-y: hidden;"><iframe id="wpod_editor_frame" width="100%" height="100%" frameborder="0" {=__title("편집기 실행")} name="wpod_editor_frame"></iframe></div><!--{ ? !_mainpage }--><script type="text/javascript" language="javascript" src="//podstation.ilark.co.kr/JS/ActiveLoader30A.js"></script><script type="text/javascript" language="javascript" src="//podstation.ilark.co.kr/JS/ActiveLoader.js"></script><!--{ / }-->
+</body>
+</html>

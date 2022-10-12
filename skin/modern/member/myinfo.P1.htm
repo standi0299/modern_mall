@@ -1,0 +1,331 @@
+{ # header }
+
+<!--{ ? _language_locale == "ja_JP" }-->
+	<script type='text/javascript' src='https://api.zipaddress.net/sdk/zipaddr.js'></script>
+	<script type='text/javascript' src='/js/jp_zipcode_script.js'></script>
+<!--{ / }-->
+
+<div id="my_tqb_menu">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="/mypage/orderlist.php">{=__text("주문배송")}</a><li>
+		<li><a href="/order/editlist.php">{=__text("편집보관함")}</a><li>
+		<li><a href="/mypage/coupon.php">{=__text("쿠폰·적립금")}</a><li>
+		<li><a href="/mypage/jjim_list.php">{=__text("찜목록")}</a><li>
+		<li><a href="/mypage/payback_intro.php">{=__text("페이백")}</a></li>
+		<li><a href="/mypage/document.php">{=__text("서류발급신청")}</a><li>
+		<li><a href="myinfo.php" class="under_bor15">{=__text("회원정보변경")}</a><li>
+	</ul>
+</div>
+
+<div class="sign_body">	
+	<div class="login_pxremind">
+		<span class="login_px_text_span">{=__text("회원정보 변경")}</span>
+	</div>
+	<form name="fm" method="post" <!--{ ? _cfg.ssl_use == 'Y' && ssl_action}--> action="{ssl_action}" <!--{ : }--> action="indb.php" <!--{ / }--> onsubmit="return chkDuplicate(this)&&form_encode_submit(this);">
+		<input type="hidden" name="mode" value="{mode}">
+		<input type="hidden" name="domain" value="{_SERVER.HTTP_HOST}">
+		
+		<input type="hidden" name="mid_en">
+		
+		<input type="hidden" name="chkEmail" value="chk">
+		<input type="hidden" name="chkMobile" value="chk">
+		
+		<div class="sign_list_re">
+			<ul>
+				<li style="float:left;">
+					<span class="id_px">{=__text("아이디")}</span>
+				</li>
+				<li>
+					<input type="hidden" name="mid" value="{mid}">
+					<span class="id_w" style="width:448px; height:20px; display:inline-block; padding-bottom:10px; margin-bottom:5px;">{mid}<!--{ ? grpnm }--> ({grpnm})<!--{ / }--></span>
+				</li>
+				<li style="clear:both;">
+					<span class="id_px">{=__text("이름")}</span>
+					<input type="text" class="text_idpw" name="name" value="{name}" pt="_pt_txt" label="이름" required/>
+				</li>
+				<li>
+					<span class="id_px">{=__text("이메일")}</span>
+					<input type="text" class="text_pp" name="email[]" value="{email[0]}" pt="_pt_txteng" label="이메일" required onchange="chk_email();"/>
+						@						
+					<input type="text" id="select_email" class="text_pp" name="email[]" value="{email[1]}" pt="_pt_txteng" label="이메일" required onchange="chk_email();"/>	
+					<select class="email_add" onchange="auto_set_email(this);">
+						<option value="" {_selected.email[email[1]]}>{=__text("직접입력")}</option>
+						<!--{ @ _r_email }-->
+						<option value="{.value_}" {_selected.email[.value_]}>{.key_}</option>
+						<!--{ / }-->
+					</select>
+					<div id="vEmail" class="check_sns" style="color:red;"></div>						
+				</li>
+				<li class="check_sns">
+					<input type="checkbox" name="ismail" id="ismail" value="1" {_checked.ismail['1']} />	
+					<label for="ismail" style="font-size:13px;">{=__text("이메일 정보수신에 동의합니다.")}</label>
+				</li>
+				<li>
+					<span class="id_px">{=__text("연락처")}</span>
+					<select class="pp_add" onchange="chk_mobile();" name="mobile[]" pt="_pt_numplus" label="연락처" required>
+						<!--{ @ _r_mobile }-->
+						<option value="{.value_}" {_selected.mobile[.value_]}>{.value_}</option>
+						<!--{ / }-->
+					</select>
+					<input type="text" class="text_pp number_type" name="mobile[]" value="{mobile[1]}" pt="_pt_numplus" label="연락처" required maxlength="4" onkeyup="auto_focus(this,2);" onchange="chk_mobile();"/>	
+					<input type="text" class="text_pp number_type" name="mobile[]" value="{mobile[2]}" pt="_pt_numplus" label="연락처" required maxlength="4" onchange="chk_mobile();"/>
+					<div id="vMobile" class="check_sns" style="color:red;"></div>		
+				</li>
+				<li class="check_sns">
+					<input type="checkbox" name="issms" id="issms" value="1" {_checked.issms['1']} />	
+					<label for="issms" style="font-size:13px;">{=__text("SMS 수신에 동의합니다.")}</label>
+					<button type="button" class="pro_event" onclick="return member_leave();">{=__text("회원탈퇴")}</button>
+				</li>
+				<li class="id_re">
+					<ul>
+						<li>	
+							<div style="width:110px; margin:auto; margin-top:5px;">
+								<button type="submit" class="over_btn_li">{=__text("변경")}</button>	
+							</div>
+						</li>
+						<li>	
+							<div style="width:110px; margin:auto; margin-top:5px;">
+								<button type="button" class="over_btn_li" style="border:1px solid #999; background:#fff; color:#999;" onclick="javascript:history.back();">{=__text("취소")}</button>	
+							</div>
+						</li>								
+					</ul>
+				</li>
+			</ul>
+		</div>
+	</form>
+	
+	<div class="login_pxremind">
+		<span class="login_px_text_span">{=__text("비밀번호 변경")}</span>
+	</div>
+	
+	<form name="fm2" method="post" <!--{ ? _cfg.ssl_use == 'Y' && ssl_action}--> action="{ssl_action}" <!--{ : }--> action="indb.php" <!--{ / }--> onsubmit="return form_encode_submit(this);">
+		<input type="hidden" name="mode" value="{mode}">
+		<input type="hidden" name="domain" value="{_SERVER.HTTP_HOST}">
+		<input type="hidden" name="chkPassword">
+		<input type="hidden" name="mid" value="{mid}">
+		<input type="hidden" name="name" value="{name}">
+		<input type="hidden" name="email[]" value="{email[0]}">
+		<input type="hidden" name="email[]" value="{email[1]}">
+		<!--{ ? _checked.ismail['1'] == "checked" }-->
+		<input type="hidden" name="ismail" value="1">
+		<!--{ / }-->
+		<input type="hidden" name="mobile[]" value="{mobile[0]}">
+		<input type="hidden" name="mobile[]" value="{mobile[1]}">
+		<input type="hidden" name="mobile[]" value="{mobile[2]}">
+		<!--{ ? _checked.issms['1'] == "checked" }-->
+		<input type="hidden" name="issms" value="1">
+		<!--{ / }-->
+		
+		<input type="hidden" name="mid_en">
+		<input type="hidden" name="password_en">
+		<input type="hidden" name="password2_en">
+		<input type="hidden" name="old_password_en">
+		
+		<div class="sign_list_re">
+			<ul>	
+				<li>
+					<span class="id_pxlis">{=__text("현재 비밀번호")}</span>
+					<input type="password" {=__placeholder("영문,숫자,특수문자 조합 6~20자")} class="text_idpwlis" name="old_password" pt="_pt_pw" required onchange="chk_password(this);"/>
+					<div id="old_password_chk" style="font-size:13px;margin:5px 0 5px 130px;"></div>	
+				</li>
+				<li>
+					<span class="id_pxlis">{=__text("새 비밀번호")}</span>
+					<input type="password" {=__placeholder("영문,숫자,특수문자 조합 6~20자")} class="text_idpwlis" name="password" pt="_pt_pw" required onchange="chk_password(this);"/>
+					<div id="password_chk" style="font-size:13px;margin:5px 0 5px 130px;"></div>	
+				</li>
+				<li>
+					<span class="id_pxlis">{=__text("새 비밀번호확인")}</span>
+					<input type="password" {=__placeholder("비밀번호확인")} class="text_idpwlis" name="password2" samewith="password" pt="_pt_pw" required onchange="chk_password(this);"/>	
+				</li>
+				<li class="id_re">
+					<ul>
+						<li>	
+							<div style="width:110px; margin:auto; margin-top:5px;">
+								<button type="submit" class="over_btn_li">{=__text("변경")}</button>	
+							</div>
+						</li>
+						<li>	
+							<div style="width:110px; margin:auto; margin-top:5px;">
+								<button type="button" class="over_btn_li" style="border:1px solid #999; background:#fff; color:#999;" onclick="javascript:history.back();">{=__text("취소")}</button>
+							</div>
+						</li>								
+					</ul>
+				</li>
+			</ul>	
+		</div>
+	</form>
+</div>
+
+<!-- 회원탈퇴 -->
+<form name="leave_fm" method="post" action="indb.php">
+	<input type="hidden" name="mode" value="member_leave">
+	<input type="hidden" name="password" value="{password}">
+	<input type="hidden" name="password_en">
+</form>
+
+<!-- md5 암호화 -->
+<script src="/js/lib/lib.min.js"></script>
+
+<script>
+$j(function() {
+	$j('.number_type').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+function auto_set_email(obj) {
+	$j("#select_email").val($j(obj).val());
+	
+	chk_email();
+}
+
+function auto_focus(obj,idx) {
+	switch (obj.name) {
+		case "mobile[]":
+			if (obj.value.length == 4) obj.form['mobile[]'][idx].focus();
+		break;
+	}
+}
+</script>
+
+<script>
+function member_leave() {
+	if (confirm({=__java("회원탈퇴시 회원님의 모든 정보는 복구되지 않습니다.")} + "\n" + {=__java("정말로 회원탈퇴하시겠습니까?")})) {
+		var leave_fm = document.leave_fm;
+		
+		leave_fm.password_en.value = Base64.encode(leave_fm.password.value);
+		
+		leave_fm.password.value = '';
+		
+		leave_fm.submit();
+	} else {
+		return false;
+	}
+}
+
+function chk_email() {
+	var fm = document.fm;
+	$("#vEmail").html("");
+	fm.chkEmail.value = "";
+	
+	if (fm['email[]'][0].value == "") {
+		$("#vEmail").html("");
+	} else if (fm['email[]'][1].value == "") {
+		$("#vEmail").html("");
+	} else {
+		var email = fm['email[]'][0].value + "@" + fm['email[]'][1].value;
+		
+		$j.post("indb.php", {mode: "chkEmail", mid_en: Base64.encode(fm.mid.value), email_en: Base64.encode(email)},
+		function(data) {
+			switch (data) {
+				case "duplicate": 
+					$("#vEmail").html({=__java("이미 등록된 이메일입니다.")});
+					break;
+				case "good": 
+					$("#vEmail").html("");
+					fm.chkEmail.value = "chk";
+					break;
+			}
+			
+			if (!fm.chkEmail.value) {
+				fm['email[]'][0].value = "";
+				fm['email[]'][0].focus();
+			}
+		});
+	}
+}
+
+function chk_mobile() {
+	var fm = document.fm;
+	$("#vMobile").html("");
+	fm.chkMobile.value = "";
+	
+	if (fm['mobile[]'][1].value == "") {
+		$("#vMobile").html("");
+	} else if (fm['mobile[]'][2].value == "") {
+		$("#vMobile").html("");
+	} else {
+		var mobile = fm['mobile[]'][0].value + "-" + fm['mobile[]'][1].value + "-" + fm['mobile[]'][2].value;
+		
+		$j.post("indb.php", {mode: "chkMobile", mid_en: Base64.encode(fm.mid.value), mobile: mobile},
+		function(data) {
+			switch (data) {
+				case "duplicate": 
+					$("#vMobile").html({=__java("이미 등록된 연락처입니다.")});
+					break;
+				case "good": 
+					$("#vMobile").html("");
+					fm.chkMobile.value = "chk";
+					break;
+			}
+			
+			if (!fm.chkMobile.value) {
+				fm['mobile[]'][1].value = "";
+				fm['mobile[]'][2].value = "";
+				fm['mobile[]'][1].focus();
+			}
+		});
+	}
+}
+
+function chkDuplicate(obj) {
+	if (!obj.chkEmail.value) {
+		alert({=__java("이메일 중복 확인해주세요.")});
+		return false;
+	} else if (!obj.chkMobile.value) {
+		alert({=__java("연락처 중복 확인해주세요.")});
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function chk_password(obj) {
+	var ret = "";
+	var fm2 = document.fm2;
+	fm2.chkPassword.value = "";
+	
+	if (!fm2.old_password.value && !fm2.password.value && !fm2.password2.value) {
+		fm2.chkPassword.value = "chk";
+		$j("#old_password_chk").html("");
+		$j("#password_chk").html("");
+	} else if (!fm2.old_password.value && (fm2.password.value || fm2.password2.value)) {
+		fm2.old_password.focus();
+		$j("#old_password_chk").html({=__java("현재 비밀번호를 입력해주세요.")});
+	} else if (fm2.old_password.value && md5(fm2.old_password.value) != '{password}') {
+		fm2.old_password.value = "";
+		fm2.old_password.focus();
+		$j("#old_password_chk").html({=__java("현재 비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")});
+	} else if (fm2.old_password.value) {
+		$j("#old_password_chk").html("");
+		
+		if (!fm2.password.value) {
+			ret = {=__java("새 비밀번호를 입력해주세요.")};
+			fm2.password.focus();
+		} else if (!_pattern(fm2.password)) {
+			ret = {=__java("새 비밀번호는 영소문자,숫자,-,_ 를 사용하여 6~20자로 입력해주세요.")};
+			fm2.password.value = "";
+			fm2.password.focus();
+		} else if (!fm2.password2.value) {
+			ret = {=__java("새 비밀번호 확인을 위해 한번 더 입력해주세요.")};
+			fm2.password2.focus();
+		} else {
+			ret = (fm2.password.value != fm2.password2.value) ? {=__java("새 비밀번호 불일치")} : {=__java("새 비밀번호 일치")};
+			fm2.chkPassword.value = (fm2.password.value != fm2.password2.value) ? "" : "chk";
+	
+			if(fm2.chkPassword.value == "") {
+				ret = {=__java("새 비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")};
+				fm2.password.value = "";
+				fm2.password2.value = "";
+				fm2.password.focus();
+			}
+		}
+		
+		$j("#password_chk").html(ret);
+	}
+}
+</script>
+
+{ # footer }

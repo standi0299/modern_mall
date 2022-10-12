@@ -1,0 +1,320 @@
+{ # header }
+
+<section class="contents bgArea">
+	<div id="coupon" class="">
+		<div class="couponBox">
+			<menu>
+				<ul>
+					<li class="menu01"><a href="#postAd01" target="_self" class="on">{=__text("쿠폰")}</a></li>	
+					<li class="menu02"><a href="#postAd02" target="_self" class="">{=__text("적립금")}</a></li>					
+				</ul>	
+			</menu>	
+			<section id="cpBd01">
+				<form id="fm" name="fm">
+				<input type="hidden" name="mode" value="coupon_get_offline"/>
+				<input type="hidden" name="mobile_type" value="Y" />
+				<input type="hidden" name="page_move" value="N" />
+				
+				<h2>{=__text("쿠폰등록")}</h2>
+				<input type="text" name="coupon_issue_code" {=__title("쿠폰번호")} required {=__placeholder("쿠폰번호 ('-' 포함 입력)")}>
+				<!--<input type="text" name="coupon_issue_code[0]" title="쿠폰 번호 첫 번째 자리" maxlength="5" class="tx01" required onkeyup="chkNumberLength(this)" /> - <input type="text" name="coupon_issue_code[1]" title="쿠폰 번호 두 번째 자리" maxlength="6" class="tx01" onkeyup="chkNumberLength(this)" /> - <input type="text" name="coupon_issue_code[2]" title="쿠폰 번호 마지막 자리" maxlength="5" class="tx01" onkeyup="chkNumberLength(this)" />-->
+				<div class="btnBox">
+					<a href="#layerBox" class="layerPop aBtn" id="mypage_coupon_banner"><!--{ @ f_banner_s2('btn_mobile_coupon_insert','img')}-->{.banner}<!--{ / }--></a>
+				</div>
+				</form>
+				
+				<article>
+					<h2>{=__text("다운가능 쿠폰")}</h2>	
+					<div class="saveCp">
+						<!--{ ? downcoupon }-->
+						<ul>
+							<!--{ @ downcoupon }-->
+							<li>{.coupon_name} <span class="dtBtn"><a href="javascript:couponDown('{_sess.cid}', '{_sess.mid}', '{.coupon_code}')" id="downBtn" class="layerPop"><!--{ @ f_banner_s2('btn_mobile_coupon_down','img')}-->{..banner}<!--{ / }--></a> <a href="#coupon002_{.index_}" id="txtCoupon002_{.index_}" class="layerPop"><!--{ @ f_banner_s2('btn_mobile_coupon_detail','img')}-->{..banner}<!--{ / }--></a></span></li>
+							
+							<div id="coupon002_{.index_}" class="pop cpPop">
+								<h3>{.coupon_name}</h3>
+								<dl>
+									<dt>{=__text("쿠폰코드")} :</dt>	
+									<dd>{.coupon_code}</dd>
+									<dt>{=__text("적용대상")} :</dt>
+									<dd>
+										<!--{ ? .coupon_range == "all" }-->
+										{=__text("전상품")}
+										<!--{ : .coupon_range == 'category' }-->
+										{.catnm}
+										<!--{ : .coupon_range == 'goods' }-->
+										{.goodsnm}
+										<!--{ : }-->
+										{=__text("없음")}
+										<!--{ / }-->
+									</dd>
+									<dt>{=__text("쿠폰종류")} :</dt>
+									<dd>{=_r_coupon_type[.coupon_type]}</dd>
+									<dt>{=__text("혜택")} :</dt>
+									<dd>
+										<!--{ ? .coupon_type == "coupon_money" }-->{=__text("최대")}<!--{ / }-->
+										<!--{ ? .coupon_way == "price" }-->
+										{=number_format(.coupon_price)}{=__text("원")}
+										<!--{ : .coupon_way == "rate" }-->
+										{=number_format(.coupon_rate)}%
+										<!--{ / }-->
+										<!--{ ? .coupon_type == "discount" || .coupon_type == "coupon_money" }-->
+										{=__text("할인")}
+										<!--{ : .coupon_type == "saving" }-->
+										{=__text("적립")}
+										<!--{ / }-->
+										<!--{ ? .coupon_way == "rate" && .coupon_price_limit && .coupon_type != "coupon_money" }-->
+										({=__text("최대")}<!--{ ? .coupon_type == "discount" }-->{=__text("할인")}<!--{ : .coupon_type == "saving" }-->{=__text("적립")}<!--{ / }--> : {=number_format(.coupon_price_limit)}{=__text("원")}) 
+										<!--{ / }-->
+									</dd>
+									<dt>{=__text("다운기간")} :</dt>
+									<dd>
+										<!--{ ? .coupon_issue_unlimit }-->
+										{=__text("무제한")}
+										<!--{ : }-->
+										{.coupon_issue_sdate}~{.coupon_issue_edate}
+										<!--{ / }-->
+									</dd>
+									<dt>{=__text("사용기간")} :</dt>
+									<dd>
+										<!--{ ? .coupon_period_system == "date" }-->
+										{.coupon_period_sdate}~{.coupon_period_edate}
+										<!--{ : .coupon_period_system == "deadline" }-->
+										{=__text("발급후")} {.coupon_period_deadline}{=__text("일이내")}
+										<!--{ : .coupon_period_system == "deadline_date" }-->
+										~{.coupon_period_deadline_date}
+										<!--{ / }-->
+									</dd>
+								</dl>
+								<a href="#" class="default cBtn" target="_self"><!--{ @ f_banner_s2('btn_mobile_coupon_close','img')}-->{..banner}<!--{ / }--></a>
+							</div>
+							
+							<script>
+							$("#txtCoupon002_{.index_}").on({
+								click : function(e){
+									e.preventDefault();
+									$($(this).attr("href")).show();
+									$("#wrap").addClass("dimed_on");
+								}
+							});
+							$("#coupon002_{.index_} a").on({
+								click : function(e){
+									e.preventDefault();
+									$(".pop").hide();
+									$("#wrap").removeClass("dimed_on");
+								}
+							});
+							</script>
+							<!--{ / }-->
+						</ul>
+						<!--{ : }-->
+						<p>{=__text("다운 가능한 쿠폰이 없습니다.")}</p>
+						<!--{ / }-->
+					</div>
+				</article>
+				
+				<article>
+					<h2>{=__text("보유중인 쿠폰")}</h2>	
+					<div class="saveCp">
+						<!--{ ? mycoupon }-->
+						<ul>
+							<!--{ @ mycoupon }-->
+							<li>{.coupon_name}<a href="#coupon001_{.index_}" id="txtCoupon001_{.index_}" class="layerPop dtBtn"><!--{ @ f_banner_s2('btn_mobile_coupon_detail','img')}-->{..banner}<!--{ / }--></a></li>
+							
+							<div id="coupon001_{.index_}" class="pop cpPop">
+								<h3>{.coupon_name}</h3>
+								<dl>
+									<dt>{=__text("쿠폰코드")} :</dt>	
+									<dd>{.coupon_code}</dd>
+									<dt>{=__text("적용대상")} :</dt>
+									<dd>
+										<!--{ ? .coupon_range == "all" }-->
+										{=__text("전상품")}
+										<!--{ : .coupon_range == 'category' }-->
+										{.catnm}
+										<!--{ : .coupon_range == 'goods' }-->
+										{.goodsnm}
+										<!--{ : }-->
+										{=__text("없음")}
+										<!--{ / }-->
+									</dd>
+									<dt>{=__text("쿠폰종류")} :</dt>
+									<dd>{=_r_coupon_type[.coupon_type]}</dd>
+									<dt>{=__text("혜택")} :</dt>
+									<dd>
+										<!--{ ? .coupon_type == "coupon_money" }-->
+											{=number_format(.coupon_able_money)}{=__text("원 할인")}
+										<!--{ : }-->
+											<!--{ ? .coupon_way == "price" }-->
+											{=number_format(.coupon_price)}{=__text("원")}
+											<!--{ : .coupon_way == "rate" }-->
+											{=number_format(.coupon_rate)}%
+											<!--{ / }-->
+											<!--{ ? .coupon_type == "discount" }-->
+											{=__text("할인")}
+											<!--{ : .coupon_type == "saving" }-->
+											{=__text("적립")}
+											<!--{ / }-->
+											<!--{ ? .coupon_way == "rate" && .coupon_price_limit }-->
+											({=__text("최대")}<!--{ ? .coupon_type == "discount" }-->{=__text("할인")}<!--{ : .coupon_type == "saving" }-->{=__text("적립")}<!--{ / }--> : {=number_format(.coupon_price_limit)}{=__text("원")}) 
+											<!--{ / }-->
+										<!--{ / }-->
+									</dd>
+									<dt>{=__text("사용기간")} :</dt>
+									<dd>
+										<!--{ ? .coupon_period_system == "date" }-->
+										{.coupon_period_sdate}
+										<!--{ : }-->
+										{=substr(.coupon_setdt, 0, 10)}
+										<!--{ / }-->
+										~{.usabledt}
+									</dd>
+								</dl>
+								<a href="#" class="default cBtn" target="_self"><!--{ @ f_banner_s2('btn_mobile_coupon_close','img')}-->{..banner}<!--{ / }--></a>
+							</div>
+							
+							<script>
+							$("#txtCoupon001_{.index_}").on({
+								click : function(e){
+									e.preventDefault();
+									$($(this).attr("href")).show();
+									$("#wrap").addClass("dimed_on");
+								}
+							});
+							$("#coupon001_{.index_} a").on({
+								click : function(e){
+									e.preventDefault();
+									$(".pop").hide();
+									$("#wrap").removeClass("dimed_on");
+								}
+							});
+							</script>
+							<!--{ / }-->
+						</ul>
+						<!--{ : }-->
+						<p>{=__text("사용 가능한 쿠폰이 없습니다.")}</p>
+						<!--{ / }-->
+					</div>
+					<div class="discBox">
+						<ul>
+							<li>{=__text("쿠폰은 하나의 상품에 한해서 사용이 가능합니다.")}</li>	
+							<li>{=__text("[모바일 앱] / [PC 웹사이트]용 쿠폰은 해당 환경에서 주문 시 사용이 가능합니다.")}</li>	
+							<li>{=__text("각 쿠폰의 할인 해당 상품에 한해서만 사용하실 수 있습니다.")}</li>	
+							<li>{=__text("쿠폰은 유효기간이 있으며, 유효기간이 지난 쿠폰은 자동 소멸됩니다.")}</li>	
+							<li>{=__text("주문 후 고객의 요구에 의한 반품/환불/취소의 경우 사용하신 할인쿠폰은 다시 반환되지 않습니다.")}</li>	
+						</ul>	
+					</div>
+				</article>
+			</section>
+			
+			<section id="cpBd02">
+				<h2>{=__text("사용가능 적립금")}</h2>
+				<div class="mgBox">{=number_format(myemoney)}{=__text("원")}</div>
+				<p></p>
+				<div class="discBox">
+					<ul style="margin-top:1px;">
+						<li>{=__text("적립금 적립의 상세한 내용은 PC용 웹사이트에서 확인하실 수 있습니다.")}</li>	
+						<li>{=__text("적립금은 유효기간이 있으며, 유효기간이 지난 적립금은 자동 소멸 됩니다.")}</li>		
+						<li></li>
+					</ul>	
+				</div>
+			</section>
+		</div>
+	</div>
+</section>
+
+<script>
+$j(window).ready(function(){
+	$("#mypage_coupon_banner").viewimageresize2();
+});
+/*function chkNumberLength(obj) {
+	if (obj.value.length == obj.maxLength) {
+		if (obj.name == "coupon_issue_code[0]") $j("[name=coupon_issue_code[1]]").trigger("focus");
+		else if (obj.name == "coupon_issue_code[1]") $j("[name=coupon_issue_code[2]]").trigger("focus");
+	}
+	else if (obj.value.length > obj.maxLength) obj.value = obj.value.substr(0, obj.maxLength);
+}*/
+function couponDown(cid, mid, coupon_code) {
+	$j.ajax({
+		type : "GET",
+		url : "indb.php",
+		data : "mode=coupon&coupon_code="+ coupon_code +"&cid="+ cid +"&mid="+ mid +"&mobile_type=Y",
+		success : function(msg) {
+			if (msg) {
+				$j("#layerBox").show();
+				$j(".noteTxt").html("<span>"+ msg +"</span>");
+				$("#wrap").addClass("dimed_on");
+						
+				if (msg.indexOf({=__java("쿠폰이 등록되었습니다.")}) > -1) {
+					$j(":select[name=page_move]").val("Y");
+					$j("#layerBox a").attr("href", "coupon.php?mobile_type=Y");
+				}
+			}
+		}
+	});
+}
+$(".couponBox .menu01 a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".couponBox .menu01 a").addClass("on");
+		$(".couponBox .menu02 a").removeClass("on");
+		$("#cpBd01").show();
+		$("#cpBd02").hide();
+	}
+});
+$(".couponBox .menu02 a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".couponBox .menu02 a").addClass("on");
+		$(".couponBox .menu01 a").removeClass("on");
+		$("#cpBd01").hide();
+		$("#cpBd02").show();
+	}
+});	
+$(".btnBox a").on({
+	click : function(e){
+		e.preventDefault();
+		/*if (!$j(":select[name=coupon_issue_code[0]]").val() || !$j(":select[name=coupon_issue_code[1]]").val() || !$j(":select[name=coupon_issue_code[2]]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>쿠폰번호를 입력해주세요.</span>");
+			$("#wrap").addClass("dimed_on");
+		}*/
+		if (!$j(":select[name=coupon_issue_code]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("쿠폰번호를 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else {
+			$j.ajax({
+				type : "POST",
+				url : "indb.php",
+				data : $j("#fm").serialize(),
+				success : function(msg) {
+					if (msg) {
+						$j("#layerBox").show();
+						$j(".noteTxt").html("<span>"+ msg +"</span>");
+						$("#wrap").addClass("dimed_on");
+						
+						if (msg.indexOf({=__java("쿠폰이 등록되었습니다.")}) > -1) {
+							$j(":select[name=page_move]").val("Y");
+							$j("#layerBox a").attr("href", "coupon.php?mobile_type=Y");
+						}
+					}
+				}
+			});
+		}
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		if ($j(":select[name=page_move]").val() == "Y") {
+			$j(":select[name=page_move]").val("N");
+		} else {
+			e.preventDefault();
+			$(".pop").hide();
+			$("#wrap").removeClass("dimed_on");
+		}
+	}
+});
+</script>
+
+{ # footer }

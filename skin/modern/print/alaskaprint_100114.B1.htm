@@ -1,0 +1,515 @@
+{ # header }
+<!--alaskaprint_100114.B1.htm-->
+
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/detail_20190110.css">
+
+<script type="text/javascript">
+    var cid = '{_cid}';
+    var center_id = '{_cfg_center.center_cid}';
+    var center_host = '{_cfg_center.host}';
+    var display_name = {
+        {
+            _displayNameArrTag
+        }
+    };
+    var cnt_display_name = '{_cntDisplayName}';
+    var opt_img = '{opt_img}';
+
+    var print_img = "";
+
+    var r_ipro_print_code = { = json_encode(_r_ipro_print_code)
+    };
+    var r_ipro_print_sub_item = { = json_encode(_r_ipro_print_sub_item)
+    };
+
+    var cfg_layout_top = "{_cfg.layout.top}"; //print_common.js initFileUploadOrder() 에서 사용.
+
+    var cfg_skin_theme = "{_cfg.skin_theme}"; //print_common.js initFileUploadOrder() 에서 사용.
+</script>
+
+<script src="/skin/modern/assets/print_js/print_common.js"></script>
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.call.100114.js"></script>
+
+<form name="fm_print" id="fm_print" method="post" onsubmit="return false;">
+    <input type="hidden" name="mode" />
+    <input type="hidden" id="catno" name="catno" value="{_GET.catno}" />
+
+    <input type="hidden" id="goodsno" name="goodsno" value="{goodsno}" />
+    <input type="hidden" name="goodsnm" value="{goodsnm}" />
+    <input type="hidden" name="goods_group_code" value="{goods_group_code}" />
+    <input type="hidden" name="print_goods_type" value="" />
+    <input type="hidden" name="productid" value="{podsno}" />
+    <input type="hidden" name="podoptno" />
+
+    <input type="hidden" name="ea" value="1" />
+    <input type="hidden" name="storageid" value="{_GET.storageid}" />
+    <input type="hidden" name="est_order_type" />
+    <input type="hidden" name="est_goodsnm" />
+    <input type="hidden" name="est_file_upload_json" />
+    <input type="hidden" name="option_json" id="option_json" />
+
+    <input type="hidden" id="preset" name="preset" value="{preset}" />
+
+    <input type="hidden" id="select_option_supply_price" name="select_option_supply_price" />
+    <input type="hidden" id="select_option_sum_price" name="select_option_sum_price" />
+
+    <input type="hidden" name="ext_json_data" />
+    <input type="hidden" name="templateSetIdx" value="{templateSetIdx}" />
+    <input type="hidden" name="templateIdx" value="{templateIdx}" />
+    <input type="hidden" name="templateName" value="{templateName}" />
+    <input type="hidden" name="templateURL" value="{templateURL}" />
+
+    <!--시안요청여부-->
+    <input type="hidden" name="design_draft_flag" />
+
+    <!-- CONTAINER START -->
+    <div id="container_idg" style="padding-top:0px;">
+        <div class="inner_idg">
+            <div class="indicator">
+                <span>{_category.catnm}</span>
+                <span class="current">{goodsnm}</span>
+            </div>
+
+            <div class="product_detail_wrap">
+                <!-- 상품 주문 START -->
+                <div class="pd_detail_left">
+                    <div class="pd_detail_left_wrap">
+                        <!-- 제품 이미지 영역 START -->
+                        <div class="pd_detail_image">
+                            <div class="detail_image_big">
+                                <img src="{img[0]}" id="bimg" width="350px" height="350px" alt="" />
+                            </div>
+                            <ul class="detail_image_thumb">
+                                <!--{ @ img }-->
+                                <li class="image_thumb"><img src="{.value_}" onclick="detail_img(this);" width="78px" height="78px" alt="" style="cursor: pointer;" /></li>
+                                <!--{ / }-->
+                            </ul>
+                        </div>
+                        <!-- 제품 이미지 영역 END -->
+                        <!-- 주문 선택 영역 START -->
+                        <div class="pd_detail_form_wrap">
+                        	<!--{? podskind > 0}-->
+                            <div class="pd_detail_form">
+                                <h1>STEP 1. 주문상품을 선택해주세요.</h1>
+                                <ul>
+                                    <!--{ ? extraOption->getOptionKindUse("1") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC1_1_text">{extraOption->getDisplayName("1")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("1","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("2") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC2_2_text">{extraOption->getDisplayName("2")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("2","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("3") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC3_3_text">{extraOption->getDisplayName("3")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("3","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("4") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC4_4_text">{extraOption->getDisplayName("4")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("4","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("5") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC5_5_text">{extraOption->getDisplayName("5")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("5","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("6") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC6_6_text">{extraOption->getDisplayName("6")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("6","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("7") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC7_7_text">{extraOption->getDisplayName("7")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("7","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("8") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC8_8_text">{extraOption->getDisplayName("8")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("8","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("9") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC9_9_text">{extraOption->getDisplayName("9")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("9","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("10") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC10_10_text">{extraOption->getDisplayName("10")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("10","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <li>
+                                        <span class="form_tit2">{extraOption->MakeOrderCntDisplayName(goodsno,"OCNT")}</span>
+                                        <div class="custom_select2" style="width:138px; margin:0 10px 0 6px;">
+                                            {extraOption->MakeOrderCntOnlySelect(goodsno,"OCNT","order_cnt_select")}
+                                        </div>
+                                        <span name="order_cnt_select_name">매</span>
+                                        <div class="custom_select2" style="width:130px; margin:0 0 0 10px;" name="unit_order_cnt">
+                                            {extraOption->MakeUnitOrderCntOnlySelect(goodsno,"OCNT","order_cnt_select")}
+                                        </div>
+                                        <span name="unit_order_cnt_name">{extraOption->GetUserCntName(goodsno, "OCNT", "Y")}</span>
+                                    </li>
+                                </ul>
+                                <h1>STEP 2. 디자인 샘플 고르기</h1>
+                                <div class="sample_choice">
+                                    <button onclick="templateListOpen('{_GET.catno}','{goodsno}','web','web_view');">+ 샘플 선택하기</button>
+                                    <p class="txt">* 원하시는 이미지가 있으시면, 아래의 파일첨부에 추가하여 주세요.</p>
+                                </div>
+                                <h1>STEP 3. 요청 사항을 남겨주세요.</h1>
+                                <div class="custom_textarea2">
+                                    <textarea rows="6" name="est_order_memo" id="est_order_memo">
+1. 주문자 성명 :  
+2. 전화번호 : 
+3. 수정내용 : 
+</textarea>
+                                </div>
+                                
+                                <div class="file_add">
+                                    <div class="box">
+                                        <input type="button" name="file-7[]" id="file-7" class="inputfile inputfile-6" data-multiple-caption="{count} files selected" multiple onclick="overLayer_on('fileUpload')" />
+                                        <label for="file-7"><span id="finfo">원하는 이미지 첨부.png</span> <strong>파일 첨부하기</strong></label>
+                                    </div>
+                                </div>
+                                <div class="sian_order">
+                                    <button onclick="submitPrintOrder2();">시안 요청하기</button>
+                                </div>
+                            </div>
+                        	<!--{:}-->
+                        	<div class="pd_detail_form">
+                                <h1>주문상품을 선택해주세요.</h1>
+                                <ul>
+                                    <!--{ ? input_str == 1 }-->
+                                    <li>
+                                      <span class="form_tit2">문구입력</span>
+                                      <div class="ip_fld_wp">
+                                        <input type="text" class="ip_fld" name="title" id="title" />
+                                      </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("1") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC1_1_text">{extraOption->getDisplayName("1")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("1","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("2") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC2_2_text">{extraOption->getDisplayName("2")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("2","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("3") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC3_3_text">{extraOption->getDisplayName("3")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("3","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("4") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC4_4_text">{extraOption->getDisplayName("4")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("4","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("5") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC5_5_text">{extraOption->getDisplayName("5")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("5","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("6") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC6_6_text">{extraOption->getDisplayName("6")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("6","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("7") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC7_7_text">{extraOption->getDisplayName("7")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("7","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("8") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC8_8_text">{extraOption->getDisplayName("8")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("8","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("9") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC9_9_text">{extraOption->getDisplayName("9")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("9","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <!--{ ? extraOption->getOptionKindUse("10") !== 'N' }-->
+                                    <li>
+                                        <span class="form_tit2" name="item_select_ETC10_10_text">{extraOption->getDisplayName("10")}</span>
+                                        <div class="custom_select2">
+                                            {extraOption->MakeSelectOptionTag("10","","forwardAction","")}
+                                        </div>
+                                    </li>
+                                    <!--{ / }-->
+                                    <li>
+                                        <span class="form_tit2">{extraOption->MakeOrderCntDisplayName(goodsno,"OCNT")}</span>
+                                        <div class="custom_select2" style="width:138px; margin:0 10px 0 6px;">
+                                            {extraOption->MakeOrderCntOnlySelect(goodsno,"OCNT","order_cnt_select")}
+                                        </div>
+                                        <span name="order_cnt_select_name">매</span>
+                                        <div class="custom_select2" style="width:130px; margin:0 0 0 10px;" name="unit_order_cnt">
+                                            {extraOption->MakeUnitOrderCntOnlySelect(goodsno,"OCNT","order_cnt_select")}
+                                        </div>
+                                        <span name="unit_order_cnt_name">{extraOption->GetUserCntName(goodsno, "OCNT", "Y")}</span>
+                                    </li>
+
+                                    <!--{ ? input_file == 1 }-->
+                                    <div class="file_add">
+                                      <div class="box">
+                                          <input type="button" name="file-7[]" id="file-7" class="inputfile inputfile-6" data-multiple-caption="{count} files selected" multiple onclick="overLayer_on('fileUpload')" />
+                                          <label for="file-7"><span id="finfo">원하는 이미지 첨부.png</span> <strong>파일 첨부하기</strong></label>
+                                      </div>
+                                    </div>
+                                    <!--{ / }-->
+                                </ul>
+                            </div>
+                            <!--{/}-->
+                        </div>
+                        <!-- 주문 선택 영역 END -->
+
+                    </div>
+                    <!-- 상품 설명 START -->
+                    <div class="sub-img">
+                      {desc}
+                    </div>
+                    <!-- 상품 설명 END -->
+                </div>
+                
+                <!-- 상품 주문 END -->
+                <!-- 상품 결제 정보 START -->
+                <div class="pd_detail_right">
+                    <div class="pd_detail_right_wrap">
+                        <div class="pd_quick_view">
+                            <ul class="quick_view_list">
+                                <!--{ ? extraOption->getOptionKindUse("1") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("1")} <span name="item_select_ETC1_1"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("2") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("2")} <span name="item_select_ETC2_2"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("3") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("3")} <span name="item_select_ETC3_3"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("4") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("4")} <span name="item_select_ETC4_4"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("5") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("5")} <span name="item_select_ETC5_5"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("6") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("6")} <span name="item_select_ETC6_6"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("7") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("7")} <span name="item_select_ETC7_7"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("8") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("8")} <span name="item_select_ETC8_8"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("9") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("9")} <span name="item_select_ETC9_9"></span></li>
+                                <!--{ / }-->
+                                <!--{ ? extraOption->getOptionKindUse("10") !== 'N' }-->
+                                <li>{extraOption->getDisplayName("10")} <span name="item_select_ETC10_10"></span></li>
+                                <!--{ / }-->
+
+                                <li>{extraOption->MakeOrderCntDisplayName(goodsno,"OCNT")} <span name="order_cnt_select"></span> <span name="unit_order_cnt"></span></li>
+                            </ul>
+                            <p class="pd_quick_totalprice">
+                                <span>주문금액 (부가세포함입니다.)</span>
+                                <span class="price" id="price_text"></span>
+
+                            </p>
+                        </div>
+                        <!-- 내 파일 가져오기, 디자인의뢰하기 결과 화면 START -->
+                        <script>
+                            $(function() {
+                                $('.pd_upload_filelist .file_open').click(function() {
+                                    $(this).next().slideToggle();
+                                });
+                            });
+                        </script>
+                        <div class="pd_upload_filelist" style="display: none;">
+                            <p class="file_open">첨부파일 보기</p>
+                            <ul id="file_list">
+                                <!--<li><span class="file_txt">filename.zip</span> <a href="#" class="file_btn"></a></li>-->
+                            </ul>
+                        </div>
+                        <!-- 내 파일 가져오기, 디자인의뢰하기 결과 화면 END -->
+						            <!--{? podskind > 0}-->
+                        <div class="pd_quick_btn2">
+                            <button onclick="templateListOpen('{_GET.catno}','{goodsno}','web','');">셀프 디자인하기</button>
+                        </div>
+                        <!--{:}-->
+						            <div class="pd_quick_btn2">
+                            <button onclick="submitPrintOrder3();">주문하기</button>
+                        </div>
+                        <div class="pd_quick_btn2">
+                          <!--{ @ f_banner_s2('view_detail_banner_'+_GET.catno)}-->{.banner}<!--{ / }-->
+                        </div>
+                        <!--{/}-->
+                        <!--{ ? templateSetIdx && templateIdx }-->
+                        <div class="templit_info">
+                            <p>디자인명 : {templateName}</p>
+                            <p>템플릿코드 : {templateIdx}</p>
+                        </div>
+                        <div class="templit_image">
+                            <p class="img"><img src="{templateURL}" width="100%"></p>
+                            <p class="templit_btn">
+                                <button class="btn1" style="margin:0 5px 0 0;" onclick="templateListOpen('{_GET.catno}','{goodsno}','web','web_view');">변경</button>
+                                <button class="btn2" onclick="location.href='?catno={_GET.catno}&goodsno={goodsno}';">삭제</button>
+                            </p>
+                        </div>
+                        <!--{ / }-->
+                    </div>
+                </div>
+                <!-- 상품 결제 정보 END -->
+                <script>
+                    $(document).ready(function() {
+                        $(".pd_detail_right_wrap").stick_in_parent({
+                            offset_top: 100
+                        });
+                    });
+                </script>
+            </div>
+        </div>
+    </div>
+    <!-- CONTAINER END -->
+</form>
+
+<script type="text/javascript">
+    function detail_img(obj) {
+        $('#bimg').attr('src', obj.src);
+    }
+
+    function preview_popup() {
+        popup('../module/preview.php?goodsno={goodsno}&storageid=' + $("input[name=storageid]").val(), 1000, 650, 1);
+    }
+
+    function select_change(obj) {
+        //console.log(obj);
+
+        if ($(obj).attr("name") == "order_cnt_select" || $(obj).attr("name") == "unit_order_cnt") {
+            $("span[name='" + $(obj).attr("name") + "']").text($(obj).val() + $("span[name='" + $(obj).attr("name") + "_name']").text());
+        } else {
+            $("span[name='" + $(obj).attr("name") + "']").text($(obj).val());
+        }
+    }
+
+    $(window).load(function() {
+        $("select").change(function() {
+            select_change(this);
+        });
+        
+        $("#unit_order_cnt").change(function(){
+	  		orderCntChange();
+	    });
+
+        //견적 두번째 수량(unit_order_cnt) 표시 여부 처리.
+        if ('{extra_unitcnt_view_flag}' == '1') {
+            //alert('{extra_unitcnt_view_flag}');
+            $("#unit_order_cnt").attr("style", "display:none;");
+            $("span[name='unit_order_cnt']").attr("style", "display:none;");
+            $("span[name='unit_order_cnt_name']").attr("style", "display:none;");
+            $("div[name='unit_order_cnt']").attr("style", "display:none;");
+        }
+
+        //첫번째 요소 선택하기.
+
+        //수량 오른쪽 항목 표시하기.
+        $("span[name='order_cnt_select']").text($("#order_cnt_select").children("option:selected").text() + "매");
+        $("span[name='unit_order_cnt']").text($("#unit_order_cnt").children("option:selected").text() + $("span[name='unit_order_cnt_name']").text());
+
+        //항목 오른쪽 항목 표시하기.
+        $("select[name*='item_select_']").each(function() {
+            //console.log($(this).attr("name")+":"+$(this).children("option:selected").text());
+            if ($(this).val() && $(this).val() != "") {
+                $("span[name='" + $(this).attr("name") + "']").text($(this).children("option:selected").text());
+            }
+        });
+
+        forwardAction();
+
+        btnView("{editor_mode}");
+    });
+
+    window.onkeydown = function() {
+        var kcode = event.keyCode;
+        if (kcode == 8 || kcode == 116) {
+            if ($("input[name=storageid]").val() != "") {
+                if (confirm("편집(파일 업로드)을 완료한 경우 새로고침(F5 Key)을 하시면\n편집정보(업로드된 파일 정보)가 유실됩니다.\n새로고침을 하시겠습니까?") == true) {
+                    event.returnValue = true;
+                } else {
+                    event.returnValue = false;
+                }
+                //alert(kcode); event.returnValue = false;
+            } else {
+                event.returnValue = true;
+            }
+        }
+    }
+</script>
+
+<!-- 파일업로드 창 -->
+{p.i->inc('/print/_upload_popup.htm')}
+<!-- 파일업로드 창 -->
+
+{ # footer }

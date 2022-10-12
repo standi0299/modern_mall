@@ -1,0 +1,115 @@
+/*** Basic CSS ***/
+
+html,body {height:100%; margin:0; padding:0;}
+body, table, input, textarea, select td{
+	color:#6F6C6D;
+	font:9pt nanumG,nanumG2;
+}
+body, table, input, textarea, select {font:9pt tahoma;}
+img		{border: 0;}
+.hand	{cursor: pointer;}
+.hidden	{display:none;}
+.bold	{font-weight:bold}
+.absmiddle {vertical-align: middle}
+
+ul {list-style:none; margin:0; padding:0;}
+fieldset {display:inline; margin:0; padding:0;}
+fieldset legend {display:none;}
+
+/*** link ***/
+a		{text-decoration: none; color: #6F6C6D;;}
+a:hover {text-decoration: none; color: #6F6C6D;;}
+a.white	{text-decoration: none; color: #ffffff;}
+a.white:hover {text-decoration: none; color: #ffffff;}
+
+/*** font ***/
+.eng	{font-family: tahoma; font-size: 8.5pt; letter-spacing: 0;}
+.verdana{font-family: verdana; font-size: 8.5pt;}
+.stxt	{font-family: 돋움; font-size: 8.5pt; letter-spacing: -1px;}
+.desc	{font-family: 돋움; font-size: 8.5pt; letter-spacing: -1px; padding-top:5px;line-height:150%;}
+.small	{font-family: 돋움; font-size: 8.5pt;}
+
+/*** form ***/
+form	{display: inline;}
+form input[type=text],input[type=password],input[type=file],textarea {border: 1px solid #c4cad1; background: #FFFFFF; color:#444;}
+._eng {ime-mode:disabled}
+._num {ime-mode:disabled; text-align:right;}
+._btn {border:1px solid #ccc; font:bold 8.5pt tahoma; background:#333333; color:#ffffff; width:60px; height:18px;}
+._btn_kr {border:1px solid #ccc; font:bold 8.5pt tahoma; background:#333333; color:#ffffff;padding-top:4px;}
+.line {border: 1px solid #c4cad1; background: #f5f5f5; color:#444;}
+
+/*** width ***/
+.w50	{width: 50px;}
+.w80	{width: 80px;}
+.w100	{width: 100px;}
+.w150	{width: 150px;}
+.w200	{width: 200px;}
+.w300	{width: 300px;}
+.w400	{width: 400px;}
+.w500	{width: 500px;}
+
+/*** color ***/
+.gray	{color: gray;}
+.red	{color: #FF575D;}
+.blue	{color: #006594;}
+.green	{color: #008000;}
+.white	{color: #ffffff;}
+.sky	{color: #2ABDF3;}
+.orange {color: #FF9300;}
+.pink	{color: #D4145A;}
+
+/*** align ***/
+.left	{float: left;}
+.right	{float: right;}
+.clear	{clear: both;}
+.c1		{
+	text-align: left;
+	padding-left: 10px;
+}
+.ibox {zoom:1}
+.ibox:after {content:""; display:block; clear:both;}
+
+/*** position ***/
+.page	{text-align: center; padding: 15px;}
+.btn	{text-align: right; margin: 10px 10px 0 0;}
+.btn2	{text-align: right; margin: 2px 10px 10px 0;}
+.border {border: 1px solid #cccccc;}
+.relative {position:relative;}
+
+/*** contents ***/
+.content {width: 100%; margin: 20px 0; word-wrap: break-word; word-break: break-all; overflow: hidden;}
+.content p {margin: 2px 0;}
+
+/*** scroll ***/
+.scroll	{
+	scrollbar-face-color:#FFFFFF;
+	scrollbar-shadow-color:#D2D2D2;
+	scrollbar-highlight-color:#D2D2D2;
+	scrollbar-3dlight-color:#FFFFFF;
+	scrollbar-darkshadow-color:#FFFFFF;
+	scrollbar-track-color:#F7F7F7;
+	scrollbar-arrow-color:#838383;
+}
+
+label {cursor: pointer; position:relative; top:-3px; font:8.5pt 돋움; letter-spacing:-1px;}
+
+.r {text-align:right; padding-right:10px;}
+.l {text-align:left; padding-left:10px;}
+
+/*** h1 ~ h6 ***/
+h1, h2, h3, h4, h5, h6 {margin:0; padding:0;}
+
+.nopadding {padding:0;}
+.c1 {text-align:left;}
+
+#tabs {border:1px solid #d7d7d7;}
+#tabs .ui-state-default {background:transparent;}
+#tabs .ui-widget-header {background:url('/admin/img/tb_tab_bg.png') repeat-x;}
+#tabs.ui-widget {font-size:9pt;}
+#tabs.ui-widget select {font-size:8.5pt;}
+#tabs {position:relative;}
+#tabs .btn {margin:0;padding:0;position:absolute;right:7px;bottom:2%;}
+#tabs .tb1 {width:860px;}
+
+.warning {color:#e51464}
+.notice {color:#28a5f9}

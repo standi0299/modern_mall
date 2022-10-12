@@ -1,0 +1,33 @@
+{ # header }
+
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<div class="joincomp-wrap">
+			<h3>{=__text("회원가입 완료")}</h3>
+			<p>{=__text("회원가입을 완료하였습니다.")}</p>
+			<div class="complete_box">
+				<div class="table">
+					<div class="row">
+						<div class="th">{=__text("아이디")}</div>
+						<div class="td">{_GET.mid}</div>
+					</div>
+					<div class="row">
+						<div class="th">{=__text("이름")}</div>
+						<div class="td">{name}</div>
+					</div>
+					<div class="row">
+						<div class="th">{=__text("이메일")}</div>
+						<div class="td">{email}</div>
+					</div>
+				</div>
+				<div class="btn_wrap">
+					<a href="../member/login.php" class="btn_login">{=__text("로그인")}</a>
+					<a href="../main/index.php" class="btn_home">{=__text("홈으로 이동")}</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{ # footer }

@@ -1,0 +1,20 @@
+	
+.btn_sns{background:url('//pics.auction.co.kr/pc/vip/sp_vipgroup.png') no-repeat}	
+.ly_sns{display:none;position:absolute;top:220px;right:150px;z-index:10;width:350px;padding:25px 19px 19px;background:#ffffff;border:1px solid #222222;font-size:14px;color:#222222;line-height:16px;letter-spacing:-0.5px;text-align:center}
+.ly_sns .box_arr{position:absolute;top:-9px;right:4%;width:15px;height:9px;background-position:-138px -65px;text-indent:-9999px}
+.ly_sns .sns_lst{*overflow:hidden;width:264px;margin:0 auto}
+.ly_sns .sns_lst:after{content:'';display:block;clear:both}
+.ly_sns .sns_lst li{display:inline-block;float:left;width:88px}
+.ly_sns .btn_sns{display:inline-block;width:48px;height:48px;margin:0 auto;font-size:0}
+.ly_sns .btn_sns.faceboo{background-position:-188px 0}
+.ly_sns .btn_sns.faceboo:hover{background-position:-188px -50px}
+.ly_sns .btn_sns.twitter{background-position:-238px 0}
+.ly_sns .btn_sns.twitter:hover{background-position:-238px -50px}
+.ly_sns .btn_sns.kakaostory{background-position:-288px 0}
+.ly_sns .btn_sns.kakaostory:hover{background-position:-288px -50px}
+.ly_sns .sns_txt{display:block;width:100%;margin-top:6px;font-size:13px;color:#222222;letter-spacing:-0.5px}
+.ly_sns .sns_url_copy{position:relative;margin-top:19px;text-align:left}
+.ly_sns .sns_url_box{display:inline-block;width:195px;height:34px;padding-left:10px;background:#fafafa;border:1px solid #e0e0e0;font-size:14px;color:#666666;line-height:32px;letter-spacing:-0.5px}
+.ly_sns .btn_url{position:absolute;top:0;right:0;width:80px;height:36px;margin-left:-1px;background:#ffffff;border:1px solid #cccccc;font-size:14px;color:#222222;letter-spacing:-0.5px}
+.ly_sns .btn_url:hover{background:#f7f7f7}
+

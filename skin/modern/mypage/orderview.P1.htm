@@ -1,0 +1,407 @@
+{ # header }
+
+<div class="ctmm_map">
+	<div class="ctheader">
+		<span style="position:relative; left:-206px; width:200px; height:36px; font-size:1.7em; margin:26px 10px; display:inline-block;">{=__text("주문상세")}</span>
+	</div>
+	
+	<div class="ctmm_content">
+		<div class="ctmm_content_head">
+			<ul>
+				<li style="width:413px;">{=__text("상품정보")}</li>
+				<li style="width:130px;">{=__text("수량")}</li>
+				<li style="width:350px;">{=__text("현황")}</li>
+				<li style="width:140px;">{=__text("운송장번호")}</li>
+			</ul>
+		</div>
+		
+		<!--{ @ ord }-->
+			<!--{ @ .item }-->
+				<div class="ce_cont_see">
+					<div class="ce_cont_map">
+						<div class="ce_cont_sang">
+							<div class="ce_img">{=goodsListImg(..goodsno, "", "", "width: 120px; height: 120px")}</div>
+							<div class="ce_sang">
+								<ul style="padding:0;">
+									<li><span><strong>{..goodsnm}</strong></span></li>
+									<li>
+										<span style="font-size: 13px; width: 350px; height:100%;">
+											<!--{ ? ..title }-->
+												<div>{..title}</div>
+											<!--{ / }-->
+											
+											<div>
+												<!--{ ? ..catno1 == "002" || ..catno1 == "014" || ..catno1 == "023" || ..catno1 == "020" }-->
+													{..catnm1}
+													
+													<!--{ ? ..mobile_opt }-->
+														 / {..mobile_opt}
+													<!--{ / }-->
+													
+													<!--{ ? ..addopt }-->
+														<!--{ @ ..addopt }-->
+															 / {...addoptnm}
+														<!--{ / }-->
+													<!--{ / }-->
+												<!--{ : ..catno1 == "006" || ..catno1 == "016" || ..catno1 == "019" }-->
+													{..catnm1}
+													
+													<!--{ ? ..catnm2 }-->
+														 / {..catnm2}
+													<!--{ / }-->
+													
+													<!--{ ? ..catnm3 }-->
+														 / {..catnm3}
+													<!--{ / }-->
+													
+													<!--{ ? ..catnm4 }-->
+														 / {..catnm4}
+													<!--{ / }-->
+												<!--{ : ..catno1 == "018" || ..catno1 == "025" }-->
+													{..catnm1}
+												<!--{ : }-->
+													<!--{ ? ..mobile_opt }-->
+														{..mobile_opt}
+														<!--{ ? ..addopt || ..printopt }-->
+															 / 
+														<!--{ / }-->
+													<!--{ / }-->
+													
+													<!--{ ? ..addopt }-->
+														<!--{ @ ..addopt }-->
+															<!--{ ? ...index_ == 0 }-->
+																{...addoptnm}
+															<!--{ : }-->
+																 / {...addoptnm}
+															<!--{ / }-->
+														<!--{ / }-->
+													<!--{ / }-->
+													
+													<!--{ ? ..printopt }-->
+														<!--{ @ ..printopt }-->
+															<!--{ ? ...index_ == 0 }-->
+																{...printoptnm} {...ea}{=__text("장")}
+															<!--{ : }-->
+																 / {...printoptnm} {...ea}{=__text("장")}
+															<!--{ / }-->
+														<!--{ / }-->
+													<!--{ / }-->
+												<!--{ / }-->
+											</div>
+										</span>
+									</li>
+								</ul>
+								
+								<!--{ ? ..storageid && ..goodsno!='-1' && ..est_order_type != 'UPLOAD' }-->
+									<button type="button" onclick="javascript:popup('../module/preview.php?goodsno={..goodsno}&storageid={..storageid}', 1000, 650, 1);">{=__text("편집내용 미리보기")}</button>
+								<!--{ / }-->
+							</div>
+						</div>
+					</div>
+					<div class="vasemm_sang3">
+						<div class="ce_sang_1">
+							<ul style="padding:0;">
+								<li><span class="ce_sang_1_1">{=number_format(..ea)}</span></li>
+							</ul>
+						</div>
+					</div>
+					<div class="vasemm_sang4">
+						<div class="ce_sang_4">
+							<ul style="padding:0;">
+								<li>
+									<span class="ce_sang_1_4">
+										<!--{ ? ..itemstep == "-9" && in_array(paymethod,array("b","o","oe","v","ve")) && strpos(memo,"환불정보") !== false }-->
+											{=__text("취소요청")}
+										<!--{ : }-->
+											{=_r_step[..itemstep]}
+										<!--{ / }-->
+									</span>
+								</li>
+							</ul>
+						</div>
+					</div>
+					<div class="vasemm_sang5">
+						<div class="ce_sang_5">
+							<ul style="padding:0;">
+								<!--{ ? ..strshipcode_compnm }-->
+									<li><span class="ce_sang_1_6" style="font-weight:normal;">{..strshipcode_compnm}</span></li>
+								<!--{ / }-->
+								<!--{ ? ..shipcode }-->
+									<li><span class="ce_sang_1_5" style="font-weight:normal;">(<a href="{..strshipcode_url}" target="_blank">{..shipcode}</a>)</span></li>
+								<!--{ / }-->
+							</ul>
+						</div>
+					</div>
+				</div>
+			<!--{ / }-->
+		<!--{ / }-->
+	</div>
+	
+	<div class="can_price_sang">
+		<div class="can_price_body">
+			<div class="can_price_head">
+				<ul>
+					<li style="width:90px;">{=__text("상품금액")}</li>
+					<li style="width:210px;">{=__text("적립금 사용")}</li>
+					<li style="width:77px;">{=__text("쿠폰할인")}</li>
+					<li style="width:208px;">{=__text("프로모션 할인")}</li>
+					<li style="width:80px;">{=__text("배송비")}</li>
+					<li style="width:250px;">{=__text("최종 결제금액")}</li>
+				</ul>
+			</div>
+			
+			<div class="can_nk">
+				<div class="can_price_mse" style="border:none;">
+					<ul>
+						<li style="width:100px;">{=number_format(saleprice - dc_member)}{=__text("원")}</li>
+						<li><img src="/skin/modern/assets/P1/img/m1.png" {=__alt("마이너스")}/></li>
+						<li style="width:100px;">{=number_format(dc_emoney)}{=__text("원")}</li>
+						<li><img src="/skin/modern/assets/P1/img/m1.png" {=__alt("마이너스")}/></li>
+						<li style="width:100px;">{=number_format(dc_coupon)}{=__text("원")}</li>
+						<li><img src="/skin/modern/assets/P1/img/m1.png" {=__alt("마이너스")}/></li>
+						<li style="width:100px;">{=number_format(dc_sale_code_coupon)}{=__text("원")}</li>
+						<li><img src="/skin/modern/assets/P1/img/m2.png" {=__alt("플러스")}/></li>
+						<li style="width:100px;">{=number_format(shipprice)}{=__text("원")}</li>
+						<li><img src="/skin/modern/assets/P1/img/m3.png" {=__alt("합계")}/></li>
+						<li style="width:156px; color:#d81b60;">
+							{=number_format(payprice)}{=__text("원")}
+							<!--{ ? refund_total_price > 0 }-->
+								<br>({=__text("환불금액")} {=number_format(refund_total_price)}{=__text("원")})
+							<!--{ / }-->
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+				
+	<div class="basong_2">
+		<span style="width:150px; height:36px; font-size:1.7em; margin:19px 0 10px 0; display:inline-block;">{=__text("배송정보")}</span>
+		
+		<p class="pp_ba">{=__text("상품이 이미 출고가 되었다면 정보를 변경해도 적용되지 않을 수 있습니다.")}</p>
+		
+		<form name="delivery_fm" method="post" action="indb.php">
+			<input type="hidden" name="mode" value="modDelivery">
+			<input type="hidden" name="payno" value="{payno}">
+			
+			<div class="basong_list_two">
+				<div class="basong_adrs">
+					<div class="basongadd_sang">
+						<span class="ba_f">{=__text("수령인")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;">
+							<li><input type="text" class="su_text" name="receiver_name" value="{receiver_name}" required></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="basong_adrs">
+					<div class="basongadd_sang">
+						<span class="ba_f">{=__text("연락처")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;">
+							<li>
+								<select class="ph_sell" name="receiver_mobile[]" onchange="auto_set_pp;" required>
+									<!--{ @ _r_mobile }-->
+									<option value="{.value_}" {_selected.receiver_mobile[.value_]}>{.value_}</option>
+									<!--{ / }-->
+								</select>
+								<input type="text" class="ph_sell_text1 number_type" name="receiver_mobile[]" value="{receiver_mobile[1]}" required maxlength="4" onkeyup="auto_focus(this,2);"/>
+								<input type="text" class="ph_sell_text1 number_type" name="receiver_mobile[]" value="{receiver_mobile[2]}" required maxlength="4"/>
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="basong_adrs_list">
+					<div class="basongadd_sang_list">
+						<span class="ba_f">{=__text("주소")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;">
+							<li style="width:150px; float:left; padding:10px 10px 3px 15px;"><input type="text" class="rip number_type" style="width:150px;" id="receiver_zipcode" name="receiver_zipcode" value="{receiver_zipcode}" required readonly></li>
+							<li class="ciack"><button type="button" id="btn_order_zipcode2" onclick="popupZipcode{_language_locale}('_zcrn_r');">{=__text("우편번호 찾기")}</button></li>
+							<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" style="width:500px;" id="receiver_addr" name="receiver_addr" value="{receiver_addr}" required readonly></li>
+							<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" style="width:500px;" id="receiver_addr_sub" name="receiver_addr_sub" value="{receiver_addr_sub}" required></li>
+						</ul>
+					</div>
+					
+					<!--<div class="basong_sadd">
+						<ul style="margin:0;">
+							<li><button style="vertical-align:middle;">우편번호 찾기</button>
+							<input type="text" class="ph_sell_text2" name="oneone"/></li>
+							<li><input type="text" class="ph_sell_text3" name="oneone"/>
+								<input type="text" class="ph_sell_text3" name="oneone"/>
+							</li>
+						</ul>
+					</div>-->
+				</div>
+				
+				<div class="basong_adrs">
+					<div class="basongadd_sang">
+						<span class="ba_f">{=__text("배송메모")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;">
+							<li><input type="text" class="ph_sell_text4" {=__placeholder("20자내외로 써주세요")} maxlength="20" name="request" value="{request}"/></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="basong_adrs">
+					<div class="basongadd_sang">
+						<span class="ba_f">{=__text("배송방법")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;">
+							<!--{ ? order_shiptype != '' }-->
+								<!--{ ? order_shiptype == '1' }-->
+									<li>{_r_order_shiptype[0]}</li>
+								<!--{ : }-->
+									<li>{_r_order_shiptype[order_shiptype]}</li>
+								<!--{ / }-->
+							<!--{ / }-->
+						</ul>
+					</div>
+				</div>
+			</div>
+			
+			<!--{ ? paystep > 0 }-->
+				<div class="basong_btn_1">
+					<button type="submit">{=__text("배송정보 변경 저장")}</button>
+				</div>
+			<!--{ : }-->
+				<div class="basong_btn_1" style="height:40px;"></div>
+			<!--{ / }-->
+		</form>
+	</div>
+	
+	<div class="basong_2">
+		<span class="po_span">{=__text("결제정보")}</span>
+		
+		<div class="basong_list">
+			<div class="basong_adrs">
+				<div class="basongadd_sang">
+					<span class="ba_f">{=__text("결제방법")}</span>
+				</div>
+				<div class="basong_sadd">
+					<ul style="margin:0;">
+						<li>{_r_paymethod[paymethod]}<!--{ ? paystep > 1 && paystep < 90 }-->({=__text("결제완료")})<!--{ / }--></li>
+					</ul>
+				</div>
+			</div>
+			
+			<!--{ ? paymethod == "c" && paystep > 1 }-->
+				<div class="basong_adrs">
+					<div class="basongadd_sang">
+						<span class="ba_f">{=__text("매출전표")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;cursor:pointer;">
+							<!--{ ? _cfg.pg.module == "smartxpay" }-->
+								<script language="JavaScript" src="//pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js"></script>
+								<li><a href="javascript:showReceiptByTID('{_cfg.pg.lgd_mid}','{pgcode}','{authcode}');">{=__text("온라인 매출전표 보기")}</a></li>
+							<!--{ : }-->
+								<li><a href="javascript:popup('{receipt_url}',465,855);">{=__text("온라인 매출전표 보기")}</a></li>
+							<!--{ / }-->
+						</ul>
+					</div>
+				</div>
+			<!--{ : paymethod == "b" || paymethod == "v" }-->
+				<div class="basong_adrs">
+					<div class="basongadd_sang">
+						<span class="ba_f">{=__text("계좌정보")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;">
+							<li>{bankinfo}</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="basong_adrs">
+					<div class="basongadd_sang">
+						<span class="ba_f">{=__text("입금자명")}</span>
+					</div>
+					<div class="basong_sadd">
+						<ul style="margin:0;">
+							<li>{payer_name}</li>
+						</ul>
+					</div>
+				</div>
+				
+				<!--{ ? pg_module != "no" && (paymethod == "b" || paymethod == "v") && cash_status != "02" }-->
+					<div class="basong_adrs">
+						<div class="basongadd_sang">
+							<span class="ba_f">{=__text("현금영수증")}</span>
+						</div>
+						<div class="basong_sadd">
+							<ul style="margin:0;cursor:pointer;">
+								<!--{ ? pg_module == "kcp" }-->
+									<!--
+									<li><a onclick="popup('/pg/kcp/cash/request.php?payno={_GET.payno}',650 700);">{=__text("현금영수증 신청하기")}</a></li>
+									-->
+									<li><a href="/mypage/document.php">{=__text("현금영수증 신청하기")}</a></li>
+								<!--{ : pg_module == "inipaystdweb" }-->
+									<!--
+									<li><a onclick="popup('/pg/INIPayStdWeb/cash/request.php?payno={_GET.payno}',650,700);">{=__text("현금영수증 신청하기")}</a></li>
+									-->
+									<li><a href="/mypage/document.php">{=__text("현금영수증 신청하기")}</a></li>
+								<!--{ / }-->
+							</ul>
+						</div>
+					</div>
+				<!--{ / }-->
+			<!--{ / }-->
+		</div>
+	</div>
+
+	<div class="button_pay">
+		<button type="button" class="button_pay_left" onclick="location.href='orderlist.php';">{=__text("이전으로")}</button>
+		<button type="button" onclick="location.href='../main/index.php';">{=__text("메인으로")}</button>
+	</div>
+</div>
+
+<script>
+$j(function() {
+	$j('.number_type').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+function auto_focus(obj,idx) {
+	if (obj.value.length == 4) obj.form['receiver_mobile[]'][idx].focus();
+}
+
+function _zcrn_r() {
+	var zipcode = arguments[0];
+	$j("[name=receiver_zipcode]").val(zipcode);
+	$j("[name=receiver_addr]").val(arguments[1]);
+	$j("[name=receiver_addr_sub]").val("");
+	$j("[name=receiver_addr_sub]").trigger("focus");
+}
+
+/*$j(window).load(function() {
+	$j(".ce_img img").each(function() {
+		if ($j(this).width() < $j(this).height()) {
+			$j(this).css("width", "auto");
+			if ($j(this).height() > 120) $j(this).css("height", "120px");
+			
+			var marginWidth = (120 - $j(this).width()) / 2;
+			$j(this).css("margin-left", marginWidth);
+		} else {
+			if ($j(this).width() > 120) $j(this).css("width", "120px");
+			$j(this).css("height", "auto");
+			
+			var marginHeight = (120 - $j(this).height()) / 2;
+			$j(this).css("margin-top", marginHeight);
+		}
+	});
+});*/
+</script>
+
+{ # footer }

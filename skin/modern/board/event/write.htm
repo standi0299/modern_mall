@@ -1,0 +1,332 @@
+{ # header }
+
+<section class="content-container">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col active">
+				<a href="../../board/list.php?board_id=notice">{=__text("공지사항")}</a>
+			</li>
+			<li class="col">
+				<a href="../../service/faq.php">{=__text("자주 묻는 질문")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/mycs.php">{=__text("문의하기")}</a>
+			</li>
+		</ul>
+		<div class="tab-content-wrap">
+			<!-- align="{board.board_align}" style="padding:100px;" -->
+			<div class="tab-content" id="inquiry" style="padding-top:100px;">
+				<div style="width:1000px;margin:0 auto;">{board.header_html}</div>
+				<!-- style="width:{board.board_width};" -->
+				<div class="inquiry-content">
+					<form action="indb.php" method="post" enctype="multipart/form-data" onsubmit="return submitContents(this);">
+						<input type="hidden" name="mode" value="{_mode}">
+						<input type="hidden" name="board_id" value="{_GET.board_id}">
+						<input type="hidden" name="no" value="{_GET.no}">
+						<input type="hidden" name="rurl" value="{_SERVER.HTTP_REFERER}">
+						
+						<div id="inquiry-form">
+							<h3>Write Article</h3>
+							<div class="form-horizontal">
+								<!--{ ? !_ici_admin }-->
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("이름")}</label>
+									<div class="col">
+										<!--{ ? _sess.mid }-->
+										<label class="label-control" style="display:inline-block;">{_sess.name}</label>
+										<!--{ : }-->
+										<input type="text" class="input" name="name" value="{_sess.name}" pt="_pt_txt" required>
+										<span style="font-size: 12px;color:red;">{=__text("\" 와 \ 는 입력이 불가능합니다.")}</span>
+										<!--{ / }-->
+									</div>
+								</div>
+								<!--{ / }-->
+								
+								<!--{ ? !_sess.mid }-->
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("비밀번호")}</label>
+									<div class="col">
+										<input type="password" class="input" name="password" pt="_pt_txt" required>
+										<span style="font-size: 12px;color:red;">{=__text("\" 와 \ 는 입력이 불가능합니다.")}</span>
+									</div>
+								</div>
+								<!--{ / }-->
+								
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("제목")}</label>
+									<!--{ ? board.on_category }-->
+									<div class="col select-box email-select">
+										<label id="category_label">{=__text("분류")}</label>
+										<select name="category" required {=__label("분류")}>
+											<option value="">{=__text("선택")}</option>
+											<!--{ @ board.category }-->
+											<option value="{.value_}">{.value_}</option>
+											<!--{ / }-->
+										</select>
+									</div>
+									<script>
+									$j(function() {
+										$j("#category_label").text($j("select[name=category] option:selected").text());
+									});
+									</script>
+									<!--{ / }-->
+									<div class="col email-select">
+										<input type="text" class="input" name="subject" value="{subject}" pt="_pt_txt" style="width:500px;" required>
+										<span style="font-size: 12px;color:red;">{=__text("\" 와 \ 는 입력이 불가능합니다.")}</span>
+									</div>
+								</div>
+								
+								<!--{ ? board.on_subject_deco }-->
+									<!--{ ? board.on_subject_deco&1 }-->
+									<div class="form-group h-group">
+										<label class="col label-control text-left">{=__text("제목꾸미기(굵기)")}</label>
+										<div class="col select-box email-select">
+											<label id="font-weight_label">{=__text("기본")}</label>
+											<select name="subject_deco[font-weight]">
+												<option value="">{=__text("기본")}</option>
+												<option value="bold">{=__text("굵게")}</option>
+											</select>
+										</div>
+									</div>
+									<script>
+									$j(function() {
+										$j("#font-weight_label").text($j("select[name=subject_deco[font-weight]] option:selected").text());
+									});
+									</script>
+									<!--{ / }-->
+									
+									<!--{ ? board.on_subject_deco&2 }-->
+									<div class="form-group h-group">
+										<label class="col label-control text-left">{=__text("제목꾸미기(색상)")}</label>
+										<div class="col select-box email-select">
+											<label id="color_label">{=__text("기본")}</label>
+											<select name="subject_deco[color]">
+												<option value="">{=__text("기본")}</option>
+												<!--{ @ _deco.color }-->
+												<option value="{.key_}" style="color:{.key_}">{.value_}</option>
+												<!--{ / }-->
+											</select>
+										</div>
+									</div>
+									<script>
+									$j(function() {
+										$j("#color_label").text($j("select[name=subject_deco[color]] option:selected").text());
+									});
+									</script>
+									<!--{ / }-->
+									
+									<!--{ ? board.on_subject_deco&4 }-->
+									<div class="form-group h-group">
+										<label class="col label-control text-left">{=__text("제목꾸미기(크기)")}</label>
+										<div class="col select-box email-select">
+											<label id="font-size_label">{=__text("기본")}</label>
+											<select name="subject_deco[font-size]">
+												<option value="">{=__text("기본")}</option>
+												<!--{ @ _deco['font-size'] }-->
+												<option value="{.value_}">{.value_}</option>
+												<!--{ / }-->
+											</select>
+										</div>
+									</div>
+									<script>
+									$j(function() {
+										$j("#font-size_label").text($j("select[name=subject_deco[font-size]] option:selected").text());
+									});
+									</script>
+									<!--{ / }-->
+								<!--{ / }-->
+								
+								<!--{ ? board.on_email }-->
+								<div class="form-group h-group">
+									<label class="col label-control text-left">{=__text("이메일")}</label>
+									<div class="col">
+										<input type="text" class="input" name="email" value="{_sess.email}" pt="_pt_email" required>
+									</div>
+								</div>
+								<!--{ / }-->
+								
+								<div class="form-group h-group" style="margin:10px 0 0 10px;">
+									<div class="col">
+										<!--{ ? _ici_admin }-->
+										<input type="checkbox" id="notice_write" name="notice" value="-1" {_checked.notice}><label class="label-control" for="notice_write">{=__text("알림글로 작성합니다.")}</label>
+										<!--{ / }-->
+										
+										<!--{ ? in_array(board.on_secret,array(0,1)) }-->
+										<input type="checkbox" id="secret_write" name="secret" value="1" {_checked.secret}><label class="label-control" for="secret_write">{=__text("비밀글로 작성합니다.")}</label>
+										<!--{ : board.on_secret == 3 }-->
+										<input type="hidden" name="secret" value="1">
+										<label class="label-control" style="color:red;">* {=__text("작성된 게시물은 게시판 정책에 의해 비밀글로 저장됩니다.")}</label>
+										<!--{ / }-->
+									</div>
+								</div>
+							</div>
+							
+							<hr>
+							<div class="form-horizontal">
+								<div class="form-group" style="padding-top: 10px;">
+									<label class="col label-control text-left">{=__text("내용")}</label>
+									<div class="col" style="margin: 10px;">
+										<textarea name="content" type="editor" id="contents" style="width:100%;height:300px" {=__label("내용")}>{content}</textarea>
+									</div>
+								</div>
+							</div>
+							
+							<!--{ ? board.on_file }-->
+							<div class="form-horizontal">
+								<div class="form-group">
+									<label class="col label-control text-left">
+										{=__text("파일첨부하기")}&nbsp;
+										<!--{ ? board.limit_filesize }-->
+										<span style="color:red;">* {=__text("파일제한")} : {=__text("하나의 파일은")} <b>{=number_format(board.limit_filesize)}</b>{=__text("KByte까지 허용되며, 초과시 첨부가 되지 않습니다.")}</span>
+										<!--{ / }-->
+									</label>
+									<div class="col" style="margin: -10px 0 0 10px;">
+										<!--{ @ range(1,board.limit_filecount) }-->
+										<div class="h-group" id="add-file-wrap">
+											<div class="col" id="add-file" style="margin-right:10px;">
+												<label for="photo-file_{.index_}"><span>{=__text("파일첨부")}</span></label>
+												<input type="file" id="photo-file_{.index_}" class="fileupload_input" name="file[]" idx="{.index_}">
+											</div>
+											<div class="col">
+												<label for="photo-file_{.index_}" id="file_label_{.index_}" style="cursor: pointer;">{=__text("파일을 첨부해주세요.")}</label>
+											</div>
+										</div>
+										<!--{ / }-->
+									</div>
+								</div>
+							</div>
+							<!--{ / }-->
+							
+							<!--{ ? !_ici_admin }-->
+							<hr>
+							<div class="form-group h-group" style="margin-top:1px;">
+								<label class="col label-control text-left">{=__text("보안코드")}</label>
+								<div class="col">
+									<img id="zsfImg" src="/lib/zmSpamFree/zmSpamFree.php?zsfimg&re" style="border: none;cursor: pointer;display: inline;vertical-align: bottom;margin-right: 10px;" onclick="this.src='/lib/zmSpamFree/zmSpamFree.php?re&amp;zsfimg='+new Date().getTime()">
+									<input type="text" class="input" name="zsfCode" id="zsfCode" {=__label("보안코드")} style="display: inline;" onchange="chkZsf(this);" required>
+									<span id="rslt" style="font-size:12px;color: red;">* {=__text("이미지를 누르시면 새로고침됩니다.")}</span>
+								</div>
+								
+								
+								
+							</div>
+							<!--{ / }-->
+						</div>
+						<div class="text-center" style="margin:0 auto;">
+							<button type="submit" class="btn btn-primary btn-lg btn-half" style="width:238px;margin-right:20px;">{=__text("확인")}</button>
+							<button type="button" class="btn btn-primary btn-lg btn-half" style="width:238px;background-color:white;color:#6bcdfd;" onclick="javascript:history.back();">{=__text("취소")}</button>
+						</div>
+					</form>
+				</div>
+				<div style="width:1000px;margin:0 auto;">{board.footer_html}</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript" src="/js/smarteditor/js/HuskyEZCreator.js" charset="utf-8"></script>
+<script type="text/javascript" src="/js/smarteditor/editorStart.js" charset="utf-8"></script>
+
+<script type="text/javascript">
+var oEditors = [];
+smartEditorInit("contents", true, "editor", true);
+	
+function submitContents(formObj) {
+	if (sendContents("contents", true)) {
+		try {
+			return form_chk(formObj);
+		} catch(e) {
+			return false;
+		}
+	}
+	return false;
+}
+
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "cs-layout");
+	
+	$j(".fileupload_input").change(function() {
+		var idx = $j(this).attr("idx");
+		
+		if ($j(this).val()) {
+			$j("#file_label_" + idx).text({=__java("파일이 첨부되었습니다.")});
+		} else {
+			$j("#file_label_" + idx).text({=__java("파일을 첨부해주세요.")});
+		}
+	});
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+
+function getHTTPObject() {
+	var xhr = false;
+	if (window.XMLHttpRequest) { 
+		xhr = new XMLHttpRequest(); 
+	} else if (window.ActiveXObject) {
+		try { 
+			xhr = new ActiveXObject("Msxml2.XMLHTTP"); 
+		} catch (e) {
+			try { 
+				xhr = new ActiveXObject("Microsoft.XMLHTTP"); 
+			} catch (e) { 
+				xhr = false; 
+			}
+		}
+	}
+	return xhr;
+}
+
+function grabFile(file) {
+	var req = getHTTPObject();
+	
+	if (req) {
+		req.onreadystatechange = function() { rsltZsf(req); };
+		req.open("GET", file, true);
+		req.send(null);
+	}
+}
+
+function axOk(req) {
+	if (req.readyState == 4 && (req.status == 200 || req.status == 304)) { 
+		return true; 
+	} else { 
+		return false; 
+	} 
+}
+
+function chkZsf(zsfObj) {
+	zsfV = zsfObj.value;
+	if (zsfV.length > 0) {
+		grabFile ("../../../lib/zmSpamFree/zmSpamFree.php?zsfCode=" + zsfV);
+	} else {
+		document.getElementById("rslt").innerHTML = {=__java("보안코드를 입력하셔야 합니다.")};
+		document.getElementById("rslt").className = "r";
+		document.getElementById('zsfCode').focus();
+	}
+}
+
+function rsltZsf(req) {
+	if (axOk(req)) {
+		zsfV = document.getElementById('zsfCode').value;
+		rsltTxt = {=__java("잘못")};
+		rsltCls = "wrong";
+		
+		if (req.responseText*1 == true) {
+			rsltTxt = {=__java("정확히")};
+			rsltCls = "right";
+		} else {
+			document.getElementById('zsfCode').value = '';
+			document.getElementById('zsfImg').src = '/lib/zmSpamFree/zmSpamFree.php?re&zsfimg=' + new Date().getTime();
+		}
+		
+		document.getElementById("rslt").innerHTML = "&nbsp;"+{=__java("보안코드를")}+" " + rsltTxt + " "+{=__java("입력하셨습니다.")};
+		document.getElementById("rslt").className = rsltCls + "_code";
+		document.getElementById('zsfCode').focus();
+	}
+}
+</script>
+
+{ # footer }

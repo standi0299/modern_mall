@@ -1,0 +1,119 @@
+@charset "utf-8";
+@import "mobile_layout.css";
+@import "table.css";
+/* ------------------------------------------------------------
+ * Name      : m.css
+ * Desc      : 추억을 만지다. 미오디오 / Mobile
+ * Created   : 2015-08-11 by tttboram@naver.com
+ ------------------------------------------------------------ */
+
+/* Type Selector */
+*{margin:0; padding:0; font-family:"Noto Regular","Dotum", "Arial", "verdana"; color:#333;}
+body{font-size:0.9em; line-height:1.5em;}
+img{border:0}
+img, fieldset, button{border:none;}
+hr, button img{display:none;}
+li{padding:0;margin:0;list-style:none;}
+a, a:visited{text-decoration:none; color:#333;}
+a:hover, a:active, a:focus{text-decoration:underline;}
+html:first-child select{padding-right:6px; height:20px;} /* Opera 9 & Below Fix */
+option {padding-right:6px;} /* Firefox Fix */
+legend, .atl {position:absolute; top:0; left:0; width:0; height:0; overflow:hidden; visibility:hidden; font-size:0; line-height:0;} /* For Screen Reader */
+select{padding:3px 10px;}
+
+/* .alt : 대체텍스트용 */
+.comment{text-indent:-10000px;width:0;height:0;font-size:0;line-height:0;overflow:hidden;visibility:hidden;}
+/* dimmed */
+#mask{position:fixed; z-index:900; top:0; left:0; width:100%; height:100%; font-size:0; background:#000; filter: Alpha(opacity=50); opacity:0.5;}
+
+/* input */
+@font-face {
+font-family: 'Noto Regular';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSerif-Regular.ttf);
+src: url(NotoSerif-Regular.eot?#iefix) format('embedded-opentype'),
+	url(NotoSerif-Regular.woff) format('woff'),
+	url(NotoSerif-Regular.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto Italic';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSerif-Italic.ttf);
+src: url(NotoSerif-Italic.eot?#iefix) format('embedded-opentype'),
+	url(NotoSerif-Italic.woff) format('woff'),
+	url(NotoSerif-Italic.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto Bold';
+font-style: normal;
+font-weight: 700;
+src: url(NotoSerif-Bold.ttf);
+src: url(NotoSerif-Bold.eot?#iefix) format('embedded-opentype'),
+	url(NotoSerif-Bold.woff) format('woff'),
+	url(NotoSerif-Bold.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto BoldItalic';
+font-style: normal;
+font-weight: 800;
+src: url(NotoSerif-BoldItalic.ttf);
+src: url(NotoSerif-BoldItalic.eot?#iefix) format('embedded-opentype'),
+	url(NotoSerif-BoldItalic.woff) format('woff'),
+	url(NotoSerif-BoldItalic.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto CJKkr Thin';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSansCJKkr-Thin.ttf);
+src: url(NotoSansCJKkr-Thin.eot?#iefix) format('embedded-opentype'),
+	url(NotoSansCJKkr-Thin.woff) format('woff'),
+	url(NotoSansCJKkr-Thin.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto CJKkr Regular';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSansCJKkr-Regular.ttf);
+src: url(NotoSansCJKkr-Regular.eot?#iefix) format('embedded-opentype'),
+	url(NotoSansCJKkr-Regular.woff) format('woff'),
+	url(NotoSansCJKkr-Regular.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto CJKkr Medium';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSansCJKkr-Medium.ttf);
+src: url(NotoSansCJKkr-Medium.eot?#iefix) format('embedded-opentype'),
+	url(NotoSansCJKkr-Medium.woff) format('woff'),
+	url(NotoSansCJKkr-Medium.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto CJKkr Light';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSansCJKkr-Light.ttf);
+src: url(NotoSansCJKkr-Light.eot?#iefix) format('embedded-opentype'),
+	url(NotoSansCJKkr-Light.woff) format('woff'),
+	url(NotoSansCJKkr-Light.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto CJKkr DemiLight';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSansCJKkr-DemiLight.ttf);
+src: url(NotoSansCJKkr-DemiLight.eot?#iefix) format('embedded-opentype'),
+	url(NotoSansCJKkr-DemiLight.woff) format('woff'),
+	url(NotoSansCJKkr-DemiLight.ttf) format('truetype');
+}
+@font-face {
+font-family: 'Noto CJKkr Black';
+font-style: normal;
+font-weight: 400;
+src: url(NotoSansCJKkr-Black.ttf);
+src: url(NotoSansCJKkr-Black.eot?#iefix) format('embedded-opentype'),
+	url(NotoSansCJKkr-Black.woff) format('woff'),
+	url(NotoSansCJKkr-Black.ttf) format('truetype');
+}

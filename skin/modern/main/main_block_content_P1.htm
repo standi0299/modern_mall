@@ -1,0 +1,32 @@
+<style>
+.slide:first-child {display: block;}
+<!--{ @ _mcdata.img }-->   			
+	.slide:nth-of-type({.index_ + 1}) {background-image:url("/data/main_content/{_cid}/{_mcdata.img[.index_]}");}
+<!--{ / }-->	
+</style>
+<div class="_admin_config" code="main_block_content_pixstory">
+	<div class="main_banner_px">	  
+		<div class="slide_viewer">    
+			<div class="slide_group">
+				<!--{ @ _mcdata.img }-->
+					<!--{ ? _mcdata.url[.index_] }-->
+						<div class="slide" { ? _mcdata.target[.index_] == "_blank" }onclick="window.open('{_mcdata.url[.index_]}');"{ : }onclick="location.href='{_mcdata.url[.index_]}';"{ / }></div>
+					<!--{ : }-->
+						<div class="slide"></div>
+					<!--{ / }-->
+				<!--{ / }-->
+			</div>
+		</div>
+	</div>
+	
+	<div class="slide_buttons">
+		<ul>
+			<!--{ @ _mcdata.img }-->
+				<li { ? .index_ == 0 }class="slide_btn active"{ : }class="slide_btn"{ / } id="{.index_}"><span>{_mcdata.title[.index_]}</span></li>
+			<!--{ / }-->
+		</ul>
+	</div>
+	
+	<div style="clear:both;"></div>
+</div>
+<script src="<?=makeUrlWithVersion('/skin/modern/assets/P1/js/slider_px.js');?>"></script>

@@ -1,0 +1,162 @@
+<!--메인 배너-->
+<div id="body_px_one">
+	<!--메인 배너 밑 상품-->
+	<div id="pro_px">
+		<div id="pro_px_text">
+			<ul class="pro_px_text_tab">
+				<li class="active_px">
+					<input type="radio" class="but_md" name="reo" onClick="main_bottom_img(1)" checked><label>인기상품</label>
+				</li>
+				<li class="active_px">
+					<input type="radio" class="but_md" name="reo" onClick="main_bottom_img(2)" ><label>신상품</label>
+				</li>
+			</ul>
+		</div>
+
+		<div id="pro_px_img">
+			<div class="pro_px_img_list "style="display: block;" id="pro_id_1">
+				<ul style="padding: 0px; left: -145px; position: relative; width:1900px; margin:auto;">
+					<!--{ ? _blockDataArr.main_block_01_P1.goods }-->
+						<!--{ @ _blockDataArr.main_block_01_P1.goods }-->
+							<!--{ ? .key_ < 4 }-->
+								<li>
+									<a class="img_px" href="javascript:move_goods_view('{.goodsno}');">
+										<div class="euio">
+											<div class="eu-img">
+												<img src="{.clistimg}" onerror="this.src='/data/noimg.png'" style="width:280px; height:280px; border:0; margin:20px 32px;" alt="" />
+											</div>
+											<div class="eu_br">
+											</div>
+											<div class="eu_ul">
+												<ul>
+													<li><span class="aws_li0">{.goodsnm}</span></li>
+													<li><span class="aws_li1"></span></li>
+													<li><span class="aws_li2">{=number_format(.cprice)}원</span></li>
+													<li><span class="aws_li3">{=number_format(.price)}원</span></li>
+													<li class="aws_li4"><img src="/skin/modern/assets/P1/img/right.png" alt="right"/></li>
+												</ul>
+											</div>
+										</div>
+									</a>
+								</li>
+							<!--{ / }-->
+						<!--{ / }-->
+					<!--{ / }-->
+				</ul>
+			</div>
+			<div class="pro_px_img_list" style="display: none;" id="pro_id_2">
+				<ul style="padding: 0px; left: -145px; position: relative; width:1900px; margin:auto;">
+					<!--{ ? _blockDataArr.main_block_01_P1.goods }-->
+						<!--{ @ _blockDataArr.main_block_01_P1.goods }-->
+							<!--{ ? .key_ >= 4 && .key_ < 8}-->
+								<li>
+									<a class="img_px" href="javascript:move_goods_view('{.goodsno}');">
+										<div class="euio">
+											<div class="eu-img">
+												<img src="{.clistimg}" onerror="this.src='/data/noimg.png'" style="width:280px; height:280px; border:0; margin:20px 32px;" alt="" />
+											</div>
+											<div class="eu_br">
+											</div>
+											<div class="eu_ul">
+												<ul>
+													<li><span class="aws_li0">{.goodsnm}</span></li>
+													<li><span class="aws_li1"></span></li>
+													<li><span class="aws_li2">{=number_format(.cprice)}원</span></li>
+													<li><span class="aws_li3">{=number_format(.price)}원</span></li>
+													<li class="aws_li4"><img src="/skin/modern/assets/P1/img/right.png" alt="right"/></li>
+												</ul>
+											</div>
+										</div>
+									</a>
+								</li>
+							<!--{ / }-->
+						<!--{ / }-->
+					<!--{ / }-->
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!--메인 배너 밑 상품-->
+	<!--상품 테마별-->
+	
+	<div class="tema_px">
+		<!--{ @ f_banner_s2('main_theme_goods_P1') }-->{.banner}<!--{ / }-->
+	</div>
+	
+	<!--상품 테마별-->
+	<!--갤러리/후기-->
+	<div class="picgell_px">
+		<div class="be_ed">
+			<p class="rain_text">
+				베스트 편집
+			</p>
+			<ul style="padding:0;">
+				<li style="margin-right:40px;">
+					<!--{ ? best_data }-->
+						<a href="/service/gallery_best.php">
+							<div class="best_edit">
+								<div class="best_edit_img">{=goodsListImg(best_data.goodsno, "", "", "width:220px; height:220px")}</div>
+								<div class="best_edit_text">
+									<div class="best_img"></div>
+									<span class="best_t">{best_data.like}회</span>
+									<div>
+										<ul>
+											<li>
+												{best_data.title}
+											</li>
+											<li style="font-size:13px;">
+												{=substr(best_data.mid,0,-3)}***
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</a>
+					<!--{ / }-->
+				</li>
+			</ul>
+		</div>
+		<div class="be_ed">
+			<p class="rain_text">
+				베스트 후기
+			</p>
+			<ul style="padding:0;">
+				<li style="margin-right:40px;">
+					<!--{ ? review_data }-->
+						<a href="/goods/review.php">
+							<div class="best_edit">
+								<div class="best_edit_img">{=goodsListImg(review_data.goodsno, "", "", "width:220px; height:220px")}</div>
+								<div class="best_edit_text">
+									<div class="best_img"></div>
+									<div style="position:relative; top:5px;">
+										<ul>
+											<li>
+												{review_data.subject}
+											</li>
+											<li style="font-size:13px;">
+												{review_data.content_line[0]}
+											</li>
+											<li style="font-size:13px; padding-top:25px;">
+												{=substr(review_data.mid,0,-3)}***
+											</li>
+										</ul>
+									</div>
+								</div>
+							</div>
+						</a>
+					<!--{ / }-->
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!--갤러리/후기-->
+		
+		
+<!-- ### 필수객체 ### 폼처리를 위한 히든프레임 (삭제하시면 안됩니다) -->
+<iframe style="display: none; width: 100%; height: 600px" name="hiddenIfrm"></iframe>
+<script src="/js/mainpopup.php"></script>
+<script src="/js/jquery.event.drag.min.js"></script>
+<script src="/js/jquery.event.drop-2.0.min.js"></script>
+
+<div id="editor_layer" class="dh_layer" style="display:none;z-index:100000; position: absolute; left:0px; top:0px; overflow: auto; overflow-y: hidden;"><iframe id="wpod_editor_frame" width="100%" height="100%" frameborder="0" title="편집기 실행" name="wpod_editor_frame"></iframe></div>

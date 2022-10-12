@@ -1,0 +1,66 @@
+{ # header }
+
+<!--bootstrap-->
+<!--<link href="/css/bootstrap.css" rel="stylesheet" type="text/css" />-->
+<!--bootstrap-->
+
+<!--estimate-->
+<link href="/css/estimate.css" rel="stylesheet" type="text/css" />
+<!--estimate-->
+	
+<div style="width:560px; min-height:500px;padding-bottom:40px;">
+	<div class="estimateq">
+		<div class="estimateC">
+        
+			<div class="box">
+				<table cellpadding="0" cellspacing="0" class="estTable2">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th>{=__text("제목")}</th>
+						<td>{est_title}</td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="space"> </div>
+				
+			<div class="box">
+				<table cellpadding="0" cellspacing="0" class="estTable2">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th>{=__text("옵션")}</th>
+						<td>{est_order_option_desc}</td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="space"> </div>						
+			
+			<div class="box">
+				<table cellpadding="0" cellspacing="0" class="estTable2">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th>{=__text("작업 메모")}</th>
+						<td>{est_order_memo}</td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+
+			<div class="estbtn">
+				<a href="javascript:self.close();" class="estimate_btn"><span class="btn_05"></span>{=__text("창닫기")}</a>
+			</div>
+        
+		</div>		
+	</div>
+</div>
+		

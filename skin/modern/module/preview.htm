@@ -1,0 +1,63 @@
+{ # header_popup }
+
+<table style="margin:50px auto;">
+<tr>
+	<td></td>
+	<td id="page_td" class="eng" valign="top">
+	page : 
+	<!--{ @ loop }-->
+	<span {?.index_==0}style="font-weight:bold;color:red;"{/} onclick="viewImgDirect(this,{.index_})" class="hand">{.index_+1}</span>
+	<!--{ / }-->
+	</td>
+	<td></td>
+</tr>
+<tr>
+	<td style="font:bold 30pt tahoma" onclick="viewImg(-1)" class="hand">◀</td>
+	<td id="img_td" style="position:relative;" align="center">
+	<!--{ @ loop }-->
+	<img src="{.value_}" style="position:absolute;"/>
+	<!--{ / }-->
+	<img src="{loop[0]}" style="visiblity:hidden"/>
+	</td>
+	<td style="font:bold 30pt tahoma" onclick="viewImg(1)" class="hand">▶</td>
+</tr>
+</table>
+
+<script>
+
+var num = 0;
+function viewImg(dir){
+	num = num+dir;
+	if (num < 0){
+		num = 0;
+	}
+	if (num > {=count(loop)-1}){
+		num = {=count(loop)-1};
+	}
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(200,1);
+
+	$j("span",$j("#page_td")).css("font-weight","normal");
+	$j("span",$j("#page_td")).css("color","#000000");
+	$j("span:eq("+num+")",$j("#page_td")).css("font-weight","bold");
+	$j("span:eq("+num+")",$j("#page_td")).css("color","red");
+
+}
+
+function viewImgDirect(span,no){
+	num = no;
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(300,1);
+	
+	$j("span",$j("#page_td")).css("font-weight","normal");
+	$j("span",$j("#page_td")).css("color","#000000");
+	$j(span).css("font-weight","bold");
+	$j(span).css("color","red");
+}
+
+$j(function(){
+	viewImg(0);
+});
+</script>

@@ -1,0 +1,447 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		
+		<form name="fm" method="post" action="indb.php" onsubmit="return form_chk2()&&form_encode_submit(this);">
+			<input type="hidden" name="mode" value="{mode}">
+			<input type="hidden" name="chkMid">
+			<input type="hidden" name="chkPassword">
+			<input type="hidden" name="chkResno">
+			<input type="hidden" name="domain" value="{_SERVER.HTTP_HOST}">
+			<input type="hidden" name="rurl" value="{rurl}">
+			
+			<input type="hidden" name="mid_en">
+			<input type="hidden" name="password_en">
+			<input type="hidden" name="password2_en">
+			<input type="hidden" name="email_en">
+		
+			<div class="membership-wrap">
+				<div class="membership-top">
+					<h3>회원가입</h3>
+					<a href="/member/register_biz.php">BIZ회원 가입</a>
+				</div>
+				
+				<ul class="sns-join">
+					<li><a href="javascript:fnSnsLoginPop('naver');">네이버회원가입</a></li>
+					<li><a href="javascript:fnSnsLoginPop('kakao');">카카오톡회원가입</a></li>
+					<li><a href="javascript:fnSnsLoginPop('facebook');">페이스북회원가입</a></li>
+				</ul>
+				
+				<div class="input-wrap type2">
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span class="req">아이디/이메일</span>
+							</div>
+							<div class="td">
+								<input type="text" name="mid" required/>
+							</div>
+							<a href="#" class="btn_overlap" onclick="chk_mid();">중복확인</a>
+						</div>
+						<div class="row bottom-row">
+							<div class="th">
+								<span class="req">이메일(확인)</span>
+							</div>
+							<div class="td">
+								<input type="text" name="email" required/>
+							</div>
+						</div>
+					</div>
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span class="req">비밀번호</span>
+							</div>
+							<div class="td">
+								<input type="password" name="password" required/>
+							</div>
+						</div>
+						<div class="row bottom-row">
+							<div class="th">
+								<span class="req">비밀번호 확인</span>
+							</div>
+							<div class="td">
+								<input type="password" name="password2" required/>
+							</div>
+						</div>
+					</div>
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span class="req">이름</span>
+							</div>
+							<div class="td">
+								<input type="text" name="name" required/>
+							</div>
+						</div>
+						<div class="row">
+							<div class="th vt20">
+								<span class="req">전화번호</span>
+							</div>
+							<div class="td">
+								<div class="input-phone pb60">
+									<input type="text" class="wd56" name="mobile[]" maxlength="3" required/>
+									<span>-</span>
+									<input type="text" class="wd71" name="mobile[]" maxlength="4" onkeyup="auto_focus(this,2);" required/>
+									<span>-</span>
+									<input type="text" class="wd71" name="mobile[]" maxlength="4" required/>
+								</div>
+								<div class="checkbox custom sms-checkbox">
+									<input type="checkbox" id="chk_sms" name="issms" class="css-checkbox" value="1">
+									<label for="chk_sms" class="css-label">
+										<span>SMS수신동의 합니다.<br />
+										(언제든지 회원정보페이지에서 수신거부로 변경할 수 있습니다.)</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</div>
+					
+					<div class="table">
+						<div class="row">
+							<div class="th">
+								<span>생년월일</span>
+							</div>
+							<div class="td td_birth">
+								<select name="calendar" class="custom-select-wrap sel_solar">
+									<option value="s" {_selected.calendar['s']}>{=__text("양력")}</option>
+									<option value="i" {_selected.calendar['i']}>{=__text("음력")}</option>
+								</select>
+								<select name="birth_year" class="custom-select-wrap sel_year">
+									<!--{ @ _r_years }-->
+									<option value="{.value_}" {_selected.birth_year[.value_]}>{.value_}</option>
+									<!--{ / }-->
+								</select>
+								<select name="birth[]" class="custom-select-wrap sel_month">
+									<option value="01" {_selected.birth[0]['01']}>1</option>
+							      <option value="02" {_selected.birth[0]['02']}>2</option>
+							      <option value="03" {_selected.birth[0]['03']}>3</option>
+							      <option value="04" {_selected.birth[0]['04']}>4</option>
+							      <option value="05" {_selected.birth[0]['05']}>5</option>
+							      <option value="06" {_selected.birth[0]['06']}>6</option>
+							      <option value="07" {_selected.birth[0]['07']}>7</option>
+							      <option value="08" {_selected.birth[0]['08']}>8</option>
+							      <option value="09" {_selected.birth[0]['09']}>9</option>
+							      <option value="10" {_selected.birth[0]['10']}>10</option>
+							      <option value="11" {_selected.birth[0]['11']}>11</option>
+							      <option value="12" {_selected.birth[0]['12']}>12</option>
+								</select>
+								<select name="birth[]" class="custom-select-wrap sel_day">
+									<option value="01" {_selected.birth[1]['01']}>1</option>
+							      <option value="02" {_selected.birth[1]['02']}>2</option>
+							      <option value="03" {_selected.birth[1]['03']}>3</option>
+							      <option value="04" {_selected.birth[1]['04']}>4</option>
+							      <option value="05" {_selected.birth[1]['05']}>5</option>
+							      <option value="06" {_selected.birth[1]['06']}>6</option>
+							      <option value="07" {_selected.birth[1]['07']}>7</option>
+							      <option value="08" {_selected.birth[1]['08']}>8</option>
+							      <option value="09" {_selected.birth[1]['09']}>9</option>
+							      <option value="10" {_selected.birth[1]['10']}>10</option>
+							      <option value="11" {_selected.birth[1]['11']}>11</option>
+							      <option value="12" {_selected.birth[1]['12']}>12</option>
+							      <option value="13" {_selected.birth[1]['13']}>13</option>
+							      <option value="14" {_selected.birth[1]['14']}>14</option>
+							      <option value="15" {_selected.birth[1]['15']}>15</option>
+							      <option value="16" {_selected.birth[1]['16']}>16</option>
+							      <option value="17" {_selected.birth[1]['17']}>17</option>
+							      <option value="18" {_selected.birth[1]['18']}>18</option>
+							      <option value="19" {_selected.birth[1]['19']}>19</option>
+							      <option value="20" {_selected.birth[1]['20']}>20</option>
+							      <option value="21" {_selected.birth[1]['21']}>21</option>
+							      <option value="22" {_selected.birth[1]['22']}>22</option>
+							      <option value="23" {_selected.birth[1]['23']}>23</option>
+							      <option value="24" {_selected.birth[1]['24']}>24</option>
+							      <option value="25" {_selected.birth[1]['25']}>25</option>
+							      <option value="26" {_selected.birth[1]['26']}>26</option>
+							      <option value="27" {_selected.birth[1]['27']}>27</option>
+							      <option value="28" {_selected.birth[1]['28']}>28</option>
+							      <option value="29" {_selected.birth[1]['29']}>29</option>
+							      <option value="30" {_selected.birth[1]['30']}>30</option>
+							      <option value="31" {_selected.birth[1]['31']}>31</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					
+					<div class="agree-wrap">
+						
+						
+						<div class="checkbox custom">
+							<input type="checkbox" id="chk_agree" name="" class="css-checkbox" value="" required>
+							<label for="chk_agree" class="css-label">
+								<!--{ @ f_banner_s2('member_regist_chk') }-->{.banner}<!--{ / }-->
+								
+							</label>
+						</div>
+					</div>
+					<button class="membership_btn btn_join"><span>회원가입</span></button>
+				</div>
+			</div>
+		</form>
+	</div>
+</div>
+
+
+<script type="text/javascript">
+var fm = document.fm;
+
+function reset_chk_mid() {
+	fm.chkMid.value = "";
+}
+
+function chk_mid() {	
+	if (!fm.mid.value) {
+		alert("아이디를 입력해주세요.");
+		fm.mid.focus();
+		return;
+	}
+
+	if (!_pattern(fm.mid)) {
+		alert("아이디는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.");
+		fm.chkMid.value = "";
+		fm.mid.focus();
+		return;
+	}
+	
+	$j.post("indb.php", {mode: "chkMid", mid_en: Base64.encode(fm.mid.value)},
+	function(data) {
+		var msg = "";
+		fm.chkMid.value = "";
+		
+		switch (data) {
+			case "duplicate": 
+				msg = "이미 등록된 아이디입니다."; 
+				break;
+			case "good": 
+				msg = "사용이 가능한 아이디입니다.";
+				fm.chkMid.value = "chk";
+				break;
+			case "unable":  
+				msg = "사용이 불가능한 아이디입니다."; 
+				break;
+			case "out":  
+				msg = "사용이 불가능한 아이디입니다."; 
+				break;
+		}
+		
+		alert(msg);
+		
+		if (!fm.chkMid.value) {
+			fm.mid.value = "";
+			fm.mid.focus();
+		}
+	});
+}
+
+function chk_password() {
+	
+	if (!fm.password.value) {
+		alert("비밀번호를 입력해주세요.");
+		fm.password.focus();
+		return false;
+	} else if (!_pattern(fm.password)) {
+		alert("비밀번호는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.");
+		fm.password.value = "";
+		fm.password.focus();
+		return false;
+	}
+
+	if (!fm.password2.value) {
+		alert("비밀번호 확인을 위해 한번 더 입력해주세요.");
+		fm.password2.focus();
+		return false;
+	}
+	
+	fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+	
+	//비밀번호와 비밀번호확인이 다르면 비밀번호확인 텍스트박스 값을 지워줌 / 14.04.25 / kjm
+	if(!fm.chkPassword.value) {
+		alert("비밀번호가 일치하지 않습니다."+"\n"+"다시 입력해주세요.");
+		fm.password.value = '';
+		fm.password2.value = '';
+		fm.password.focus();
+		return false;
+	}
+	
+	return true;
+}
+
+function auto_set_email(obj, name) {
+	$j("input[name=email[]]:last").val($j(obj).val());
+}
+
+function sms_auth_send() {
+	var obj = document.fm.sms_code;
+	
+	if (!obj.form['mobile[]'][0].value || !obj.form['mobile[]'][1].value || !obj.form['mobile[]'][2].value) {
+		alert("핸드폰번호를 입력해주세요.");
+		return;
+	} 
+	
+	var mobile_num = obj.form['mobile[]'][0].value + obj.form['mobile[]'][1].value + obj.form['mobile[]'][2].value;
+		
+	$j.post("indb.php", {mode: "register_sms_send", mobile_number: mobile_num},
+	function(data) {		
+		switch (data) {
+			case "1": alert("발송되었습니다."); break;
+		}
+	});
+}
+
+function auto_focus(obj,idx) {
+	//return;	/* 자동포커스 이동 사용하지 않을시 주석제거 */
+
+	switch (obj.name) {
+		/*case "resno[]":
+			if (obj.value.length == 6) obj.form['resno[]'][idx].focus();
+			break;
+		case "phone[]":
+		case "cust_ceo_phone[]":
+		case "cust_phone[]":
+		case "cust_fax[]":
+			if ((idx == 1 && obj.value.length == 3) || (idx == 2 && obj.value.length == 4)) obj.form[obj.name][idx].focus();
+			break;*/
+		case "mobile[]":
+			if (obj.value.length == 4) obj.form['mobile[]'][idx].focus();
+			break;
+	}
+}
+
+function form_encode_submit_member(){
+	if(form_chk2())
+	{
+		fm.mid_en.value = Base64.encode(fm.mid.value);
+		fm.mid.value = '';
+		if(typeof(fm.password) != "undefined"){
+			fm.password_en.value = Base64.encode(fm.password.value);
+			fm.password.value = '';
+		}
+		if(typeof(fm.password2) != "undefined"){
+			fm.password2_en.value = Base64.encode(fm.password2.value);
+			fm.password2.value = '';
+		}
+		return true;
+	}
+	else return false;
+}
+
+function form_chk2() {
+	if (!fm.mid.value) {
+		alert('아이디를 입력해주세요.');
+		fm.mid.focus();
+		return false;
+	} else if (!_pattern(fm.mid)) {
+		alert('아이디는 영문 소문자,숫자,-,_를 혼합하여 6~20자');
+		fm.mid.value = "";
+		fm.mid.focus();
+		return false;
+	}
+
+	if (fm.chkMid.value != "chk") {
+		alert("아이디 중복 확인해주세요.");
+		fm.mid.focus();
+		return false;
+	} 
+
+	if (fm.name.value == "") {
+		alert("이름을 확인해주세요.");
+		fm.name.focus();
+		return false;
+	} else if (!_pattern(fm.name)) {
+		alert('입력형식이 올바르지 않습니다.');
+		fm.name.value = "";
+		fm.name.focus();
+		return false;
+	}
+
+	if (!chk_password()) {
+		return false;
+	}
+	
+	if (fm.chkPassword.value != "chk") {
+		alert("비밀번호를 확인해주세요.");
+		fm.password.focus();
+		return false;
+	}
+
+	if (fm['email[]'] != undefined) {
+		if ((fm['email[]'][0].value == "")) {
+			alert("이메일주소를 확인해주세요.");
+			fm['email[]'][0].focus();
+			return false;
+		} else if (!_pattern(fm['email[]'][0])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['email[]'][0].value = "";
+			fm['email[]'][0].focus();
+			return false;
+		}
+		
+		if ((fm['email[]'][1].value == "")) {
+			alert("이메일주소를 확인해주세요.");
+			fm['email[]'][1].focus();
+			return false;
+		} else if (!_pattern(fm['email[]'][1])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['email[]'][1].value = "";
+			fm['email[]'][1].focus();
+			return false;
+		}
+	}
+
+	if (fm['mobile[]'] != undefined) {
+		if ((fm['mobile[]'][0].value == "")) {
+			alert("핸드폰번호를 확인해주세요.");
+			fm['mobile[]'][0].focus();
+			return false;
+		}
+		
+		if ((fm['mobile[]'][1].value == "")) {
+			alert("핸드폰번호를 확인해주세요.");
+			fm['mobile[]'][1].focus();
+			return false;
+		} else if (!_pattern(fm['mobile[]'][1])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['mobile[]'][1].value = "";
+			fm['mobile[]'][1].focus();
+			return false;
+		}
+
+		if ((fm['mobile[]'][2].value == "")) {
+			alert("핸드폰번호를 확인해주세요.");
+			fm['mobile[]'][2].focus();
+			return false;
+		} else if (!_pattern(fm['mobile[]'][2])) {
+			alert('입력형식이 올바르지 않습니다.');
+			fm['mobile[]'][2].value = "";
+			fm['mobile[]'][2].focus();
+			return false;
+		}
+	}
+/*
+	if (!$j("#checkbox-all:checked").is(":checked")) {
+		alert("이용약관(필수),개인정보처리방침(필수)에 모두 동의합니다.");
+		return false;
+	} 
+*/
+	return true;
+}
+
+$j(".join-btn").click(function() {
+	$j("#join-submit").click();
+});
+
+$j(function() {
+	$j("body").attr("id", "join-form-page");
+	$j("body").attr("class", "");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	
+	$j('input[type2=number]').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+</script>
+
+{ # footer }

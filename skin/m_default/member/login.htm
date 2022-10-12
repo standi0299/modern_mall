@@ -1,0 +1,120 @@
+{ # header }
+
+<section class="contents bgArea">
+	<div class="loginCtn">
+		<fieldset style="display:block;margin:0;padding:0;font:normal 12px/1 'Noto Regular', sans-serif;color:#666666;">
+	 		<div id="loginCtn">
+	 			<form id="fm" name="fm">
+					<input type="hidden" name="mode" value="login" />	
+					<input type="hidden" name="rurl" value="{rurl}" />
+					<input type="hidden" name="lang_kind" value="{lang_kind}" />
+					<input type="hidden" name="mobile_type" value="Y" />
+					<input type="hidden" name="logining_flag" value="Y" />
+					
+					<input type="hidden" name="mid_en">
+					<input type="hidden" name="password_en">
+					
+					<legend>{=__text("로그인")}</legend>
+					<div class="loginBox">
+						<input type="text" id="userId" name="mid" {=__title("아이디")} {=__placeholder("아이디")} />
+						<input type="password" id="userPW" name="password" {=__title("비밀번호")} {=__placeholder("비밀번호")} />
+					</div>
+					<div class="btnBox">
+						<a href="#layerBox" class="aBtn" id="member_login_banner"><!--{ @ f_banner_s2('btn_mobile_login','img')}-->{.banner}<!--{ / }--></a>
+					</div>
+				</form>
+				
+				<!--{ ? _cfg.sns_login.sns_login_use == "Y" && 0 == 1}-->
+				<form id="login">
+				<input type="hidden" name="sns_code" />
+				</form>
+				<div class="login_sns">
+					<!--{ ? _cfg.sns_login.naver_login_use == "Y" }-->
+                    <a href="javascript:fnSnsLoginPop('naver');"><img src="/_oauth/img/btn_naver_login.gif" {=__alt("네이버 로그인")}/></a>
+                    <!--{ / }-->
+                    <!--{ ? _cfg.sns_login.kakao_login_use == "Y" && 0 == 1 }-->
+                    <a href="javascript:fnSnsLoginPop('kakao');"><img src="/_oauth/img/btn_kakao_login.gif" {=__alt("카카오 로그인")}/></a>
+                    <!--{ / }-->
+                    <!--{ ? _cfg.sns_login.facebook_login_use == "Y" && 0 == 1 }-->                                               
+                    <a href="javascript:fnSnsLoginPop('facebook');"><img src="/_oauth/img/btn_facebook_login.gif" {=__alt("페이스북 로그인")}/></a>
+                    <!--{ / }-->
+                </div>
+                <!--{ / }-->
+				
+				<p><a href="reminderid.php">▶ {=__text("아이디 찾기")}</a> <a href="reminderpw.php">▶ {=__text("비밀번호 찾기")}</a></p>
+				<div class="pDisc">
+					<p>{=__text("아직")} {_cfg.nameSite} {=__text("회원이 아니신가요?")}</p>
+					<div class="userRegi">
+						<a class="bBtn" href="register.php?mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_member_register','img')}-->{.banner}<!--{ / }--></a>	
+					</div>
+					<!--{ ? _GET.mode == "order" }-->
+					<div>
+						<a class="bBtn" href="../order/order.php?cartno={_GET.cartno}&buyGuest=1&mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_guest_order','img')}-->{.banner}<!--{ / }--></a>	
+					</div>
+					<!--{ / }-->
+				</div>
+				<section id="mainWrap">
+					<nav style="margin-top:10px;">
+						<div align="center"><!--{ @ f_banner_s2('bar_login')}-->{.banner}<!--{ / }--></div>
+					</nav>
+				</section>
+			</div>
+		</fieldset>				
+	</div>
+</section>
+
+<script>
+$j(window).ready(function(){
+	$("#member_login_banner").viewimageresize2();
+	$j("#btn_mobile_login").css("width","100%");
+});
+$(".btnBox a").on({
+	click : function(e){
+		e.preventDefault();
+		if (!$j(":input[name=mid]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("아이디를 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if (!$j(":select[name=password]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("비밀번호를 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else {
+			var enc_mid = Base64.encode($j(":input[name=mid]").val());
+			var enc_password = Base64.encode($j(":input[name=password]").val());
+
+			$j(":input[name=mid_en]").val(enc_mid);
+			$j(":input[name=password_en]").val(enc_password);
+
+			$j(":input[name=mid]").val('');
+			$j(":input[name=password]").val('');
+			
+			$j.ajax({
+				type : "POST",
+				url : "indb.php",
+				data : $j("#fm").serialize(),
+				success : function(msg) {
+					if (msg) {
+						if (msg.indexOf('/') > -1) {
+							location.href = msg;
+						} else {
+							$j("#layerBox").show();
+							$j(".noteTxt").html("<span>"+ msg +"</span>");
+							$("#wrap").addClass("dimed_on");
+						}
+					}
+				}
+			});
+		}
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+</script>
+
+{ # footer }

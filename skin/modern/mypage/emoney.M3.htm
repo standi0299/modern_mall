@@ -1,0 +1,202 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h1 class="category-title">쿠폰/적립금</h1>
+		<div class="mypage-table">
+			<div class="row mypage-table-top">
+				<div class="td td-1">
+					<p class="gray">{_sess.name}님. 안녕하세요!</p>
+					<p class="black">구매하실 때 꼭 쿠폰/적립금 혜택을 누려보세요~!</p>
+				</div>
+				<div class="td td-2">
+					<span>사용가능 쿠폰</span>
+					<img src="../assets/M2/images/icon_coupon2.png" alt="" />
+					<b></b>{_GET.mycoupon}<u>장</u>
+				</div>
+				<div class="td td-3">
+					<span>사용가능 적립금</span>
+					<img src="../assets/M2/images/icon_won.png" alt="" />
+					<b>{=number_format(myemoney)}</b><u>P</u>
+				</div>
+			</div>
+		</div>
+		<div class="mypage-table-bottom">
+			<div class="mypage-table-bottom-inner">
+				<p>쿠폰 등록</p>
+				<div class="coupon-add">
+					<form name="coupon_issue" method="post" action="indb.php" onsubmit="return form_chk(this);">
+						<input type="hidden" name="mode" value="coupon_get_offline">
+						
+						<input type="text" name="coupon_issue_code" placeholder="보유하고 계신 쿠폰의 인증번호(PIN번호)를 포함하여 입력하세요." />
+						<a href="#" class="btn_coupon_add" onclick="set_coupon_issue();">쿠폰 등록</a>
+					</form>
+				</div>
+			</div>
+		</div>
+		
+		<script>
+		
+			$j(document).ready(function() {
+				$('.coupon-mileage').eq(0).show();
+			});
+			/*
+			$(function(){
+				$('.tab-coupon-mileage li').each(function(idx){
+					$(this).click(function(){
+						$('.tab-coupon-mileage li').removeClass('on');
+						$(this).addClass('on');
+						$('.coupon-mileage').hide();
+						$('.coupon-mileage').eq(idx).show();
+					});
+				});
+			});
+			*/
+		</script>
+		
+		<div class="tab-coupon-mileage tab-50p">
+			<ul>
+				<li><a href="/mypage/coupon.php">쿠폰</a></li>
+				<li class="on"><a href="#">적립금</a></li>
+			</ul>
+		</div>
+		<!-- 쿠폰영역 -->
+		
+		<!-- 적립금영역 -->
+		<div class="mileage-wrap coupon-mileage">
+			<div class="mileage-total table">
+				<div class="td left">
+					<span>사용가능 적립금</span>
+					<b class="red">{=number_format(myemoney)}P</b>
+				</div>
+				<div class="td right">
+					<span>소멸예정 적립금</span>
+					<b>{=number_format(expire_emoney)}P<br />
+						<u>{=date('Y'+__text("년")+' m'+__text("월")+' d'+__text("일"),strtotime(emoneydata.emoney_expire_day + ' day'))}까지 소멸예정인 적립금 입니다.</u>
+					</b>
+				</div>
+			</div>
+			<div class="mileage-top">
+				<h3 class="table-title">적립금 발생 내역</h3>
+				<!--{ @ f_banner_s2( 'M2_emoney_expire_banner' ) }-->{.banner}<!--{ / }-->
+			</div>
+			<table class="mileage-table">
+				<colgroup>
+					<col width="150" />
+					<col width="150" />
+					<col width="*" />
+					<col width="150" />
+					<col width="150" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>발생일자</th>
+						<th>상태</th>
+						<th>내용</th>
+						<th>적립금</th>
+						<th>유효기간</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{ @ loop }-->
+					<tr>
+						<td>{=substr(.regdt,2,8)}</td>
+						<td>
+							<!--{ ? .status == 1 }-->
+								<div class="col point-status point-primary">
+									{=__text("적립")}
+								</div>
+								<!--{ : .status == 2 }-->
+								<div class="col point-status point-cancel">
+									{=__text("사용")}
+								</div>
+								<!--{ : .status == 3 }-->
+								<div class="col point-status point-destroy">
+									{=__text("소멸")} <span style="font-size:16px;color:#181718;">({=substr(.expire_date,0,10)}{=__text("에 만료됨")})</span>
+								</div>
+							<!--{ / }-->
+						</td>
+						<td class="mileage-name">{.memo}</td>
+						<td><u>{=number_format(.emoney)}</u></td>
+						<td>
+							<!--{ ? .expire_date }-->
+							{=substr(.expire_date,0,10)} 까지
+							<!--{ / }-->
+						</td>
+					</tr>
+					<!--{ : }-->
+					<tr>
+						<td colspan="5">{=__text("적립내역이 없습니다.")}</td>
+					</tr>
+					<!--{ / }-->
+				</tbody>
+			</table>
+
+			
+			{=pg->page['navi_m2']}
+			
+			
+			<div class="operation-guide">
+				<!--{ @ f_banner_s2( 'M2_emoney_bottom_banner' ) }-->{.banner}<!--{ / }-->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="pop-view-product">
+	
+</div>
+
+<div class="pupa-bg"></div>
+
+<!--<script src="/js/calendar.js"></script>-->
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+
+function get_coupon_apply_list(coupon_code){
+	$j.ajax({
+		type: "post",
+		url: "indb.php",
+		data: "mode=get_coupon_apply_list&coupon_code="+ coupon_code,
+		success: function(ret) {
+			if(ret == "all"){
+				alert("전 상품 적용입니다.");
+			} else {
+				$j("#pop-view-product").html(ret);
+				popOpen('#pop-view-product');
+			}
+		}
+	});
+}
+
+function autoDate(o1,o2,v1,v2){
+	//$(o1).value = v1;
+	//$(o2).value = v2;
+	
+	$j("#"+o1).val(v1);
+	$j("#"+o2).val(v2);
+}
+
+/*function auto_focus(obj, idx) {
+	if ($j(obj).val().length == $j(obj).attr("maxlength")) {
+		obj.form[obj.name][idx].focus();
+	}
+}*/
+
+function set_coupon_issue(){
+	document.coupon_issue.submit();
+}
+</script>
+
+{ # footer }

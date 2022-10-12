@@ -1,0 +1,229 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">구매 상세 내역</h2>
+		<div class="exp-top">
+			<div class="table left">
+				<div class="th">결제/주문번호</div>
+				<div class="td">{payno}</div>
+			</div>
+			<div class="table right">
+				<div class="th">주문일자</div>
+				<div class="td">{=substr(orddt, 0, 10)}</div>
+			</div>
+		</div>
+		<h3 class="table-title">주문 상세 내역</h3>
+
+		<table class="cart-table order border-bottom-line">
+			<colgroup>
+				<col width="715" />
+				<col width="115" />
+				<col width="125" />
+				<col width="*" />
+				<col width="*" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>주문 상품 정보</th>
+					<th>수량</th>
+					<th>결제금액</th>
+					<th>적립(예정)금</th>
+					<th>상태</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{ @ ord }--><!--{ @ .item }-->
+				<tr>
+					<td class="info">
+						<div class="cart-product-img">{=goodsListImg(..goodsno, 150)}</div>
+						<div class="cart-product-info">
+							<div class="cart-product-name-wrap">
+								<a href="#" class="cart-product-name">
+									{..goodsnm}
+								</a>
+								<div class="cart-product-name-edit">
+									{..title}
+								</div>
+								<div class="cart-product-option">
+									<!--{ ? ..opt }-->
+									{=__text("옵션")} [ {..opt} ] <span>(+{..aprice})</span>
+								<!--{ / }-->
+								<!--{ @ ..addopt }-->
+									{...addopt_bundle_name} : {...addoptnm} <span class="eng">(+{=number_format(...addopt_aprice)})</span>
+								<!--{ / }-->
+								</div>
+							</div>
+							<div class="btn_wrap">
+								<!--{ ? ..storageid }--> 
+								<a href="#" onclick="popup('../module/preview.php?goodsno={..goodsno}&storageid={..storageid}',1000,650, 1);" class="btn_preview">미리보기</a>
+								<!--{ / }-->
+								<!--<a href="#" class="btn_reorder">재주문하기</a>-->
+							</div>
+						</div>
+					</td>
+					<td class="amount">{=number_format(..ea)}</td>
+					<td class="price">{=number_format(..payprice)}원</td>
+					<td class="point">
+						{..set_emoney}P
+					</td>
+					<td class="delivery">
+            {=_r_step[..itemstep]}
+            {..strshipcode}
+            <br>
+						<!--
+						<a href="#" class="btn_order_cancel">주문취소</a>
+						-->
+					</td>
+				</tr>
+				<!--{ / }--><!--{ / }-->
+			</tbody>
+		</table>
+		<div class="total-price-box">
+			<div class="td total-price-td1 total-price-td1-1">
+				<p>총 상품금액</p>
+				<b>{=number_format(saleprice)}{=__text("원")}</b>
+			</div>
+			<div class="td total-price-td1 total-price-td1-2">
+				<p>적립금사용</p>
+				<b>{=number_format(dc_emoney)}{=__text("원")}</b>
+			</div>
+			<div class="td total-price-td1 total-price-td1-3">
+				<p>쿠폰할인</p>
+				<b>{=number_format(dc_coupon)}P</b>
+			</div>
+			<div class="td total-price-td2 total-price-td2-1">
+				<p>배송비</p>
+				<b>{=number_format(shipprice)}{=__text("원")}</b>
+			</div>
+			<div class="td total-price-td3 total-price-td3-1">
+				<p>총 결제 금액</p>
+				<b>{=number_format(payprice)}{=__text("원")}</b>
+				<p class="credit-p">({_r_paymethod[paymethod]})</p>
+				<div class="btn_wrap">
+					
+					<!--{ ? paymethod=='c' && paystep > 1}-->
+						<!--{ ? _cfg.pg.module == "smartxpay" }-->
+							<script language="JavaScript" src="//pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js"></script>
+							<a href="javascript:showReceiptByTID('{_cfg.pg.lgd_mid}', '{pgcode}', '{authcode}')" class="btn_receipt">영수증</a>
+						<!--{ : }-->
+							<a href="javascript:popup('{receipt_url}',465,855)" class="btn_receipt"><span>영수증</span></a>
+						<!--{ / }-->
+					<!--{ / }-->
+					
+					<!--<a href="javascript:popOpen('#pop-document')" class="btn_receipt"><span>영수증</span></a>-->
+					<a href="javascript:popOpen('#pop-document')" class="btn_document"><span>증빙서류 발급</span></a>
+				</div>
+			</div>
+		</div>
+		<p class="total-price-caution right">
+			<!--{ @ f_banner_s2('orderview_tax_request')}-->{.banner}<!--{ / }-->
+		</p>
+		<div class="input-information">
+			<h3 class="table-title mt60">배송지 정보</h3>
+			<table class="table-type1">
+				<colgroup>
+					<col width="180" />
+					<col width="420" />
+					<col width="180" />
+					<col width="*" />
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>받는 사람</th>
+						<td colspan="3">{receiver_name}</td>
+					</tr>
+					<tr>
+						<th>휴대폰</th>
+						<td>{receiver_mobile}</td>
+						<!--
+						<th>안심번호</th>
+						<td>0504-8454-4564</td>
+						-->
+					</tr>
+					<tr>
+						<th>주소</th>
+						<td colspan="3">
+							<p>{receiver_zipcode} {receiver_addr} / {receiver_addr_sub}</p>
+							<!--
+							<p>
+								<span class="address-data">지번</span>
+								서울특별시 송파구 잠실동 30-46 잠실아파트 201동 1394호
+							</p>
+							-->
+						</td>
+					</tr>
+					<tr>
+						<th>배송메시지</th>
+						<td colspan="3">{request}</td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		<div class="btn_wrap list_btn_wrap">
+			<a href="orderlist.php" class="btn_list">목록</a>
+		</div>
+		<div class="operation-guide">
+			<!--{ @ f_banner_s2('orderview_bottom')}-->{.banner}<!--{ / }-->
+		</div>
+	</div>
+</div>
+
+<div id="pop-document">
+	<a href="#" class="close">닫기</a>
+	<div class="pop-top">
+		<h2>증빙서류 발급</h2>
+	</div>
+	<div class="inner">
+		<ul class="issue-list">
+			<li>
+				<div class="table">
+					<div class="th">통장사본</div>
+					<div class="td"><!--{ @ f_banner_s2('orderview_file_bank_info')}-->{.banner}<!--{ / }--></div>
+					<a href="../module/file_download.php?mode=bank" class="btn_issue">{=__text("발급")}</a>
+				</div>
+			</li>
+			<li>
+				<div class="table">
+					<div class="th">사업자등록증</div>
+					<div class="td">{_cfg.nameComp}</div>
+					<a href="#" class="btn_issue" onclick="location.href='../module/file_download.php?mode=tax';">{=__text("발급")}</a>
+				</div>
+			</li>
+
+			<li style="display:none;">
+				<div class="table">
+					<div class="th">견적서</div>
+					<div class="td"><!--{ @ f_banner_s2('orderview_file_estimate_info')}-->{.banner}<!--{ / }--></div>
+					<a href="../module/file_download.php?mode=estimate" class="btn_issue">{=__text("발급")}</a>
+				</div>
+			</li>
+			<!--{ ? _cfg.bill_yn }-->
+			<li>
+				<div class="table">
+					<div class="th">거래명세서</div>
+					<div class="td"></div>					
+					
+					<a class="btn_issue" style="cursor:pointer;" onclick="popup('../module/bill_orderlist_print.php?payno={_GET.payno}', 800, 800);">{=__text("발급")}</a>					
+					
+					<!--{in_array(..itemstep,array(2,3,4,5,92)) && _cfg.bill_yn}
+					<a onclick="popup('../module/bill_orderlist_print.php?payno={_GET.payno}', 800, 800);" class="btn_issue">발급</a>
+					-->
+				</div>
+			</li>
+			<!--{ / }-->
+			
+		</ul>
+		<div class="ul-wrap">
+			<!--{ @ f_banner_s2('orderview_file_down_info')}-->{.banner}<!--{ / }-->
+		</div>
+		<!--
+		<div class="pop-btn mt50">
+			<a href="#" class="btn_submit">확인</a>
+		</div>
+		-->
+	</div>
+</div>
+<div class="pupa-bg"></div>
+
+{ # footer }

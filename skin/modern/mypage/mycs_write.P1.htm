@@ -1,0 +1,124 @@
+{ # header }
+
+<div id="my_tqb_menu_no">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="/board/list.php?board_id=notice">공지사항</a><li>
+		<li><a href="/service/faq.php">FAQ</a><li>
+		<li><a href="/mypage/mycs_write.php" class="under_bor">1:1문의</a><li>
+	</ul>
+</div>
+
+<div class="si_body">
+	<div class="cu_radio_Pix">
+		<div class="cu_radio_1_Pix">
+			<input type="radio" class="lastbox1_Pix" name="oneone" checked> <label>1:1문의하기</label>
+		</div>
+		<div class="cu_radio_1_Pix">
+			<input type="radio" class="lastbox1_Pix" name="oneone" onclick="location.href='/mypage/mycs.php';"><label>답변내용 확인하기</label>
+		</div>
+	</div>
+	
+	<form method="post" action="indb.php" enctype="multipart/form-data" onsubmit="return form_chk(this)">
+		<input type="hidden" name="mode" value="{_mode}">
+		<input type="hidden" name="no" value="{no}">
+		<input type="hidden" name="rurl" value="../mypage/mycs_write.php">
+		
+		<div class="gein_ne" id="geinoi_1">
+			<div class="answer_text">
+				<!--{ @ f_banner_s2('mycs_write_pix') }-->{.banner}<!--{ / }-->
+			</div>
+			
+			<div class="qas_text">
+				<div class="qas_text_list">
+					<ul>
+						<li>
+							<span>문의 유형</span>
+							<select name="category" class="mysc_select" onchange="auto_set" required>
+								<option value>선택하세요</option>
+								<!--{ @ _r_cs_category }-->
+									<!--{ ? .key_ != '9' }-->
+									<option value="{.key_}" {=_selected.category[.key_]}>{.value_}</option>
+									<!--{ / }-->
+								<!--{ / }-->
+							</select>
+						</li>
+					</ul>
+				</div>	
+			</div>
+			
+			<div class="qas_text">
+				<div class="qas_text_list">
+					<ul>
+						<li>
+							<span>문의제목</span>
+							<input type="text" name="subject" class="qaa_one" value="{subject}" required/>
+						</li>
+					</ul>
+				</div>
+			</div>
+			
+			<div class="qas_text">
+				<div class="qas_text_list">
+					<ul>
+						<li>
+							<span>문의내용</span>
+							<textarea class="my_one" name="content" placeholder="내용을 입력하세요." required>{content}</textarea>
+						</li>
+					</ul>
+				</div>	
+			</div>
+			
+			<div class="qas_text">
+				<div class="qas_text_list">
+					<ul>
+						<li>
+							<span>이미지첨부</span>
+							<input type="file" id="photo-file" class="qaa_two" name="file">
+							<!--{ ? img }-->
+								<div style="margin-left:125px;">
+									{=__text("기존파일")} : <a href="../data/board/{cid}/cs/{img}" target="_blank">{img}</a>
+									<input type="checkbox" id="file_delete" name="delfile" value="1"><label class="label-control" for="file_delete"> {=__text("삭제")}</label>
+								</div>
+							<!--{ / }-->
+						</li>
+					</ul>
+				</div>
+			</div>		
+			
+			<div class="butn_mysc">
+				<ul>
+					<li class="id_re">
+						<ul>
+							<li>
+								<div style="width:110px; margin:auto; margin-top:5px;">
+									<button type="submit" class="over_btn_li">완료</button>
+								</div>
+							</li>
+							<li>	
+								<div style="width:110px; margin:auto; margin-top:5px;">
+									<button type="button" class="over_btn_li" style="border:1px solid #999; background:#fff; color:#999;" onclick="javascript:history.back();">취소</button>	
+								</div>
+							</li>								
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</form>
+</div>
+
+<script type="text/javascript">
+	// standi
+	$(document).ready(function() {
+		$("#photo-file").on("change", handleImgFileSelect);
+	});
+	function handleImgFileSelect(e) {
+		var file = e.target.files[0];
+		if(! (file.type.match("image/jpeg") ||file.type.match("image/jpg") || file.type.match("image/png") || file.type.match("application/pdf")) ) {
+			alert("jpg,png,pdf 확장자만 가능합니다.");
+			$("#photo-file").val("");
+			return;
+		}
+	}
+</script>
+{ # footer }

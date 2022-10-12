@@ -1,0 +1,24 @@
+<!--main_block_content_interpro-->
+<section class="section" id="visual-section">
+	<ul class="slider" data-mode="fade">
+		<!--{ @ _mcdata.img }-->
+		<li><a href="#" style="background: url('/data/main_content/{_cid}/{_mcdata.img_b[.index_]}')"><img src="/data/main_content/{_cid}/{_mcdata.img[.index_]}" alt=""></a></li>		
+		<!--{ / }-->
+	</ul>
+	<div class="pager-wrap">
+		<div class="pager">
+			<!--{ @ _mcdata.img }-->
+			<a data-slide-index="{.index_}" class="bx-pager-link" href=""><img src="/data/main_content/{_cid}/{_mcdata.img_t[.index_]}" alt=""></a>
+			<!--{ / }-->
+		</div>
+	</div>
+	<script>
+		$('.slider').bxSlider({
+			mode:'fade', //default : 'horizontal', options: 'horizontal', 'vertical', 'fade'
+			speed: 1000, //default:500 이미지변환 속도
+			auto: true, //default:false 자동 시작
+			pagerCustom: '.pager',
+		});	
+	</script>
+</section>
+<!--main_block_content_interpro-->

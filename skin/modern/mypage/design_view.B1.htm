@@ -1,0 +1,390 @@
+{ # header }
+<!--design_view.B1.htm-->
+
+<!--본 컨텐츠 시작-->
+
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/mypage_20190110.css">
+<script src="/skin/modern/assets/B1/js/script_20190110.js"></script>
+<!-- 팝업시작 -->
+<script src="/skin/modern/assets/B1/js/jquery.simplePopup.js" type="text/javascript"></script>
+<div id="dsgnCnfrm" class="simplePopup">
+    <p class="dsgnCTxt1">"{=__text("최종 디자인을 확정하셨습니다.")}"</p>
+    <p><img src="/skin/modern/assets/B1/img/ico_check.png"></p>
+    <p class="dsgnCTxt2">{=__text("승인된 디자인으로 제작 진행을 하겠습니다.")}<br> {=__text("이후의 변경은")} <strong>{=__text("고객센터")}</strong>{=__text("에 문의해주세요.")}</p>
+    <a href="#" class="botbtn dsgnCnfrmBtn simplePopupClose">{=__text("확인")}</a>
+    <div style="height:30px;"></div>
+</div>
+<!-- 팝업끝 -->
+
+<section class="content-container myPge-layout">
+
+    <div class="myPge-title">
+        {=__text("시안상세정보")}
+        <p>{=__text("주문일자")} : {orddt}&nbsp;&nbsp;&nbsp;|&nbsp;&nbsp;&nbsp;{=__text("주문번호")} : {payno}</p>
+    </div>
+    <div class="clear"></div>
+    <div class="myPageOrderInfo">
+        <div class="myPageodif Ordered">
+            <h1>{=__text("받는사람 정보")}</h1>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+                <colgroup>
+                    <col width="30%">
+                    <col width="*">
+                </colgroup>
+                <tr>
+                    <th>{=__text("배송방법")}</th>
+                    <td>{=__text("기본배송")}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("받는사람")}</th>
+                    <td>{receiver_name}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("일반전화")}</th>
+                    <td>{receiver_name}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("휴대전화")}</th>
+                    <td>{receiver_mobile}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("주소")}</th>
+                    <td>[{receiver_zipcode}] {receiver_addr}<br>{receiver_addr_sub}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("추가 메모")}</th>
+                    <td>{request2}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("배송 메모")}</th>
+                    <td>{request}</td>
+                </tr>
+            </table>
+        </div>
+        <div class="myPageodif Payment">
+            <h1>{=__text("결제 정보")}</h1>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable">
+                <colgroup>
+                    <col width="30%">
+                    <col width="*">
+                </colgroup>
+                <tr>
+                    <th>{=__text("결제금액")}</th>
+                    <td>{=number_format(payprice+shipprice)}{=__text("원")} ({=__text("배송비")} {=number_format(shipprice)}{=__text("원 포함")})</td>
+                </tr>
+                <tr>
+                    <th>{=__text("결제방법")}</th>
+                    <td>{_r_paymethod[paymethod]}</td>
+                </tr>
+                <!--{ ? paymethod == "b" || paymethod == "v" }-->
+                <tr>
+                    <th>{=__text("계좌정보")}</th>
+                    <td>{bankinfo}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("입금자명")}</th>
+                    <td>{payer_name}</td>
+                </tr>
+                <tr>
+                    <th>{=__text("입금여부")}</th>
+                    <td>
+                        <!--{ ? paystep > 1 || paystep < 90 }-->{=__text("입금")} {paydt}
+                        <!--{ / }-->
+                    </td>
+                </tr>
+                <!--{ / }-->
+                <tr>
+                    <th>&nbsp;</th>
+                    <td>
+                        <!--{ ? paymethod=='c' && paystep > 1}-->
+                        <!--{ ? _cfg.pg.module == "smartxpay" }-->
+                        <script language="JavaScript" src="//pgweb.uplus.co.kr/WEB_SERVER/js/receipt_link.js"></script>
+                        <a href="javascript:showReceiptByTID('{_cfg.pg.lgd_mid}', '{pgcode}', '{authcode}')">[{=__text("카드영수증발급")}]</a>
+                        <!--{ : }-->
+                        <a href="javascript:popup('{receipt_url}',465,855)"><span style="color: red;">[{=__text("카드영수증발급")}]</span></a>
+                        <!--{ / }-->
+                        <!--{ / }-->
+
+                        <!--{ ? paymethod == "b" || paymethod == "v" }-->
+                        <!--{ ? pg_module != 'no' && (paymethod == "b" || paymethod == "v") && cash_status != '02' }-->
+                        <!--{ ? pg_module == 'kcp' }-->
+                        <a href="#" onclick="popup('/pg/kcp/cash/request.php?payno={_GET.payno}', 650, 700);">
+                            <!--{ : pg_module == 'inipaystdweb' }-->
+                            <a href="#" onclick="popup('/pg/INIPayStdWeb/cash/request.php?payno={_GET.payno}', 650, 700);">
+                                <!--{ / }-->
+                                {=__text("현금영수증신청하기")}
+                            </a>
+                            <!--{ / }-->
+                            <!--{ / }-->
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <div class="clear"></div>
+        <div class="myPageodif draftRequest">
+            <h1>{=__text("시안 요청 정보")}</h1>
+            <table width="100%" cellpadding="0" cellspacing="0" border="0" class="cyanAppDetailsTable tb2">
+                <colgroup>
+                    <col width="240">
+                    <col width="*">
+                    <col width="100">
+                    <col width="180">
+                    <col width="100">
+                    <col width="150">
+                </colgroup>
+                <tr>
+                    <th colspan="2">{=__text("상품")}</th>
+                    <th>{=__text("수량")}</th>
+                    <th>{=__text("판매가")}</th>
+                    <th>{=__text("주문상태")}</th>
+                    <th>{=__text("시안상태")}</th>
+                </tr>
+                <!--{ @ ord }-->
+                <!--{ @ .item }-->
+                <tr>
+                    <td rowspan="2">
+                        <p class="tmpltImage"><img src="{..turl}" width="140"></p>
+                        <p class="tmpltCode">
+                            {=__text("디자인명")}&nbsp;:&nbsp;{..tname}<br> {=__text("템플릿코드")}&nbsp;:&nbsp;{..tidx}
+                        </p>
+                    </td>
+                    <td style="text-align:left;">
+                        <strong>{=__text("상품번호")}&nbsp;:&nbsp;{..goodsno} [{..goodsnm}]</strong><br> {..est_order_option_desc}
+                    </td>
+                    <td>
+                        <p class="num">{..order_cnt_select}&nbsp;{=__text("매")}</p>
+                        <p>x</p>
+                        <p class="num">{..unit_order_cnt}&nbsp;{=__text("건")}</p>
+                    </td>
+                    <td>
+                        <p class="price">{=number_format(..saleprice)}</p>
+                        <p>
+                            {=__text("할인금액")}&nbsp;:&nbsp;{=number_format(..dc_tprice)}
+                            <br> {=__text("적립예정액")}&nbsp;:&nbsp;{=number_format(..set_emoney)}
+                        </p>
+                    </td>
+                    <td>{=_r_paystep[paystep]}</td>
+                    <td class="cyanStatusBtn">
+                        <button class="<!--{? ..itemstep == '81'}-->black<!--{: ..itemstep == '82'}-->red<!--{: ..itemstep == '83'}-->blue<!--{/}-->">{=_r_step[..itemstep]}</button>
+                        <!--<button class="black">디자인 요청</button>
+                        <button class="red">교정 보기</button>
+                        <button class="blue">디자인 확정</button>-->
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="5" style="text-align:left; border-top:1px solid #ddd;">
+                        <p class="rqstdTermTie">{=__text("요청사항")}</p>
+                        <p class="rqstdTermBox">
+                            {..msg}
+                        </p>
+                    </td>
+                </tr>
+                <!--{ / }-->
+                <!--{ / }-->
+            </table>
+        </div>
+        <div class="registeredAsian">
+            <h1>{=__text("등록된 시안")}</h1>
+            <ul>
+                <!--{ @ design_data.files }-->
+                <li class="desingimage" design_id="{.id}" design_url="{.server_path}">
+
+                    <!--{ ?design_data.design_fix == .id }-->
+                    <div class="checkIcon"><img src="/skin/modern/assets/B1/img/ico_check.png"></div>
+                    <!--{ / }-->
+
+                    <p class="regCimg" onclick="viewImgDirect('{.index_}');" style="cursor: pointer;"><img src="{.server_path}" width="120" class="fntly"></p>
+                    <p class="regCtxt">
+                        {=__text("등록일시")}&nbsp;:&nbsp;{.regist_date}
+                    </p>
+                </li>
+                <!--{ / }-->
+
+                <!--
+                <li>
+                	<p class="regCimg"><img src="/skin/modern/assets/B1/img/temp2.jpg" width="120"></p>
+                    <p class="regCtxt">
+                    등록일시&nbsp;:&nbsp;2019.01.10&nbsp;15:00<br>
+                    수정일시&nbsp;:&nbsp;2019.01.11&nbsp;10:00
+                    </p>
+                </li>
+                <li>
+                	<p class="regCimg"><img src="/skin/modern/assets/B1/img/temp2.jpg" width="120"></p>
+                    <p class="regCtxt">
+                    등록일시&nbsp;:&nbsp;2019.01.10&nbsp;15:00<br>
+                    수정일시&nbsp;:&nbsp;2019.01.11&nbsp;10:00
+                    </p>
+                </li>
+                -->
+
+            </ul>
+            <div class="viewSian">
+                <div class="closeSian"><img src="/skin/modern/assets/B1/img/ico_up.png"></div>
+                <div class="viewSianBtn">
+
+                    <!--{ ? itemstep == "82" }-->
+                    <button id="fx" design_id="{design_fix_default.id}" class="blue finalDsgn">{=__text("디자인 확정")}</button>
+                    <!--{ : itemstep == "83" }-->
+                    <button id="fx" class="dark" onclick="alert('이미 디자인을 확정했습니다.');">디자인 확정</button>
+                    <!--{ / }-->
+                    <button id="dw" onclick="location.href='/a/order/download.php?src={design_fix_default.server_path}'">{=__text("다운받기")}</button>
+
+                </div>
+                <div class="viewSianGall">
+                    <div class="image">
+                        <img src="{design_fix_default.server_path}" width="260">
+                    </div>
+                    <div class="btn">
+                        <button class="left" onclick="viewImg(-1)"><img src="/skin/modern/assets/B1/img/ico_left.png"></button>
+                        <button class="right" onclick="viewImg(1)"><img src="/skin/modern/assets/B1/img/ico_right.png"></button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="rqstCmnt">
+            <h1>{=__text("요청 댓글")}</h1>
+            <div class="listCmnts">
+                <ul>
+
+                    <!--{ @ design_comment }-->
+                    <li>
+                        <div class="mlcsInfrm">
+                            <span class="frmId <!--{? .admin == '1'}-->admin<!--{/}-->">{.name}</span>
+                            <span class="frmDate">{=__text("작성일시")}&nbsp;{.regdt}</span>
+                        </div>
+                        <div class="cmnts">{.comment}</div>
+                    </li>
+                    <!--{ / }-->
+
+                </ul>
+                <div class="enterCmnts">
+                    <form name="frm" method="post" action="indb_design.php" onsubmit="return submitForm(this);">
+                        <input type="hidden" name="mode" value="addComment" />
+                        <input type="hidden" name="payno" value="{payno}" />
+                        <textarea name="comment"></textarea>
+                        <button type="submit" class="enterCmntsBtn">{=__text("등록")}</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="buttonBar">
+            <button class="botbtn List" onclick="location.href='design_list.php'">{=__text("목록보기")}</button>
+        </div>
+    </div>
+
+
+</section>
+<!--form 전송 취약점 개선 20160128 by kdk-->
+<script src="/js/webtoolkit.base64.js"></script>
+
+<script type="text/javascript">
+    //디자인 확정.
+    function designFix() {
+        try {
+            if (confirm('<?=_("디자인을 확정하시겠습니까?")?>' + "\n" + '<?=_("한번 확정된 디자인을 변경할 수 없습니다.")?>')) {
+
+                var id = $("#fx").attr("design_id");
+                if (id == "") return false;
+
+                //ajax 전송
+                $.ajax({
+                    type: "POST",
+                    url: "/mypage/indb_design.php",
+                    data: "mode=fixDesign&payno={payno}&fixid=" + id,
+                    success: function(data) {
+                        //console.log("data : "+data);
+                        if (data == "FAIL") {
+                            alert('<?=_("디자인 확정에 실패하였습니다.")?>');
+                        } else {
+                            $('#dsgnCnfrm').simplePopup();
+                        }
+                    },
+                    error: function(e) {
+                        alert(e.responseText);
+                    }
+                });
+
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            return false;
+        }
+    }
+    //댓글 등록.
+    function submitForm(formObj) {
+        try {
+            if (confirm('<?=_("댓글을 등록하시겠습니까?")?>')) {
+                formObj.comment.value = Base64.encode(formObj.comment.value);
+                return true;
+            } else {
+                return false;
+            }
+        } catch (e) {
+            return false;
+        }
+    }
+</script>
+
+<script>
+    var num = 0;
+
+    function viewImg(dir) {
+        num = num + dir;
+        if (num < 0) {
+            num = 0;
+        }
+        if (num > $(".desingimage").length - 1) {
+            num = $(".desingimage").length - 1;
+        }
+
+        var img = $(".desingimage:eq(" + num + ")").attr("design_url");
+        $(".image img").attr("src", img);
+        $("#dw").attr("onclick", "location.href='/a/order/download.php?src=" + img + "'");
+
+        var id = $(".desingimage:eq(" + num + ")").attr("design_id");
+        //$("#fx").attr("design_id", id);
+
+        if ("{itemstep}" == "83") {
+            if ("{design_fix_default.id}" == id) $("#fx").show();
+            else $("#fx").hide();
+        } else {
+            $("#fx").attr("design_id", id);
+        }
+    }
+
+    function viewImgDirect(no) {
+        num = no;
+        var img = $(".desingimage:eq(" + num + ")").attr("design_url");
+        $(".image img").attr("src", img);
+        $("#dw").attr("onclick", "location.href='/a/order/download.php?src=" + img + "'");
+
+        var id = $(".desingimage:eq(" + num + ")").attr("design_id");
+        //$("#fx").attr("design_id", id);
+
+        if ("{itemstep}" == "83") {
+            if ("{design_fix_default.id}" == id) $("#fx").show();
+            else $("#fx").hide();
+        } else {
+            $("#fx").attr("design_id", id);
+        }
+    }
+
+    $(document).ready(function() {
+        $('.finalDsgn').click(function() {
+            designFix();
+        });
+
+        $('.dsgnCnfrmBtn').click(function() {
+            location.reload();
+        });
+
+        $('.checkIcon').show();
+    });
+</script>
+
+<!--본 컨텐츠 끝-->
+
+{ # footer }

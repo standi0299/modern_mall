@@ -1,0 +1,73 @@
+{ # header }
+
+<div class="ct_map">
+	<div class="ctheader">
+		<span style="position:relative; left:-206px; width:200px; height:36px; font-size:1.7em; margin:26px 10px; display:inline-block;">주문완료</span>
+		<div class="step_location">
+			<img src="/skin/modern/assets/P1/img/page3.png" alt="주문완료"/>
+		</div>			
+	</div>
+	<div style="width:1130px; border:0.5px solid #999;"></div>
+	<div class="succ">
+		<span class="succ_list1">주문이 완료되었습니다</span>
+		<span class="succ_list2">{orddt}</span>
+	</div>
+	<div class="cancll">
+		<!--{ @ f_banner_s2('pix_payend_info') }-->{.banner}<!--{ / }-->
+	</div>
+	<div class="succ_pay">
+		<div class="succ_pay_lsit1">
+			<p style="font-size:20px; padding-left:0; width:560px;">결제정보</p>
+			<div class="succ_nm">
+				<div class="succ_n">
+					<ul style="padding:0;">
+						<li>결제</li>
+						<li>총 결제 금액</li>
+						<li>주문 번호</li>
+					</ul>
+				</div>
+				<div class="succ_nn">
+					<ul>
+						<li>{_r_paymethod[paymethod]}</li>
+						<li>{=number_format(payprice)}{=__text("원")}</li>
+						<li>{payno}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="succ_pay_lsit1">
+			<p style="font-size:20px; padding-left:0; width:560px;">배송정보</p>
+				<div class="succ_nm">
+					<div class="succ_n">
+						<ul style="padding:0;">
+							<li>이름</li>
+							<li>주소</li>
+							<li>연락처</li>
+						</ul>
+					</div>
+					<div class="succ_nn" style="width:455px;">
+						<ul>
+							<li>{receiver_name}</li>
+							<li>{receiver_addr} {receiver_addr_sub}</li>
+							<li>{receiver_mobile}</li>
+						</ul>
+					</div>
+				</div>
+		</div>
+	</div>
+	<div class="complete_btn">
+		<ul>
+			<!--<li><button type="button">영수증</button></li>-->
+			<!--<li><button>거래명세표</button></li>-->
+		</ul>
+	</div>
+	<div class="succ_btn">
+		<div class="button_pay">
+				<button type="button" class="button_pay_left" onclick="location.href='/main/index.php'">계속 쇼핑하기</button>
+				<button type="button" onclick="location.href='/mypage/orderlist.php'">주문내역 보기</button>
+		</div>
+	</div>
+	
+</div>
+
+{ # footer }

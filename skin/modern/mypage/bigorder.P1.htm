@@ -1,0 +1,365 @@
+{ # header }
+
+<script type="text/javascript" src="/js/zmSpamFreeAjax.php" charset="utf-8"></script>
+
+<div class="sab_body">
+	<div style="clear:both;"><!--{ @ f_banner_s2('bigorder_top_banner_pix') }-->{.banner}<!--{ / }--></div>
+	
+	<form name="fm" method="post" action="indb.php" target="hiddenIfrm" onsubmit="return bigorder_request();">
+		<input type="hidden" name="mode" value="bigorder_request">
+		
+		<div id="ogg_b">
+			<ul class="digg_b">	
+				<li class="active_px">
+					<input type="radio" id="category_quotation" class="but_md" name="category" value="quotation" onclick="location.href='bigorder.php?category=quotation';"><label>견적요청</label>
+				</li>
+				<li class="active_px">
+					<input type="radio" id="category_sample" class="but_md" name="category" value="sample" onclick="location.href='bigorder.php?category=sample';"><label>샘플신청</label>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="big_ordd" id="pro_or_1">
+			<div class="dd_sp">
+				<!--{ ? _GET.category == "quotation" }-->
+				<span class="sang">희망하는 상품과 수량을 입력해 주세요.</span>
+				<!--{ : _GET.category == "sample" }-->
+				<span class="sang">샘플 신청하실 상품 선택해주세요</span>
+				<!--{ / }-->
+				
+				<ul>
+					<li>
+						<select class="sel_text" id="sel_text_o" name="goodsnm" required onchange="goodsnm_sel(this);">
+							<option value="">상품선택</option>
+							<option value="1|^|포토북">포토북</option>
+							<option value="2|^|포토달력">포토달력</option>
+							<option value="3|^|포토엽서/카드">포토엽서/카드</option>
+							<option value="4|^|기타 상품">기타 상품</option>
+						</select>
+					</li>
+					<li>
+						<select class="sel_text2" id="sel_text_1" name="sub_goodsnm_1" style="display:none;">
+							<option value="">사이즈 선택</option>
+							<option value="8x6">8x6</option>
+							<option value="8x8">8x8</option>
+							<option value="8x10">8x10</option>
+						</select>
+					</li>
+					<li>
+						<select class="sel_text3" id="sel_text_2" name="sub_goodsnm_2" style="display:none;">
+							<option value="">사이즈 선택</option>
+							<option value="라지">라지</option>
+							<option value="스탠다드">스탠다드</option>
+							<option value="세로">세로</option>
+							<option value="정사각">정사각</option>
+							<option value="라지(벽걸이)">라지(벽걸이)</option>
+							<option value="스몰(벽걸이)">스몰(벽걸이)</option>
+						</select>
+					</li>
+					<li>
+						<input type="text" placeholder="수량을 입력하세요." class="sel_or number_type" name="ea" required/>
+					</li>
+					<!--<li>
+						<select class="sel_text">
+							<option value="1">내지 선택</option>
+							<option value="2">무광지</option>
+							<option value="3">유광지</option>
+						</select>
+					</li>-->
+				</ul>
+			</div>			
+			
+			<div class="monn_bo"></div>
+			
+			<div class="dd_sp2">
+				<span class="sang">요청한 단체의 정보를 입력해주세요.</span>
+			</div>
+			
+			<div class="basong_list">
+				<div class="basong_f">
+					<div class="basong_span">
+						<span class="ba_f">학교/단체명</span>
+					</div>
+					<div class="basong_s">
+						<ul style="margin:0; padding-left:45px;">
+							<li><input type="text" class="sel_or" name="request_company" required/></li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="basong_f">
+					<div class="basong_span">
+						<span class="ba_f">담당자</span>
+					</div>
+					<div class="basong_s">
+						<ul style="margin:0;">
+							<li><input type="text" class="rip1" name="request_name" required></li>
+							<li style="width:140px; position:relative; left:40px;">연락처</li>
+							<li style="width:100px;">
+								<input type="text" class="number_p number_type" name="request_mobile[]" required maxlength="3" onkeyup="auto_focus(this,1);">
+							</li>
+							<li style="width:100px;">
+								<input type="text" class="number_p number_type" name="request_mobile[]" required maxlength="4" onkeyup="auto_focus(this,2);">
+							</li>
+							<li style="width:100px;">
+								<input type="text" class="number_p number_type" name="request_mobile[]" required maxlength="4">
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<div class="basong_f">
+					<div class="basong_span">
+						<span class="ba_f">이메일</span>
+					</div>
+					<div class="basong_s">
+						<ul style="margin:0;">
+							<li>
+								<input type="text" class="order_pp" name="request_email[]"/>	
+							</li>
+							<li style="width:10px; padding-left:10px;">@</li>
+							<li>	
+								<input type="text" id="select_email" class="order_pp" name="request_email[]"/>	
+							</li>
+							<li>
+								<select class="order_add" onchange="auto_set_email(this);">
+									<option value="">{=__text("직접입력")}</option>
+									<!--{ @ _r_email }-->
+										<option value="{.value_}">{.key_}</option>
+									<!--{ / }-->
+								</select>					
+							</li>
+						</ul>
+					</div>
+				</div>
+				
+				<!--{ ? _GET.category == "sample" }-->
+					<div class="basong_add">
+						<div class="basongadd_span">
+							<span class="ba_f">받으실 주소</span>
+						</div>
+						<div class="basong_sadd">
+							<ul style="margin:0;">
+								<li style="width:150px; float:left; padding:10px 10px 3px 15px;"><input type="text" id="request_zipcode" class="rip" name="request_zipcode" required readonly style="width:150px;"></li>
+								<li class="ciask"><button type="button" onclick="popupZipcode('_zcrn_r');">우편번호 찾기</button></li>
+								<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" name="request_address" required style="width:500px;"></li>
+								<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" name="request_address_sub" required style="width:500px;"></li>
+							</ul>
+						</div>
+					</div>
+				<!--{ / }-->
+				
+				<div class="basong_lid">
+					<div class="basongadd_span">
+						<span class="ba_f">요청사항</span>
+					</div>
+					
+					<div class="basong_two">
+						<textarea class="my_two" name="content" placeholder="내용을 입력하세요."></textarea>	
+					</div>
+				</div>
+				
+				<div class="basong_fdd">
+					<div class="basongfdd_span">
+						<span class="ba_f">자동 등록 방지</span>
+					</div>
+					<div class="basongfdd_s">
+						<ul style="margin:0;">
+							<li style="width:80px;"><img id="zsfImg" style="border:currentColor;border-image:none;vertical-align:middle; display:inline-block; padding:2px;cursor:pointer;" onclick="this.src='/lib/zmSpamFree/zmSpamFree.php?re&amp;zsfimg='+new Date().getTime()" src="/lib/zmSpamFree/zmSpamFree.php?zsfimg&re" {=__alt("보안코드")}></li>
+							<li><input type="text" id="zsfCode" class="sel_ord" name="zsfCode" onchange="chkZsf(this);" required/></li>
+						</ul>
+					</div>
+				</div>			
+			</div>
+			
+			<div class="plas">
+				<span class="sang2">개인정보 수집 /이용에 관한 사항</span>
+				<div class="plastic">
+					<ul>
+						<li>수집항목: 이름, 전화번호, 이메일 주소</li>
+						<li>수집목적: 상품문의 접수 및 결과 회신</li>
+						<li>
+							이용기간: 원칙적으로 개인정보 수집 및 이용목적이 달성된 후에는 해당 정보를 지체 없이 파기 합니다.<br>
+							단, 관계법령의 규정에 의하여 보전할 필요가 있는 경우 일정 기간동안 개인정보를 보관할 수 있습니다.<br>
+						</li>
+					</ul>
+				</div>
+				<div class="a_add">
+					<input type="radio" name="agreement" value="Y" checked><label>동의 합니다.</label>
+					<input type="radio" name="agreement" value="N"><label>동의하지 않습니다.</label>
+				</div>
+			</div>
+			
+			<!--<div class="plas">
+				<span class="sang">개인정보 수집 /이용 동의</span>
+				<div class="plastic">
+					<ul>
+						<li>개인정보의 수집 및 이용목적 : 제휴 프로그램 서비스에 대한 정보 제공</li>
+						<li>개인정보 수집 항목 : 회사명, 담당자명, 연락처, 이메일 등</li>
+						<li>개인정보의 보유 및 이용기간 : 문의내용을 확인 할 수 있도록 3년간 보관</li>
+					</ul>
+				</div>
+				<div class="14_add" style="width:650px; font-size:13px; margin-top:5px;">
+					<input type="checkbox" id="checkbox-all" name="oneone" required />	
+					<label for="checkbox-all"><a href="#" class="showMask"><button type="button" style="border:none; background:0;outline:0;">이용약관</button></a> 및 
+					<a href="#" class="showMask_gain"><button type="button" style="border:none; background:0; outline:0;">개인정보 수집 및 이용</button></a>에 대한 내용을 확인하고 동의 합니다.</label>
+				</div>
+			</div>-->
+			
+			<div class="outding">
+				<button type="submit" class="button_pay_rleft">견적요청</button>
+			</div>
+		</div>
+	</form>
+	
+	<!--레이어 팝업-->
+	<!--<div class="mask"></div>
+    <div class="window">
+		<div class="btn_agg">
+			<h2>이용약관</h2>
+			<input type="button" href="#" class="close" value="X"/>
+		</div>
+		
+		<div class="agg_text">
+			{_cfg.agreement}
+		</div>
+    </div>-->
+    <!--레이어 팝업-->
+    
+    <!--레이어 팝업2-->
+    <!--<div class="mask_gain"></div>
+    <div class="window_gain">
+		<div class="btn_agg">
+			<h2>개인정보 수집 및 이용약관</h2>
+			<input type="button" href="#" class="close_gain" value="X"/>
+		</div>
+		
+		<div class="agg_text_2">
+			{_cfg.policy}
+		</div>
+    </div>-->
+    <!--레이어 팝업2-->
+</div>
+
+<script>
+$j(function() {
+	$j("#category_{_GET.category}").attr("checked",true);
+	
+	$j('.number_type').css('ime-mode', 'disabled').keypress(function(event) {
+		if (event.which && (event.which < 48 || event.which > 57)) {
+			event.preventDefault();
+		}
+	});
+});
+
+function goodsnm_sel(obj) {
+	var val = $j(obj).val().split("|^|");
+	var catno = "";
+	
+	if (val.length > 1) catno = val[0];
+	
+	$j(":select[name=sub_goodsnm]").hide();
+	$j(":select[name=sub_goodsnm]").attr("required", false);
+	$j("#sel_text_" + catno).show();
+	$j("#sel_text_" + catno).attr("required", true);
+}
+
+function auto_focus(obj,idx) {
+	switch (idx) {
+		case 1:
+			if (obj.value.length == 3) obj.form['request_mobile[]'][idx].focus();
+		break;
+		case 2:
+			if (obj.value.length == 4) obj.form['request_mobile[]'][idx].focus();
+		break;
+	}
+}
+
+function auto_set_email(obj) {
+	$j("#select_email").val($j(obj).val());
+}
+
+function _zcrn_r() {
+	var zipcode = arguments[0];
+	$j("[name=request_zipcode]").val(zipcode);
+	$j("[name=request_address]").val(arguments[1]);
+	$j("[name=request_address_sub]").val("");
+	$j("[name=request_address_sub]").trigger("focus");
+}
+
+function bigorder_request() {
+	if ($j(":input[name=agreement]:checked").val() == "Y") {
+		return true;
+	} else {
+		alert("개인정보 수집/이용에 관한 사항에 동의해주시기 바랍니다.");
+		return false;
+	}
+}
+
+/*$(document).ready(function(){
+	// showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+	$('.showMask').click(function(e){
+		// preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+		e.preventDefault();
+		wrapWindowByMask('.mask','.window');
+	});
+	
+	// 닫기(close)를 눌렀을 때 작동합니다.
+	$('.window .close').click(function (e) {
+		e.preventDefault();
+		$('.mask, .window').hide();
+	});
+	
+	// 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+	$('.mask').click(function () {
+		$(this).hide();
+		$('.window').hide();
+	});
+});
+
+$(document).ready(function(){
+	// showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+	$('.showMask_gain').click(function(e){
+		// preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+		e.preventDefault();
+		wrapWindowByMask('.mask_gain','.window_gain');
+	});
+	
+	// 닫기(close)를 눌렀을 때 작동합니다.
+	$('.window_gain .close_gain').click(function (e) {
+		e.preventDefault();
+		$('.mask_gain, .window_gain').hide();
+	});
+	
+	// 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+	$('.mask_gain').click(function () {
+		$(this).hide();
+		$('.window_gain').hide();
+	});
+});
+
+function wrapWindowByMask(val, val2){
+	// 화면의 높이와 너비를 변수로 만듭니다.
+	var maskHeight = $(document).height();
+	var maskWidth = $(window).width();
+	
+	// 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
+	$(val).css({'width':maskWidth,'height':maskHeight});
+	
+	// fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
+	$(val).fadeIn(1000);
+	$(val).fadeTo("slow",0.8);
+	
+	// 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
+	var left = ( $(window).scrollLeft() + ( $(window).width() - $(val2).width()) / 2 );
+	var top = ( $(window).scrollTop() + ( $(window).height() - $(val2).height()) / 2 );
+	
+	// css 스타일을 변경합니다.
+	$(val2).css({'left':left,'top':top, 'position':'absolute'});
+	
+	// 레이어 팝업을 띄웁니다.
+	$(val2).show();
+}*/
+</script>
+
+{ # footer }

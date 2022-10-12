@@ -1,0 +1,142 @@
+<div class="content-container">
+	<div id="header-area">
+		<div class="header-content" id="logo">
+			<a href="/">MIODIO</a>
+		</div>
+		<div class="header-content" id="gnb">
+			<ul>
+
+				<!--{ @ f_category() }-->
+				<li class="nav-item-wrap">
+					<a href="#" class="nav-item text-center">
+					<div>
+						<!--{ ?.img }-->
+						{.img}
+						<!--{ : }-->
+						{.catnm}
+						<!--{ / }-->
+					</div>
+					<div class="nav-item-bullet"><img src="/skin/modern/assets/images/snb-bullet.png" alt="">
+					</div> </a>
+					<div class="snb">
+						<div class="h-group snb-wrap">
+
+							<!--{ ? .sub && !_cfg.top_category_sub_off }-->
+								<!--{ @ .sub }-->
+								<div class="col">
+									<!--{ ? ..img }-->
+									<h4>{..category_link_tag}{..img}</a></h4>
+									<!--{ : }-->
+									<h4>{..category_link_tag}{..img}{..catnm}</a></h4>
+									<!--{ / }-->
+	
+									<!--{ ? ..sub }-->
+									<ul>
+										<!--{ @ ..sub }-->
+										<!--{ ? ...img }-->
+										<li>
+											{...category_link_tag}{...img}</a>
+										</li>
+										<!--{ : }-->
+										<li>
+											{...category_link_tag}{...img}{...catnm}</a>
+										</li>
+										<!--{ / }-->
+										<!--{ / }-->
+									</ul>
+									<!--{ / }-->
+								</div>
+								<!--{ / }-->
+								<div class="col">
+									<div class="snb-banner _banner" code="category_{.catno}">
+										<!--{ @ f_banner_s2( 'category_'+ .catno )}-->{..banner}<!--{ / }-->
+									</div>
+								</div>
+							<!--{ / }-->							
+						</div>
+					</div>
+				</li>
+				<!--{ / }-->
+			</ul>
+		</div>
+
+		<div class="header-content right" id="cs-nav">
+			<ul>
+				<!--{ ? !_sess }-->
+				<li class="nav-item-wrap">
+					<a href="/member/login.php" class="nav-item">{=__text("로그인")}</a>
+				</li>
+				<li class="nav-item-wrap">
+					<a href="/member/register.php" class="nav-item">{=__text("회원가입")}</a>
+				</li>
+				<!--{ ? _cfg.editlist_use != "N" }-->
+				<li class="nav-item-wrap">
+					<a href="/order/editlist.php" class="nav-item">{=__text("편집보관함")}</a>
+				</li>
+				<!--{ / }-->
+
+				<!--{ ? _cfg.local_storage_use == "Y"}-->
+				<li class="nav-item-wrap">
+					<a href="javascript:void(0)" {=__onclick_alert("로그인하여주시기 바랍니다.")} class="nav-item">{=__text("로컬보관함")}</a>
+				</li>
+				<!--{ / }-->
+				<!--{ : }-->
+
+				<li class="nav-item-wrap">
+					<a href="/member/logout.php" class="nav-item">{=__text("로그아웃")}</a>
+				</li>
+				<li class="nav-item-wrap">
+					<a href="/mypage/index.php" class="nav-item">{=__text("마이페이지")}</a>
+				</li>
+				<!-- 기본값을 모두 보임으로 설정, 사용안함 설정일 때만 나오지 않도록 수정 / 17.02.28 / kjm -->
+				<!--{ ? _cfg.editlist_use != "N" }-->
+				<li class="nav-item-wrap">
+					<a href="/order/editlist.php" class="nav-item">{=__text("편집리스트")}</a>
+				</li>
+				<!--{ / }-->
+
+				<!--{ ? _cfg.local_storage_use == "Y"}-->
+				<li class="nav-item-wrap">
+					<a href="javascript:popupLayer('/module/open_storage_new.php');" class="nav-item">{=__text("로컬보관함")}</a>
+				</li>
+
+				<!--{ / }-->
+				<!--{ / }-->
+
+				<li class="nav-item-wrap">
+					<a href="/order/cart.php" class="nav-item">{=__text("장바구니")}</a>
+				</li>
+				<li class="nav-item-wrap">
+					<a href="#" class="nav-item text-center">
+					<div>
+						{=__text("고객센터")}
+					</div>
+					<div class="nav-item-bullet"><img src="/skin/modern/assets/images/snb-bullet.png" alt="">
+					</div> </a>
+					<div class="snb" id="cs-snb">
+						<ul>
+							<li class="text-center">
+								<a href="/board/list.php?board_id=notice">{=__text("공지사항")}</a>
+							</li>
+							<li class="text-center">
+								<a href="/service/faq.php">{=__text("자주 묻는 질문")}</a>
+							</li>
+							<li class="text-center">
+								<a href="/mypage/mycs.php">{=__text("문의하기")}</a>
+							</li>
+						</ul>
+					</div>
+				</li>
+
+				<li class="nav-item-wrap">
+					<a href="/goods/event.php" class="nav-item">{=__text("이벤트")}</a>
+				</li>
+				<li class="nav-item-wrap">
+					<a href="/goods/search.php" class="nav-item"><img src="/skin/modern/assets/images/search-icon.png" alt=""></a>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+{ # top_menu_hidden_script }

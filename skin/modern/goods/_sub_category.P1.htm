@@ -1,0 +1,32 @@
+<!--{ ? sub_cate }-->
+
+<!--{ @ sub_cate }-->
+<input id="panel-{.index_+1}-ctrl" class="panel-radios" type="radio" name="tab-radios" {.active}>
+<!--{ / }-->
+
+
+<ul id="tabs-list">
+	<!--{ @ sub_cate }-->
+	<li id="li-for-panel-{.index_+1}">
+		<label class="panel-label" for="panel-{.index_+1}-ctrl"><a href="/goods/list.php?catno={.catno}">{.catnm}</a></label>
+	</li>
+	<!--{ / }-->
+</ul>
+
+
+<div class="tab_border">
+</div>
+<!--{ / }-->
+
+
+<!--{ @ f_category_filter_P1() }-->
+<input id="panel-{.idx}-ctrl" class="panel-radios" type="radio" name="tab-radios2" {.active}>
+<!--{ / }-->
+
+<ul id="size_list">
+<!--{ @ f_category_filter_P1() }-->	
+		<li id="li-for-panel-{.idx}">
+			<label class="panel-label_size" for="panel-{.idx}-ctrl"><a href="javascript:_filter('{.catnm}')">{.catnm}</a></label>
+		</li>
+<!--{ / }-->
+</ul>

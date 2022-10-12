@@ -1,0 +1,51 @@
+{ # header }
+<!--intro_banner.htm-->
+
+<div id="brand-intro-page" class="intro-page">
+
+	<div class="_banner" code="category_intro_1200x292_1_{_GET.catno}" banner_type="edit" add_type="N" add_css="">
+		<!--{ @ f_banner_s2('category_intro_1200x292_1_'+ _GET.catno)}-->{.banner}<!--{ / }-->
+	</div>
+
+	<div class="_banner" code="category_intro_1200x292_2_{_GET.catno}" banner_type="edit" add_type="N" add_css="">
+		<!--{ @ f_banner_s2('category_intro_1200x292_2_'+ _GET.catno)}-->{.banner}<!--{ / }-->
+	</div>
+	
+	<div class="_banner" code="category_intro_1200x292_3_{_GET.catno}" banner_type="edit" add_type="N" add_css="">
+		<!--{ @ f_banner_s2('category_intro_1200x292_3_'+ _GET.catno)}-->{.banner}<!--{ / }-->
+	</div>
+	
+	<div class="_banner" code="category_intro_1200x292_4_{_GET.catno}" banner_type="edit" add_type="N" add_css="">
+		<!--{ @ f_banner_s2('category_intro_1200x292_4_'+ _GET.catno)}-->{.banner}<!--{ / }-->
+	</div>
+
+	<div class="_banner" code="category_intro_1200x292_5_{_GET.catno}" banner_type="edit" add_type="N" add_css="">
+		<!--{ @ f_banner_s2('category_intro_1200x292_5_'+ _GET.catno)}-->{.banner}<!--{ / }-->
+	</div>
+		
+</div>
+<!--
+<script>
+function pods_editor_main(goodsno){
+
+	document.fmView.goodsno.value = goodsno;
+	popupLayer("../module/popup_calleditor.php?mode=view&goodsno="+goodsno);
+
+	return;
+}
+
+function exec(mode){
+	var fm = document.fmView;
+	fm.action = "../order/cart.php";
+	fm.mode.value = "cart";
+	fm.submit();
+}
+</script>
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" name="goodsno" value=""/>
+<input type="hidden" name="storageid"/>
+</form>
+-->
+{ # footer }

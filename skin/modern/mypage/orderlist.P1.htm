@@ -1,0 +1,365 @@
+{ # header }
+
+<div id="my_tqb_menu">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="orderlist.php" class="under_bor12">{=__text("주문배송")}</a><li>		
+		<li><a href="/order/editlist.php">{=__text("편집보관함")}</a><li>		
+		<li><a href="coupon.php">{=__text("쿠폰·적립금")}</a><li>		
+		<li><a href="/mypage/jjim_list.php">{=__text("찜목록")}</a><li>		
+		<li><a href="/mypage/payback_intro.php">{=__text("페이백")}</a></li>
+		<li><a href="document.php">{=__text("서류발급신청")}</a><li>		
+		<li><a href="/member/myinfo.php">{=__text("회원정보변경")}</a><li>
+	</ul>
+</div>
+
+<div class="si_body" style="height:100%; min-height:500px;">
+	<div class="ct_content">
+		<div class="ct_content_head">
+			<ul>
+				<li style="width:87px;">{=__text("주문번호")}</li>
+				<li style="width:335px;">{=__text("상품명")}</li>
+				<li style="width:160px;">{=__text("주문일")}</li>
+				<li style="width:160px;">{=__text("주문내역")}</li>
+				<li style="width:160px;">{=__text("주문현황")}</li>
+				<li style="width:160px;">{=__text("진행상태")}</li>
+			</ul>
+		</div>
+		
+		<!--{ @ loop }-->
+			<div class="ce_order">
+				<div class="ce_map_wrap">
+					<div class="ce_odrer_map">
+						<div class="ce_dis">
+							<div class="ce_ned">
+								<ul style="padding:0; margin:0;">
+									<li style="margin-top:30px;">{.payno}</li>
+									<li><a href="#" class="show_edit" payno="{.payno}" paystep="{.paystep}"><button type="button" class="sam">서류 다운</button></a></li>
+									<!--<li><button>영수증</button></li>
+									<li><button>배송조회</button></li>
+									<li><button>거래명세표</button></li>-->
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="ce_odrer_one">
+						<div class="ce_dis_one">
+							<div class="ce_ned_one">
+								<ul style="padding:0;">
+									<li><span <!--{ ? .ord_bundle > 1 }-->title='{.goodsnm} {=__text("외")} {.ord_bundle - 1}{=__text("건")}'<!--{ : }-->title='{.goodsnm}'<!--{ / }-->><strong>{.goodsnm}<!--{ ? .ord_bundle > 1 }--> {=__text("외")} {.ord_bundle - 1}{=__text("건")}<!--{ / }--></strong></span></li>
+									<li>
+										<span <!--{ ? .ord_bundle > 1 }-->title='{.catnm1}'<!--{ : }-->title='{.catnm1}{ ? .catnm2 } / {.catnm2}{ / }{ ? .catnm3 } / {.catnm3}{ / }{ ? .catnm4 } / {.catnm4}{ / }'<!--{ / }-->>
+											<!--{ ? .ord_bundle > 1 }-->
+												{.catnm1}
+											<!--{ : }-->
+												{.catnm1}
+												<!--{ ? .catnm2 }--> / {.catnm2}<!--{ / }-->
+												<!--{ ? .catnm3 }--> / {.catnm3}<!--{ / }-->
+												<!--{ ? .catnm4 }--> / {.catnm4}<!--{ / }-->
+											<!--{ / }-->
+										</span>
+									</li>
+									<li style="font-size:13px;"><span title='{=__text("결제방법")} : {=_r_paymethod[.paymethod]} / {=__text("결제 금액")} : {=number_format(.saleprice)}{=__text("원")}'>{=__text("결제방법")} : {=_r_paymethod[.paymethod]} / {=__text("결제 금액")} : {=number_format(.saleprice)}{=__text("원")}</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="ce_odrer_tw">
+						<div class="ce_dis_tw">
+							<div class="ce_ned_tw">
+								<ul style="padding:0;">
+									<li><span>{=substr(.orddt,0,10)}</span></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="ce_odrer_th">
+						<div class="ce_dis_th">
+							<div class="ce_ned_th">
+								<ul style="padding:0;">
+									<li><button type="button" class="ce_order_btn" onclick="location.href='orderview.php?payno={.payno}';">{=__text("상세보기")}</button></li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="ce_odrer_ff">
+						<div class="ce_dis_ff">
+							<div class="ce_ned_ff">
+								<ul style="padding:0;">
+									<li>
+										<!--{ ? in_array(.itemstep,array(1,2,91,92)) }-->
+											<button type="button" class="ce_order_btn" onclick="cancelPayInfo('{.payno}','{.paystep}','{.paymethod}');">{=__text("취소신청")}</button>
+										<!--{ : }-->
+											<!--{ ? .itemstep == "-9" && in_array(.paymethod,array("b","v","ve")) && strpos(.pay_memo,"환불정보") !== false }-->
+												{=__text("취소요청")}
+											<!--{ : }-->
+												{=_r_step[.itemstep]}
+											<!--{ / }-->
+										<!--{ / }-->
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+					<div class="ce_odrer_fi">
+						<div class="ce_dis_fi">
+							<div class="ce_ned_fi">
+								<ul style="padding:0;">
+									<li>
+										<!--{ ? .itemstep == "-9" && in_array(.paymethod,array("b","v","ve")) && strpos(.pay_memo,"환불정보") !== false }-->
+											<span>{=__text("취소요청")}</span>
+										<!--{ : }-->
+											<span>{=_r_step[.itemstep]}</span>
+										<!--{ / }-->
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!--{ / }-->
+		
+		<div style="margin:30px 60px 30px 0; width:1140px; text-align:center;">{=pg->page['navi_p1']}</div>
+		
+		<!--레이어 팝업-->
+		<div class="mask"></div>
+	    <div class="order_edit window">
+			<div class="btn_ed">
+				<button type="button" class="closedd layer_close" value="X">X</button>
+			</div>	
+			<div class="order_dop">
+				<span class="dop_sp">제출서류 다운로드</span>
+				<div class="dop_content">
+					<div class="dop_list">
+						<span>통장사본</span>
+					</div>
+					<div class="dop_list3">
+						<span>{bankinfo[0]}</span>
+						<ul>
+							<li><button type="button" onclick="location.href='../module/file_download.php?mode=bank';">다운로드</button></li>
+						</ul>
+					</div>
+					<div class="dop_list">
+						<span>사업자등록증</span>
+					</div>
+					<div class="dop_list3">
+						<ul>
+							<li><button type="button" onclick="location.href='../module/file_download.php?mode=tax';">다운로드</button></li>
+						</ul>
+					</div>
+					<!--{ ? _cfg.bill_yn }-->
+						<input type="hidden" name="set_bill_payno">
+						<input type="hidden" name="set_bill_paystep">
+						
+						<div class="dop_list">
+							<span>견적서</span>
+						</div>
+						<div class="dop_list3">
+							<ul>
+								<li><button type="button" onclick="set_bill2();">다운로드</button></li>
+							</ul>
+						</div>
+						<div class="dop_list">
+							<span>거래명세서</span>
+						</div>
+						<div class="dop_list3">
+							<ul>
+								<li><button type="button" onclick="set_bill();">다운로드</button></li>
+							</ul>
+						</div>
+					<!--{ / }-->
+				</div>	
+			</div>
+			<div class="dop_text">
+				<span style="width:200px; height:36px; font-size:15px; padding-top:50px; display:block; clear:both; margin-left:25px;" >제출서류 다운로드 유의사항</span>
+				<ul>
+					<li><span></span>상품 금액 수정 및 추가로 필요한 서류가 있는 경우 고객센터로 문의 해주세요.</li>
+					<li><span></span>무통장 입금 후 입금 확인은 1:1문의 또는 고객센터로 문의 해주세요.</li>
+				</ul>
+			</div>
+			<div class="dop_btn">
+				<button type="button" class="layer_close">확인</button>
+			</div>
+	    </div>
+	    <!--레이어 팝업-->
+	    
+	    <!--레이어 팝업 취소-->
+		<div class="mask_gain"></div>
+	    <div class="order_edit window_gain">
+			<div class="btn_ed">
+				<button type="button" class="closedd layer_close_gain" value="X">X</button>
+			</div>
+			<form name="fm_cancel" method="get" action="indb.php">
+				<input type="hidden" name="mode" value="cancelPayInfo">
+				<input type="hidden" name="payno">
+				
+				<div class="order_dop">
+					<span class="dop_spc">환불 받으실 정보 입력해주세요</span>
+					<div class="dop_contentc">
+						<div class="dop_listc">
+							<span>은행선택</span>
+						</div>
+						<div class="dop_list3c">
+							<select class="fon_c" name="refund_bank" required>
+								<option value="">선택</option>
+								<!--{ @ _r_inicis_bank_name }-->
+								<option value="{.key_}">{.value_}</option>
+								<!--{ / }-->
+							</select>
+						</div>
+						<div class="dop_list">
+							<span>계좌 번호</span>
+						</div>
+						<div class="dop_list3">
+							<ul>
+								<li><input type="text" class="can_text" name="refund_account_number" required></li>
+							</ul>
+						</div>
+					</div>	
+				</div>
+				<div class="dop_textc">
+					<span style="width:200px; height:36px; font-size:15px; padding-top:50px; display:block; clear:both; margin-left:25px;">환불시 주의사항</span>
+					<ul>
+						<li>계좌의 예금주는 회원 본인의 명의여야 합니다.</li>
+					</ul>
+				</div>
+				<div class="dop_btn">
+					<button type="submit">확인</button>
+				</div>
+			</form>
+	    </div>
+	    <!--레이어 팝업 취소-->
+	</div>
+	
+	<div style="margin-bottom:30px;"><!--{ @ f_banner_s2('orderlist_bottom') }-->{.banner}<!--{ / }--></div>
+	
+	<!--<span style="width:200px; height:36px; font-size:1.4em; padding-top:30px; display:block; clear:both;">유의사항</span>
+	
+	<div class="amount">
+		<div class="amount_list">
+			<ul style="padding:0;">
+				<li>진행상태는 입금대기 > 입금완료 > 제작중 > 제작완료 > 상품발송 > 배송완료</li>
+				<li>주문취소 및 배송지 변경은 주문완료 후 1시간 이내에 가능합니다. 취소시 편집내용은 장바구니에 즉시 복구됩니다.</li>
+				<li>배송지변경은 주문완료 1시간 이내에 주문내역 > 상세보기에서 수정하실 수 있습니다.</li>
+				<li>주문하신 상품이 출고일부터 2일 경과 후에도 배송조회가 되지 않을 경우, 고객센터(02-2265-5644)로 연락 부탁드립니다.</li>
+			</ul>
+		</div>
+	</div>-->
+</div>
+
+<script>
+function cancelPayInfo(payno,paystep,paymethod) {
+	if (confirm({=__java("해당 주문을 취소하시겠습니까?")}) == true) {
+		if (paystep > 1 && paystep < 90 && (paymethod == "b" || paymethod == "v" || paymethod == "ve")) {
+			$j(":input[name=payno]").val(payno);
+			$j(":select[name=refund_bank]:selected").val("");
+			$j(":input[name=refund_account_number]").val("");
+			
+			wrapWindowByMask('.mask_gain','.window_gain');
+		} else {
+			location.href = "indb.php?mode=cancelPayInfo&payno=" + payno;
+		}
+	} else {
+		return;
+	}
+}
+</script>
+
+<script>
+function set_bill() {
+	var payno = $j(":input[name=set_bill_payno]").val();
+	var paystep = $j(":input[name=set_bill_paystep]").val();
+	
+	if (paystep == "2" || paystep == "3" || paystep == "4" || paystep == "5" || paystep == "92") {
+		popup('../module/bill_orderlist_print.php?payno=' + payno, 800, 800);
+	} else {
+		alert("결제완료된 주문만 다운로드가 가능합니다.");
+	}
+}
+
+function set_bill2() {
+	var payno = $j(":input[name=set_bill_payno]").val();
+	
+	popup('../module/bill_cart_print.php?payno=' + payno, 800, 800);
+}
+
+$(document).ready(function(){
+	// showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+	$('.show_edit').click(function(e){
+		$j(":input[name=set_bill_payno]").val($j(this).attr("payno"));
+		$j(":input[name=set_bill_paystep]").val($j(this).attr("paystep"));
+		
+		// preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+		e.preventDefault();
+		wrapWindowByMask('.mask','.window');
+	});
+	
+	// 닫기(close)를 눌렀을 때 작동합니다.
+	$('.window .layer_close').click(function (e) {
+		$j(":input[name=set_bill_payno]").val("");
+		$j(":input[name=set_bill_paystep]").val("");
+		
+		e.preventDefault();
+		$('.mask, .window').hide();
+	});
+	
+	// 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+	$('.mask').click(function () {
+		$j(":input[name=set_bill_payno]").val("");
+		$j(":input[name=set_bill_paystep]").val("");
+		
+		$(this).hide();
+		$('.window').hide();
+	});
+});
+
+$(document).ready(function(){
+	// showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+	/*$('.show_edit').click(function(e){		
+		// preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+		e.preventDefault();
+		wrapWindowByMask('.mask_gain','.window_gain');
+	});*/
+	
+	// 닫기(close)를 눌렀을 때 작동합니다.
+	$('.window_gain .layer_close_gain').click(function (e) {
+		$j(":input[name=payno]").val("");
+		
+		e.preventDefault();
+		$('.mask_gain, .window_gain').hide();
+	});
+	
+	// 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+	$('.mask_gain').click(function () {
+		$j(":input[name=payno]").val("");
+		
+		$(this).hide();
+		$('.window_gain').hide();
+	});
+});
+
+function wrapWindowByMask(val, val2){
+	// 화면의 높이와 너비를 변수로 만듭니다.
+	var maskHeight = $(document).height();
+	var maskWidth = $(window).width();
+	
+	// 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
+	$(val).css({'width':maskWidth,'height':maskHeight});
+	
+	// fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
+	$(val).fadeIn(1000);
+	$(val).fadeTo("slow",0.8);
+	
+	// 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
+	var left = ( $(window).scrollLeft() + ( $(window).width() - $(val2).width()) / 2 );
+	var top = ( $(window).scrollTop() + ( $(window).height() - $(val2).height()) / 2 );
+	
+	// css 스타일을 변경합니다.
+	$(val2).css({'left':left,'top':top, 'position':'absolute'});
+	
+	// 레이어 팝업을 띄웁니다.
+	$(val2).show();
+}
+</script>
+
+{ # footer }

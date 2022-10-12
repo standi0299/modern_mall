@@ -1,0 +1,19 @@
+<!--fotocube-->
+<!-- ### main slide ### -->
+<div class="main_visual"> 
+  <button type="button" class="btn_prev mainBtn_prev">{=__text("이전")}</button>
+  <ul>
+    <!--<li style="display:"><a href="#" style="height:100%; width:100%; display:block;"></a></li>
+    <li style="display:none;opacity:0;"><a href="http://www.fotocube.co.kr" style="height:100%; width:100%; display:block;"></a></li>
+    <li style="display:none;opacity:0;"><a href="http://www.fotocube.co.kr" style="height:100%; width:100%; display:block;"></a></li>
+    <li style="display:none;opacity:0;"><a href="http://www.fotocube.co.kr" style="height:100%; width:100%; display:block;"></a></li>-->
+    
+	<!--{ @ _mcdata.img }-->   			
+   	<li style="display:{?.index_ + 1 > 1}none;opacity:0{/}; background-color: #dddddd; background-image: url('/data/main_content/{_cid}/{_mcdata.img[.index_]}');"><a href="{_mcdata.url[.index_]}" style="height:100%; width:100%; display:block;" {=__alt("슬라이드이미지{.index_ + 1}")}></a></li>
+	<!--{ / }-->    
+    
+  </ul>
+  <button type="button" class="btn_next mainBtn_next">{=__text("다음")}</button>
+</div>
+<!-- ### //main slide ### -->
+<script src="/skin/modern/assets/js/fotocube_main.js"></script>

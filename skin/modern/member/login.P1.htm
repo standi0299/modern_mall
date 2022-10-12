@@ -1,0 +1,156 @@
+{ # header }
+	
+<div class="login_px_list">
+	<!--{ ? _GET.page_type == "nonmember_orderlist" }-->
+		<!--{ ? _cfg.member_system.order_system != "close" }-->
+			<form method="post" action="indb.php" onsubmit="return form_chk(this);">
+				<input type="hidden" name="mode" value="guest">
+				
+				<div class="login_px_pod">
+					<ul style="padding:0;">
+						<li class="active_liev3"><a href="login.php?page_type=login" >로그인</a><li>
+						<li class="active_liev3"><a href="login.php?page_type=nonmember_orderlist"><span style="z-index:99;">비회원 주문관리</span><div class="under_login2"></div></a><li>
+					</ul>
+				</div>
+				
+				<div class="form_px">
+					<ul style="padding:6px; display:inline-block;">
+						<li>
+							<span class="id_px">주문번호</span>
+							<input type="text" placeholder="주문번호" class="text_one" name="payno" {=__label("주문번호")} required/>
+						</li>
+						<li>
+							<span class="id_px">이메일</span>
+							<input type="text" placeholder="이메일" class="text_one" name="email" {=__label("이메일")} required/>
+						</li>
+					</ul>
+					<div class="lo_btn">
+						<button type="submit" class="baapa">주문조회</button>
+					</div>
+				</div>
+			</form>
+		<!--{ / }-->
+	<!--{ : }-->
+		<form name="fmLogin" method="post" <!--{ ? _cfg.ssl_use == 'Y' && ssl_action  }--> action="{ssl_action}" <!--{ : }--> action="indb.php" <!--{ / }--> onsubmit="return form_encode_submit(this);">
+			<input type="hidden" name="mode" value="login">	
+			<input type="hidden" name="rurl" value="{rurl}">
+			<!--{ ? _GET.mode == "order" }-->
+			<input type="hidden" name="mode2" value="{_GET.mode}">
+			<input type="hidden" name="cartno" value="{_GET.cartno}">
+			<!--{ / }-->
+			
+			<input type="hidden" name="mid_en">
+			<input type="hidden" name="password_en">
+			
+			<div class="login_px_pod">
+				<ul style="padding:0;">
+					<li class="active_liev3"><a href="login.php?page_type=login"><span style="z-index:99;">로그인</span><div class="under_login"></div></a><li>
+					<li class="active_liev3"><a href="login.php?page_type=nonmember_orderlist">비회원 주문관리</a><li>
+				</ul>
+			</div>
+			
+			<div class="form_px">
+				<ul style="padding:6px; display:inline-block;">
+					<li>
+						<span class="id_px">아이디</span>
+						<input type="text" placeholder="아이디를 입력해주세요" class="text_one" name="mid" {=__label("아이디")} value='{ _save_id_connect_data.member_id }' required/>
+					</li>
+					<li>
+						<span class="id_px">비밀번호</span>
+						<input type="password" placeholder="비밀번호를 입력해주세요" class="text_one" name="password" {=__label("비밀번호")} required/>
+					</li>
+				</ul>
+				<div class="lo_btn">
+					<button type="submit" class="baapa">로그인</button>
+				</div>
+				<div class="id_check">
+					<div class="id_check_list">
+						<ul style="padding:0;">
+							<li>
+								<input type="checkbox" class="check_idbox" name="save_id" value="Y" {? _save_id_connect_data.save_id=="Y"}checked{:}{/}>
+								<label class="id_chekbox">아이디 저장</label>
+							</li>
+							<!--<li>
+								<input type="checkbox" class="check_idbox" name="save_pw">
+								<label class="id_chekbox">비밀번호 저장</label>
+							</li>-->
+							<li style="margin-left:20px;">
+								<a href="/member/reminderid.php">아이디찾기</a>
+							</li>
+							<li>
+								<img src="/skin/modern/assets/P1/img/border.png" alt="border">
+							</li>
+							<li>
+								<a href="/member/reminderpw.php">비밀번호찾기</a>
+							</li>
+							<!--<li>
+								<img src="/skin/modern/assets/P1/img/border.png" alt="border">
+							</li>
+							<li>
+								<a href="/member/register.php">간편회원가입</a>
+							</li>-->
+						</ul>
+					</div>
+				</div>
+			</div>
+		</form>
+	<!--{ / }-->
+			
+	<div class="event_px">		
+		<div class="event_px_img"><!--{ @ f_banner_s2('pix_login_event') }-->{.banner}<!--{ / }--></div>
+	</div>	
+	
+	<div class="lobr"></div>
+	
+	<!--{ ? _cfg.sns_login.sns_login_use == "Y"}-->
+		<form id="login">
+			<input type="hidden" name="sns_code">
+		</form>
+		
+		<div class="nkfsd">
+			<ul>
+				<!--{ ? _cfg.sns_login.naver_login_use == "Y" }-->
+				<li>
+					<a href="javascript:fnSnsLoginPop('naver');"><div  class="naver_login"></div></a>
+				</li>
+				<!--{ / }-->
+				<!--{ ? _cfg.sns_login.kakao_login_use == "Y" }-->
+				<li>
+					<a href="javascript:fnSnsLoginPop('kakao');"><div  class="kakao_login"></div></a>
+				</li>
+				<!--{ / }-->
+				<!--{ ? _cfg.sns_login.facebook_login_use == "Y" }-->
+				<li>
+					<a href="javascript:fnSnsLoginPop('facebook');"><div  class="face_login"></div></a>
+				</li>
+				<!--{ / }-->
+			</ul>
+		</div>
+	<!--{ / }-->
+	
+	<div class="nkfsbtn">
+		<ul>
+			<li><span>회원가입을 하시면 다양하고 특별한<br>혜택이 준비되어 있습니다.</span></li>
+			<li style="width:100px;"><button type="button" class="nkkbtn" onclick="location.href='"https://".$_SERVER[HTTP_HOST]."https://www.pixstory.co.kr/member/register.php';">회원가입</button></li>
+		</ul>
+		
+		<!--{ ? _cfg.member_system.order_system != "close" }-->
+			<!--{ ? _GET.mode == "order" }-->
+				<!--{ ? !_cfg.design[_cfg.skin].nonmember_order }-->
+					<form name="fmNomemberOrder" action="../order/orderpayment.php">
+						<!--{ ? _GET.cartno }-->
+						<input type="hidden" name="cartno" value="{_GET.cartno}">
+						<!--{ / }-->
+						<input type="hidden" name="buyGuest" value="1">
+						
+						<div class="b_siup">
+							<button type="submit">비회원주문</button>
+						</div>
+					</form>
+				<!--{ / }-->
+			<!--{ / }-->
+		<!--{ / }-->
+	</div>
+</div>
+
+{ # footer }

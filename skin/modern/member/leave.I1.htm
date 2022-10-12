@@ -1,0 +1,73 @@
+{ # header }
+
+<section class="content-container my-page-layout">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col">
+				<a href="../../mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/cancellist.php">{=__text("주문/취소관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/wishlist.php">{=__text("위시리스트")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/coupon.php">{=__text("쿠폰/적립금조회")}</a>
+			</li>
+			<li class="col active">
+				<a href="../../member/myinfo.php">{=__text("회원정보수정")}</a>
+			</li>
+		</ul>
+		<div class="tab-content-wrap">
+			<div class="tab-content" id="account" style="text-align: center;">
+				<div style="margin-top: 10px;">
+					<!--{ ? f_banner_s2('member_leave')}-->
+						<!--{ @ f_banner_s2('member_leave')}-->{.banner}<!--{ / }-->
+					<!--{ : }-->					
+					<img alt="" src="../img/txt_withdrawl.gif">
+					<!--{ / }-->
+				</div>
+				<div id="edit-account-wrap">
+					<form method="post" action="indb.php" {=__onsubmit_confirm("확인버튼을 누르시면 회원탈퇴에 동의하신걸로 간주되어\\r\\n회원님의 모든 정보는 복구되지 않습니다.", "form_encode_submit(this)")}>
+						<input type="hidden" name="mode" value="member_leave">
+						
+						<input type="hidden" name="password_en">
+						
+						<div id="regist_wrap">
+						<table class="tbl01">
+						<tbody>
+							<tr>
+								<th>{=__text("비밀번호")} <span>*</span></th>
+								<td><INPUT name="password" class="input2018" type="password" {=__placeholder("현재 비밀번호를 입력해주세요.")} pt="_pt_pw" required></td>
+							</tr>							
+						</tbody>
+						</table>
+						</div>
+
+						<div class="text-center">
+							<button type="submit" class="btn btn-primary btn-lg">{=__text("회원탈퇴")}</button>
+						</div>
+						<p>&nbsp;</p>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "account-page");
+	//$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }

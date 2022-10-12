@@ -1,0 +1,91 @@
+{ # header }
+
+<script>
+	var _filtercatno = '{_GET.catno}';
+	var _filterfirst = '{_GET.filter}';
+	var _filtersecond = '{_GET.seconfilter}';
+</script>
+<script src="/js/modern_filter.js"></script>
+
+<div id="tab_de_map">
+	<div class="tab_de_map_wrap">
+		<!-- TAB CONTROLLERS -->
+		
+		<!--인기순 최신순-->
+		<input id="panel-0620-ctrl" class="panel-radios" type="radio" name="tab-radios">
+		<input id="panel-0621-ctrl" class="panel-radios" type="radio" name="tab-radios">
+	
+		<!-- TABS LIST -->
+		<div class="tab_one">
+			<p>
+				{rootCateName}
+			</p>
+		</div>
+
+		<!--sub_category-->
+		{p.i->inc('goods/_sub_category.P1.htm')}
+		<!--sub_category-->
+		
+		<!--{ ? substr(_GET.catno,0,3) != "006" }-->
+			<div class="pro_list">
+				<ul>
+					<li id="li-for-panel-0620">
+						<label class="panel-label_pro" for="panel-0620-ctrl"><a href="/goods/list.php?catno={_GET.catno}&orderby=b.hit desc">인기순</a></label>
+					</li>
+					<li id="li-for-panel-0621">
+						<label class="panel-label_pro" for="panel-0621-ctrl"><a href="/goods/list.php?catno={_GET.catno}&orderby=regdt desc">최신순</a></label>
+					</li>
+				</ul>
+			</div>
+		<!--{ / }-->
+
+		<article id="panels">
+			<div class="container" id="panel_cont_2">
+				<section id="panel-1">
+					<ul style="padding-left:18px;">
+						<!--{ @ loop }-->
+						<li>
+							<!--{ ? _GET.filter }-->
+							<a href="/goods/view.php?goodsno={.goodsno}&catno={_GET.catno}&filter={_GET.filter}">
+							<!--{ : }-->
+							<a href="/goods/view.php?goodsno={.goodsno}&catno={_GET.catno}">
+							<!--{ / }-->
+								<div class="les_img" style="background-image: url('{.clistimg}'); background-size: 100% 100%">
+									<ul class="font_body">
+										<li class="font_mo1">
+											{.goodsnm}
+										</li>
+										<li class="font_body-list">
+											<ul>
+												<li class="font_line">
+													{=number_format(.cprice)}{=__text("원")}
+												</li>
+												<li class="font_mo2">
+													{=number_format(.price)}{=__text("원")}
+												</li>
+											</ul>
+										</li>
+										<!--{ ? .goods_set_ea }-->
+										<li class="font_mo3">
+											({.goods_set_ea})
+										</li>
+										<!--{ / }-->
+									</ul>
+								</div>
+							</a>
+						</li>
+						<!--{ / }-->
+					</ul>
+				</section>
+			</div>
+		</article>
+	</div>
+</div>
+
+<div class="left_right_ar">
+	{=pg->page['navi_p1']}
+</div>
+<div style="text-align:center;">
+<!--{ @ f_banner_s2('list_bottom_'+_GET.catno+'_pix') }-->{.banner}<!--{ / }-->
+</div>
+{ # footer }

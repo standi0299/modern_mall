@@ -1,0 +1,105 @@
+{ # header }
+
+<!--{ @ f_banner_s2('service_faq')}-->{.banner}<!--{ / }-->
+
+<div>
+	<!--본 컨텐츠 시작-->
+	<section class="content-container">
+		<div class="tab-container tab-primary">
+			<ul class="h-group tab-menu">
+				<li class="col">
+					<a href="../../board/list.php?board_id=notice">{=__text("공지사항")}</a>
+				</li>
+				<li class="col active">
+					<a href="../../service/faq.php">{=__text("자주 묻는 질문")}</a>
+				</li>
+				<li class="col">
+					<a href="../../mypage/mycs.php">{=__text("문의하기")}</a>
+				</li>
+			</ul>
+			<div class="tab-content-wrap">
+				<div class="tab-content" id="question">
+					<div id="question-content">
+						<div id="question-form">
+							<form action="faq.php" method="post" name="frm">
+								<div class="h-group">
+									<div class="col select-box">
+										<label id="select_value">
+										<!--{ @ faq_selected.catnm }-->
+											{.key_}
+										<!--{ / }-->
+										</label>
+										<select name="catnm">
+											<option value="">ALL</option>
+											<!--{ @ faq_catnm }-->
+												<option value="{.key_}" {faq_selected.catnm[.key_]}>{.key_}</option>
+											<!--{ / }-->
+										</select>
+									</div>
+									<div class="col right">
+										<div>
+											<input type="text" class="input" name="sword" {=__placeholder("검색으로 빠르게 도움말을 찾아보실 수 있습니다.")}>
+										</div>
+										<p>{=__text("예 ) 편집기오류")}</p>
+									</div>
+								</div>
+							</form>
+						</div>
+
+						<!--{ ? faq_seach }-->
+						<div id="keyword-result">
+							<span>{faq_seach}</span> {=__text("에 대한 검색결과")}
+						</div>
+						<!--{ : }-->
+						<div id="question-blank"></div>
+						<!--{ / }-->
+
+						<div id="question-list">
+							<div class="accordion-list">
+								<ul>
+									<!--{ @ loop }-->
+									<li>
+										<div class="h-group question-title">
+											<div class="col">
+												<i>Q.</i>
+											</div>
+											<div class="col">
+												<span>{.q}</span>
+											</div>
+										</div>
+										<div class="h-group answer-text">
+											<div class="col">
+												<i>A.</i>
+											</div>
+											<div class="col">
+												<p>{.a}</p>
+											</div>
+										</div>
+									</li>
+									<!--{ / }-->
+								</ul>
+							</div>
+							<div class="list-pagination">
+								{pg->page['navi']}
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!--본 컨텐츠 끝-->
+</div>
+
+<script type="text/javascript">
+	$j(function() {
+		$j("body").attr("id", "");
+		$j("body").attr("class", "cs-layout");
+	});
+	
+	$j(".tab-menu li").click(function() {
+		location.href = $j(this).children().attr("href");
+	});
+</script>
+
+{ # footer }

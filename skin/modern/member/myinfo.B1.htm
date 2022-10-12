@@ -1,0 +1,179 @@
+{ # header }
+<!--myinfo.B1.htm-->
+
+<!--본 컨텐츠 시작-->
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/mypage_20190110.css">
+<script src="/skin/modern/assets/B1/js/script_20190110.js"></script>
+<section class="content-container myPge-layout">
+
+    <div class="myPge-title">
+        {=__text("마이페이지")}
+    </div>
+    <div class="myPge-tab">
+        <a href="/mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+        <a href="/mypage/design_list.php">{=__text("시안관리")}</a>
+        <a href="/mypage/cancellist.php">{=__text("주문취소관리")}</a>
+        <a href="/mypage/point.php">{=__text("적립금조회")}</a>
+        <a href="/mypage/coupon.php">{=__text("쿠폰조회")}</a>
+        <a href="/member/myinfo.php" class="on">{=__text("회원정보")}</a>
+    </div>
+    <div class="clear"></div>
+    <style>
+        .memberWrap {
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            margin: 30px 0 0 0;
+            background: #f5f5f5;
+        }
+        
+        .memberWrap #regist_wrap {
+            border: none;
+        }
+    </style>
+
+    <form name="fm" method="post" action="indb.php" onsubmit="return form_chk2()&&form_encode_submit(this);">
+        <input type="hidden" name="mode" value="{mode}">
+        <input type="hidden" name="chkMid">
+        <input type="hidden" name="chkPassword">
+        <input type="hidden" name="chkResno">
+        <input type="hidden" name="domain" value="{_SERVER.HTTP_HOST}">
+        <input type="hidden" name="rurl" value="{rurl}">
+
+        <input type="hidden" name="mid_en">
+        <input type="hidden" name="password_en">
+        <input type="hidden" name="password2_en">
+
+        <div class="cyanAppnDetails">
+            <h1 class="cyanAppDetails-h1">{=__text("회원정보 확인 및 수정")}</h1>
+            <h2 class="cyanAppDetails-h2">{=__text("고객님이 등록하신 회원정보를 확인하실 수 있습니다.")}</h2>
+            <!--<h2 class="cyanAppDetails-h2"><a href="leave.php" id="account-destroy">{=__text("회원탈퇴")}</a></h2>-->
+            <div class="memberWrap">{p.i->inc('/member/fm_member.htm')}</div>
+            <div class="text-center" style="margin:30px auto;">
+                <button type="button" class="btn btn-blue-link btn-lg" onclick="javascript:history.back();" style="width: 203px; margin-right:20px; color: rgb(26, 155, 252);">{=__text("취소")}</button>
+                <button type="submit" class="btn btn-primary btn-lg" style="width:203px;">{=__text("확인")}</button>
+            </div>
+        </div>
+    </form>
+
+</section>
+<!--본 컨텐츠 끝-->
+
+<script type="text/javascript">
+    var fm = document.fm;
+    fm.chkPassword.value = "chk";
+
+    function chk_password() {
+        if (fm.old_password.value) {
+            $j.post("indb.php", {
+                    mode: "chkPassword",
+                    mid_en: Base64.encode(fm.mid.value),
+                    password_en: Base64.encode(fm.old_password.value)
+                },
+                function(data) {
+                    if (data == "Ok") {
+                        if (!fm.password.value) {
+                            alert('<?=_("신규 비밀번호를 입력해주세요.")?>');
+                            fm.password.focus();
+                            return;
+                        } else if (!_pattern(fm.password)) {
+                            alert('<?=_("비밀번호는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.")?>');
+                            fm.password.value = "";
+                            fm.password.focus();
+                            return;
+                        }
+
+                        if (!fm.password2.value) {
+                            alert('<?=_("신규 비밀번호 확인을 위해 한번 더 입력해주세요.")?>');
+                            fm.password2.focus();
+                            return;
+                        }
+
+                        fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+
+                        //비밀번호와 비밀번호확인이 다르면 비밀번호확인 텍스트박스 값을 지워줌 / 14.04.25 / kjm
+                        if (!fm.chkPassword.value) {
+                            alert('<?=_("신규 비밀번호가 일치하지 않습니다.")?>' + "\n" + '<?=_("다시 입력해주세요.")?>');
+                            fm.password.value = '';
+                            fm.password2.value = '';
+                            fm.password.focus();
+                        }
+                    } else {
+                        alert('<?=_("현재 비밀번호가 일치하지 않습니다.")?>');
+                        fm.old_password.value = '';
+                        fm.password.value = '';
+                        fm.password2.value = '';
+                        fm.old_password.focus();
+                    }
+                });
+        } else {
+            if (fm.password.value || fm.password2.value) {
+                alert('<?=_("현재 비밀번호를 입력해주세요.")?>');
+                fm.password.value = '';
+                fm.password2.value = '';
+                fm.old_password.focus();
+            } else {
+                fm.chkPassword.value = "chk";
+            }
+        }
+    }
+
+    function auto_set_email(obj, name) {
+        $j("input[name=email[]]:last").val($j(obj).val());
+    }
+
+    function auto_focus(obj, idx) {
+        //return;	/* 자동포커스 이동 사용하지 않을시 주석제거 */
+
+        switch (obj.name) {
+            case "phone[]":
+            case "cust_ceo_phone[]":
+            case "cust_phone[]":
+            case "cust_fax[]":
+                if ((idx == 1 && obj.value.length == 3) || (idx == 2 && obj.value.length == 4)) obj.form[obj.name][idx].focus();
+                break;
+            case "mobile[]":
+                if (obj.value.length == 4) obj.form['mobile[]'][idx].focus();
+                break;
+        }
+    }
+
+    function form_chk2() {
+        if (fm.chkPassword.value != "chk") {
+            alert('<?=_("비밀번호를 확인해주세요.")?>');
+            fm.password.focus();
+            return false;
+        }
+
+        if (fm['cust_no[]'] != undefined) {
+            if ((fm['cust_no[]'][0].value || fm['cust_no[]'][1].value || fm['cust_no[]'][2].value) && fm.cust_no_check.value != "ok") {
+                alert('<?=_("사업자등록번호를 확인해주세요.")?>');
+                fm['cust_no[]'][0].focus();
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    $j(function() {
+        $j("body").attr("id", "account-page");
+        //$j("body").attr("class", "my-page-layout");
+        $j(".tab-menu li").css("width", "240px");
+        $j(".tab-menu li").css("height", "61px");
+        $j(".tab-menu li a").css("font-size", "16px");
+        $j(".form-group").css("margin", "15px 0 0 0");
+        $j(".btn-blue-link").css("color", "#1a9bfc");
+
+        $j('input[type2=number]').css('ime-mode', 'disabled').keypress(function(event) {
+            if (event.which && (event.which < 48 || event.which > 57)) {
+                event.preventDefault();
+            }
+        });
+    });
+
+    $j(".tab-menu li").click(function() {
+        location.href = $j(this).children().attr("href");
+    });
+</script>
+
+{ # footer }

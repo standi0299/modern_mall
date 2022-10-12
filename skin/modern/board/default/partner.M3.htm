@@ -1,0 +1,110 @@
+{ # header }
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">마케팅/사업제휴</h2>
+		<div class="page-bg" style="background-image:url(/skin/modern/assets/M2/images/inquire_bg2.jpg);">
+			<img src="/skin/modern/assets/M2/images/imgtxt_growing.png" alt="" />
+			<p><u>함께할 수 있는 다양한 마케팅/사업제휴를 기다리고 있습니다.</u></p>
+		</div>
+		<h3 class="table-title">마케팅/사업제휴 문의하기</h3>
+		<script>
+			// 팝업 select
+			$(function(){
+				$('.custom-select-wrap > a').click(function(e){
+					e.preventDefault();
+					$(this).next().toggle();
+				});
+				$('.custom-select-wrap .custom-select li a').click(function(e){
+					e.preventDefault();
+					var txt = $(this).text();
+					$(this).parents('.custom-select').siblings('a').text(txt);
+					$(this).parents('.custom-select').hide();
+				});
+			});
+		</script>
+		<table class="inquiry-table-write type2">
+			<colgroup>
+				<col width="200" />
+				<col width="530" />
+				<col width="124" />
+				<col width="*" />
+			</colgroup>
+			<tbody>
+				<tr>
+					<th>회사·단체명</th>
+					<td>
+						<input type="text" class="wd316" placeholder="회사/단체명 입력해 주세요." />
+					</td>
+					<th>담당자</th>
+					<td>
+						<input type="text" class="wd316" placeholder="담당자 이름을 입력해 주세요." />
+					</td>
+				</tr>
+				<tr class="tr-2">
+					<th>전화 번호</th>
+					<td>
+						<div class="input-phone">
+							<input type="text" class="wd85" />
+							<span>-</span>
+							<input type="text" class="wd100" />
+							<span>-</span>
+							<input type="text" class="wd100" />
+						</div>
+						<div class="checkbox custom">
+							<input type="checkbox" id="chk_sms" name="" class="css-checkbox" value="">
+							<label for="chk_sms" class="css-label">
+								<span>답변완료시 SMS로 알림</span>
+							</label>
+						</div>
+					</td>
+					<th>이메일</th>
+					<td>
+						<input type="text" class="wd316" placeholder="답변 받으실 이메일을 입력해 주세요." />
+					</td>
+				</tr>
+				<tr class="tr-1">
+					<th>문의 유형</th>
+					<td colspan="3">
+						<div class="custom-select-wrap">
+							<a href="#">문의유형을 선택해 주세요.</a>
+							<div class="custom-select">
+								<ul>
+									<li><a href="#">프로모션 10% 할인쿠폰</a></li>
+									<li><a href="#">카메라 전상품 5% 적립쿠폰</a></li>
+									<li><a href="#">전고객 무료배송 쿠폰</a></li>
+									<li><a href="#">구매왕 프로모션 10,000원 할인 쿠폰</a></li>
+								</ul>
+							</div>
+						</div>
+					</td>
+				</tr>
+				<tr class="tr-3">
+					<th>문의 제목/내용</th>
+					<td colspan="3">
+						<input type="text" />
+						<textarea></textarea>
+					</td>
+				</tr>
+				<tr class="tr-4">
+					<th>파일 첨부</th>
+					<td colspan="3">
+						<div class="attach-top">
+							<a href="#" class="btn_attach">파일첨부</a>
+							<span>5MB이하 파일, 최대 2개까지 첨부 가능 합니다.  (PPT, JPG, AI, ZIP, HWP, DOC 파일 첨부 가능)</span>
+						</div>
+						<div class="attach-bottom">
+							<p>서비스 제휴 제안서.ppt</p>
+							<p>함께하는사람들 조직도.jpg</p>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="btn_wrap mt40 inquiry_btn_wrap">
+			<button class="btn_return"><span>문의목록 돌아가기</span></button>
+			<button class="btn_inquiry"><span>문의하기</span></button>
+		</div>
+	</div><!-- container_inner End -->
+</div>
+
+{ # footer }

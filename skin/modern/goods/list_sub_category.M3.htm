@@ -1,0 +1,104 @@
+{ # header }
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">{catnm}</h2>
+		<div class="category-nav">
+			<ul class="category-nav-depth1">
+				<!--{ @ sub_cate }-->
+					<li rel="tab{.index_}"><a href="/goods/list.php?catno={.catno}" <!--{ ? (_GET.catno == .catno) || (substr(_GET.catno, 0, 6) == .catno) }-->class="on"<!--{ / }--> >{.catnm}</a></li>
+				<!--{ / }-->
+			</ul>
+			<div class="category-nav-depth2">
+				<ul>
+					<!--{ @ sub_cate }-->
+						<!--{ @ .sub }-->
+							<!--{ ? substr(..key_, 0, 6) == substr(_GET.catno, 0, 6) }-->
+								<li>{..category_link_tag}{=..catnm}</a></li>
+							<!--{ / }-->
+						<!--{ / }-->
+					<!--{ / }-->
+				</ul>
+			</div>
+		</div>
+
+		<div class="product-list">
+			<div class="product-list-top">
+				<div class="product-list-sort">
+					<ul>
+						<li><a href="/goods/list.php?catno={_GET.catno}&orderby=b.hit desc">인기순</a></li>
+						<li><a href="/goods/list.php?catno={_GET.catno}&orderby=regdt desc">최신순</a></li>
+					</ul>
+				</div>
+				<div class="product-list-total">총 {=number_format(pg->recode['total'])}개</div>
+			</div>
+			<ul>
+				<!--{ @ loop }-->
+				<li onclick="move_goods_view('{.goodsno}', '{.catno}')" style="cursor: pointer">
+					<a>
+						<div class="thumbnail-wrap">
+							<div class="thumbnail">
+								<div class="thumbnail-img" style="background-image: url('{.clistimg}'), url('/skin/modern/img/noimg.png');">
+								</div>
+								<button type="button" class="btn_wish <!--{ ? .goods_like == 'Y' }-->on<!--{ / }-->" onclick="set_goods_like('{.goodsno}', '{_sess.mid}');"></button>
+							</div>
+						</div>
+						<div class="thumbnail-info">
+							<p class="product-name">{.goodsnm}</p>
+							<p class="product-price">
+								<!--{ ? .cprice > 0 && (.cprice != .price) }-->
+								{=number_format(.cprice)}{=__text("원")}22
+								<!--{ / }-->
+							</p>
+							<p class="product-reduced-price">{=number_format(.price)}{=__text("원")}</p>
+							<p><!--{ ? .state == 1 }--><br/><del>[{=__text("품절")}]</del><!--{ / }--></p>
+						</div>
+					</a>
+				</li>
+				<!--{ / }-->
+			</ul>
+			
+			{=pg->page['navi_m2']}
+		</div>
+	</div>
+</div>
+
+<form name="searchFm">
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="orderby" value=""/>
+</form>
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+</form>
+
+<script src="/js/plugin/jquery.cycle.js"></script>
+<script>
+$j(function(){
+	$j("div", "#goods_sort").each(function(){
+		if("{_GET.orderby}" == $j(this).attr("sort"))  $j(this).css({"color":"#5F87D1","font-weight":"bold"});
+	});
+	$j("a", "#goods_sort").click(function(){
+		$j("input[name=orderby]").val($j(this).attr("sort"));
+		document.searchFm.submit();
+	});
+});
+
+//tab-content 를 강제로 변경해 준다.
+function tabActive(tabID)
+{	
+	if (tabID != "tab0")
+	{
+		$('#tab0').hide();
+		$('#' + tabID).show();
+	}
+}
+
+</script>
+<script type="text/javascript">  
+var pod_signed = ""; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+{ # footer }

@@ -1,0 +1,83 @@
+<HTML>
+<HEAD>
+<TITLE> Socket 통신 요청 Samplepage</TITLE>
+
+<script language="javascript">
+<!--
+function sendCancel(){
+
+  document.bbb.submit();
+}
+-->
+</script>
+</HEAD>
+
+<BODY BGCOLOR="#FFFFFF">
+<form name="aaa" method="post" action="./send_request.php">
+<h2><b>승인 요청</b></h2>
+<table width="600">
+  <tr>
+    <td width="20%"></td>
+    <td width="30%"></td>
+    <td width="20%"></td>
+    <td width="30%"></td>
+  </tr>
+  <tr>
+    <td>거래금액</td>
+    <td><input type="text" name="price" value="1000"></td>
+    <td width="20%">Card 번호</td>
+    <td width="30%"><input type="text" name="card_num" value="2499999601110312"></td>
+  </tr>
+  <tr>
+    <td>상품유형</td>
+    <td><select name="prize">
+        <option value="1000">1000</option>
+        <option value="1001">1001</option>
+        <option value="1002">1002</option>
+        <option value="1003">1003</option>
+        <option value="1004">1004</option>
+        <option value="1005">1005</option>
+        <option value="1006">1006</option>
+        <option value="1007">1007</option>
+      </select></td>
+    <td>리더스사용자ID</td>
+    <td><input type="text" name="userid" value="duck"></td>
+  </tr>
+  <tr>
+    <td>생일</td>
+    <td><input type="text" name="birth" value="710614"></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td colspan="4"><input type="submit" value="go!!"></td>
+  <tr>
+</table>
+</form>
+
+<form name="bbb" method="post" action="./send_cancel.php">
+<br><br><br>
+<hr size="1" width="600" align="left">
+<br>
+<h2><b>취소 요청</b></h2>
+<table width="600">
+
+  <tr>
+    <td width="20%"></td>
+    <td width="30%"></td>
+    <td width="20%"></td>
+    <td width="30%"></td>
+  </tr>
+  <tr>
+    <td>승인번호</td>
+    <td><input type="text" name="ack_num" value="008     " size=8 maxlength=8></td>
+    <td>카드번호</td>
+    <td><input type="text" name="card_num" value="2499999601110312" maxlength=16 size=16></td>
+  <tr>
+    <td colspan="4"><input type="button" value="go!!" onclick="sendCancel();"></td>
+  <tr>
+</table>
+</form>
+
+</BODY>
+</HTML>

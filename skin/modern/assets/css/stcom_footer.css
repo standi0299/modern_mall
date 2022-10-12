@@ -1,0 +1,44 @@
+﻿/*푸터*/
+#footer {
+    width: 100%;
+    font-family: 돋움;
+    font-size: 12px;
+    margin: 0 auto;
+    padding: 80px 0 65px;
+    clear: both;
+}
+
+    #footer ul {
+        width: 400px;
+        height: 12px;
+        margin: 0 auto 21px;
+    }
+
+        #footer ul li {
+            float: left;
+        }
+
+            #footer ul li span {
+                margin: 0 2px;
+            }
+
+            #footer ul li a {
+                color: #808080;
+            }
+
+    #footer p {
+        clear: both;
+        margin: 0 auto;
+        text-align: center;
+        color: #808080;
+    }
+
+    #footer .info {
+        width: 623px;
+        line-height: 17px;
+    }
+
+    #footer .copy {
+        font-family: 'Noto Sans';
+        margin-top: 21px;
+    }

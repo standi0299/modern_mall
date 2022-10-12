@@ -1,0 +1,147 @@
+
+<form name="fm_cart" method="post" onsubmit="return isChked('cartno[]')" action="cart.php">
+<input type="hidden" name="mode" value="add_extra_cart">
+
+<table class="tb3 eng">
+<tr>
+	<th width="30" onclick="chkBox('cartno[]','rev')" class="no_left_border">{=__text("선택")}</th>
+	<th width="110">{=__text("상품")}</th>
+	<th>{=__text("의뢰/발행내용")}</th>
+	<th width="160">{=__text("의뢰/발행일시")}</th>
+	<th width="70">{=__text("견적가격")}</th>
+	<th width="70">{=__text("내용보기")}</th>
+</tr>
+
+<!--{ @ loop }-->
+<tr height="30" align="center">
+	<td>
+		<input type="checkbox" id="chk_{.cartno}" name="cartno[]" value="{.cartno}">
+		<input type="hidden" id="txt_{.cartno}" value="{.est_price}">
+	</td>
+	<td valign="top">
+		<a href="{.link}">
+			{=goodsListImg(.goodsno,'100','','border:1px solid #dedede')}
+		</a>
+	</td>		
+	<td class="c1">
+	
+		<div class="small" style="line-height:150%;margin-top:5px;">
+				
+		<a href="{.link}"><span class="green">{.goodsnm}</span></a><br/>
+		
+		<!--{ ? .title }-->
+		<div style="padding-left:10px">{=__text("주문제목")} : {.title}</div>
+		<!--{ / }-->
+		
+		<div style="padding-left:10px">{=__text("의뢰내용")} :
+			<div style="padding-left:55px">
+			
+			<!--{ ? .est_cnt }-->
+				<!--{ @ .est_cnt }-->
+					<div><span>{=__text("수량")}:</span><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+			<!--{ / }-->
+			<!--{ ? .est_document }-->
+				<!--{ @ .est_document }-->
+					<div><span>{=__text("규격")}:</span><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+			<!--{ / }-->			
+			<!--{ ? .est_cover }-->
+				<div><span>{=__text("표지")}:</span>
+				<!--{ @ .est_cover }-->
+					<div style="padding-left:25px"><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+				</div>
+			<!--{ / }-->
+			<!--{ ? .est_page }-->
+				<div><span>{=__text("내지")}:</span>
+				<!--{ @ .est_page }-->
+					<div style="padding-left:25px"><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+				</div>
+			<!--{ / }-->
+			<!--{ ? .est_add_page }-->
+				<!--{ @ .est_add_page }-->
+					<div><span>{=__text("추가내지")}:</span>
+					<!--{ @ ..value_ }-->
+						<div style="padding-left:25px"><span>{ ...value_ }</span></div>
+					<!--{ / }-->
+					</div>
+				<!--{ / }-->
+			<!--{ / }-->
+			<!--{ ? .est_m_page }-->
+				<div><span>{=__text("면지")}:</span>
+				<!--{ @ .est_m_page }-->
+					<div style="padding-left:25px"><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+				</div>
+			<!--{ / }-->
+			<!--{ ? .est_g_page }-->
+				<div><span>{=__text("간지")}:</span>
+				<!--{ @ .est_g_page }-->
+					<div style="padding-left:25px"><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+				</div>
+			<!--{ / }-->									
+			<!--{ ? .est_fix_option }-->
+				<div><span>{=__text("옵션")}:</span>
+				<!--{ @ .est_fix_option }-->
+					<div style="padding-left:25px"><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+				</div>
+			<!--{ / }-->
+			<!--{ ? .est_after_option }-->
+				<div><span>{=__text("후가공")}:</span>
+				<!--{ @ .est_after_option }-->
+					<div style="padding-left:25px"><span>{ ..value_ }</span></div>
+				<!--{ / }-->
+				</div>
+			<!--{ / }-->			
+						
+			</div>
+		</div>
+
+		<!--{ ? .files }-->
+		<div style="padding-left:10px">{=__text("첨부파일")} : {.files}</div>
+		<!--{ / }-->
+		
+		<!--{ ? .est_order_memo }-->
+		<div style="padding-left:10px">{=__text("주문메모")} : {.est_order_memo}</div>
+		<!--{ / }-->
+		</div>
+
+	</td>
+
+	<td align="left">
+		
+		<!--{ ? .order_status == "p" }-->
+			<div class="gray">{=__text("발행")} :<span class="blue">{=substr(.est_order_datedt,0,19)}</span></div>
+		<!--{ : }-->
+			<div class="gray">{=__text("발행 :견적준비 중")}</div>
+		<!--{ / }-->		
+		
+		<div class="gray">{=__text("의뢰")} : {=substr(.updatedt,0,19)}</div>
+	</td>
+
+	<td>
+		<b>
+			<!--{ ? .est_price != "0" }-->
+				{=number_format(.est_price)}
+			<!--{ / }-->
+		</b>
+	</td>
+	
+	<td class="small">
+		<div class="desc">
+			<a href="javascript:;" onclick="popup('extra_cart_view.php?cartno={.cartno}',800,600)" class="hand green">{=__text("상세보기")}</a>
+		</div>
+	</td>
+</tr>
+<!--{ : }-->
+<tr height="200"><td colspan="7" align="center">{=__text("검색된 데이타가 없습니다")}</td></tr>
+<!--{ / }-->
+</table>
+
+<div class="page">{pg->page['navi']}</div>
+
+</form>

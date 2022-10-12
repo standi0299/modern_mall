@@ -1,0 +1,43 @@
+<div id="body_wrap">
+<div class="main_prod">
+    <ul class="main_prod_list">
+
+		<!--{ ? _blockDataArr.main_block_11.goods }-->
+			<!--{ @ _blockDataArr.main_block_11.goods }-->
+        <li class="main_prod_{.index_ + 1} main_products">
+            <div class="main_prod_off">
+                <div class="main_prod_text">
+                    <span>
+                    <!--{ @ .icon_filename }-->
+											<img src="/data/icon/{_cid}/{..value_}" />
+										<!--{ / }-->
+                    </span>
+                    <a href="#">{.goodsnm}</a>
+                </div>
+                <img src="{.clistimg}" />
+                
+            </div>
+
+            <div class="main_prod_on">
+                <div class="main_prod_text">
+                    <span class="icon_btn">
+                    <!--{ ? .wishlist_no }-->                    	
+                        <img src="/skin/modern/assets/images/stcom/main_pro_btn_01_count.png" />                        
+                    <!--{ : }-->
+                        <img src="/skin/modern/assets/images/stcom/main_pro_btn_01.png" />
+                        <img src="/skin/modern/assets/images/stcom/main_pro_btn_01_on.png" class="hidden" />
+      							<!--{ / }-->                  
+                    </span>
+                </div>
+                <a href="/goods/view.php?goodsno={.goodsno}"><img src="/skin/modern/assets/images/stcom/temp/main_prod_01_on.jpg" {=__alt("클래식앨범")} /></a>
+            </div>
+        </li>
+			<!--{ / }-->
+		<!--{ / }-->    
+
+       
+        
+    </ul>
+</div>
+
+</div>

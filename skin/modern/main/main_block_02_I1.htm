@@ -1,0 +1,36 @@
+<!--main_block_02_I1-->
+<section class="section section-primary section-padding">
+    <div class="content-container">
+        <!--{ @ f_banner_s2('main_goods_list_title2')}-->{.banner}
+        <!--{ / }-->
+
+        <div class="list-container">
+            <ul class="h-group list-type-tile">
+                <!--{ ? _blockDataArr.main_block_02_I1.goods }-->
+                <!--{ @ _blockDataArr.main_block_02_I1.goods }-->
+                <li class="col tile-content">
+                    <div class="thumbnail-link">
+                        <div class="zoom-focus">
+                            <!--<a href="javascript:setWishlist('', '', '742');" class="focus-btn pick-btn"></a>-->
+                            <a class="focus-btn zoom-btn" href="/goods/view.php?goodsno={.goodsno}"></a>
+                            <a class="thumbnail-click" href="../goods/view.php?goodsno={.goodsno}"></a>
+                        </div>
+                        <div class="thumbnail" style="background:  url('{.clistimg}'), url('/skin/modern/img/noimg.png')"></div>
+                    </div>
+                    <div class="title text-center ellipsis">
+                        <a href="/goods/view.php?goodsno={.goodsno}">{.goodsnm}</a>
+                    </div>
+                    <div class="price text-center">
+                        {=number_format(.price)}원
+                    </div>
+                    <div class="tags text-center">
+                        &nbsp;
+                    </div>
+                </li>
+                <!--{ / }-->
+                <!--{ / }-->
+            </ul>
+        </div>
+    </div>
+</section>
+<!--main_block_02_I1-->

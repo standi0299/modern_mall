@@ -1,0 +1,348 @@
+{ # header }
+<!--view_horizon.htm-->
+
+<script src="/js/cloudzoom/cloud-zoom.1.0.3.js"></script>
+<link href="/js/cloudzoom/cloud-zoom.css" rel="stylesheet" type="text/css" />
+<script src="/js/cloudzoom/thumbelina.js"></script>
+<link href="/js/cloudzoom/thumbelina.css" rel="stylesheet" type="text/css" />
+
+
+<script type="text/javascript">
+	(function($){
+		$(document).ready(function(){			
+			$('#slider_horizen').Thumbelina({
+        $bwdBut:$('#slider_horizen .left'),     // Selector to top button.
+        $fwdBut:$('#slider_horizen .right')   // Selector to bottom button.
+   		});
+		});
+	})(jQuery1_11_0);
+</script>    
+
+
+<style type="text/css">
+	/* Some styles for the containers */
+  #slider_horizen {
+  	position:relative;
+  	margin-left:20px;
+    width:1160px;
+    height:93px;
+    border-top:1px solid #aaa;
+    border-bottom:1px solid #aaa;
+	}
+</style>
+
+
+<!--{ ? _cfg.sns_goods }-->        
+<link href="/skin/modern/assets/css/sns.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="/js/sns.js"></script>
+<script type="text/javascript">
+var sitename = "{_cfg.seo_title}"; //사이트명
+var sns_page_comment = "{goodsnm}"; //해당 페이지의 간단설명
+sns_page_comment = sns_page_comment.replace(/"/gi, '&quot;');
+sns_page_comment = sns_page_comment.replace(/'/gi, '\\&#39;');
+//var sns_link_url = location.href; //해당 링크 주소
+var sns_link_url = "http://{_SERVER['HTTP_HOST']}{_SERVER['REQUEST_URI']}"; //해당 링크 주소
+</script>
+<!--{ / }-->
+
+<!--{ ? !_cfg.list_catnav }-->
+<section class="content-container location-sort">
+	<div class="h-group">
+		<div class="col location">
+			<a href="../main/index.php">HOME</a>
+			<span> > </span>
+			{=f_getCategoryPos(_GET.catno,'<span> > </span>')}
+		</div>		
+	</div>
+</section>
+<!--{ / }-->
+
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+
+<section class="content-container detail-header" id="detail-landscape">
+	<div class="h-group detail-title">
+		<div class="col">
+			<h2>{goodsnm}</h2>
+		</div>
+		<div class="col">
+			<!--{ @ icon_filename }-->
+				<img src="/data/icon/{_cid}/{.value_}" />
+			<!--{ / }-->
+			<!--<p><span>BEST ITEM</span></p>-->
+		</div>
+		<div class="col" id="detail-title-tag">
+			<!--{ ? hash_tag }-->{hash_tag}<!--{ / }-->
+		</div>
+				
+		<!--div class="col right">
+			<a href="#" class="btn btn-sm" style="background-color: red;" onclick="setWishlist('{_sess.mid}', '{_GET.catno}', '{goodsno}');">{=__text("찜하기")}</a>
+		</div-->
+		<!--{ ? _cfg.sns_goods }-->
+		<div class="col right">
+			<a href="#" onclick="showSnsLayer();"><img src="/skin/modern/assets/images/goods_share.png" height="40"></a>
+		</div>
+		<!--{ / }-->
+	</div>
+	
+	<!--{ ? _cfg.sns_goods }-->
+	<div id="ly_sns" class="lypop ly_sns" style="display: none;">
+		<ul class="sns_lst">
+			<li><a href="javascript:goFaceBook(sns_page_comment, sns_link_url);" class="sp btn_sns faceboo" data-sharer-profile="facebook">{=__text("페이스북")}</a><span class="sns_txt">{=__text("페이스북")}</span></li>
+			<li><a href="javascript:goTwitter(sns_page_comment, sns_link_url);" data-sharer-profile="twitter" class="sp btn_sns twitter">{=__text("트위터")}</a><span class="sns_txt">{=__text("트위터")}</span></li>
+			<li><a href="javascript:goKakaoStory(sns_page_comment, sns_link_url);" data-sharer-profile="kakaostory" class="sp btn_sns kakaostory">{=__text("카카오스토리")}</a><span class="sns_txt">{=__text("카카오스토리")}</span></li>
+		</ul>
+		<div class="sns_url_copy" id="divUrlShorten">
+			<input class="sns_url_box" id="sns_url_box" value="http://{_SERVER['HTTP_HOST']}{_SERVER['REQUEST_URI']}" />
+			<button class="btn_url" type="button" onclick="url_copy($('#sns_url_box').val());">{=__text("URL 복사")}</button>
+		</div>
+		<span class="sp box_arr">box</span>
+	</div>
+	<!--{ / }-->
+	
+	
+	<div>
+			<table width="100%" height="100%" cellpadding=0 cellspacing=0 style="margin-top:0px;background-color: white;" border="0">			
+				<tr>		
+					<td valign="top">
+						<a href='{img[0]}' class='cloud-zoom' id='big_img' rel="tintOpacity:0.5,smoothMove:5,adjustX:10, adjustY:-4, zoomWidth:400"><img src="{img[0]}" alt='' title="Zoom Image" style="max-width:{_cfg.img_horizen_w}px;max-height:{_cfg.img_horizen_w}px;" onerror="$j(this).attr('src','/skin/modern/img/noimg.png')" /></a>
+					</td>
+				</tr>
+				<tr >
+					<td valign="top" style="padding-top: 10px; padding-bottom:10px">						
+						<div  id="slider_horizen" class="thumbelina">
+				            <div class="thumbelina-but horiz left">&#706;</div>
+				            <ul>
+				                
+				           	<!--{ @ img }-->
+					          <li>
+								<a href='{.value_}' class='cloud-zoom-gallery' rel="useZoom: 'big_img', smallImage: '{.value_}' "><img class="zoom-tiny-image" src="{.value_}" style="max-height:81px;" onerror="$j(this).attr('src','/skin/modern/img/noimg.png')" /></a>					
+							  </li>
+							<!--{ / }-->                
+				               
+				            </ul>
+				            <div class="thumbelina-but horiz right">&#707;</div>
+	        			</div>					
+					</td>
+				</tr>			
+			</table>
+			
+		
+	</div>
+	<div class="h-group detail-data" id="detail-title-content-landscape">
+		<div class="col description-wrap">
+			<div class="detail-warning">
+				{_category.infohtml}
+			</div>
+			<div class="description-btn">{=__text("상품설명 자세히보기")}</div>
+			<div class="description-content">
+				{p.i->inc('/goods/_view.goods_desc.htm')}
+			</div>
+		</div>
+		<div class="col right" id="detail-info-landscape">
+			
+			<!--{ ? pageprice }-->
+			<div class="h-group detail-option">
+				<div class="col">{=__text("페이지추가 가격")}</div>
+				<div class="col">
+					<label>{=number_format(pageprice)}{=__text("원")} ({=__text("본 가격은 추가단위당의 가격입니다.")})</label>					
+				</div>
+			</div>			
+			<!--{ / }-->
+						
+			<!--{ ? !in_array(podskind,array(28,3180)) }-->
+			<!--{ @ r_opt }-->
+			<div class="h-group detail-option">
+				<div class="col">{?optnm[.index_]}{optnm[.index_]}{:}{=__text("옵션")}{.index_+1}{/}</div>
+				<div class="col">
+					<label></label>
+					<select name="optno[]" onchange="updateOption(this)" required>
+					<option value="">{=__text("선택")}</option>
+					<!--{ ? .index_==0 }-->
+					<!--{ @ .item }-->
+					<option value="{..optno}" title="{..optnm}" stock="{..stock}" podoptno="{..podoptno}" productid="{..podsno}" <!--{?..optnm == f_getCaseNm(cgoods_size)}--> selected <!--{/}-->>{..optnm}<!--{ ? ..aprice && count(r_opt)==1 }--> (+{=number_format(..aprice)}{=__text("원")})<!--{ / }--></option>
+					<!--{ / }-->
+					<!--{ / }-->
+					</select>
+				</div>
+			</div>
+			<!--{ / }-->
+			<!--{ / }-->
+			
+			<!--{ @ r_addopt }-->
+			<div class="h-group detail-option">
+				<div class="col">{.addopt_bundle_name}</div>
+				<div class="col">
+					<label></label>
+					<select name="addopt[]" { ? .addopt_bundle_required }required{/}>
+					<option value="">{=__text("선택")}</option>
+					<!--{ @ .addopt }-->
+					<option value="{..addoptno}">{..addoptnm}<!--{ ? ..addopt_aprice && count(r_addopt)==1 }--> (+{=number_format(..addopt_aprice)}{=__text("원")})<!--{ / }--></option>
+					<!--{ / }-->
+					</select>
+				</div>
+			</div>			
+			<!--{ / }-->
+
+			<!--{ ? !podskind }-->
+			<div class="h-group detail-option">
+				<div class="col">{=__text("수량")}</div>
+				<div class="col">
+					<label></label>
+					<input type="text" name="ea" value="1" size="2" pt="_pt_numplus"/>  {?unitword}{unitword}{:}ea{/}
+				</div>
+			</div>
+			<!--{ : }-->
+			<input type="hidden" name="ea" value="1"/>
+			<!--{ / }-->
+
+			<!--{ @ exp }-->
+			<div class="h-group detail-option">
+				<div class="col">{.name}</div>
+				<div class="col">
+					<label>{.value}</label>
+				</div>
+			</div>			
+			<!--{ / }-->
+
+			<!--{ ? r_printopt }-->
+			<div class="h-group detail-option">
+				<div class="col">{=__text("인화옵션")}</div>
+				<div class="col">
+					<label> </label>
+					<table class="tb_printopt">
+					<tr>
+						<th>{=__text("사이즈")}</th>
+						<th>{=__text("가격")}</th>
+						<th>{=__text("적립금")}</th>
+					</tr>
+					<!--{ @ r_printopt }-->
+					<tr>
+						<th>{.printoptnm}</th>
+						<td>￦ {=number_format(.print_price)}</td>
+						<td>￦ {=number_format(.print_reserve)}</td>
+					</tr>
+					<!--{ / }-->
+					</table>					
+				</div>
+			</div>
+			<!--{ / }-->
+			
+			<div class="detail-sell-data">
+				<div class="detail-price">	
+					<!--{? cprice}-->
+						<div class="price-normal"><del>{=__text("소비자가격")} <span id="goods_cprice">{=number_format(cprice)}{=__text("원")}</span></del></div>
+					<!--{ / }-->	
+		
+					<div class="price-discount">{=__text("판매가격")} 
+						<!--{ ? strprice }-->
+							<span>{strprice}</span>
+						<!--{ : }-->
+							<span id="goods_price">{=number_format(price)}{=__text("원")}</span>
+							<!--{? cprice}-->
+								<div class="price-normal" id="goods_cprice_x">(▼ {=number_format(cprice-price)}{=__text("원 할인")})</div>
+							<!--{ / }-->
+						<!--{ / }-->
+					</div>
+				</div>				
+				<!--{ ? podskind > 0 }-->
+				<div class="h-group detail-option">
+					<div class="col">
+						<a href="#" {=__onclick_alert("제작상품은 제작 후 장바구니에 담을 수 있습니다.")}>
+							<img src="../assets/images/cart-btn.png" alt="">
+						</a>
+					</div>
+					<div class="col">
+						<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn btn-lg edit-btn">{=__text("편집 시작하기")}</a>
+					</div>
+				</div>
+				<!--{ : }-->
+				<div class="h-group detail-option">
+					<div class="col">
+						<a href="javascript:exec('cart');">
+							<img src="../assets/images/cart-btn.png" alt="">
+						</a>
+					</div>
+					<div class="col">
+						<a href="javascript:exec('buy');" class="btn btn-lg edit-btn">{=__text("주문 하기")}</a>
+					</div>
+				</div>				
+				<!--{ / }-->				
+			</div>
+			
+		</div>
+	</div>
+</section>
+
+<section class="content-container detail-content">
+	<!--{ ? addtionitem.recomand }-->
+	<div class="similar-slider">
+		<h3>{=__text("추천 상품")}</h3>
+		<ul class="bxslider" data-min-slides="5" data-max-slides="5" data-slide-width="108" data-slide-margin="34">
+			<!--{ @ addtionitem.recomand }-->
+			<li><a href="view.php?goodsno={.goodsno}">{=goodsListImg(.goodsno, 108, 110)}</a></li>
+			<!--{ / }-->
+		</ul>
+	</div>
+	<!--{ / }-->
+	
+	<div style="text-align: center;">{desc}</div>
+	
+	<!--{ ? addtionitem.relation }-->
+	<div class="similar-slider">
+		<h3>{=__text("연관 상품")}</h3>
+		<ul class="bxslider" data-min-slides="5" data-max-slides="5" data-slide-width="108" data-slide-margin="34">
+			<!--{ @ addtionitem.relation }-->
+			<li><a href="view.php?goodsno={.goodsno}">{=goodsListImg(.goodsno, 108, 110)}</a></li>
+			<!--{ / }-->
+		</ul>
+	</div>
+	<!--{ / }-->
+</section>
+
+<!--Q&A-->
+{p.i->inc('/goods/_qna.htm')}
+
+<!--이용후기-->
+{p.i->inc('/goods/_review.htm')}
+
+<div>
+	<!--{ @ f_banner_s2('goods_view_ship_info_'+(rid))}-->{.banner}<!--{ / }-->
+</div>
+
+{ # goods_detail_quick_option }
+
+</form>
+
+<!--goods script-->
+<script src="/js/goods.js" type="text/javascript"></script>
+<!--goods script-->
+<script>
+$j("body").attr('class','item-detail-page');
+
+$j(window).load(function(){
+	$j("select[name='optno[]']").change(function(){
+		refresh_price();
+	});
+	$j("select[name='addopt[]']").change(function(){
+		refresh_price();
+	});
+	
+	//좌측 옵션보기
+	$j("select[name='quick-optno[]']").change(function(){
+		refresh_price2();
+	});
+	$j("select[name='quick-addopt[]']").change(function(){
+		refresh_price2();
+	});	
+});
+
+</script>
+
+{ # footer }

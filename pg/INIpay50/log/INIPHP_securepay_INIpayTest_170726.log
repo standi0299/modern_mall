@@ -1,0 +1,269 @@
+INFO	[2017-07-26 17:05:07:658] <53597> START INIPHP chkfake (V5031-111123)(OS:Linux2.6.32-573.3.1.el6.x86_64,PHP:5.2.17)
+DEBUG	[2017-07-26 17:05:07:658] <53597> inipayhome:/home/dev_project/prj_modern/modern_mall/public_html/pg/INIpay50
+DEBUG	[2017-07-26 17:05:07:658] <53597> type:chkfake
+DEBUG	[2017-07-26 17:05:07:658] <53597> debug:true
+DEBUG	[2017-07-26 17:05:07:658] <53597> enctype:asym
+DEBUG	[2017-07-26 17:05:07:658] <53597> admin:1111
+DEBUG	[2017-07-26 17:05:07:658] <53597> checkopt:false
+DEBUG	[2017-07-26 17:05:07:658] <53597> mid:INIpayTest
+DEBUG	[2017-07-26 17:05:07:658] <53597> price:21650
+DEBUG	[2017-07-26 17:05:07:658] <53597> nointerest:no
+DEBUG	[2017-07-26 17:05:07:658] <53597> quotabase:선택:일시불:2개월:3개월:4개월:5개월:6개월
+INFO	[2017-07-26 17:05:07:658] <53597> Check Field OK
+INFO	[2017-07-26 17:05:07:669] <53597> MERCHANT PRIV KEY LOAD OK
+INFO	[2017-07-26 17:05:07:674] <53597> MERCHANT PUB KEY LOAD OK []
+INFO	[2017-07-26 17:05:07:675] <53597> CHKFAKE KEY MAKE OK:MjAxNzA3MjYxNzA1MDc2NzQ3MjYxMw==
+
+INFO	[2017-07-26 17:05:07:675] <53597> END chkfake  Laptime:[0.02sec]
+INFO	[2017-07-26 17:05:07:675] <53597> ===============================================================
+INFO	[2017-07-26 17:05:20:945] <53531> START INIPHP chkfake (V5031-111123)(OS:Linux2.6.32-573.3.1.el6.x86_64,PHP:5.2.17)
+DEBUG	[2017-07-26 17:05:20:945] <53531> inipayhome:/home/dev_project/prj_modern/modern_mall/public_html/pg/INIpay50
+DEBUG	[2017-07-26 17:05:20:945] <53531> type:chkfake
+DEBUG	[2017-07-26 17:05:20:945] <53531> debug:true
+DEBUG	[2017-07-26 17:05:20:945] <53531> enctype:asym
+DEBUG	[2017-07-26 17:05:20:945] <53531> admin:1111
+DEBUG	[2017-07-26 17:05:20:945] <53531> checkopt:false
+DEBUG	[2017-07-26 17:05:20:945] <53531> mid:INIpayTest
+DEBUG	[2017-07-26 17:05:20:945] <53531> price:21650
+DEBUG	[2017-07-26 17:05:20:945] <53531> nointerest:no
+DEBUG	[2017-07-26 17:05:20:945] <53531> quotabase:선택:일시불:2개월:3개월:4개월:5개월:6개월
+INFO	[2017-07-26 17:05:20:945] <53531> Check Field OK
+INFO	[2017-07-26 17:05:20:945] <53531> MERCHANT PRIV KEY LOAD OK
+INFO	[2017-07-26 17:05:20:946] <53531> MERCHANT PUB KEY LOAD OK []
+INFO	[2017-07-26 17:05:20:946] <53531> CHKFAKE KEY MAKE OK:MjAxNzA3MjYxNzA1MjA5NDYxNDc3Ng==
+
+INFO	[2017-07-26 17:05:20:946] <53531> END chkfake  Laptime:[0sec]
+INFO	[2017-07-26 17:05:20:946] <53531> ===============================================================
+INFO	[2017-07-26 17:15:27:196] <52987> START INIPHP chkfake (V5031-111123)(OS:Linux2.6.32-573.3.1.el6.x86_64,PHP:5.2.17)
+DEBUG	[2017-07-26 17:15:27:196] <52987> inipayhome:/home/dev_project/prj_modern/modern_mall/public_html/pg/INIpay50
+DEBUG	[2017-07-26 17:15:27:196] <52987> type:chkfake
+DEBUG	[2017-07-26 17:15:27:196] <52987> debug:true
+DEBUG	[2017-07-26 17:15:27:196] <52987> enctype:asym
+DEBUG	[2017-07-26 17:15:27:196] <52987> admin:1111
+DEBUG	[2017-07-26 17:15:27:196] <52987> checkopt:false
+DEBUG	[2017-07-26 17:15:27:196] <52987> mid:INIpayTest
+DEBUG	[2017-07-26 17:15:27:196] <52987> price:21650
+DEBUG	[2017-07-26 17:15:27:196] <52987> nointerest:no
+DEBUG	[2017-07-26 17:15:27:196] <52987> quotabase:선택:일시불:2개월:3개월:4개월:5개월:6개월
+INFO	[2017-07-26 17:15:27:196] <52987> Check Field OK
+INFO	[2017-07-26 17:15:27:197] <52987> MERCHANT PRIV KEY LOAD OK
+INFO	[2017-07-26 17:15:27:197] <52987> MERCHANT PUB KEY LOAD OK []
+INFO	[2017-07-26 17:15:27:197] <52987> CHKFAKE KEY MAKE OK:MjAxNzA3MjYxNzE1MjcxOTcyNzIzMg==
+
+INFO	[2017-07-26 17:15:27:197] <52987> END chkfake  Laptime:[0sec]
+INFO	[2017-07-26 17:15:27:197] <52987> ===============================================================
+INFO	[2017-07-26 17:23:18:813] <52987> START INIPHP chkfake (V5031-111123)(OS:Linux2.6.32-573.3.1.el6.x86_64,PHP:5.2.17)
+DEBUG	[2017-07-26 17:23:18:813] <52987> inipayhome:/home/dev_project/prj_modern/modern_mall/public_html/pg/INIpay50
+DEBUG	[2017-07-26 17:23:18:813] <52987> type:chkfake
+DEBUG	[2017-07-26 17:23:18:813] <52987> debug:true
+DEBUG	[2017-07-26 17:23:18:813] <52987> enctype:asym
+DEBUG	[2017-07-26 17:23:18:813] <52987> admin:1111
+DEBUG	[2017-07-26 17:23:18:813] <52987> checkopt:false
+DEBUG	[2017-07-26 17:23:18:813] <52987> mid:INIpayTest
+DEBUG	[2017-07-26 17:23:18:813] <52987> price:21650
+DEBUG	[2017-07-26 17:23:18:813] <52987> nointerest:no
+DEBUG	[2017-07-26 17:23:18:813] <52987> quotabase:선택:일시불:2개월:3개월:4개월:5개월:6개월
+INFO	[2017-07-26 17:23:18:813] <52987> Check Field OK
+INFO	[2017-07-26 17:23:18:814] <52987> MERCHANT PRIV KEY LOAD OK
+INFO	[2017-07-26 17:23:18:814] <52987> MERCHANT PUB KEY LOAD OK []
+INFO	[2017-07-26 17:23:18:814] <52987> CHKFAKE KEY MAKE OK:MjAxNzA3MjYxNzIzMTg4MTQ4Njg2OQ==
+
+INFO	[2017-07-26 17:23:18:814] <52987> END chkfake  Laptime:[0sec]
+INFO	[2017-07-26 17:23:18:814] <52987> ===============================================================
+INFO	[2017-07-26 17:23:52:734] <53332> START INIPHP securepay (V5031-111123)(OS:Linux2.6.32-573.3.1.el6.x86_64,PHP:5.2.17)
+DEBUG	[2017-07-26 17:23:52:735] <53332> inipayhome:/home/dev_project/prj_modern/modern_mall/public_html/pg/INIpay50
+DEBUG	[2017-07-26 17:23:52:735] <53332> type:securepay
+DEBUG	[2017-07-26 17:23:52:735] <53332> pgid:INIphpVBNK
+DEBUG	[2017-07-26 17:23:52:735] <53332> subpgip:203.238.3.10
+DEBUG	[2017-07-26 17:23:52:735] <53332> admin:1111
+DEBUG	[2017-07-26 17:23:52:735] <53332> debug:true
+DEBUG	[2017-07-26 17:23:52:735] <53332> uid:
+DEBUG	[2017-07-26 17:23:52:735] <53332> uip:112.216.143.130
+DEBUG	[2017-07-26 17:23:52:735] <53332> goodname:0606_하드_콩닥콩닥 
+DEBUG	[2017-07-26 17:23:52:735] <53332> currency:WON
+DEBUG	[2017-07-26 17:23:52:735] <53332> mid:INIpayTest
+DEBUG	[2017-07-26 17:23:52:735] <53332> rn:MjAxNzA3MjYxNzIzMTg4MTQ4Njg2OQ==
+
+DEBUG	[2017-07-26 17:23:52:735] <53332> price:21650
+DEBUG	[2017-07-26 17:23:52:735] <53332> enctype:
+DEBUG	[2017-07-26 17:23:52:735] <53332> buyername:김지만
+DEBUG	[2017-07-26 17:23:52:735] <53332> buyertel:010-2131-5896
+DEBUG	[2017-07-26 17:23:52:735] <53332> buyeremail:elgarsg@ilark.co.kr
+DEBUG	[2017-07-26 17:23:52:735] <53332> paymethod:VBank
+DEBUG	[2017-07-26 17:23:52:735] <53332> encrypted:Version=4.1&PayMethod=VBank&RsaKeyNum=1&EncryptionAlgorithm=SEED-CBC&SignAlgorithm=RSAwithSHA1&CertVer=39&moid=1501057394739&ver_trace=main(6109,6064)vbank(6032,6035)n(6009)Cs(6025)Dt(6002)Pa(6002)Cf(6025)Fv(0000)La(6179)Re(6130)Vr(6008)P(6034)en(6067)nP(6006)&pg1=203.238.37.3&pg2=211.219.96.180&pg1ip=203.238.37.3&pg2ip=211.219.96.180&agreeflag=1111&Data=YoIBrspu8jZltZbpdv2Wbin/xUvhp4mIyJUdUDHlKcXPTmT5geRZQt93cfq8bp7v
+qmslVMUCl3OXIkpm2IrmQc7eyXjEL/pRfcOuF9vAN8LDidNY8lfMDIE2PLBZowvF
+84FqvrCxFiGHXE/rhEkClC4rWB7X/4A+mcEF9Vo/mncXL4S5e6J1C/asFY0V92Hs
+CAzL/BJbUdWhlFYsUQlZw9HohCGBvph5e+qpHXVZ/hhffZk6VlL4uehFukHA9kij
+lEyEmSxGrOYYLjS/VgJqB1uUKDG0XL32IXltm/uA8uTB1kqWclQpC017s4WOCVOa
+sNJjWTIGPGVxy4PcxLhc+7YhCvcEhe0VEXJvRuX3kEfmsEIpbs/QtEcKc/ZCromK
+FA64uNh3Ymtx8+CQBrZQoG7HhDvx2GOBmjNzv7XPh0zj3ZORLU5cZziPfp3THcE6
+WbpHjPkYwJjJxePSyM/umBTE8t0VD0ici07JMIA0MCmN4UIllqvt0PAEkvw=
+DEBUG	[2017-07-26 17:23:52:735] <53332> sessionkey:KWE1CnZbL+Q7bqEfWIBSeuR1Myus73Py2TtZwn3qvuPzk81CFbi/rnxVMj8KHEgU
+Y/BxjSNaqK3rRh4XzVmUhDlhXF+yn4+m9UehhmDZaGOuXT1YmZPi3qbb2gEnzwLx
+A5CNp15eYShgfjRgyNJM5Qa7BX9xlTKEmJH3aItr8/E=
+DEBUG	[2017-07-26 17:23:52:735] <53332> url:http://mmdevtest.bluepod.kr
+DEBUG	[2017-07-26 17:23:52:735] <53332> cardcode:
+DEBUG	[2017-07-26 17:23:52:735] <53332> parentemail:parents@parents.com
+DEBUG	[2017-07-26 17:23:52:735] <53332> recvname:
+DEBUG	[2017-07-26 17:23:52:735] <53332> recvtel:
+DEBUG	[2017-07-26 17:23:52:735] <53332> recvaddr:
+DEBUG	[2017-07-26 17:23:52:735] <53332> recvpostnum:
+DEBUG	[2017-07-26 17:23:52:735] <53332> recvmsg:
+DEBUG	[2017-07-26 17:23:52:735] <53332> joincard:
+DEBUG	[2017-07-26 17:23:52:735] <53332> joinexpire:
+DEBUG	[2017-07-26 17:23:52:735] <53332> id_customer:
+INFO	[2017-07-26 17:23:52:735] <53332> Check Field OK
+INFO	[2017-07-26 17:23:52:735] <53332> Make TID OK INIphpVBNKINIpayTest20170726172352355747
+INFO	[2017-07-26 17:23:52:735] <53332> PI PUB KEY LOAD OK [39]
+INFO	[2017-07-26 17:23:52:742] <53332> PG PUB KEY LOAD OK [30]
+INFO	[2017-07-26 17:23:52:742] <53332> MERCHANT PRIV KEY LOAD OK
+INFO	[2017-07-26 17:23:52:743] <53332> MERCHANT PUB KEY LOAD OK [0]
+INFO	[2017-07-26 17:23:52:743] <53332> MAKE BODY OK
+INFO	[2017-07-26 17:23:52:744] <53332> SIGN OK
+INFO	[2017-07-26 17:23:52:744] <53332> MAKE HEAD OK
+INFO	[2017-07-26 17:23:52:744] <53332> MSG_TO_PG:[0257300175R SHA1                   0                  39                  300200INIpayTest               21650INIphpVBNKINIpayTest20170726172352355747<?xml version="1.0" encoding="UTF-8"?>
+<INIpay>
+	  <GoodsInfo>
+	    <GoodsCnt>1</GoodsCnt>
+	    <MOID/>
+	    <Currency>WON</Currency>
+	    <Tax/>
+	    <TaxFree/>
+	    <Goods>
+	      <SMID>INIpayTest</SMID>
+	      <GoodsName urlencode="1">0606_%C7%CF%B5%E5_%C4%E1%B4%DA%C4%E1%B4%DA+</GoodsName>
+	      <GoodsPrice>21650</GoodsPrice></Goods></GoodsInfo>
+	  <BuyerInfo>
+	    <BuyerName urlencode="1">%B1%E8%C1%F6%B8%B8</BuyerName>
+	    <BuyerTel>010-2131-5896</BuyerTel>
+	    <BuyerEmail urlencode="1">elgarsg%40ilark.co.kr</BuyerEmail>
+	    <ParentEmail urlencode="1">parents%40parents.com</ParentEmail>
+	    <RecvName/>
+	    <RecvTel/>
+	    <RecvMsg/>
+	    <RecvAddr/>
+	    <RecvPostNum/></BuyerInfo>
+	  <PaymentInfo>
+	    <Payment>
+	      <PayMethod>VBank</PayMethod>
+	      <JoinCard/>
+	      <JoinExpire/>
+	      <MailOrder/>
+	      <SessionKey>KWE1CnZbL+Q7bqEfWIBSeuR1Myus73Py2TtZwn3qvuPzk81CFbi/rnxVMj8KHEgU
+Y/BxjSNaqK3rRh4XzVmUhDlhXF+yn4+m9UehhmDZaGOuXT1YmZPi3qbb2gEnzwLx
+A5CNp15eYShgfjRgyNJM5Qa7BX9xlTKEmJH3aItr8/E=</SessionKey>
+	      <Encrypted urlencode="1">Version%3D4.1%26PayMethod%3DVBank%26RsaKeyNum%3D1%26EncryptionAlgorithm%3DSEED-CBC%26SignAlgorithm%3DRSAwithSHA1%26CertVer%3D39%26moid%3D1501057394739%26ver_trace%3Dmain%286109%2C6064%29vbank%286032%2C6035%29n%286009%29Cs%286025%29Dt%286002%29Pa%286002%29Cf%286025%29Fv%280000%29La%286179%29Re%286130%29Vr%286008%29P%286034%29en%286067%29nP%286006%29%26pg1%3D203.238.37.3%26pg2%3D211.219.96.180%26pg1ip%3D203.238.37.3%26pg2ip%3D211.219.96.180%26agreeflag%3D1111%26Data%3DYoIBrspu8jZltZbpdv2Wbin%2FxUvhp4mIyJUdUDHlKcXPTmT5geRZQt93cfq8bp7v%0D%0AqmslVMUCl3OXIkpm2IrmQc7eyXjEL%2FpRfcOuF9vAN8LDidNY8lfMDIE2PLBZowvF%0D%0A84FqvrCxFiGHXE%2FrhEkClC4rWB7X%2F4A%2BmcEF9Vo%2FmncXL4S5e6J1C%2FasFY0V92Hs%0D%0ACAzL%2FBJbUdWhlFYsUQlZw9HohCGBvph5e%2BqpHXVZ%2FhhffZk6VlL4uehFukHA9kij%0D%0AlEyEmSxGrOYYLjS%2FVgJqB1uUKDG0XL32IXltm%2FuA8uTB1kqWclQpC017s4WOCVOa%0D%0AsNJjWTIGPGVxy4PcxLhc%2B7YhCvcEhe0VEXJvRuX3kEfmsEIpbs%2FQtEcKc%2FZCromK%0D%0AFA64uNh3Ymtx8%2BCQBrZQoG7HhDvx2GOBmjNzv7XPh0zj3ZORLU5cZziPfp3THcE6%0D%0AWbpHjPkYwJjJxePSyM%2FumBTE8t0VD0ici07JMIA0MCmN4UIllqvt0PAEkvw%3D</Encrypted></Payment></PaymentInfo>
+	  <ReservedInfo>
+	    <MReserved1/>
+	    <MReserved2/>
+	    <MReserved3/></ReservedInfo>
+	  <ManageInfo>
+	    <Language/>
+	    <URL urlencode="1">http%3A%2F%2Fmmdevtest.bluepod.kr</URL>
+	    <TXVersion>5031B111123securLinux     PHPchkfake   2.6.32-573.3.1.el6.x86_64PHP:5</TXVersion>
+	    <TXUserID/>
+	    <TXRegNum/>
+	    <Ack>1</Ack>
+	    <TXRN>MjAxNzA3MjYxNzIzMTg4MTQ4Njg2OQ==
+</TXRN></ManageInfo></INIpay>ZPYwwFog4S4frsE7C2fiOED0QyXIiR9rtToKK9me/gIFnFMK2vLyC84l5cKriBKe
+E0cpYNDVSeD0PEJ0n7s0WqsGP7otdcupExJfxRHupjIfkHsrOgUK3J81sZEWEEus
+XVsGrSYrosuGk7pNnGNz+sfWvWNhsWjH0hf58LAeJ20=
+]
+INFO	[2017-07-26 17:23:52:744] <53332> DNS LOOKUP OK(203.238.37.3:203.238.37.3:34049) laptime:0
+INFO	[2017-07-26 17:23:52:747] <53332> SOCKET CONNECT OK
+INFO	[2017-07-26 17:23:52:747] <53332> SEND OK
+INFO	[2017-07-26 17:23:53:26] <53332> RECV OK
+INFO	[2017-07-26 17:23:53:26] <53332> MSG_FROM_PG:[0251400175D SHA1                   0                  39                  300210INIpayTest               21650INIphpVBNKINIpayTest20170726172352355747<?xml version="1.0" encoding="UTF-8"?>
+<INIpay>
+  <GoodsInfo>
+    <GoodsCnt>1</GoodsCnt>
+    <MOID urlencode="1">1501057394739</MOID>
+    <Currency>WON</Currency>
+    <Goods no="1">
+      <SMID>INIpayTest</SMID>
+      <GoodsName urlencode="1">0606_%C7%CF%B5%E5_%C4%E1%B4%DA%C4%E1%B4%DA+</GoodsName>
+      <GoodsCntS>1</GoodsCntS>
+      <GoodsPrice>21650</GoodsPrice>
+    </Goods>
+  </GoodsInfo>
+  <PaymentInfo>
+    <Payment>
+      <SessionKey>NOVORLpjeozUewfT10f9MzJm/fpJCNC7brkQNFHsex00N5uIKWXqM4wbhRvB2Fvu
+NS1VnCktWcgzxogF0zPr4EN9wG1uD8/D1wuqrgCLXxhYWZ3YBQw0FdrRtebRe1Lw
+0hV9LBaW5RkEoxE8Qaw7FTDoqyBCT1+UdnL44iI/+7xtxARqqyb7Cw==
+</SessionKey>
+      <Encrypted>uBkOqBUUE8RtCb6sd8xd2+yInBOs1SeLfBdxdbWsr3LI/eQ5Vo2e1QzS6VEHwSIS
+/QxqFeumSDPMdgwWrxLu4kU3dGbxeXO+OcbZZwS5IlnKPvvU2CcQ/bzgY4kW0Rn4
+m1hMrj8KyUb1jshPBNhxv2n+yD9akv/IYmCTAfqXK3lFCsdKtsqi0nhxtXdkI0su
+AAhYLC4+32O2OeCtWbh7A/Q8A+7mfAYryR+1gEHMu5ZiirT7BUjL1TKErt2ymfhW
+YzCqrnLono5rKXTs7LmL9FXbe0EiD/4a9mYOw2o4tFRr75x6U3y8d5OAvxPli9Zv
+OSfXGa+nKjf+ZDv3NMBBh3q2yV3Tqzx+/L0djGXirP2kHPhYYxtW+PqIer9oL8Tr
+EpAUfZa4RPbL0hP3uXhiXfl5OxjgRXMmi0S/uISYoDh1yy/NmPLHVWH/PrXKvFkF
+OL8jHmxrKqpBLDoqW8sbXt6P2z/7UCL7CoMaOVBDSlbjGI8Xu79Yyhg6+4JEeHXO
+ZfvA5XExpDCjbcBGkvAwAKqoE8MdjT5fGIhl7gqgJHtKIjXtras09ZYZohjBbvqG
+nIAp1YkL/f2loikeZFdOesZKhv/nXSu6RfOdjjVoEFrHDR6mTQK7a0eYJeFPvVR5
+F4GR9VruCUx3CgLTTY67tfFs5A8F82ubs/ybIw65HFA8AjsYZcSAu5DY4T37QMBT
+ne5rMwHG+gYQ4vgWpIJhq7DDNsEOxrP1eSCJtWh65M2+fMMVXLHX4ht+tnUx197N
+BCwa4V6CLvKdZ5YN0vm/nmG+YxlqSiykVi+hn8GX2YIM1cvOcqzi5AqdJggidAio
+cxzZeEeviItoFIdz2YhU+2HUfyJimAtDtLIByLlurszYnVYv8Ce95C1wwwr8z7Gc
+dgPIHLcrMJ+vxbeXN+U7jjXQu5CemdRcUlXUFXsS/FKXpBUBtfecSh5ETfuPAbPz
+pSDfQJP2FDUu3qSfkwcpTVnsDhjVrY/rzMuoLv84oBtOy6AeC6lk4IKUoj760v9N
+vTn6vJghxP2n+r8hEGgYI9EAxhCvAp57bfvyUUThB2WgwGOTnFbNrt8fwODSj/02
+hHb80rbL0AT52auP3yRSkFUFWa7mC6t8pTLbB7/B6oHjYXtgU9gXBo4GDxQymNf+
+</Encrypted>
+      <PayMethod>VBank</PayMethod>
+      <ResultCode>170000</ResultCode>
+      <ResultMsg urlencode="1">%C1%A4%BB%F3%C3%B3%B8%AE%B5%C7%BE%FA%BD%C0%B4%CF%B4%D9.</ResultMsg>
+    </Payment>
+  </PaymentInfo>
+  <ManageInfo>
+    <EventCode></EventCode>
+    <OrgCurrency></OrgCurrency>
+    <ExchangeRate></ExchangeRate>
+    <OrgPrice></OrgPrice>
+  </ManageInfo>
+  <ReservedInfo>
+    <MReserved1 urlencode="1"></MReserved1>
+    <MReserved2 urlencode="1"></MReserved2>
+    <MReserved3 urlencode="1"></MReserved3>
+    <PGReserved1 urlencode="1"></PGReserved1>
+    <PGReserved2 urlencode="1"></PGReserved2>
+    <PGReserved3 urlencode="1"></PGReserved3>
+  </ReservedInfo>
+</INIpay>
+O4gR6enWNuED6y4YLGlEWzc8sAXM8N6xr3hJ8D/yWwkCKr/IQpU2ErI56KcFc9T/
+0egwwNMvujlQSg1UAqd63RgT8L4P5KmA2VSjfupejpsQlIdwPPuCF5WYpmTe7lG+
+F6Li691Xpke1HZQFLKSvJeVJxgWNk+icYPWPTupPY6c=
+]
+INFO	[2017-07-26 17:23:53:27] <53332> VERIFY OK
+INFO	[2017-07-26 17:23:53:27] <53332> PARSE HEAD OK
+INFO	[2017-07-26 17:23:53:28] <53332> PARSE BODY OK
+INFO	[2017-07-26 17:23:53:30] <53332> DECRYPT OK
+DEBUG	[2017-07-26 17:23:53:30] <53332> DECRYPT MSG:[<?xml version="1.0" encoding="UTF-8"?>
+<PaymentInfo>
+  <Payment>
+    <EASYPAY/>
+    <VBank>
+      <VACT_Num>01441464840878</VACT_Num>
+      <VACT_BankCode>11</VACT_BankCode>
+      <VACT_Date>20170726</VACT_Date>
+      <VACT_Time></VACT_Time>
+      <VACT_InputName urlencode="1">%B1%E8%C1%F6%B8%B8</VACT_InputName>
+      <VACT_Name urlencode="1">%C0%CC%B4%CF%BD%C3%BD%BA</VACT_Name>
+      <VACT_RefundName urlencode="1"></VACT_RefundName>
+      <VACT_RefundBankCode></VACT_RefundBankCode>
+      <VACT_RefundNum></VACT_RefundNum>
+      <VACT_ApplPrice>21650</VACT_ApplPrice>
+      <VACT_ApplDate>20170726</VACT_ApplDate>
+      <VACT_ApplTime>172353</VACT_ApplTime>
+      <VACT_ResultCode>170000</VACT_ResultCode>
+      <VACT_ResultMsg urlencode="1">%C1%A4%BB%F3%C3%B3%B8%AE%B5%C7%BE%FA%BD%C0%B4%CF%B4%D9.</VACT_ResultMsg>
+    </VBank>
+  </Payment>
+</PaymentInfo>]
+INFO	[2017-07-26 17:23:53:31] <53332> DECRYPT PARSE OK
+INFO	[2017-07-26 17:23:53:31] <53332> WAIT ACK INVOKING
+DEBUG	[2017-07-26 17:23:53:31] <53332> MAKE HEAD OK
+INFO	[2017-07-26 17:23:53:34] <53332> SUCCESS ACK INVOKING
+INFO	[2017-07-26 17:23:53:34] <53332> END securepay 정상처리되었습니다. Laptime:[0.3sec]
+INFO	[2017-07-26 17:23:53:34] <53332> ===============================================================

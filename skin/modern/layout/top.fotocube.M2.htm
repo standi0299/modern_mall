@@ -1,0 +1,132 @@
+<div id="header-pupa">
+
+	<div id="banner_wrap">
+		<!--{ @ f_banner_s2( 'top_img_logo_1' ) }-->{.banner}<!--{ / }-->
+	</div>
+	
+	<div id="header_wrap">
+		<div id="header">
+			<div id="logo">
+				<a href="/main/index.php"><img src="/skin/modern/assets/M2/images/logo.png"></a>
+			</div><!-- logo -->
+			
+			<div id="u_nav">
+				<ul id="HP_MouseOverEffect">
+					<!--{ ? _sess.mid }-->
+						<li id="logout" onmouseover="mouse_over('logout');" onmouseout="mouse_out('logout');">
+							<a href="/member/logout.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';">
+								<img src="/skin/modern/assets/M2/images/logout_resize.png" alt="logout" />&nbsp;로그아웃
+							</a>
+						</li>
+						<li id="mycs" onmouseover="mouse_over('mycs');" onmouseout="mouse_out('mycs');">
+							<a href="/mypage/mycs.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';">
+								<img src="/skin/modern/assets/M2/images/mycs_resize.png" alt="mycs" />&nbsp;1:1문의
+							</a>
+						</li>
+						<li id="myinfo" onmouseover="mouse_over('myinfo');" onmouseout="mouse_out('myinfo');">
+							<a href="/member/myinfo.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';">
+								<img src="/skin/modern/assets/M2/images/myinfo_resize.png" alt="myinfo" />&nbsp;회원정보수정
+							</a>
+						</li>
+					<!--{ : }-->
+						<li id="login" onmouseover="mouse_over('login');" onmouseout="mouse_out('login');">
+							<a href="/member/login.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/login_resize.png" alt="login" />
+								&nbsp;로그인</a>
+						</li>
+						<li id="user" onmouseover="mouse_over('user');" onmouseout="mouse_out('user');">
+							<a href="/member/register.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/user_resize.png" alt="user" />&nbsp; 회원가입</a>
+						</li>
+					<!--{ / }-->
+					
+					
+					<li id="edit" onmouseover="mouse_over('edit');" onmouseout="mouse_out('edit');">
+						<a href="/order/editlist.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/edit_resize.png" alt="edit" />&nbsp; 편집리스트</a>
+					</li>
+					
+					<li id="monitor" onmouseover="mouse_over('monitor');" onmouseout="mouse_out('monitor');">
+						<a href="https://939.co.kr/3225/" target="_blank" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/monitor_resize.png" alt="monitor" />&nbsp; 원격지원</a>
+					</li>
+					
+					<li id="coupon" onmouseover="mouse_over('coupon');" onmouseout="mouse_out('coupon');">
+						<a href="/mypage/coupon.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/coupon_resize.png" alt="coupon" />&nbsp; 쿠폰</a>
+					</li>
+					<li id="cart" onmouseover="mouse_over('cart');" onmouseout="mouse_out('cart');">
+						<a href="/order/cart.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/cart_resize.png" alt="cart" />&nbsp; 장바구니</a>
+					</li>
+					<li id="order" onmouseover="mouse_over('order');" onmouseout="mouse_out('order');">
+						<a href="/mypage/orderlist.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/order_resize.png" alt="order" />&nbsp; 주문·배송</a>
+					</li>
+					<li id="event" onmouseover="mouse_over('event');" onmouseout="mouse_out('event');">
+						<a href="/goods/event.php" onMouseover="this.style.color='#357abe';" onMouseout="this.style.color='black';"> <img src="/skin/modern/assets/M2/images/event_resize.png"  alt="event" />&nbsp; 이벤트</a>
+					</li>
+				</ul>
+			</div><!-- #u_nav -->
+		</div><!-- #header -->
+	</div><!-- #header_wrap -->
+	
+	
+	<!--기본 파일명 : resize, 마우스 오버 : blue로 구분한다. / 19.07.03 / kjm-->
+	<script>
+		function mouse_over(id){
+			var src = $j("#"+id+" a img").attr("src");
+			var replace_src = src.replace("resize", "blue");
+			
+			$j("#"+id+" a img").attr("src", replace_src);
+		}
+		
+		function mouse_out(id){
+			var src = $j("#"+id+" a img").attr("src");
+			var replace_src = src.replace("blue", "resize");
+
+			$j("#"+id+" a img").attr("src", replace_src);
+		}
+	</script>
+	
+	<div id="pupa-nav">
+			<div class="pupa-nav-inner">
+				<!-- depth1메뉴 추가 -->
+				<ul class="pupa-nav-depth1">
+					<!-- 해당 페이지일때 <li class="depth1_on"> -->
+					<!--{ @ f_category() }-->
+					<li>
+						<!--{ ?.img }-->
+						{.category_link_tag}{.img}</a>
+						<!--{ : }-->
+						{.category_link_tag}{.catnm}</a>
+						<!--{ / }-->
+						<div class="pupa-nav-depth2">
+							<!-- depth2 메뉴 ul로 구분 -->
+
+							<!--{ ? .sub && !_cfg.top_category_sub_off }-->
+								<ul>
+									<!--{ @ .sub }-->
+									<!--{ ? ..index_ && (..index_ % 5 == 0) }-->
+									</ul><ul>
+									<!--{ / }-->
+										<!--{ ? ..img }-->
+											<li>{..category_link_tag}{..img}</a></li>
+										<!--{ : }-->
+											<li>{..category_link_tag}{..img}{..catnm}</a></li>
+										<!--{ / }-->
+									<!--{ / }-->
+								</ul>
+							<!--{ / }-->
+							
+							<div class="nav_banner" code="category_{.catno}">
+								<a><!--{ @ f_banner_s2( 'category_left_'+ .catno )}-->{..banner}<!--{ / }--></a>
+								<a><!--{ @ f_banner_s2( 'category_right_'+ .catno )}-->{..banner}<!--{ / }--></a>
+							</div>
+						</div>
+					</li>
+					<!--{ / }-->
+				</ul>
+				
+				<!-- 아래 코드가 없으면 카테고리 영역이 펼쳐지지 않으며
+					스크롤을 내렸다가 올렸을 때 줄어드는 상단 영역이 다시 펴지지 않아 보이지 않도록 처리만 한다. / 19.06.25 / kjm -->
+				<span href="/main/page.php?type=magazine" class="btn_magazine" style="visibility: hidden"></span>
+				
+			</div>
+			<!-- depth2-bg -->
+			<div class="pupa-nav-bottom"></div>				
+		</div><!-- pupa-nav End -->
+</div><!-- #nav -->

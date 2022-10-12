@@ -1,0 +1,36 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		
+		<h2 class="category-title">필름 스캔 이미지</h2>
+			
+		<!--{ @ loop }-->
+		<div class="event-list event-list-another">
+			<div class="event-list-another-top">
+				<h3 class="table-title">{.key_}</h3>
+				<a href="/miodio/download.php?dt={.key_}" class="btn_list">다운로드</a>
+			</div>
+		</div>
+		<div class="product-list">
+			<ul>
+				<!--{ @ .value_ }-->
+				<li>
+					<a href="#">
+						<div class="thumbnail-img" style="background-image:url({..thumb_path});background-repeat:no-repeat;background-position:center; width:276px; height:276px;"></div>
+						<div class="event-date">
+							<u>
+								{=mb_strcut(..upload_file_name, 0, 30, "utf-8")}<!--{ ? strlen(..upload_file_name) > 30 }-->...<!--{ / }-->
+							</u>
+						</div>						
+					</a>
+				</li>
+				<!--{ / }-->
+			</ul>				
+		</div>			
+		<!--{ / }-->
+
+	</div><!-- container_inner End -->
+</div>
+
+{ # footer }

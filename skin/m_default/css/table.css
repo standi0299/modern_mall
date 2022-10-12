@@ -1,0 +1,47 @@
+@charset "utf-8";
+/* ------------------------------------------------------------
+ * Name      : table.css
+ * Desc       : 추억을 만지다. 미오디오
+ * Created    : 2015-08-11 by tttboram@naver.com
+ * Updated    :
+ ------------------------------------------------------------ */
+
+/* table type1 */
+.tblType1{width:100%;border-collapse:collapse; margin:20px 0 0 0}
+.tblType1 thead th{color:#666; padding:12px 0; font-size:1em; background:#f9f9f9; border-top:1px solid #e3e3e3; border-bottom:1px solid #e3e3e3;}
+.tblType1 tbody td{font-size:.9em; padding:12px 0; text-align:center; border-bottom:1px solid #e3e3e3;}
+.tblType1 tbody td.tit{text-align:left; padding-left:20px;}
+.tblType1 tbody tr:hover td{background:#eee;}
+.tblType1 tbody td.num{color:#a1a0a1;}
+
+/* table type2 */
+.tblType2{width:100%; margin:0; border-collapse:collapse;}
+.tblType2 th{padding:22px 0 22px 15px; border-bottom:1px solid #e6e6e6; font-size:1em; text-align:left; background:#f8f8f8;}
+.tblType2 td{padding:11px 0 11px 15px; border-bottom:1px solid #e6e6e6; font-size:1em; text-align:left; }
+.tblType2 th strong{color:#d54036;}
+.tblType2 td .desc{display:inline-block; margin:0 0 0 10px;}
+.tblType2 td textarea{height:150px; width:700px;}
+
+/* table type3 */
+.tblType3{width:100%;border-collapse:collapse; margin:10px 0 20px 0}
+.tblType3 th{color:#666; padding:12px 0 12px 20px; text-align:left; font-size:1em; background:#f9f9f9; border-top:1px solid #e3e3e3; border-bottom:1px solid #e3e3e3;}
+.tblType3 td{font-size:.9em; padding:12px 0 12px 10px; text-align:left; border-top:1px solid #e3e3e3; border-bottom:1px solid #e3e3e3;}
+.tblType3 td.cntArea{height:280px; vertical-align:top; overflow-y:auto;}
+
+/* table type4 */
+.tblType4{width:100%;border-collapse:collapse; margin:22px 0 20px;}
+.tblType4 th{color:#666; padding:12px 0; font-size:1em; background:#f9f9f9; border-top:3px solid #e3e3e3; border-bottom:1px solid #e3e3e3; text-align:center; border-right:1px solid #e3e3e3;}
+.tblType4 th:last-child{border-right:none;}
+.tblType4 td{font-size:.9em; padding:12px 0; border-top:1px solid #e3e3e3; border-bottom:1px solid #e3e3e3; text-align:center; border-right:1px solid #e3e3e3;}
+.tblType4 td:last-child{border-right:none;}
+.tblType4 td.subject{padding:12px 0 12px 48px; text-align:left;}
+
+/* tabel type3 */
+.searchTbl{position:relative;margin:20px 0 10px 0;}
+.searchTbl table{width:100%;overflow:hidden;border-collapse:collapse;}
+.searchTbl table th{text-align:left;font-weight:bold;padding:5px 0 5px 22px;color:#757575;background:#e8e8e8 url(../../images/bul_type4.gif) no-repeat 15px 13px;}
+.searchTbl table td{background:#e8e8e8;padding:5px 0 5px 10px;}
+.searchTbl input.text{border:1px solid #cccccc;background:#f8f8f8;padding:1px 5px 2px 5px;}
+.serBtn{position:absolute;right:20px;bottom:40px;}
+.searchTbl:after{content:" "; display:block; clear:both; height:0; visibility:hidden;}
+.searchTbl {*height:1%;}

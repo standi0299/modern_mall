@@ -1,0 +1,80 @@
+{ # header_popup }
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="Author" content="">
+		<meta name="Keywords" content="">
+		<meta name="Description" content="">
+
+		<style type="text/css">
+         #mpmsGNAgree {
+            width: 800px;
+            border: #4DB748 1px solid;
+            border-right: #4DB748 2px solid;
+            border-bottom: #4DB748 2px solid;
+            margin: auto;
+            background: #FBFBFB;
+            margin-top: 10px;
+         }
+         .agreeGN {
+            margin: 20px;
+         }
+         .agreeGNCheck {
+            text-align: left;
+            margin: 5px;
+         }
+         .agreeGNSubTitle {
+            margin: 5px;
+         }
+         .agreeGNContents {
+            width: 740px;
+            height: 200px;
+            padding: 10px;
+            margin: auto;
+            border: #369 1px solid;
+            overflow-y: scroll;
+         }
+		</style>
+	</head>
+	
+	<body>
+		<form>
+			
+			<div id="mpmsGNAgree">
+				<div>
+				</div>
+				<div class="agreeGN">
+					<div class="agreeGNSubTitle">● 개인정보 수집∙이용∙취급위탁 동의</div>
+					<textarea class="agreeGNContents" readonly>{data}</textarea>
+					
+					<div class="agreeGNCheck">
+						<input type="checkbox" id="chk_agreement" name="agreement" required msg="이용약관에 동의해주세요" />
+						<label for="chk_agreement">이용약관에 동의합니다.</label>
+					</div><!-- agreeGNCheck end --//-->
+				</div>
+			</div>
+
+			<div align="center" style="margin-top:10px;">
+			<button type="button" onclick="set_order();">확인</button>
+			<button onclick="window.close();">취소</button>
+			</div>
+		</form>
+	</body>
+</html>
+
+<script>
+	function set_order(){
+		
+		
+		
+		 if($j('input:checkbox[id="chk_agreement"]').is(":checked") == true) {
+			window.opener.set_mode('order');
+			window.opener.fm_cart.submit();
+			window.close();
+		} else {
+			alert("이용약관에 동의해 주시기 바랍니다.");
+		}
+	}
+</script>

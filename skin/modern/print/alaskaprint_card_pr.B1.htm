@@ -1,0 +1,566 @@
+{ # header }
+<!--alaska_card_pr.B1.htm-->
+
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/detail_20190110.css">
+
+<script type="text/javascript">  
+var cid = "{_cid}";
+var center_id = "{_cfg_center.center_cid}";
+
+var print_img = "";
+
+var r_ipro_print_code = {=json_encode(_r_ipro_print_code)};
+var r_ipro_print_sub_item = {=json_encode(_r_ipro_print_sub_item)};
+
+var cfg_layout_top = "{_cfg.layout.top}"; //print_common.js initFileUploadOrder() 에서 사용.
+var cfg_skin_theme = "{_cfg.skin_theme}"; //print_common.js initFileUploadOrder() 에서 사용.
+</script>
+
+<!--
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/indigo.css">
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/jquery.bxslider.css">
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/font-awesome/css/font-awesome.min.css">
+
+<script src="/skin/modern/assets/alaskaprint/js/jquery-1.11.1.min.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/jquery.easing.1.3.min.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/jquery.sticky-kit.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/gnb.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/indigo.js"></script>
+-->
+
+<script src="/skin/modern/assets/print_js/print_common.js"></script>
+<script src="/skin/modern/assets/print_js/print_{print_goods_type}.js"></script>
+
+<form name="fm_print" id="fm_print" method="post" onsubmit="return false;">
+	<input type="hidden" name="mode" />
+	<input type="hidden" name="goodsno" value="{goodsno}" />
+	<input type="hidden" name="goodsnm" value="{goodsnm}" />
+	<input type="hidden" name="goods_group_code" value="{goods_group_code}" />
+	<input type="hidden" name="print_goods_type" value="{print_goods_type}" />
+	
+	<input type="hidden" name="ea" value="1" />
+	<input type="hidden" name="storageid" value="{_GET.storageid}" />
+	<input type="hidden" name="est_order_type" />
+	<input type="hidden" name="est_goodsnm" />
+	<input type="hidden" name="est_file_upload_json" />	
+
+	<!--/*
+	결제금액 : 공급가격: 3,000원 ( 할인가: 2,700원 ) + 부가세: 270원 = 2,970
+	공급가격 : opt_price
+	할인가격 : dc_price
+	부가세 : vat_price
+	판매가격 : sale_price
+	*/-->
+	
+    <input type="hidden" name="option_json" id="option_json" />
+    <input type="hidden" name="est_opt_price" id="est_opt_price" />
+    <input type="hidden" name="est_dc_price" id="est_dc_price" />
+    <input type="hidden" name="est_vat_price" id="est_vat_price" />
+	<input type="hidden" name="est_sale_price" id="est_sale_price" />
+	
+	<input type="hidden" name="order_direct" />
+	
+	<input type="hidden" name="real_cover_size" id="real_cover_size" />
+
+    <input type="hidden" id="select_option_supply_price" name="select_option_supply_price" />
+    <input type="hidden" id="select_option_sum_price" name="select_option_sum_price" />
+
+    <input type="hidden" name="ext_json_data" />
+    <input type="hidden" name="templateSetIdx" value="{templateSetIdx}" />
+    <input type="hidden" name="templateIdx" value="{templateIdx}" />
+    <input type="hidden" name="templateName" value="{templateName}" />
+    <input type="hidden" name="templateURL" value="{templateURL}" />
+
+    <!--시안요청여부-->
+    <input type="hidden" name="design_draft_flag" />
+        
+        <!-- CONTAINER START -->	
+		<div id="container_idg" style="padding-top:0px;">
+			<div class="inner_idg">
+				<div class="indicator">
+					<span>{_category.catnm}</span>
+					<span class="current">{goodsnm}</span>
+				</div>
+
+				<div class="product_detail_wrap">
+					<!-- 상품 주문 START -->
+					<div class="pd_detail_left">
+						<div class="pd_detail_left_wrap">
+							<!-- 제품 이미지 영역 START -->
+							<div class="pd_detail_image">
+								<div class="detail_image_big">
+									<img src="{img[0]}" id="bimg" width="350px" height="350px" alt="" />
+								</div>
+								<ul class="detail_image_thumb">
+									<!--<li class="image_thumb"><a href="#"><img src="/skin/modern/assets/alaskaprint/images/order/ex_thumb01.jpg" alt="" /></a></li>
+									<li class="image_thumb"><a href="#"><img src="/skin/modern/assets/alaskaprint/images/order/ex_thumb02.jpg" alt="" /></a></li>
+									<li class="image_thumb"><a href="#"><img src="/skin/modern/assets/alaskaprint/images/order/ex_thumb03.jpg" alt="" /></a></li>-->
+									
+									<!--{ @ img }-->
+									<li class="image_thumb"><img src="{.value_}" onclick="detail_img(this);" width="78px" height="78px" alt="" style="cursor: pointer;" /></li>
+									<!--{ / }-->
+								</ul>
+							</div>
+							<!-- 제품 이미지 영역 END -->
+
+							<!-- 주문 선택 영역 START -->
+							<div class="pd_detail_form_wrap">
+								<div class="pd_detail_form">
+									<h1>STEP 1. 주문상품을 선택해주세요.</h1>
+									<ul>
+										<li>
+											<span class="form_tit">제목</span>
+											<div class="ip_fld_wp" style="width:300px;">
+												<input type="text" class="ip_fld" name="est_title" id="est_title" placeholder="제목입력" style="width:300px;" />
+											</div>
+										</li>
+
+										<li>
+											<span class="form_tit">사이즈</span>
+											<div class="custom_select" style="width:160px;">
+												<select name="opt_size" id="opt_size" onchange="dynamicImgChange(this);calcuPrice();">
+												</select>
+											</div>
+											<span class="form_dec" id="form_dec">* 작업사이즈 (단위:mm)</span>											
+										</li>
+
+										<!--{? summary }-->
+										<li>
+											<span class="form_tit"></span>
+											<span class="form_dec2" id="form_dec2">{summary}</span>											
+										</li>
+										<!--{ / }-->										
+										
+										<li>
+											<span class="form_tit"></span>
+											<div class="ip_fld_wp" style="width:100px;">	
+					                            <input type="text" class="ip_fld" name="cut_width" id="opt_size_cut_x" placeholder="사이즈입력" style="width:100px;" disabled  onchange="calcuPrice();" />
+					                            <input type="hidden" name="work_width" id="opt_size_work_x">					                            
+											</div>
+											x
+											<div class="ip_fld_wp" style="width:100px;">	
+					                            <input type="text" class="ip_fld" name="cut_height" id="opt_size_cut_y" placeholder="사이즈입력" style="width:100px;" disabled  onchange="calcuPrice();" />
+					                            <input type="hidden" name="work_height" id="opt_size_work_y">					                            
+											</div>									
+										</li>										
+										
+										<!--<li>
+											<span class="form_tit">용지</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_paper_group" id="opt_paper_group">
+												</select>
+											</div>
+										</li>-->
+										<li>
+											<span class="form_tit">용지</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_paper" id="opt_paper" onchange="dynamicImgChange(this);calcuPrice();">
+												</select>
+											</div>
+										</li>
+										<!--<li>
+											<span class="form_tit"></span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_paper_gram" id="opt_paper_gram">
+												</select>
+											</div>
+										</li>-->
+										
+										<!--
+										<li>
+											<span class="form_tit">인쇄컬러</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_print1" id="opt_print1" onchange="calcuPrice();">
+												</select>
+											</div>
+										</li>										
+										<li id="print3_use">
+											<span class="form_tit">별색추가</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_print3" id="opt_print3" onchange="calcuPrice();">
+												</select>												
+												<input type="hidden" name="opt_print3_check" value="Y" />
+											</div>
+										</li>
+										
+										<li>
+											<span class="form_tit">인쇄면</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_print2" id="opt_print2" onchange="calcuPrice();">
+												</select>
+											</div>
+										</li>
+										-->
+
+										<!--{? print_data.coating }-->
+										<li>
+											<span class="form_tit">코팅</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_coating" id="opt_coating" onchange="afterOptionChange(this);calcuPrice();">
+                            					</select>
+                            					<input type="hidden" name="opt_coating_check" value="N" />
+											</div>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.cut }-->
+										<li>
+											<span class="form_tit">재단</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_cut" id="opt_cut" onchange="afterOptionChange(this);calcuPrice();">
+                            					</select>
+                            					<input type="hidden" name="opt_cut_check" value="N" />
+											</div>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.processing }-->
+										<li>
+											<span class="form_tit">가공&마감</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_processing" id="opt_processing" onchange="afterOptionChange(this);calcuPrice();">
+                            					</select>
+                            					<input type="hidden" name="opt_processing_check" value="N" />
+											</div>
+										</li>
+										<!--{ / }-->
+										<!--{? print_data.design }-->
+										<li>
+											<span class="form_tit">디자인</span>
+											<div class="custom_select" style="width:225px;">
+												<select name="opt_design" id="opt_design" onchange="afterOptionChange(this);calcuPrice();">
+                            					</select>
+                            					<input type="hidden" name="opt_design_check" value="N" />
+											</div>
+										</li>
+										<!--{ / }-->
+																				
+										<li>
+											<span class="form_tit">수량</span>
+											<div class="custom_select">
+												<select name="opt_page" id="opt_page" onchange="calcuPrice();">
+					                            	<!--{ @ print_page }-->
+					                            		<option value="{.value_}">{.value_}</option>
+					                            	<!--{ / }-->
+												</select>
+											</div>
+											매
+											<div class="ip_fld_wp cnt_use" style="width:100px;">	
+					                            <input type="text" class="ip_fld" name="cnt" id="cnt" placeholder="건수입력" style="width:100px;" onchange="calcuPrice();" />
+											</div>
+											<span class="cnt_use">건</span>											
+										</li>
+									</ul>
+									
+									<h1>STEP 2. 디자인 샘플 고르기</h1>
+	                                <div class="sample_choice">
+	                                    <!--{? podskind > 0}-->
+										<button onclick="templateListOpen('{_GET.catno}','{goodsno}','web','web_view');">+ 샘플 선택하기</button>
+				                        <!--{:}-->
+  										<button onclick="alert('편집정보가 설정되지 않았습니다. 관리자에게 문의하세요.');">+ 샘플 선택하기</button>
+				                        <!--{/}-->
+	                                    <p class="txt">* 원하시는 이미지가 있으시면, 아래의 파일첨부에 추가하여 주세요.</p>
+	                                </div>
+	                                
+	                                <h1>STEP 3. 요청 사항을 남겨주세요.</h1>	                                
+	                                <div class="custom_textarea2">
+	                                    <textarea rows="4" name="est_order_memo" id="est_order_memo">
+1. 주문자 성명 :  
+2. 전화번호 : 
+3. 수정내용 : 
+</textarea>
+	                                </div>									
+	                                <div class="file_add">
+	                                    <div class="box" id="directupload_use">
+	                                        <input type="button" name="file-7[]" id="file-7" class="inputfile inputfile-6" data-multiple-caption="{count} files selected" multiple onclick="overLayer_on('fileUpload')" />
+	                                        <label for="file-7"><span id="finfo">원하는 이미지 첨부.png</span> <strong>파일 첨부하기</strong></label>
+	                                    </div>
+	                                </div>	                                
+	                                <div class="sian_order">
+	                                    <!--{? podskind > 0}-->
+										<button onclick="submitPrintOrder2();">시안 요청하기</button>
+				                        <!--{:}-->
+  										<button onclick="alert('편집정보가 설정되지 않았습니다. 관리자에게 문의하세요.');">시안 요청하기</button>
+				                        <!--{/}-->
+	                                </div>
+								</div>								
+							</div>
+							<!-- 주문 선택 영역 END -->
+
+						</div>
+							
+					</div>
+					<!-- 상품 주문 END -->
+
+					<!-- 상품 결제 정보 START -->
+					<div class="pd_detail_right">
+						<div class="pd_detail_right_wrap">
+							<div class="pd_quick_view">
+								<ul class="quick_view_list">
+									<li>사이즈 : <span name="opt_size"></span></li>
+									<li>용지비 : <span name="opt_paper"></span><span class="price" name="paper_price"></span></li>
+									<li name="print_price" style="display: none;">인쇄비 : <span class="price" name="print_price"></span></li>
+									<li name="print_add_price" style="display: none;">추가인쇄비 : <span class="price" name="print_add_price"></span></li>									
+									<!--{? print_data.coating }-->
+									<li>코팅 : <span name="opt_coating"></span><span class="price" name="coating_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.cut }-->
+									<li>재단 : <span name="opt_cut"></span><span class="price" name="cut_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.processing }-->
+									<li>가공&마감 : <span name="opt_processing"></span><span class="price" name="processing_price"></span></li>
+									<!--{ / }-->
+									<!--{? print_data.design }-->
+									<li>디자인비 : <span name="opt_design"></span><span class="price" name="design_price"></span></li>
+									<!--{ / }-->
+									
+									<li>수량 : <span name="opt_page"></span>매 <span name="cnt" class="cnt_use"></span><span class="cnt_use">건</span> <span class="price"></span></li>
+								</ul>
+								<p class="pd_quick_totalprice">
+									<span>주문금액</span><!--{? print_data.vat_use != 'N' }--><span>(부가세포함입니다.)</span><!--{ / }-->
+									<span class="price" id="sale_price"></span>
+								</p>
+							</div>
+							
+							<!-- 내 파일 가져오기, 디자인의뢰하기 결과 화면 START -->
+							<script>
+								$(function(){
+									$('.pd_upload_filelist .file_open').click(function(){
+										$(this).next().slideToggle();
+									});
+								});
+							</script>
+							<div class="pd_upload_filelist" style="display: none;">
+								<p class="file_open">첨부파일 보기</p>
+								<ul id="file_list">									
+									<!--<li><span class="file_txt">filename.zip</span> <a href="#" class="file_btn"></a></li>-->									
+								</ul>
+							</div>
+							<!-- 내 파일 가져오기, 디자인의뢰하기 결과 화면 END -->							
+							<!--{? podskind > 0}-->
+	                        <div class="pd_quick_btn2">
+	                            <button onclick="templateListOpen('{_GET.catno}','{goodsno}','web','');">셀프 디자인하기</button>
+	                        </div>
+	                        <!--{:}-->
+							  <div class="pd_quick_btn2">
+	                            <button onclick="submitPrintOrder3();">주문하기</button>
+	                        </div>
+	                        <!--{/}-->
+	                        <!--{ ? templateSetIdx && templateIdx }-->
+	                        <div class="templit_info">
+	                            <p>디자인명 : {templateName}</p>
+	                            <p>템플릿코드 : {templateIdx}</p>
+	                        </div>
+	                        <div class="templit_image">
+	                            <p class="img"><img src="{templateURL}" width="100%"></p>
+	                            <p class="templit_btn">
+	                                <button class="btn1" style="margin:0 5px 0 0;" onclick="templateListOpen('{_GET.catno}','{goodsno}','web','web_view');">변경</button>
+	                                <button class="btn2" onclick="location.href='?catno={_GET.catno}&goodsno={goodsno}';">삭제</button>
+	                            </p>
+	                        </div>
+	                        <!--{ / }-->
+							
+							<!--
+							<div class="pd_quick_btn">								
+								<a href="#" class="file_upload" onclick="overLayer_on('fileUpload')"><span class="btn_selffile">내 파일 가져오기</span></a>
+								<{ ? podskind > 0 }>
+								<a href="#" class="design_upload" onclick="templateListOpen('{_GET.catno}','{goodsno}','web','');"><span class="btn_selfdesign">셀프 디자인하기</span></a>								
+								<a href="#" class="design_preview" onclick="preview_popup();"><span class="btn_selfdesign">편집내용  미리보기</span></a>
+								<{ / }>								
+								<a href="#" class="order_btn" onclick="submitPrintOrder();"><span class="btn_order">주문하기</span></a>
+							</div>
+							-->
+							
+						</div>
+					</div>
+					<!-- 상품 결제 정보 END -->
+					<script>
+						$(document).ready(function() {
+							$(".pd_detail_right_wrap").stick_in_parent({
+								offset_top: 100	
+							});
+						});
+					</script>
+				</div>
+			</div>
+		</div>
+		<!-- CONTAINER END -->	
+
+</form>
+
+<script type="text/javascript">
+function afterOption(id, obj) {
+	//console.log($(obj).find('select').val());
+
+	// 값 초기화
+	$(obj).find('select').val('');
+	$('.quick_option_list[data-id="'+id+'"]').find('span').html('');
+
+	//선택된 후가공 없음 문구 숨기기.
+	var bCheck = false;
+	$('.quick_option_list').find('span').each(function(index){
+		if ($(this).attr("name") != "after_opt" && $(this).attr("name").indexOf('opt_') > -1) {
+			//console.log($(this).attr("name")+":"+$(this).html());
+		
+			if ($(this).html() == "") bCheck = false;
+			else {
+				bCheck = true;
+				return false;
+			}
+		}
+	});
+	//console.log("bCheck:"+bCheck);
+	
+	if(!bCheck) $("#after_opt").removeClass('quick_option_list');
+
+	// 가격 계산
+	calcuPrice();
+}
+
+function detail_img(obj) {
+	$('#bimg').attr('src', obj.src);
+}
+
+function preview_popup() {
+	popup('../module/preview.php?goodsno={goodsno}&storageid='+$("input[name=storageid]").val(),1000,650, 1);
+}
+
+function select_change(obj) {
+    //console.log(obj);
+	if($(obj).val()) {
+		if($(obj).attr("name") == "opt_paper_gram") {
+			$("span[name='"+$(obj).attr("name")+"']").text(" / "+ $(obj).children("option:selected").text());
+		}
+		else if($(obj).val() == "USER") {
+			//console.log($(obj).attr("name")+":"+$(obj).val());
+			$("span[name='"+$(obj).attr("name")+"']").text($("#opt_size_cut_x").val()+"x"+$("#opt_size_cut_y").val() +" mm");
+		}
+		else if($(obj).attr("name") == "opt_size") {
+			$("span[name='"+$(obj).attr("name")+"']").text($(obj).children("option:selected").text() +" mm");
+		}
+		else {
+			$("span[name='"+$(obj).attr("name")+"']").text($(obj).children("option:selected").text());
+		}
+	}
+	else {
+		$("span[name='"+$(obj).attr("name")+"']").text("");
+	}
+}
+
+function input_change(obj) {
+	if($(obj).val()) {
+		if ($(obj).attr("name") == "cut_width" || $(obj).attr("name") == "cut_height") {
+			$("span[name='opt_size']").text($("#opt_size_cut_x").val()+"x"+$("#opt_size_cut_y").val() +" mm");
+		}
+		else {
+			$("span[name='"+$(obj).attr("name")+"']").text($(obj).val());
+		}
+	}
+	else {
+		$("span[name='"+$(obj).attr("name")+"']").text("");
+	}
+}
+
+function afterOptionChange(obj) {
+	var name = $(obj).attr('name');
+	var val = $(obj).val();
+	
+	if (val == "")
+		$("input[name="+name+"_check]").val("N");
+	else
+		$("input[name="+name+"_check]").val("Y");
+
+	//console.log(name+" : "+val);
+	//console.log($("input[name="+name+"_check]").val());
+}
+
+;(function($) {
+	
+})(jQuery1_11_0);
+
+window.onkeydown = function() {
+	var kcode = event.keyCode;
+	if(kcode == 8 || kcode == 116) {
+		if ($("input[name=storageid]").val() != "") {
+			if(confirm("편집(파일 업로드)을 완료한 경우 새로고침(F5 Key)을 하시면\n편집정보(업로드된 파일 정보)가 유실됩니다.\n새로고침을 하시겠습니까?") == true){
+				event.returnValue = true;
+			} else {
+				event.returnValue = false;
+			}
+			//alert(kcode); event.returnValue = false;
+		}
+		else {
+			event.returnValue = true;
+		}
+	}
+}
+
+$(window).load(function(){
+
+	//콤보박스 관련 이벤트 처리
+	$("select").change(function() {
+		select_change(this);
+	});
+
+	//입력박스 관련 이벤트 처리
+	$("input").change(function(){
+		input_change(this);
+	});
+
+	getList("/print/get_option_list_pr.php");
+
+	$('#opt_size').find("option:eq(1)").prop("selected", true);
+	$('#opt_paper').find("option:eq(1)").prop("selected", true);
+	$('#opt_paper').trigger('change');
+	
+	//후가공 옵션 기본값 선택하기.
+	if($("#opt_coating").length > 0) {
+		$('#opt_coating').find("option:eq(1)").prop("selected", true);
+    	$("input[name=opt_coating_check]").val("Y");
+	}
+	if($("#opt_cut").length > 0) {
+		$('#opt_cut').find("option:eq(1)").prop("selected", true);
+    	$("input[name=opt_cut_check]").val("Y");
+	}
+	if($("#opt_design").length > 0) {
+		$('#opt_design').find("option:eq(1)").prop("selected", true);
+    	$("input[name=opt_design_check]").val("Y");
+	}
+	if($("#opt_processing").length > 0) {
+		$('#opt_processing').find("option:eq(1)").prop("selected", true);
+    	$("input[name=opt_processing_check]").val("Y");
+	}
+
+	if($("input[name=opt_page]").length > 0) {
+	    $('#opt_page').val("1");
+	}
+
+  	$('#cnt').val("1");
+
+	//우측 매,건 표기에 사용함.
+	//$("span[name='opt_page']").html($('#opt_page').val());
+	//$("span[name='cnt']").html($('#cnt').val());
+
+    //항목 오른쪽 항목 표시하기.
+    $("select[name*='opt_']").each(function() {
+        select_change(this);
+    });
+
+    $("input[name*='cut_']").each(function() {
+        input_change(this);
+    });
+
+    $("input[name='cnt']").each(function() {
+        input_change(this);
+    });
+	
+	btnView("{editor_mode}");
+
+  	//가격계산.  
+  	calcuPrice();
+});
+</script>
+
+<!-- 파일업로드 창 -->
+{p.i->inc('/print/_upload_popup.htm')}
+<!-- 파일업로드 창 -->
+
+{ # footer }

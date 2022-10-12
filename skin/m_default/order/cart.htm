@@ -1,0 +1,187 @@
+{ # header }
+
+<form name="fm_cart" method="post" action="order.php">
+	<input type="hidden" name="mode" value="order" />
+	<input type="hidden" name="mobile_type" value="Y" />
+	
+	<section class="contents bgArea">
+		<!--{ ? 0 == 1 }-->
+		<section id="mainWrap">
+			<nav>
+				<div align="center" style="padding:10px 10px 0 10px;"><!--{ @ f_banner_s2('bar_cart')}-->@@{.banner}<!--{ / }--></div>
+			</nav>
+		</section>
+		<!--{ / }-->
+		
+		{ # itembox }
+
+		<div class="cartBtn btnArea">
+			<a href="#layerBox" target="_self" class="default layerPop" id="cart_order_banner"><!--{ @ f_banner_s2('btn_mobile_cart_order','img')}-->{.banner}<!--{ / }--></a>
+		</div>
+	</section>
+</form>
+
+<form name="cart_ea_fm">
+	<input type="hidden" name="mode" value="mod" />
+	<input type="hidden" name="cartno" />
+	<input type="hidden" name="ea" />
+</form>
+
+<div id="layerPreview">
+	<header>
+		<article class="layerHeader">
+			<h1>{=__text("미리보기")}</h1>
+			<a href="#" target="_self" class="prevBtn closeBtn"><img src="../img/ic_x.png" {=__alt("레이어닫기")}></a>
+			<a href="#" target="_self" class="nextBtn">{=__text("편집수정")}</a>
+		</article>
+	</header>
+	<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 600px; height: 300px; margin: 0 auto; overflow: hidden;"></div>
+</div>
+
+<script>
+$j(window).ready(function(){
+	$("#cart_order_banner").viewimageresize2();
+	$j("#cartEmpty").css("padding-top",($j(document).height() - 110)/2);
+});
+function pods_editor_itembox(podskind,storageid,podsno,siteid,cartkey,defaultpage,minpage,maxpage,podoptno,p_siteid,ea,cartno,cid,goodsno,optno,r_addoptno,goodsnm,catno,pods_use,printoptnm){
+	if (!podoptno) podoptno = 1;
+	
+	var addopt = [];
+	var i = 0;
+	$j("input[name='addopt_" + cartno + "[]']").each(function(){
+		if ($j(this).val() && $j(this).val()!=""){
+			addopt[i] = $j(this).val();
+			i++;
+		}
+	});
+	addopt = addopt.join("^");
+	
+	var param = {cid:cid, goodsno:goodsno, catno:catno, pods_use:pods_use, podskind:podskind, podsno:podsno, optno:optno, addopt:r_addoptno}; //배열 선언
+	param = Base64.encode(JSON.stringify(param)); //json으로 변환후 인코딩
+	var sessionparam = "sub_option:"+ addopt +",param:"+ param +",pname:"+ goodsnm;
+	var userid = ('{_sess.mid}') ? '{_sess.mid}' : cartkey;
+  var adminmode = ('{_ici_admin}' == '1') ? "Y" : "N";
+  if(cid == 'pixstory'){
+    var configurl = "http://2018.podstation.net/CommonRef/Config/ConfigVer30.aspx?editor="+ podskind +"&storageid="+ storageid +"&pid="+ podsno +"&siteid="+ siteid +"&userid="+ userid +"&dp="+ defaultpage +"&minp="+ minpage +"&maxp="+ maxpage + "&opt="+ podoptno +"&p_siteid="+ p_siteid +"&dpcnt="+ ea +"&sessionparam="+ sessionparam +"&adminmode="+ adminmode +"&printoptnm="+ printoptnm;
+  }else{
+    var configurl = "http://podstation20.ilark.co.kr/CommonRef/Config/ConfigVer30.aspx?editor="+ podskind +"&storageid="+ storageid +"&pid="+ podsno +"&siteid="+ siteid +"&userid="+ userid +"&dp="+ defaultpage +"&minp="+ minpage +"&maxp="+ maxpage + "&opt="+ podoptno +"&p_siteid="+ p_siteid +"&dpcnt="+ ea +"&sessionparam="+ sessionparam +"&adminmode="+ adminmode +"&printoptnm="+ printoptnm;
+  }
+	location.href = "mpod.{_COOKIE.domain_code}."+ cid +"://openwork?version=1.0&configurl="+ encodeURIComponent(configurl) +"&editortype="+ podskind +"&storageid="+ storageid +"&counter="+ ea; //url 인코딩
+	return;
+}
+function set_cart_ea(num,ea,cartno){
+	if (num == -1 && ea == 1) {
+	}
+	else {
+		ea = parseInt(ea) + num;
+		document.cart_ea_fm.cartno.value = cartno;
+		document.cart_ea_fm.ea.value = ea;
+		document.cart_ea_fm.submit();
+	}
+}
+function preview_layer_ajax(podskind,storageid,podsno,siteid,cartkey,defaultpage,minpage,maxpage,podoptno,p_siteid,ea,cartno,cid,goodsno,optno,r_addoptno,goodsnm,catno,pods_use,printoptnm,mobile_edit_flag) {
+	var editorurl = "javascript:pods_editor_itembox('"+podskind+"','"+storageid+"','"+podsno+"','"+siteid+"','"+cartkey+"','"+defaultpage+"','"+minpage+"','"+maxpage+"','"+podoptno+"','"+p_siteid+"','"+ea+"','"+cartno+"','"+cid+"','"+goodsno+"','"+optno+"','"+r_addoptno+"','"+goodsnm+"','"+catno+"','"+pods_use+"','"+printoptnm+"')";
+	var preview_width = parseInt($j("#slider1_container").css("width"))-20;
+	var preview_height = parseInt($j("#slider1_container").css("height"))-20;
+	$j("#slider1_container").empty();
+	$j(".nextBtn").text({=__java("편집수정")});
+	$j.ajax({
+		type : "GET",
+		url : "/module/preview.php",
+		data : "goodsno=" + goodsno + "&storageid=" + storageid + "&preview_width=" + preview_width + "&preview_height=" + preview_height + "&mobile_type=Y",
+		success : function(preview) {
+			if (preview.indexOf({=__java("미리보기 지원되지 않는 편집입니다.")}) > -1) {
+				$j("#layerBox .noteTxt").html(preview);
+				$("#layerBox").show();
+				$("#wrap").addClass("dimed_on");
+			} else {
+				$j("#slider1_container").html(preview);
+				if (mobile_edit_flag == "1") $j(".nextBtn").attr("href",editorurl);
+				else $j(".nextBtn").text("");
+				preview_slide_start();
+				$("#layerPreview").show();
+			}
+		}
+	});
+}
+function preview_slide_start() {
+	var options = {
+		$AutoPlay: false,
+        $AutoPlaySteps: 1,
+        $FillMode: 1,
+        $Loop: 0,
+        $HWA: false,
+
+        $BulletNavigatorOptions: {
+        	$Class: $JssorBulletNavigator$,
+        	$ChanceToShow: 2,
+        	$AutoCenter: 1,
+        	$Steps: 1,
+        	$Lanes: 1,
+        	$SpacingX: 1,
+        	$SpacingY: 10,
+        	$Orientation: 1
+        }
+    };
+        
+    var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+    
+    function ScaleSlider() {
+		var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
+    	if (parentWidth)
+    		jssor_slider1.$ScaleWidth(Math.min(parentWidth, 600));
+    	else
+    	    window.setTimeout(ScaleSlider, 30);
+	}
+    
+    ScaleSlider();
+
+    $(window).bind("load", ScaleSlider);
+    $(window).bind("resize", ScaleSlider);
+    $(window).bind("orientationchange", ScaleSlider);
+}
+$(".layerPop").on({
+	click : function(e){
+		e.preventDefault();
+		if (!$j(":checkbox[name=cartno[]]:checked").is(":checked")) {
+			$($(this).attr("href")).show();
+			$j("#layerBox .noteTxt").html("<span>"+{=__java("주문할 상품을 선택해 주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else {
+			var fm = document.fm_cart;
+			fm.mode.value = "order";
+			fm.action = 'order.php';
+			fm.submit();
+		}
+	}
+});
+$(".pop #cancelCart").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+$("#layerPreview .closeBtn").on({
+	click : function(e){
+		e.preventDefault();
+		$("#layerPreview").hide();
+	}
+});
+$(".cartBtn .del").on({
+	click : function(e){
+		e.preventDefault();
+		$($(this).attr("href")).show();
+		$("#wrap").addClass("dimed_on");
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+</script>
+
+{ # footer }

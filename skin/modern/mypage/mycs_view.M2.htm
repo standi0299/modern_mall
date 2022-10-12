@@ -1,0 +1,76 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">1:1 문의하기</h2>
+		<div class="table inquiry-top">
+			<div class="td">
+				<p>제품 및 서비스에 불편 또는 문의 사항이 있으신가요?</p>
+				<a href="/mypage/mycs_write.php" class="btn_oneonone">1:1 문의하기</a>
+			</div>
+			<div class="td">
+				<div class="table">
+					<div class="th">전화문의</div>
+					<div class="td">
+						<!--{ @ f_banner_s2('mycs_request')}-->{.banner}<!--{ / }-->
+						{_cfg.cstime}
+					</div>
+				</div>
+			</div>
+		</div>
+		<h3 class="table-title">문의내역</h3>
+		<table class="inquiry-table">
+			<colgroup>
+				<col width="120" />
+				<col width="780" />
+				<col width="120" />
+				<col width="*" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>제목</th>
+					<td>{subject}</td>
+					<th>문의일자</th>
+					<td class="tc">{regdt}</td>
+				</tr>
+				<tr>
+					<th>문의유형</th>
+					<td>{_r_cs_category[category]}</td>
+					<th>주문번호</th>
+					<td class="tc">{payno}</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td colspan="4">
+						<div class="inquiry-view-content">
+							<a href="../data/board/{cid}/cs/{img}" target="_blank">{img}</a>
+							<!--{ @ file_list }-->
+								<img src="{.file_path}{.filesrc}">
+							<!--{ / }-->
+							<br>
+							{=nl2br(content)}
+						</div>
+					</td>
+				</tr>
+				<tr>
+					<td colspan="4">
+						<div class="inquiry-view-answer">
+							<div class="table">
+								<div class="th"><span>답변</span></div>
+								<div class="td">
+									{=nl2br(reply)}
+								</div>
+							</div>
+						</div>
+					</td>
+				</tr>
+			</tbody>
+		</table>
+		<div class="btn_wrap list_btn_wrap">
+			<a href="/mypage/mycs.php" class="btn_list">목록</a>
+		</div>
+	</div><!-- container_inner End -->
+</div>
+
+{ # footer }

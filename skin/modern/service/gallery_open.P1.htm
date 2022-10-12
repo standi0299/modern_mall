@@ -1,0 +1,401 @@
+{ # header }
+
+<style>
+#next-button2 {
+	cursor: pointer;
+    outline: none;
+    background: none;
+    border: none;
+    font-size: 2em;
+    font-family: nanumgothic;
+    opacity: 0.5;
+    float: right;
+    z-index: 9999;
+    display: block;
+    position: relative;
+    top: 260px;
+    left: -30px;
+}
+
+#previous-button2 {
+	cursor: pointer;
+    outline: none;
+    background: none;
+    border: none;
+    font-size: 2em;
+    font-family: nanumgothic;
+    opacity: 0.5;
+    float: left;
+    z-index: 9999;
+    display: block;
+    position: relative;
+    top: 260px;
+    left: 30px;
+}
+</style>
+
+<form name="searchFm">
+<input type="hidden" name="orderby" value=""/>
+</form>
+
+<form name="fmView" method="post" id="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+<input type="hidden" name="storageids"/>
+<input type="hidden" name="editor_type"/>
+</form>
+
+<div class="ct_mapgell" style="margin-top:80px;">
+	<div class="tab_gallery">
+		<ul>
+			<li class="best_gallery"><a href="../service/gallery_best.php">베스트 편집</a></li>
+			<li class="best_gallery"><a href="../service/gallery_open.php" class="under_bor_gell">공개 갤러리</a></li>
+		</ul>
+	</div>
+	<div class="jung_list" id="goods_sort">
+		<ul>
+			<li><a href="javascript:;" sort="a.view desc" { ? _GET.orderby == "a.view desc" }style="color:#d81b60;"{ / }>인기순</a></li>
+			<li><a href="javascript:;" sort="a.regdt desc" { ? _GET.orderby == "a.regdt desc" }style="color:#d81b60;"{ / }>최신순</a></li>
+		</ul>
+	</div>
+	<div class="llery">
+		<!--상품st-->
+		<!--{ @ list }-->
+		<a href="javascript:open_layer('{.storageid}');" class="show_edit">
+			<div class="llery_content">
+				<div class="ller_1">
+					<ul>
+						<li>
+							<div class="img_up">{=goodsListImg(.goodsno, "", "", "width: 260px; height: 260px")}</div>
+						</li>
+						<li class="mm_ller3">{list.title}</li>
+						<li class="mm_border"></li>
+					</ul>
+				</div>
+				<div class="ller_2">
+					<ul>
+						<li class="nn_ller1">{=substr(list.mid,0,-3)}***</li>
+						<li style="float:right;" class="nn_ller2">
+							<ul>
+								<li>
+									<img src="/skin/modern/assets/P1/img/h3.png" alt="조회수"/><span>{list.view}</span>
+								</li>
+								<!--<li>
+									<img src="/skin/modern/assets/P1/img/h2.png" alt="댓글"/><span>{list.comment}</span>
+								</li>-->
+								<li>
+									<img src="/skin/modern/assets/P1/img/h1.png" alt="찜"/><span>{list.like}</span>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</a>
+		<!--{ / }-->
+		<!--상품ed-->
+	</div>
+	
+	<!--레이어 팝업-->
+	<input type="hidden" id="storageid">
+	<input type="hidden" name="goodsno" id="goodsno">
+	<div class="mask_gell"></div>
+	<div class="window_edit">
+		<div class="btn_ed">
+			<button type="button" class="closedd">X</button>
+		</div>
+		<div class="main_edti">
+			<!--미리보기-->
+			<div>
+				<div class="magazine">	
+					<!-- Next button -->
+					<div id="next-button2" onclick="viewImg(1);">></div>
+					<!-- Previous button -->
+					<div id="previous-button2" onclick="viewImg(-1);"><</div>
+				</div>	
+				<!--<div id="canvas">
+					<div id="book-zoom">
+						<div class="sample-docs" id="layer_preview">
+							
+						</div>
+					</div>
+				</div>-->
+				<input type="hidden" id="gallery_preview_totcnt">
+				<div id="layer_preview" style="position:relative;"></div>
+			</div>
+			<!--미리보기-->
+		</div>
+		<div class="magin">
+			<p id="title"></p>
+			<div class="explad">
+				<div class="explad_1">
+					<ul>
+						<li>상품명</li>
+						<li>작성일</li>
+						<li>작성자</li>
+						<li>조회수</li>
+					</ul>
+				</div>
+				<div class="explad_1">
+					<ul>
+						<li id="goodsnm"></li>
+						<li id="regdt"></li>
+						<li id="mid"></li>
+						<li id="view"></li>
+					</ul>
+				</div>
+			</div>
+			<!--<div class="ed_tag">
+				<ul>
+					<li>#커플</li>
+					<li>#가족</li>
+					<li>#여행</li>
+				</ul>
+			</div>
+			<div class="redas" id="comment_list">
+
+			</div>
+			<div class="ed_textare1">
+				<textarea class="tong" id="comment"></textarea>
+			</div>-->
+			<div class="ed_textare2">
+				<ul>
+					<!--<li><button class="ed_up1" onclick="set_galley_comment();">등록하기</button></li>-->
+					<!--<li><button type="button" class="ed_up1" onclick="make_edit();">따라만들기</button></li>-->
+					<li class="ed_f" id="jjim_heart" style="clear:both;">
+						
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+   <!--레이어 팝업-->
+</div>
+
+<script type="text/javascript">
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var pod_signed = "{_pod_signed}"; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+
+<script>
+/*$j(window).load(function() {
+	$j(".img_up img").each(function() {
+		$j(this).css("display", "inline-block");
+		
+		if ($j(this).width() < $j(this).height()) {
+			$j(this).css("width", "auto");
+			if ($j(this).height() > 260) $j(this).css("height", "260px");
+			
+			var marginWidth = (260 - $j(this).width()) / 2;
+			$j(this).css("margin-left", marginWidth);
+		} else {
+			if ($j(this).width() > 260) $j(this).css("width", "260px");
+			$j(this).css("height", "auto");
+			
+			var marginHeight = (260 - $j(this).height()) / 2;
+			$j(this).css("margin-top", marginHeight);
+		}		
+	});
+});*/
+
+//미리보기 이미지 이동
+var num = 0;
+
+function viewImg (dir) {
+	var totcnt = $j("#gallery_preview_totcnt").val();
+	
+	num = num + dir;
+	
+	if (num < 0) {
+		num = 0;
+	}
+	
+	if (num > totcnt - 1) {
+		num = totcnt - 1;
+	}
+	
+	var obj = $j("#layer_preview");
+	$j("img", obj).fadeTo(0, 0);
+	$j("img:eq(" + num + ")", obj).fadeTo(200, 1);
+}
+
+function resizeGalleryImg(obj) {
+	if ($j(obj).width() > 674 || $j(obj).height() > 520) {
+		var perWidth = $j(obj).width() / 674;
+		var perHeight = $j(obj).height() / 520;
+		
+		if (perWidth > perHeight) {
+			var height = 674 * ($j(obj).height() / $j(obj).width());
+			$j(obj).css("width", "674px");
+			$j(obj).css("height", height + "px");
+		} else {
+			var width = 520 * ($j(obj).width() / $j(obj).height());
+			$j(obj).css("width", width + "px");
+			$j(obj).css("height", "520px");
+		}
+	}
+		
+	var marginWidth = ((771 - $j(obj).width()) / 2);
+	$j(obj).css("margin-left", marginWidth);
+	
+	var marginHeight = ((560 - $j(obj).height()) / 2);
+	$j(obj).css("margin-top", marginHeight);
+	$j(obj).css("margin-bottom", marginHeight);
+}
+
+var totalPageNum = "";
+	function open_layer(storageid){
+		$j.ajax({
+			type : "POST",
+			url : "indb.php",
+			dataType :"json",
+			data : "mode=get_gallery_data&storageid=" + storageid,
+			success : function(data) {
+				if (data) {
+					$j("#title").html(data.title);
+					$j("#goodsnm").html(data.goodsnm);
+					$j("#regdt").html(data.updatedt);
+					$j("#mid").html(data.mid);
+					$j("#view").html(data.view);
+					//$j("#comment_list").html(data.comment);
+					
+					if(data.goods_wish_chk == "Y")
+						$j("#jjim_heart").html("<img src=\"/skin/modern/assets/P1/img/heart_full.png\" alt=\"찜\" onclick=\"set_jjim();\"/>");
+					else 
+						$j("#jjim_heart").html("<img src=\"/skin/modern/assets/P1/img/heart.png\" alt=\"찜\" onclick=\"set_jjim();\"/>");
+
+					totalPageNum = data.preview_cnt;
+
+					$j("#layer_preview").html(data.gallery_layer_preview);
+					$j("#gallery_preview_totcnt").val(data.preview_cnt);
+					num = 0;
+
+					$j("#storageid").val(data.storageid);
+					$j("#goodsno").val(data.goodsno);
+
+					//loadApp();
+
+					open_gallery_layer();
+					
+					$j(".gallery_img").each(function() {
+						$j(this).css("width", data.width);
+						$j(this).css("height", data.height);
+						resizeGalleryImg(this);
+					});
+					
+					viewImg(0);
+				}
+			}
+		});
+	}
+	
+	/*function set_galley_comment(storageid){
+		var comment = $j("#comment").html();
+		var storageid = $j("#storageid").val();
+		
+		if(comment == "") {
+			alert("내용을 입력해 주세요.");
+		} else {
+			$j.ajax({
+				type : "POST",
+				url : "indb.php",
+				data : "mode=set_gallery_comment&comment=" + comment + "&storageid=" + storageid,
+				success : function(data) {
+					if(data == "ok"){
+						alert("등록 완료하였습니다.");
+						location.reload();
+					}
+				}
+			});
+		}
+	}*/
+	
+	function make_edit(){
+		var goodsno = $j("#goodsno").val();
+		$j.ajax({
+			type : "get",
+			url : "indb.php",
+			dataType :"json",
+			data : "mode=get_gallery_edit_data&goodsno=" + goodsno,
+			success : function(data) {
+				call_exec(data.pods_use, data.podskind, data.podsno,'', '');
+			}
+		});
+	}
+	
+	function set_jjim(){
+		var storageid = $j("#storageid").val();
+		$j.ajax({
+			type : "POST",
+			url : "indb.php",
+			data : "mode=set_jjim_list&storageid=" + storageid,
+			success : function(data) {
+				if(data == "ok"){
+					alert("찜목록에 등록 완료되었습니다.");
+				} else if(data == "delete") alert("찜목록에서 삭제 완료하였습니다.");
+				
+				location.reload();
+			}
+		});
+	}
+	
+	/*function loadApp() {
+		var flipbook = $('.sample-docs');
+		
+		// Check if the CSS was already loaded
+		if (flipbook.width() == 0 || flipbook.height() == 0) {
+			setTimeout(loadApp, 10);
+			return;
+		}
+		//$('.sample-docs .double').scissor();	
+		// Create the flipbook
+		
+		if (flipbook.turn('is')) {
+			flipbook.turn('destroy');
+		}
+		
+		flipbook.turn({
+			elevation : 50,
+			acceleration : false,
+			gradients : true,
+			autoCenter : true,
+			duration : 1000,
+			pages : totalPageNum,
+		});
+
+		flipbook.addClass('animated');
+
+		// Show canvas
+		$('#canvas').css({
+			visibility : 'visible'
+		});
+		$("body").css("overflow-y", "auto");
+	}
+
+	// Hide canvas
+
+	$('#canvas').css({
+		visibility : 'hidden'
+	});
+
+	yepnope({
+		test : Modernizr.csstransforms,
+		yep : ['/skin/modern/assets/P1/lib/turn.min.js', '/skin/modern/assets/P1/css/jquery.ui.css'],
+		both : ['/skin/modern/assets/P1/css/docs.css', '/skin/modern/assets/P1/js/docs.js'],
+		complete : loadApp
+	});*/
+	
+	$j(function(){
+		$j("a", "#goods_sort").click(function(){
+			$j("input[name=orderby]").val($j(this).attr("sort"));
+			document.searchFm.submit();
+		});
+	});
+</script>
+
+{ # footer }

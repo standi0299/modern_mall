@@ -1,0 +1,128 @@
+{ # header_popup }
+
+<style>
+#next-button2 {
+	cursor: pointer;
+    outline: none;
+    background: none;
+    border: none;
+    font-size: 2em;
+    font-family: nanumgothic;
+    opacity: 0.5;
+    float: right;
+    z-index: 9999;
+    display: block;
+    position: relative;
+    top: 260px;
+    left: -30px;
+}
+
+#previous-button2 {
+	cursor: pointer;
+    outline: none;
+    background: none;
+    border: none;
+    font-size: 2em;
+    font-family: nanumgothic;
+    opacity: 0.5;
+    float: left;
+    z-index: 9999;
+    display: block;
+    position: relative;
+    top: 260px;
+    left: 30px;
+}
+</style>
+
+<table style="margin:50px auto;">
+	<tr>
+		<td></td>
+		<td id="page_td" class="eng" valign="top">
+			page : 
+			<!--{ @ loop }-->
+				<span {?.index_==0}style="font-weight:bold;color:red;display:inline;"{:}style="display:inline;"{/} onclick="viewImgDirect(this,{.index_})" class="hand">{.index_+1}</span>
+			<!--{ / }-->
+		</td>
+		<td></td>
+	</tr>
+	<tr>
+		<td style="font:bold 30pt tahoma" id="next-button2" onclick="viewImg(-1)" class="hand"><</td>
+		<td id="img_td" style="position:relative;" align="center">
+			<!--{ @ loop }-->
+				<img src="{.value_}" class="preview_img" style="position:absolute;"/>
+			<!--{ / }-->
+				<img src="{loop[0]}" class="preview_img" style="visiblity:hidden;"/>
+		</td>
+		<td style="font:bold 30pt tahoma" id="previous-button2" onclick="viewImg(1)" class="hand">></td>
+	</tr>
+</table>
+
+<script>
+var num = 0;
+
+function viewImg(dir){
+	num = num+dir;
+	if (num < 0){
+		num = 0;
+	}
+	if (num > {=count(loop)-1}){
+		num = {=count(loop)-1};
+	}
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(200,1);
+
+	$j("span",$j("#page_td")).css("font-weight","normal");
+	$j("span",$j("#page_td")).css("color","#000000");
+	$j("span:eq("+num+")",$j("#page_td")).css("font-weight","bold");
+	$j("span:eq("+num+")",$j("#page_td")).css("color","red");
+}
+
+function viewImgDirect(span,no){
+	num = no;
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(300,1);
+	
+	$j("span",$j("#page_td")).css("font-weight","normal");
+	$j("span",$j("#page_td")).css("color","#000000");
+	$j(span).css("font-weight","bold");
+	$j(span).css("color","red");
+}
+
+$j(function(){
+	viewImg(0);
+});
+
+$j(window).load(function() {
+	$j(".preview_img").each(function() {
+		resizePreviewImg(this);
+	});
+});
+
+function resizePreviewImg(obj) {
+	if ($j(obj).width() > 830 || $j(obj).height() > 530) {
+		var perWidth = $j(obj).width() / 830;
+		var perHeight = $j(obj).height() / 530;
+		
+		if (perWidth > perHeight) {
+			var height = 830 * ($j(obj).height() / $j(obj).width());
+			$j(obj).css("width", "830px");
+			$j(obj).css("height", height + "px");
+		} else {
+			var width = 530 * ($j(obj).width() / $j(obj).height());
+			$j(obj).css("width", width + "px");
+			$j(obj).css("height", "530px");
+		}
+	}
+		
+	var marginWidth = ((830 - $j(obj).width()) / 2);
+	$j(obj).css("margin-left", "auto");
+	
+	var marginHeight = ((530 - $j(obj).height()) / 2);
+	$j(obj).css("margin-top", marginHeight);
+	$j(obj).css("margin-bottom", marginHeight);
+}
+</script>
+
+{ # footer_popup }

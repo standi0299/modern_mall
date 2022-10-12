@@ -1,0 +1,17 @@
+<div id="body_wrap">
+<div class="Main_slide">
+    <div class="Main_slide_L_btn slide_btn">
+        <img src="/skin/modern/assets/images/stcom/main_slide_btn_L.png" {=__alt("왼쪽슬라이드버튼")} class="Main_slide_btn_L " />
+        <img src="/skin/modern/assets/images/stcom/main_slide_btn_L_on.png" {=__alt("왼쪽슬라이드버튼온")} class="Main_slide_btn_L Main_slide_btn_off  " />
+    </div>
+    <div class="Main_slide_R_btn slide_btn">
+        <img src="/skin/modern/assets/images/stcom/main_slide_btn_R.png" {=__alt("오른쪽슬라이드버튼")} class="Main_slide_btn_R Main_slide_btn_on " />
+        <img src="/skin/modern/assets/images/stcom/main_slide_btn_R_on.png" {=__alt("오른쪽쪽슬라이드버튼온")} class="Main_slide_btn_R Main_slide_btn_off " />
+    </div>
+
+    <ul class="Main_slide_list">
+			<!--{ @ _mcdata.img }-->   			
+   			<li class="Main_slide_0{.index_ + 1}"><a href="{_mcdata.url[.index_]}"><img src="/data/main_content/{_cid}/{_mcdata.img[.index_]}" {=__alt("슬라이드이미지{.index_ + 1}")} /></a></li>
+			<!--{ / }-->
+    </ul>
+</div>

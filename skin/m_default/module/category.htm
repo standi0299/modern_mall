@@ -1,0 +1,17 @@
+<!--{ ? !_cfg.design[_cfg.skin].top_disable_top_menu }-->
+<section id="mainWrap" class="contents">
+	<nav>
+		<!--{ @ f_getCategory2(_GET.catno) }-->
+		<!--{ ? .img }-->
+			<!--{ ? .file_path }-->
+				<div align="center">{.category_link_tag}<img src="{.file_path}/{.img}" <!--{ ? .oimg }-->onmouseover=this.src='{.file_path}//{.oimg}' onmouseout=this.src='{.file_path}/{.img}'<!--{ / }-->></a></div>
+			<!--{ : }-->
+				<div align="center">{.category_link_tag}<img src="../../data/category/m_default/{.img}" <!--{ ? .oimg }-->onmouseover=this.src='../../data/category/m_default/{.oimg}' onmouseout=this.src='../../data/category/m_default/{.img}'<!--{ / }-->></a></div>
+			<!--{ / }-->
+		<!--{ : }-->
+		<div align="center" style="padding: 5px 0 5px 0;">{.category_link_tag}{.catnm}</a></div>
+		<!--{ / }-->
+		<!--{ / }-->
+	</nav>
+</section>
+<!--{ / }-->

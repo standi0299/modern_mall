@@ -1,0 +1,207 @@
+{ # header }
+
+<section class="contents bgArea">
+	<div class="deliveryArea">
+		<div class="inquiry">
+			<!--{ @ ord }-->
+			<div class="inqDetail">
+				<span class="desc">{=__text("주문번호")} : {payno}_{.ordno}</span>
+			</div>
+			<!--{ @ .item }-->
+			<div class="inqDetail" <!--{ ? ..ordseq != '0001'}-->style="border-top:1px solid #ebebeb;padding:10px 0 0 0;"<!--{ / }-->>
+				<span class="desc">
+				[{..goodsnm}]<br />
+				<!--{ ? ..mobile_opt }-->{..mobile_opt}<!--{ ? ..addopt || ..printopt }--> / <!--{ : }--><br /><!--{ / }--><!--{ / }-->
+				<!--{ ? ..addopt }-->
+					<!--{ @ ..addopt }-->
+						<!--{ ? ...index_ == 0 }-->
+						{...addoptnm}
+						<!--{ : }-->
+						 / {...addoptnm}
+						<!--{ / }-->
+					<!--{ / }--><br />
+				<!--{ / }-->
+				<!--{ ? ..printopt }-->
+					<!--{ @ ..printopt }-->
+						<!--{ ? ...index_ == 0 }-->
+						{...printoptnm} {...ea}{=__text("장")}
+						<!--{ : }-->
+						 / {...printoptnm} {...ea}{=__text("장")}
+						<!--{ / }-->
+					<!--{ / }--><br />
+				<!--{ : }-->
+					{=number_format(..ea)}{=__text("개")}<br />
+				<!--{ / }-->
+				<!--{ ? ..storageid && ..goodsno!='-1' && ..est_order_type != 'UPLOAD' }-->
+				<a href="javascript:preview_layer_ajax('{..storageid}','{..goodsno}')" class=" default preview" target="_self"><!--{ @ f_banner_s2('btn_mobile_cart_preview','img')}-->{...banner}<!--{ / }--></a>
+				<!--{ / }-->
+				</span>
+				<figure>{=goodsListImg(..goodsno,100)}</figure>
+			</div>
+			<div class="inqPayment">
+				<span class="price">{=__text("상품금액")} : <strong>{=number_format(..saleprice)}{=__text("원")}</strong></span>
+				<!--{ ? ..dc_member * ..ea }--><br /><br /><span class="price">{=__text("회원할인")} : <strong style="color:#f54337;">(-){=number_format(..dc_member * ..ea)}{=__text("원")}</strong></span><!--{ / }-->
+				<!--{ ? ..dc_coupon }--><br /><br /><span class="price">{=__text("쿠폰할인")} : <strong style="color:#f54337;">(-){=number_format(..dc_coupon)}{=__text("원")}</strong></span><!--{ / }-->
+				<!--{ ? ..reserve && _sess && _cfg.mobile_member_use == "Y" }--><br /><br /><span class="price">{=__text("적립예정금액")} : <strong style="color:#f54337;">(+){=number_format(..reserve)}{=__text("원")}</strong></span><!--{ / }-->		
+				<div class="state">
+					<span style="float:right;">{=_r_step[..itemstep]} <!--{ ? ..itemstep == '5' && ..strshipcode_url && 1 == 1 }-->
+					 <!--{ ? _cfg.isMobile }-->
+					 <a href="exbrowser://{..strshipcode_url}"/> 
+					 <!--{ : }-->
+					 <a href="{..strshipcode_url}" class="checkProcess" target="_blank">
+					 <!--{ / }-->    
+					  <!--{ @ f_banner_s2('btn_mobile_search_ship','img')}-->{...banner}<!--{ / }-->
+					 </a>
+					 <!--{ / }--></span>
+					 <!--{ ? ..itemstep == '5' && ..strshipcode_url }--><br><span style="clear:right;display:block;margin-top:10px;font-size:13px;">{=__text("택배사")} : {..strshipcode_compnm}<br>{=__text("운송장번호")} : {..shipcode}</span><!--{ : }--><span style="clear:right;"></span><!--{ / }-->
+			     </div>
+			</div>
+			<!--{ / }-->
+			<div class="inqPayment" style="margin-top:-17px;">
+				<span class="price">{=__text("배송비")} : <strong><!--{ ? .shipprice }-->{=number_format(.shipprice)}{=__text("원")}<!--{ : }-->{=__text("무료")}<!--{ / }--></strong></span>
+			</div>
+			<dl class="first"></dl>
+			<!--{ / }-->
+			<dl>
+				<dt class="subject">{=__text("주문일")}</dt>
+				<dd>{=substr(orddt,0,4)}{=__text("년")} {=substr(orddt,5,2)}{=__text("월")} {=substr(orddt,8,2)}{=__text("일")} ({week})</dd>
+			</dl>
+			<dl>
+				<dt class="subject lineAll">{=__text("배송정보")}</dt>
+				<dt>{=__text("받는사람")}</dt>
+				<dd>{receiver_name}</dd>
+				<dt>{=__text("전화번호")}</dt>
+				<dd>{receiver_mobile}</dd>
+				<dt>{=__text("배송주소")}</dt>
+				<dd>({receiver_zipcode})<br />{receiver_addr}<br />{receiver_addr_sub}</dd>
+			</dl>
+			<dl>
+				<dt class="subject lineAll">{=__text("결제정보")}</dt>
+				<dt>{=__text("상품금액")}</dt>
+				<dd><span class="price">{=number_format(saleprice)}{=__text("원")}</span></dd>
+				<!--{ ? dc_member }-->
+				<dt>{=__text("회원할인")}</dt>
+				<dd><span class="dcpoint">(-){=number_format(dc_member)}{=__text("원")}</span></dd>
+				<!--{ / }-->
+				<!--{ ? dc_coupon }-->
+				<dt>{=__text("쿠폰할인")}</dt>
+				<dd><span class="dcpoint">(-){=number_format(dc_coupon)}{=__text("원")}</span></dd>
+				<!--{ / }-->
+				<!--{ ? dc_emoney }-->
+				<dt>{=__text("적립금할인")}</dt>
+				<dd><span class="dcpoint">(-){=number_format(dc_emoney)}{=__text("원")}</span></dd>
+				<!--{ / }-->
+				<dt>{=__text("배송비")}</dt>
+				<dd><span class="price"><!--{ ? shipprice }-->{=number_format(shipprice)}{=__text("원")}<!--{ : }-->{=__text("무료")}<!--{ / }--></span></dd>
+				<dt class="final">{=__text("최종결제금액")}</dt>
+				<dd><span class="price final">{=number_format(payprice)}{=__text("원")}</span></dd>
+			</dl>
+			<dl class="last">
+				<dt class="subject lineAll">{=__text("결제정보")}</dt>
+				<dt>{=__text("결제수단")}</dt>
+				<dd><span class="price">{_r_paymethod[paymethod]}</span></dd>
+				<!--{ ? paymethod == "b" || paymethod == "v" }-->
+				<dt>{=__text("입금계좌")}</dt>
+				<dd><span class="price">{bankinfo}</span></dd>
+				<!--{ / }-->
+				<!--{ ? paymethod == "b" }-->
+				<dt>{=__text("입금자명")}</dt>
+				<dd><span class="price">{payer_name}</span></dd>
+				<!--{ / }-->
+			</dl>
+		</div>
+		
+		<!--{ ? 0 == 1 }-->
+		<section id="mainWrap">
+			<nav>
+				<div align="center" style="padding:0;"><!--{ @ f_banner_s2('orderview')}-->{.banner}<!--{ / }--></div>
+			</nav>
+		</section>
+		<!--{ / }-->
+	</div>
+</section>
+
+<div id="layerPreview">
+	<header>
+		<article class="layerHeader">
+			<h1>{=__text("미리보기")}</h1>
+			<a href="#" target="_self" class="prevBtn closeBtn"><img src="../img/ic_x.png" {=__alt("레이어닫기")}></a>
+		</article>
+	</header>
+	<div id="slider1_container" style="position: relative; top: 0px; left: 0px; width: 600px; height: 300px; margin: 0 auto; overflow: hidden;"></div>
+</div>
+
+<script>
+function preview_layer_ajax(storageid,goodsno) {
+	var preview_width = parseInt($j("#slider1_container").css("width"))-20;
+	var preview_height = parseInt($j("#slider1_container").css("height"))-20;
+	$j("#slider1_container").empty();
+	$j.ajax({
+		type : "GET",
+		url : "/module/preview.php",
+		data : "goodsno=" + goodsno + "&storageid=" + storageid + "&preview_width=" + preview_width + "&preview_height=" + preview_height + "&mobile_type=Y",
+		success : function(preview) {
+			if (preview.indexOf({=__java("미리보기 지원되지 않는 편집입니다.")}) > -1) {
+				$j("#layerBox .noteTxt").html(preview);
+				$("#layerBox").show();
+				$("#wrap").addClass("dimed_on");
+			} else {
+				$j("#slider1_container").html(preview);
+				preview_slide_start();
+				$("#layerPreview").show();
+			}
+		}
+	});
+}
+function preview_slide_start() {
+	var options = {
+		$AutoPlay: false,
+        $AutoPlaySteps: 1,
+        $FillMode: 1,
+        $Loop: 0,
+        $HWA: false,
+
+        $BulletNavigatorOptions: {
+        	$Class: $JssorBulletNavigator$,
+        	$ChanceToShow: 2,
+        	$AutoCenter: 1,
+        	$Steps: 1,
+        	$Lanes: 1,
+        	$SpacingX: 1,
+        	$SpacingY: 10,
+        	$Orientation: 1
+        }
+    };
+        
+    var jssor_slider1 = new $JssorSlider$("slider1_container", options);
+    
+    function ScaleSlider() {
+		var parentWidth = jssor_slider1.$Elmt.parentNode.clientWidth;
+    	if (parentWidth)
+    		jssor_slider1.$ScaleWidth(Math.min(parentWidth, 600));
+    	else
+    	    window.setTimeout(ScaleSlider, 30);
+	}
+    
+    ScaleSlider();
+
+    $(window).bind("load", ScaleSlider);
+    $(window).bind("resize", ScaleSlider);
+    $(window).bind("orientationchange", ScaleSlider);
+}
+$("#layerPreview .closeBtn").on({
+	click : function(e){
+		e.preventDefault();
+		$("#layerPreview").hide();
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+</script>
+
+{ # footer }

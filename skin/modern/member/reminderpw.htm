@@ -1,0 +1,73 @@
+{ # header }
+
+<section class="section-container">
+	<div class="tab-container tab-default">
+		<ul class="h-group tab-menu">
+			<li class="col" rel="tab2" id="reminderid">{=__text("아이디찾기")}</li>
+			<li class="col active" rel="tab2">{=__text("비밀번호찾기")}</li>
+		</ul>
+		<!--{ ? _POST.mode == "reminderpw" }-->
+		<div class="tab-content-wrap" id="find-account-done">
+			<div id="tab2" class="tab-content">
+				<h3 class="text-center">
+					{=__text("임시 비밀번호를 이메일로 전송하였습니다.")}
+				</h3>
+				<p class="text-center">
+					{=__text("임시 비밀번호 확인 후 로그인이 가능합니다.")}<br/>
+					{=__text("비밀번호 재설정은")} <span class="text-primary">{=__text("마이페이지-회원정보수정")}</span>{=__text("에서 가능합니다.")}
+				</p>
+			</div>
+		</div>
+		<!--{ : }-->
+		<div class="tab-content-wrap" id="find-account-form">
+			<div id="tab2" class="tab-content">
+				<form method="post" onsubmit="return form_encode_submit(this);">
+					<input type="hidden" name="mode" value="reminderpw">
+					
+					<input type="hidden" name="mid_en">
+					<input type="hidden" name="email_en">
+					
+					<div class="form-horizontal">
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("아이디")}</label>
+							<div class="col">
+								<input type="text" class="form-control" name="mid" required {=__placeholder("아이디")}>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("이메일")}</label>
+							<div class="col">
+								<input type="text" class="form-control" name="email" required {=__placeholder("이메일")}>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<div class="col"></div>
+							<div class="col right">
+								<button type="submit" class="btn btn-primary btn-block btn-lg">{=__text("찾기")}</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<!--{ / }-->
+	</div>
+	<div class="text-right" id="join-link">
+		<span>{=__text("아직 회원이 아니신가요?")}</span>
+		<a href="../member/register.php">{=__text("회원가입")}</a>
+		<a href="../member/login.php">{=__text("로그인")}</a>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j("#reminderid").click(function() {
+	location.href = "reminderid.php";
+});
+
+$j(function() {
+	$j("body").attr("id", "find-account-page");
+	$j("body").attr("class", "");
+});
+</script>
+
+{ # footer }

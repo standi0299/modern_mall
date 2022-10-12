@@ -1,0 +1,259 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">주문배송</h2>
+		
+		<script>
+			$(function(){
+				$('.delivery-btn a').click(function(){
+					$('.delivery-btn a').removeClass('on');
+					$(this).addClass('on');
+				});
+			});
+		</script>
+		
+		<div class="delivery-top">
+			<div class="table delivery-table1">
+				<div class="th">기간별 조회</div>
+				<div class="td">
+					<div class="delivery-btn">
+						<a href="#" onclick="javascript:autoDate('startDate','endDate','{=date('Y-m-d',strtotime('-3 month'))}','{=date('Y-m-d')}')">3개월</a>
+						<a href="#" onclick="javascript:autoDate('startDate','endDate','{=date('Y-m-d',strtotime('-6 month'))}','{=date('Y-m-d')}')">6개월</a>
+						<a href="#" onclick="javascript:autoDate('startDate','endDate','{=date('Y-m-d',strtotime('-9 month'))}','{=date('Y-m-d')}')">9개월</a>
+						<a href="#" onclick="javascript:autoDate('startDate','endDate','{=date('Y-m-d',strtotime('-12 month'))}','{=date('Y-m-d')}')">12개월</a>
+					</div>
+				</div>
+			</div>
+			<div class="table delivery-table2">
+				<div class="th">일자별 직접 입력 조회</div>
+				<div class="td">
+					<form id="frm" method="get">
+					<!-- line71 calendar.js 기존파일에서 수정했습니다. -->
+					<div class="date-inpuiry">
+						<div class="input-date-wrap">
+							<label for="startDate"></label>
+							<input type="text" name="orddt[]" id="startDate" class="calendar" value="{=toDate(_GET.orddt[0], '-')}" readonly />
+							<span class="icon-calendar"></span>
+						</div>
+						<span class="bar">-</span>
+						<div class="input-date-wrap">
+							<label for="endDate"></label>
+							<input type="text" name="orddt[]" id="endDate" readonly class="calendar" value="{=toDate(_GET.orddt[1], '-')}" />
+							<span class="icon-calendar"></span>
+						</div>
+					</div>
+					<button class="btn_date_inquiry" onclick="document.getElementById('frm').submit();"><span>조회</span></button>
+					</form>
+				</div>
+			</div>
+		</div>
+		<h3 class="table-title">주문 내역</h3>
+		<table class="cart-table cart">
+			<colgroup>
+				<col width="160" />
+				<col width="640" />
+				<col width="*" />
+				<col width="*" />
+				<col width="*" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>주문번호</th>
+					<th>주문 상품 정보</th>
+					<th>수량</th>
+					<th>결제금액</th>
+					<th>상태</th>
+				</tr>
+			</thead>
+			<tbody>
+
+
+
+				<!--{ @ loop }-->
+				<!--{ @ .ord }--><!--{ @ ..item }-->
+				
+				<!--{ ? .rowspan > 1 }-->
+					<!--{ ? ...ordno == 0001 && ...ordseq == 0001 }-->
+					<tr>
+						<td class="order-info" rowspan="{.rowspan}">
+							<p class="order-num">{...payno}</p>
+							<p class="order-date">{=substr(...orddt, 0, 10)}</p>
+							<a href="orderview.php?payno={.payno}" class="btn_detail_view">상세보기</a>
+						</td>
+						<td class="info">
+							<div class="cart-product-img">{=goodsListImg(...goodsno, 160)}</div>
+							<div class="cart-product-info">
+								<div class="cart-product-name-wrap">
+									<a href="#" class="cart-product-name">
+										{...goodsnm}
+									</a>
+									<div class="cart-product-name-edit">
+										
+									</div>
+									<div class="cart-product-option">
+										<!--{ ? ...est_order_option_desc_str }-->
+											<p style="color: blue;">{=__text("견적옵션")}<br>{...est_order_option_desc_str}</p>
+											<!--{ ? ...est_order_memo }-->
+												<p style="color: green;">{=__text("주문메모")} : {...est_order_memo}</p>
+											<!--{ / }-->
+										<!--{ / }-->
+										
+										<!--{ ? ...opt }-->
+											<p style="color: blue;">{=__text("옵션")} [ {...opt} ] (+{...aprice})</p>
+										<!--{ / }-->
+										
+										<!--{ @ ...addopt }-->
+											<p style="color: green;">{....addopt_bundle_name} : {....addoptnm} (+{=number_format(....addopt_aprice)})</p>
+										<!--{ / }-->
+										
+										<!--{ @ ...printopt }-->
+											<p style="color: red;">{....printoptnm} : {....ea} (+{=number_format(....print_price)})</p>
+										<!--{ / }-->
+									</div>
+								</div>
+								<div class="btn_wrap">
+									<!--{ ? ...storageid }-->
+									<a href="javascript:popup('../module/preview.php?goodsno={...goodsno}&storageid={...storageid}',1000,650, 1);" class="btn_preview">{=__text("미리보기")}</a>
+									<!--{ / }-->
+									<!--<a href="#" class="btn_reorder">재주문하기</a>-->
+								</div>
+							</div>
+						</td>
+						<td class="amount">{=number_format(...ea)}</td>
+						<td class="price-lg">{=number_format(...saleprice)}{=__text("원")}</td>
+						<td class="state">{=_r_step[...itemstep]}
+							{..strshipcode}
+						</td>
+					</tr>
+					<!--{ : }-->
+					<tr>
+						<td class="info">
+							<div class="cart-product-img">{=goodsListImg(...goodsno, 160)}</div>
+							<div class="cart-product-info">
+								<div class="cart-product-name-wrap">
+									<a href="#" class="cart-product-name">
+										{...goodsnm}
+									</a>
+									<div class="cart-product-name-edit">
+
+									</div>
+									<div class="cart-product-option">
+										<!--{ ? ...est_order_option_desc_str }-->
+											<p style="color: blue;">{=__text("견적옵션")}<br>{...est_order_option_desc_str}</p>
+											<!--{ ? ...est_order_memo }-->
+											<p style="color: green;">{=__text("주문메모")} : {...est_order_memo}</p>
+											<!--{ / }-->
+											<!--{ / }-->
+											
+											<!--{ ? ...opt }-->
+											<p style="color: blue;">{=__text("옵션")} [ {...opt} ] (+{...aprice})</p>
+											<!--{ / }-->
+											
+											<!--{ @ ...addopt }-->
+											<p style="color: green;">{....addopt_bundle_name} : {....addoptnm} (+{=number_format(....addopt_aprice)})</p>
+											<!--{ / }-->
+											
+											<!--{ @ ...printopt }-->
+											<p style="color: red;">{....printoptnm} : {....ea} (+{=number_format(....print_price)})</p>
+											<!--{ / }-->
+									</div>
+								</div>
+								<div class="btn_wrap">
+									<!--{ ? ...storageid }-->
+										<a href="javascript:popup('../module/preview.php?goodsno={...goodsno}&storageid={...storageid}',1000,650, 1);" class="btn_preview">{=__text("미리보기")}</a>
+									<!--{ / }-->
+									<!--
+									<a href="#" class="btn_reorder">재주문하기</a>
+									-->
+								</div>
+							</div>
+						</td>
+						<td class="amount">{=number_format(...ea)}</td>
+						<td class="price-lg">{=number_format(...saleprice)}{=__text("원")}</td>
+						<td class="state">{=_r_step[...itemstep]}
+							{..strshipcode}
+						</td>
+					</tr>
+					<!--{ / }-->
+				<!--{ : }-->
+					<tr>
+						<td class="order-info">
+							<p class="order-num">{...payno}</p>
+							<p class="order-date">{=substr(...orddt, 0, 10)}</p>
+							<a href="orderview.php?payno={.payno}" class="btn_detail_view">상세보기</a>
+						</td>
+						<td class="info">
+							<div class="cart-product-img">{=goodsListImg(...goodsno, 160)}</div>
+							<div class="cart-product-info">
+								<div class="cart-product-name-wrap">
+									<a href="#" class="cart-product-name">
+										{...goodsnm}
+									</a>
+									<div class="cart-product-name-edit">
+										
+									</div>
+									<div class="cart-product-option">
+										<!--{ ? ...est_order_option_desc_str }-->
+											<p style="color: blue;">{=__text("견적옵션")}<br>{...est_order_option_desc_str}</p>
+											<!--{ ? ...est_order_memo }-->
+											<p style="color: green;">{=__text("주문메모")} : {...est_order_memo}</p>
+											<!--{ / }-->
+											<!--{ / }-->
+											
+											<!--{ ? ...opt }-->
+											<p style="color: blue;">{=__text("옵션")} [ {...opt} ] (+{...aprice})</p>
+											<!--{ / }-->
+											
+											<!--{ @ ...addopt }-->
+											<p style="color: green;">{....addopt_bundle_name} : {....addoptnm} (+{=number_format(....addopt_aprice)})</p>
+											<!--{ / }-->
+											
+											<!--{ @ ...printopt }-->
+											<p style="color: red;">{....printoptnm} : {....ea} (+{=number_format(....print_price)})</p>
+											<!--{ / }-->
+									</div>
+								</div>
+								<div class="btn_wrap">
+									
+									<!--{ ? ...storageid }-->
+									<a href="javascript:popup('../module/preview.php?goodsno={...goodsno}&storageid={...storageid}',1000,650, 1);" class="btn_preview">{=__text("미리보기")}</a>
+									<!--{ / }-->
+									
+									<!--
+									<a href="#" class="btn_reorder">재주문하기</a>
+									-->
+								</div>
+							</div>
+						</td>
+						<td class="amount">{=number_format(...ea)}</td>
+						<td class="price-lg">{=number_format(...saleprice)}{=__text("원")}</td>
+						<td class="state">
+							{=_r_step[...itemstep]}
+							{..strshipcode}
+						</td>
+					</tr>
+				<!--{ / }-->
+				
+				<!--{ / }--><!--{ / }-->
+				<!--{ / }-->
+			</tbody>
+		</table>
+		<div class="paging-wrap">
+				{=pg->page['navi_m2']}
+		</div>
+		
+		<div class="operation-guide">
+			<!--{ @ f_banner_s2('orderlist_notice')}-->{.banner}<!--{ / }-->
+		</div>
+	</div><!-- container_inner End -->
+</div>
+
+<script>
+	function autoDate(o1,o2,v1,v2){
+	$j("#"+o1).val(v1);
+	$j("#"+o2).val(v2);
+}
+</script>
+
+{ # footer }

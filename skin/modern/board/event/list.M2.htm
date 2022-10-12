@@ -1,0 +1,118 @@
+{ # header }
+
+	<div id="container-pupa">
+		<div class="container_inner">
+			<h2 class="category-title">이벤트</h2>
+			<script>
+				$(function(){
+					$('.tab-event li').each(function(idx){
+						$(this).click(function(){
+							$('.tab-event li').removeClass('on');
+							$(this).addClass('on');
+							$('.event-list').hide();
+							$('.event-list').eq(idx).show();
+						});
+					});
+				});
+			</script>
+			<div class="tab-event tab-50p">
+				<ul>
+					<li class="on"><a href="#">진행중인 이벤트</a></li>
+					<li><a href="#">종료된 이벤트</a></li>
+				</ul>
+			</div>
+			<!-- 진행중인 이벤트 -->
+
+			<!-- li 3개씩 ul 생성 -->
+			<div class="event-list event-list-ing">
+				<ul>
+					<!--{ @ loop }-->
+					
+					<!--{ ? .index_ && .index_ % 3 == 0 }-->
+					</ul><ul>
+					<!--{ / }-->
+					
+					<li>
+						{.link_view}
+							<div class="event-img" style="background-image:url(images/event_ex_img1.jpg);"></div>
+							<div class="event-date">
+								<span class="ing">진행중</span>
+								<u>2018.02.15 ~ 2018.03.01</u>
+							</div>
+							<div class="event-title">
+								{.subject}
+							</div>
+						</a>
+					</li>
+					<!--{ / }-->
+				</ul>
+				
+
+				<div class="paging-wrap">
+					{pg->page['navi']}
+				</div>
+			</div>
+
+			<!-- 종료된 이벤트 -->
+			<div class="event-list event-list-end">
+				<ul>
+					<li>
+						<a href="#">
+							<div class="event-img" style="background-image:url(images/event_ex_img1.jpg);"></div>
+							<div class="event-date">
+								<span class="end">종료</span>
+								<u>2018.02.15 ~ 2018.03.01</u>
+							</div>
+							<div class="event-title">
+								2018 설 선물 골든위크 보물찾기
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<div class="event-img" style="background-image:url(images/event_ex_img2.jpg);"></div>
+							<div class="event-date">
+								<span class="end">종료</span>
+								<u>2018.02.15 ~ 2018.03.01</u>
+							</div>
+							<div class="event-title">
+								2018 설 선물 골든위크 보물찾기
+							</div>
+						</a>
+					</li>
+					<li>
+						<a href="#">
+							<div class="event-img" style="background-image:url(images/event_ex_img3.jpg);"></div>
+							<div class="event-date">
+								<span class="end">종료</span>
+								<u>2018.02.15 ~ 2018.03.01</u>
+							</div>
+							<div class="event-title">
+								2018 설 선물 골든위크 보물찾기
+							</div>
+						</a>
+					</li>
+				</ul>
+
+				<div class="paging-wrap">
+					<a href="#" class="first"></a>
+					<a href="#" class="prev"></a>
+					<a href="#">1</a>
+					<a href="#">2</a>
+					<a href="#" class="on">3</a>
+					<a href="#">4</a>
+					<a href="#">5</a>
+					<a href="#">6</a>
+					<a href="#">7</a>
+					<a href="#">8</a>
+					<a href="#">9</a>
+					<a href="#">10</a>
+					<a href="#" class="next"></a>
+					<a href="#" class="last"></a>
+				</div>
+			</div>
+		</div>
+	</div><!-- container-pupa End -->
+	
+
+{ # footer }

@@ -1,0 +1,135 @@
+{ # header }
+
+<section style="margin:40px auto 55px;text-align:center;"><!--{ @ f_banner_s2('goods_review_write_title')}-->{.banner}<!--{ / }--></section>
+
+<section id="review-foam-layout">
+	<h3>{=__text("상품후기 작성")}</h3>
+	<form method="post" action="indb.php" enctype="multipart/form-data" onsubmit="return form_chk(this)">
+		<input type="hidden" name="mode" value="review">
+		<input type="hidden" name="payno" value="{payno}">
+		<input type="hidden" name="ordno" value="{ordno}">
+		<input type="hidden" name="ordseq" value="{ordseq}">
+		<input type="hidden" name="catno" value="{catno}">
+		<input type="hidden" name="goodsno" value="{goodsno}">
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("카테고리명")}</div>
+			<div class="col">{catnm}</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("상품명")}</div>
+			<div class="col">{goodsnm}</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("주문번호")}</div>
+			<div class="col">{payno}_{ordno}_{ordseq}</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("주문일")}</div>
+			<div class="col">{=substr(orddt,0,10)}</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("작성자")}</div>
+			<div class="col"><!--{ ? !_sess.name }-->{_sess.mid}<!--{ : }-->{_sess.name}<!--{ / }--></div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("제목")}</div>
+			<div class="col">
+				<input type="text" class="input" name="subject" value="{review.subject}" required>
+			</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("상품평")}</div>
+			<div class="col">
+				<!--{ @ _r_degree }-->
+				<input type="radio" id="degree_{.key_}" name="degree" value="{.key_}" {_checked.degree[.key_]}>
+				<label for="degree_{.key_}">{.value_}</label>
+				<!--{ / }-->
+			</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("구분")}</div>
+			<div class="col">
+				<!--{ @ _r_kind }-->
+				<input type="radio" id="kind_{.key_}" name="kind" value="{.key_}" {_checked.kind[.key_]}>
+				<label for="kind_{.key_}">{.value_}</label>
+				<!--{ / }-->
+			</div>
+		</div>
+		
+		<div class="h-group form-data">
+			<div class="col text-right">{=__text("후기노출여부")}</div>
+			<div class="col">
+				<input type="radio" id="review_deny_user_0" name="review_deny_user" value="0" {_checked.review_deny_user['0']}>
+				<label for="review_deny_user_0">{=__text("노출")}</label>
+				<input type="radio" id="review_deny_user_1" name="review_deny_user" value="1" {_checked.review_deny_user['1']}>
+				<label for="review_deny_user_1">{=__text("노출안함")}</label>
+				<p>* {=__text("노출을 원하지 않으실 경우 후기리스트에서 보여지지 않게 됩니다. 단, 내가 쓴 후기리스트에서는 확인하실 수 있습니다.")}</p>
+			</div>
+		</div>
+		
+		<div class="h-group form-data" id="img_upload" style="display:none;">
+			<div class="col text-right">{=__text("이미지")}</div>
+			<div class="col">
+				<input type="hidden" name="delimg" value="{review.img}">
+				<input type="file" name="img">
+				<!--{ ? review.img }-->
+				<p>
+					{=__text("기존이미지")} : <a href="../data/review/{review.cid}/{review.img}" target="_blank" style="margin-right:50px;">{review.img}</a>
+					<!--<input type="checkbox" id="img_delete" name="delimg" value="{review.img}"><label for="img_delete">삭제</label>-->
+				</p>
+				<!--{ / }-->
+			</div>
+		</div>
+		
+		<textarea name="content" id="" class="review-content" cols="30" rows="10" required>{review.content}</textarea>
+		
+		<div class="h-group" id="review-submit">
+			<div class="col">
+				<input type="submit" id="review_write-submit" style="display:none;">
+				<a href="#" id="review_write-btn" class="btn-primary">{=__text("확인")}</a>
+			</div>
+			<div class="col">
+				<a href="javascript:history.back();" class="btn-blue-link">{=__text("취소")}</a>
+			</div>
+		</div>
+	</form>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "review-form-page");
+	$j("body").attr("class", "");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	$j(".form-data>div.col:first-child").css("width", "70px");
+	$j(".form-data>div.col:last-child").css("width", "890px");
+	$j("div.col a").css("font-family", "Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif");
+	
+	$j("input[name=kind][value={review.kind}]").trigger("click");
+});
+
+$j("input[name=kind]").click(function() {
+	if ($j(this).val() == "photo") {
+		$j("#img_upload").show();
+		
+		if ("{review.img}" == "") $j("input[name=img]").attr("required", true);
+		else $j("input[name=img]").attr("required", false);
+	} else {
+		$j("#img_upload").hide();
+		$j("input[name=img]").attr("required", false);
+	}
+});
+
+$j("#review_write-btn").click(function() {
+	$j("#review_write-submit").click();
+});
+</script>
+
+{ # footer }

@@ -1,0 +1,153 @@
+
+<style type="text/css">
+	<!--{ @ _mcdata.img }-->
+	.mvisual .mvi_{.key_} { background: url(/data/main_content/{_cid}/{_mcdata.img[.index_]}) center center no-repeat; }
+	<!--{ / }-->
+</style>
+
+<!-- CONTAINER START -->
+<div id="container_idg">
+	<!-- 메인 비주얼 START -->
+	<div id="mainVisual" class="mvisual">
+		<ul class="mvisual_list">
+			<!--{ @ _mcdata.img }-->
+			<li class="mvi_{.key_}"></li>
+			<!--{ / }-->
+			
+		</ul>
+		<div class="box_btn_move_control"></div>
+	</div>
+	<!-- 메인 비주얼 END -->
+
+	<!-- 알래스카 가이드 START -->
+	<div class="mguide_icon">
+		<div class="inner_idg">
+			<ul class="mguide_list">
+				<!--{ @ f_banner_s2('main_guide') }-->{.banner}<!--{ / }-->
+			</ul>
+		</div>
+	</div>
+	<!-- 알래스카 가이드 END -->
+
+	<!-- 업종별 디자인 샘플보기 START -->
+	<div class="mline_sample">
+		<div class="inner_idg">
+			<!--{ @ f_banner_s2('design_sample') }-->{.banner}<!--{ / }-->
+		</div>
+	</div>
+	<script>
+		$(function() {
+			$('.sector_cont').hide();
+
+			$('.msector_item a').click(function() {
+				var idvar = this.id;
+				var current = $(this);
+				var selected_item = $('#sr_' + idvar);
+				var visible_item = $('.sector_cont:visible');
+				$('.msector_item a').removeClass('active');
+
+				if (visible_item.length > 0 && selected_item.attr('id') !== visible_item.attr('id')) {
+					current.addClass('active');
+					visible_item.stop().slideUp(function() {
+						selected_item.stop().slideToggle();
+					});
+				} else {
+					current.addClass('active');
+					selected_item.stop().slideToggle();
+				}
+				return;
+			});
+		});
+	</script>
+	<!-- 업종별 디자인 샘플보기 END -->
+
+	<!-- 베스트 아이템 START -->
+	<!--{ ? _cid !== "indigo" && _cid !== "lotteria"}-->
+	<div class="mbest_item">
+		<div class="best_item_wrap">
+			<h4><span>BEST ITEM</span></h4>
+			<div id="bestSlide" class="best_pdgall">
+				<!--{ @ f_banner_s2('best_item_slide') }-->{.banner}<!--{ / }-->
+			</div>
+		</div>
+	</div>
+	<!--{ / }-->
+	<!-- 베스트 아이템 END -->
+
+	<!-- 배너 영역 START -->
+	<div class="mbn_area">
+		<div class="inner_idg">
+			<!--{ @ f_banner_s2('main_banner_01') }-->{.banner}<!--{ / }-->
+		</div>
+	</div>
+	<!-- 배너 영역 END -->
+
+	<!-- 리뷰 게시판 START -->
+	<!--{ ? _cid !== "indigo" && _cid !== "lotteria"}-->
+	<script>
+		$(function() {
+			$('.mreview_table_content .top > .title').click(function() {
+				$(this).parent().next().slideToggle();
+			});
+		});
+	</script>
+
+	<div class="mlatest_review">
+		<div class="inner_idg">
+			<div class="mreview_wrap">
+				<div class="mreview_top">
+					<h4><span>100% 리얼후기</span></h4>
+				</div>
+				<!--
+				<div class="mreview_ctgr">
+					<a href="#" class="btn_review_ctgr active">명함</a>
+					<a href="#" class="btn_review_ctgr">봉투</a>
+					<a href="#" class="btn_review_ctgr">스티커</a>
+					<a href="#" class="btn_review_ctgr">책자</a>
+					<a href="#" class="btn_review_ctgr">낱장</a>
+					<a href="#" class="btn_review_ctgr">특수인쇄</a>
+					<a href="#" class="btn_review_ctgr">실사출력</a>
+					<a href="#" class="btn_review_ctgr">포토</a>
+				</div>
+				-->
+				<div class="mreview_table">
+					<div class="mreview_table_top">
+						<span>번호</span>
+						<span>상품평가</span>
+						<span>내용</span>
+						<span>구매자</span>
+						<span>등록일</span>
+					</div>
+					<div class="mreview_table_content">
+						
+						<!--{ @ review_list }-->
+						<div class="top">
+							<span>{.no}</span>
+							<span>{=f_get_degree(.degree, "alaska")}</span>
+							<span class="title">{.subject}</span>
+							<span>{=substr(.mid,0,-3)}***</span>
+							<span>{.regdt}</span>
+						</div>
+						<div class="bottom" style="display: none;">
+							<div>
+								<!--{ @ .img }-->
+								<img src="{..value_}" style="max-width:100%;display:block;" alt="">
+								<!--{ / }-->
+								{=nl2br(.content)}
+							</div>
+						</div>
+						<!--{ / }-->
+						
+					</div>
+				</div>
+				<div class="paging_wrap">
+					{pg->page['navi_m2']}
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--{ / }-->
+	<!-- 리뷰 게시판 END -->
+
+</div>
+<!-- CONTAINER END -->

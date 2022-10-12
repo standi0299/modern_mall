@@ -1,0 +1,71 @@
+{ # header }
+
+
+<form method="post" action="indb.php" enctype="multipart/form-data" onsubmit="return form_chk(this)">
+	<input type="hidden" name="mode" value="review">
+	<input type="hidden" name="mode_pix" value="review_pix">
+
+	<div class="sign_body">
+		<div class="login_px_docu">
+			<!--{ @ f_banner_s2('review_title_pix') }-->{.banner}<!--{ / }-->
+		</div>
+		<div class="sign_list_wh">
+			<ul>
+				<li style="float:left;">
+					<span class="id_px">아이디</span>
+					<span class="id_w" style="width:448px; height:20px; display:inline-block; padding-bottom:10px; margin-bottom:5px;">{_sess.mid}</span>
+				</li>
+				<li>
+					<span class="id_px">주문번호</span>
+					<select class="review" name="payno" required>
+						<option value>주문번호 선택</option>
+						<!--{ @ list_payno }-->
+						<option value="{.value_.payno}|{.value_.ordno}|{.value_.ordseq}|{.value_.catno}|{.value_.goodsno}">{.value_.payno}_{.value_.goodsnm}</option>
+						<!--{ / }-->
+					</select>
+				</li>
+				<li>
+					<span class="id_px">제목</span>
+					<input type="text" class="review_n" name="subject" value="{review.subject}" required>
+				</li>
+				<li>
+					<span class="id_px" style="position:relative; top:-70px;">내용</span>
+					<textarea name="content" id="" class="review_text"placeholder="300자 이내로 작성 해주세요" required>{review.content}</textarea>
+				</li>
+				<li>
+					<span class="id_px">이미지</span>
+					<input type="file" name="img[]" class="gu_re" accept="image/gif, image/jpeg, image/png"/>
+				</li>
+				<li>
+					<span class="id_px">주의사항</span>
+					<font color="red">이미지는 jpg, gif, png 파일만 가능합니다.</font>
+				</li>
+			</ul>
+		</div>
+		<div class="help_review">
+			<!--{ @ f_banner_s2('review_info_pix') }-->{.banner}<!--{ / }-->
+		</div>
+	
+		<div class="sign_list_review">
+			<div class="white_re">
+				<ul>
+					<li>
+						<div style="width:110px; margin:auto; margin-top:5px;">
+							<button type="submit" class="over_btn_li">
+								등록
+							</button>
+						</div>
+					</li>
+					<li>
+						<div style="width:110px; margin:auto; margin-top:5px;">
+							<button type="button" class="over_btn_li" style="border:1px solid #999; background:#fff; color:#999;" onclick="javascript:history.back();">
+								취소
+							</button>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</form>
+{ # footer }

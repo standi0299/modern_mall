@@ -1,0 +1,125 @@
+{ # header }
+
+<section class="contents bgArea">
+	<div class="wUserBox">
+		<div class="wUserBg">
+			<article>
+				<p>
+				{=__text("그동안")} {_cfg.nameSite}{=__text("을 이용해 주셔서 감사합니다.")}<br/>
+				{=__text("다시한번 찾아주신다면")} <br/>
+				{=__text("더 나은 서비스로 보답하겠습니다.")}<br/>
+				</p>
+				<div class="wDisc">
+					<h2>{=__text("회원탈퇴 시 유의사항")}</h2>
+					<ul>
+						<li>{=__text("회원탈퇴후 동일한 아이디로 회원가입이 불가합니다.")}</li>
+						<li>{=__text("보유중인 쿠폰 및 적립금은 소멸 됩니다.")}</li>
+						<li>{=__text("개인정보, 주문내역, 편집중인 정보, 장바구니에 담긴 상품은 모두 삭제되어 복구가 불가합니다.")}</li>
+					</ul>
+				</div>
+			</article>
+		 	<fieldset style="display:block;margin:20px 0 0 0;padding:0;font:normal 12px/1 'Noto Regular', sans-serif;color:#666666;border-top:1px solid #757575;padding-top:20px;">
+		 		<legend>{=__text("비밀번호 입력")}</legend>
+		 		<p>{=__text("고객님의 정보를 보호하기 위해 다시한번 비밀번호를 입력해 주세요.")}</p>
+		 		<form id="fm" name="fm">
+			 		<input type="hidden" name="mode" value="member_leave" />
+			 		<input type="hidden" name="chkPassword" />
+			 		<input type="hidden" name="mobile_type" value="Y" />
+			 		
+			 		<input type="hidden" name="password_en">
+			 		<input type="hidden" name="password2_en">
+		 			
+		 			<dl>
+			 			<dt><label for="inPw01">{=__text("비밀번호")}</label></dt>
+			 			<dd>
+			 				<input type="password" {=__title("비밀번호")} name="password" id="inPw01" onchange="chk_password(this)" />
+			 				<p id="password_chk" style="font-size:10px;margin:5px 0 5px;"></p>
+			 			</dd>
+			 			
+			 			<dt><label for="rePw01">{=__text("비밀번호 재입력")}</label></dt>
+			 			<dd><input type="password" {=__title("비밀번호 재입력")} name="password2" id="rePw01"onchange="chk_password(this)" /></dd>
+		 			</dl>
+		 			<div class="btnBox">
+		 					<a href="javascript:history.back();" class="aBtn"><!--{ @ f_banner_s2('btn_mobile_member_leave_cancel','img')}-->{.banner}<!--{ / }--></a>
+		 					<a href="#layerBox" id="btnBox"><!--{ @ f_banner_s2('btn_mobile_member_leave','img')}-->{.banner}<!--{ / }--></a>
+		 			</div>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+</section>
+
+<!-- md5 암호화 -->
+<script src="/js/lib/lib.min.js"></script>
+
+<script>
+function chk_password(obj) {
+	var ret = "";
+	fm.chkPassword.value = "";
+	
+	if (!fm.password.value) {
+		ret = {=__java("비밀번호를 입력해주세요.")};
+		fm.password.focus();
+		$j("#password_chk").html(ret);
+	} else {
+		$j.post("indb.php", {mode: "chkPassword", mid_en: Base64.encode('{mid}'), password_en: Base64.encode(fm.password.value)},
+		function(data) {
+			if (data == "Ok") {
+				if (!fm.password2.value) {
+					ret = {=__java("비밀번호 확인을 위해 한번 더 입력해주세요.")};
+					fm.password2.focus();
+				} else {
+					ret = (fm.password.value != fm.password2.value) ? {=__java("비밀번호 불일치")} : {=__java("비밀번호 일치")};
+					fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+				
+					if(fm.chkPassword.value == "") {
+						ret = {=__java("비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")};
+						fm.password.value = "";
+						fm.password2.value = "";
+						fm.password.focus();
+					}
+				}
+			} else {
+				ret = {=__java("비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")};
+				fm.password.value = "";
+				fm.password2.value = "";
+				fm.password.focus();
+			}
+			$j("#password_chk").html(ret);
+		});
+	}
+}
+$("#btnBox").on({
+	click : function(e){
+		e.preventDefault();
+		if (fm.chkPassword.value != "chk") {
+			chk_password('');
+		} else {
+			var enc_password = Base64.encode($j(":input[name=password]").val());
+			var enc_password2 = Base64.encode($j(":input[name=password2]").val());
+			
+			$j(":input[name=password_en]").val(enc_password);
+			$j(":input[name=password2_en]").val(enc_password2);
+			
+			$j(":input[name=password]").val('');
+			$j(":input[name=password2]").val('');
+			
+			$j.ajax({
+				type : "POST",
+				url : "indb.php",
+				data : $j("#fm").serialize(),
+				success : function(msg) {				
+					if (msg) {
+						$j("#layerBox").show();
+						$j(".noteTxt").html("<span>"+ msg +"</span>");
+						$("#wrap").addClass("dimed_on");
+						$j("#layerBox a").attr("href", "logout.php?rurl=../main/index.php");
+					}
+				}
+			});
+		}
+	}
+});
+</script>
+
+{ # footer }

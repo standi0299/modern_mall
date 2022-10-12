@@ -1,0 +1,107 @@
+{ # header }
+
+<section class="contents bg2Area">
+	<div class="wUserBox">
+		<div class="wUserBg">
+		 	<fieldset style="display:block;margin:0;padding:0;font:normal 12px/1 'Noto Regular', sans-serif;color:#666666;">
+		 		<h2 style="color:#177b94; font-size:16px;">{=__text("1:1문의")}</h2>
+		 		<legend>{=__text("1:1문의 입력 폼")}</legend>
+		 		<form method="post" id="fm" name="fm" action="indb.php" enctype="multipart/form-data">
+			 		<input type="hidden" name="no" value="{no}" />
+					<input type="hidden" name="rurl" value="mycs.php?mobile_type=Y" />
+					<input type="hidden" name="mode" value="{_mode}" />
+					<input type="hidden" name="mobile_type" value="Y" />
+					<input type="hidden" name="page_move" value="N" />
+		 			
+		 			<dl>
+		 				<dt style="width:30%;"><label for="mycsCategory" {=__title("문의유형")}>{=__text("문의유형")}</label></dt>
+	 					<dd style="width:70%;">
+	 						<select id="mycsCategory" name="category" required style="width:100%;">
+	 							<option value="">{=__text("선택하세요")}</option>
+	 							<!--{ @ _r_cs_category }-->
+	 								<!--{ ? .key_ != '9'}-->
+	 								<option value="{.key_}" {=_selected.category[.key_]}>{.value_}</option>
+	 								<!--{ / }-->
+	 							<!--{ / }-->
+	 						</select>
+	 					</dd>
+	 					
+	 					<dt style="width:30%;"><label for="mycsPayno" {=__title("주문번호")}>{=__text("주문번호")}</label></dt>
+	 					<dd style="width:70%;">
+	 						<select id="mycsPayno" name="payno" style="width:100%;">
+	 							<option value="">{=__text("선택하세요")}</option>
+	 							<!--{ @ payno }-->
+	 							<option value="{.payno}" {=_selected.payno[.payno]}>{.payno}</option>
+	 							<!--{ / }-->
+	 						</select>
+	 					</dd>
+	 					
+	 					<dt style="width:30%;"><label for="mycsSubject" {=__title("제목")}>{=__text("제목")}</label></dt>
+	 					<dd style="width:70%;"><input type="text" name="subject" id="mycsSubject" value="{subject}" style="width: 100%;" pt="_pt_txt" /></dd>
+	 				
+	 					<dt style="width:30%;"><label for="mycsContent" {=__title("문의내용")}>{=__text("문의내용")}</label></dt>
+	 					<dd style="width:70%;"><textarea name="content" id="mycsContent" style="width: 100%;height:255px;">{content}</textarea></dd>
+		 			</dl>
+		 			
+		 			<div class="btnBox">
+		 				<a href="javascript:history.back();" class="aBtn"><!--{ @ f_banner_s2('btn_mobile_mycs_write_cancel','img')}-->{.banner}<!--{ / }--></a>
+		 				<a href="#layerBox" id="btnBox"><!--{ @ f_banner_s2('btn_mobile_mycs_write_confirm','img')}-->{.banner}<!--{ / }--></a>
+		 			</div>
+				</form>
+			</fieldset>
+		</div>
+	</div>
+</section>
+
+<script>
+$("#btnBox").on({
+	click : function(e){
+		e.preventDefault();
+		if (!$j(":select[name=category]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("문의유형을 선택해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if (!$j(":input[name=subject]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("제목을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else if (!$j(":select[name=content]").val()) {
+			$($(this).attr("href")).show();
+			$j(".noteTxt").html("<span>"+{=__java("문의내용을 입력해주세요.")}+"</span>");
+			$("#wrap").addClass("dimed_on");
+		} else {
+			$j.ajax({
+				type : "POST",
+				url : "indb.php",
+				data : $j("#fm").serialize(),
+				success : function(msg) {				
+					if (msg) {
+						if (msg == "ok") {
+							location.href = "mycs.php?mobile_type=Y";
+						} else {
+							$j("#layerBox").show();
+							$j(".noteTxt").html("<span>"+ msg +"</span>");
+							$("#wrap").addClass("dimed_on");
+							$j(":select[name=page_move]").val("Y");
+							$j("#layerBox a").attr("href", "mycs.php?mobile_type=Y");
+						}
+					}
+				}
+			});
+		}
+	}
+});
+$("#layerBox a").on({
+	click : function(e){
+		if ($j(":select[name=page_move]").val() == "Y") {
+			$j(":select[name=page_move]").val("N");
+		} else {
+			e.preventDefault();
+			$(".pop").hide();
+			$("#wrap").removeClass("dimed_on");
+		}
+	}
+});
+</script>
+
+{ # footer }

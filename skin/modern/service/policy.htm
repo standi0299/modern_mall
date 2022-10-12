@@ -1,0 +1,23 @@
+{ # header }
+
+<section id="review-foam-layout">
+	<div>
+		<!--{ ? f_banner_s2('service_policy')}-->
+			<!--{ @ f_banner_s2('service_policy')}-->{.banner}<!--{ / }-->
+		<!--{ : }-->					
+		<span>{=__text("개인정보 취급방침")}</span>
+		<!--{ / }-->
+	</div>
+	<div>
+		<textarea name="" id="" class="review-content" cols="30" rows="30">{_policy}</textarea>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "review-form-page");
+	$j("body").attr("class", "cs-layout");
+});
+</script>
+
+{ # footer }

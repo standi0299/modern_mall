@@ -1,0 +1,166 @@
+<section class="content-container my-page-layout">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col <!--{ ? pg_type == 'orderlist' }-->active<!--{ / }-->">
+				<a href="../../mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+			</li>
+			<li class="col <!--{ ? pg_type == 'cancellist' }-->active<!--{ / }-->">
+				<a href="../../mypage/cancellist.php">{=__text("주문/취소관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/wishlist.php">{=__text("위시리스트")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/coupon.php">{=__text("쿠폰/적립금조회")}</a>
+			</li>
+			<li class="col">
+				<a href="../../member/myinfo.php">{=__text("회원정보수정")}</a>
+			</li>
+		</ul>
+		<div class="tab-content-wrap">
+			<div class="tab-content" id="order-history">
+				<div class="title-wrap" style="margin-top:60px;">
+					<h2>
+						<!--{ ? pg_type == "orderlist" }-->
+						{=__text("주문목록 / 배송조회")}
+						<!--{ : pg_type == "cancellist" }-->
+						{=__text("주문취소목록")}
+						<!--{ / }-->
+						<div class="text-center" id="point-form" style="margin : 40px auto;">
+							<form name="fm" method="get">
+								<div class="h-group">
+									<div class="col" style="margin:0 auto;width:30%;">
+										<input type="text" class="input" name="search_keyword" required {=__placeholder("주문인,수령인 정보를 입력하세요")}>
+									</div>
+									<div class="col" style="display:inline-block; margin:0 auto;">
+										<button type="submit" id="date-submit-orderlist">{=__text("조회하기")}</button>
+									</div>
+								</div>
+							</form>
+						</div>
+						<!--{ ? _cfg.bill_yn }-->
+						<div class="col" style="margin-top: 5px;text-align:center;">
+							<a class="btn" onclick="location.href='../module/file_download.php?mode=tax';" style="width:200px;display:inline-block;padding:2px 5px;border:1px solid #000000;border-radius:8px;background:#ffffff;color:#000000;font-size:14px;">{=__text("사업자등록증")} Download</a>
+							<a class="btn" onclick="location.href='../module/file_download.php?mode=bank';" style="width:200px;display:inline-block;padding:2px 5px;border:1px solid #000000;border-radius:8px;background:#ffffff;color:#000000;font-size:14px;">{=__text("통장사본")} Download</a>
+						</div>
+						<!--{ / }-->
+
+						<form method="post" action="indb.php" id="xls_fm" style="display:inline-block;">
+							<input type="hidden" name="mode" value="excel_down">
+							<input type="hidden" name="query" value="{_xls_query}">
+							<!--### form 전송 취약점 개선 20160128 by kdk-->
+							<input type="hidden" name="pod_signed" value="{_pod_signed}">
+							<input type="hidden" name="pod_expired" value="{_pod_expired}">
+
+							<!--<button type="button" id="old-6-history-btn" onclick="$j('#xls_fm').trigger('submit');">{=__text("검색결과 엑셀 다운로드")}</button>-->
+						</form>
+					</h2>
+				</div>
+
+				<table class="set-table" id="order-table">
+					<thead>
+					<tr>
+						<td class="text-center order-id">{=__text("주문번호")}</td>
+						<td class="text-center order-title">{=__text("주문상품")}</td>
+						<td class="text-center order-count">{=__text("결제방법")}</td>
+						<td class="text-center order-price">{=__text("결제금액")}</td>
+						<td class="text-center order-status">{=__text("주문상태")}</td>
+					</tr>
+					</thead>
+					<tbody>
+					<!--{ @ loop }-->
+						<tr align="center">
+							<td class="text-center order-id">
+								<a href="orderview.php?payno={.payno}">
+									<span>{.payno}</span>
+								</a>
+								<div class="col" style="margin-top: 5px;">{=substr(.orddt, 0, 10)}</div>
+								<!--{ ? in_array(.itemstep,array(2,3,4,5,92)) && _cfg.bill_yn }-->
+									<div class="col" style="margin-top: 5px;text-align:center;">
+										<a class="btn" onclick="popup('../module/bill_orderlist_print.php?payno={.payno}', 800, 800);" style="width:120px;display:inline-block;padding:2px 5px;border:1px solid #000000;border-radius:8px;background:#ffffff;color:#000000;font-size:14px;">{=__text("거래명세서보기")}</a>
+									</div>
+								<!--{ / }-->
+							</td>
+							<td class="order-title" align="left">
+								<div class="h-group">
+									<div class="col">{=goodsListImg(.goodsno, 115)}</div>
+									<div class="col">
+										<p><!--{ ? .ord_bundle > 1 }--> {.goodsnm} {=__text("외")} {.ord_bundle - 1}{=__text("건")} <!--{ : }-->{.goodsnm}<!--{ / }-->
+										</p>
+										<br>
+										<p>
+											<!--{ ? .ord_bundle > 1 }-->{.catnm1}<!--{ : }-->{.catnm1}{ ? .catnm2 } / {.catnm2}{ / }{ ? .catnm3 } / {.catnm3}{ / }{ ? .catnm4 } / {.catnm4}{ / }<!--{ / }-->>
+											<!--{ ? .ord_bundle > 1 }-->
+											{.catnm1}
+											<!--{ : }-->
+											{.catnm1}
+											<!--{ ? .catnm2 }--> / {.catnm2}<!--{ / }-->
+											<!--{ ? .catnm3 }--> / {.catnm3}<!--{ / }-->
+											<!--{ ? .catnm4 }--> / {.catnm4}<!--{ / }-->
+											<!--{ / }-->
+										</p>
+										<br>
+									</div>
+								</div>
+							</td>
+							<td class="text-center order-count">{=_r_paymethod[.paymethod]}</td>
+							<td class="text-center order-price">{=number_format(.sumpayprice)}{=__text("원")}</td>
+
+
+							<td class="text-center order-status <!--{ ? in_array(.itemstep, array('0','1','9','-1','-9','-90','11','19')) }-->delivery-deposit<!--{ : }-->delivery-ready<!--{ / }-->">
+								<div class="status-title">{=_r_step[.itemstep]}</div>
+							</td>
+						</tr>
+					<!--{ : }-->
+					<tr>
+						<td class="text-center order-id" colspan="6" align="center" height="200" style="padding-top:80px;">{=__text("주문 데이터가 없습니다.")}</td>
+					</tr>
+					<!--{ / }-->
+					</tbody>
+				</table>
+				<div class="list-pagination" style="margin-bottom: 20px;">
+					<ul>
+						<li>{pg->page['navi']}</li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	//$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+
+	if ("{_cid}" == "lotteria") {
+		$j(".order-id").css("width", "150px");
+		$j(".order-title").css("width", "420px");
+	}
+
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+<style>
+	#date-submit-orderlist{
+		width: 105px;
+		margin: 12px 20px;;
+		padding: 4px 0 4px 14px;
+		font-size: 14px;
+		color: #181718;
+		text-align: left;
+		border: 0;
+		border-radius: 10px;
+		background: #e1e1e1;
+		background-image: url(/skin/modern/assets/images/search_icon_small.png);
+		background-position: 78px 6px;
+		background-repeat: no-repeat;
+	}
+</style>

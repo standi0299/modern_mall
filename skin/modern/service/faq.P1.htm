@@ -1,0 +1,90 @@
+{ # header }
+<div id="my_tqb_menu_no">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="/board/list.php?board_id=notice">공지사항</a><li>
+		<li><a href="/service/faq.php" class="under_bor">FAQ</a><li>
+		<li><a href="/mypage/mycs_write.php">1:1문의</a><li>
+	</ul>
+</div>
+
+<div class="si_body" style="height:auto;">
+	<div class="login_px_eded">
+		<span class="login_px_text_span">FAQ</span>
+	</div>
+	
+	<div class="ctheader">
+	<!--	<span style="width:200px; height:36px; font-size:1.7em; margin:19px 0 10px 0; display:inline-block;">FAQ</span>-->
+		<form action="faq.php" method="post" name="frm">
+		<input type="hidden" name="catnm" value="{_POST.catnm}" />
+		<div class="cu_point_fqa">
+			<div class="cu_faq">
+				<ul>
+					<li><input type="text" class="faq_width" name="sword" value="{_POST.sword}" /></li>
+					<li><button type="submit" class="cu_btn">검색</button></li>
+				</ul>
+			</div>
+		</div>
+		</form>
+		
+		<div class="cu_point_goods">
+			<div class="faq_menu">
+				<ul>
+					<li class="faq_big"><a href="javascript:faq_move('');">전체</a></li>
+					<!--{ @ faq_catnm }-->	
+						<li class="faq_big"><a href="javascript:faq_move('{.key_}');">{.key_}</a></li>
+					<!--{ / }-->									
+				</ul>
+			</div>
+			<!--자주묻는 질문-->
+			<div class="faq_lcontens" id="faq_name_1">
+				<div class="faq_list">
+					<ul>
+						
+						<!--{ @ loop }-->
+						<li>
+							<div class="qq_n_faq" id="qq_no_faq_{.index_}"  onClick="slide_view('{.index_}');" >
+								<div class="play_q">
+									<i>Q.</i>
+								</div>
+								<div class="play_q">
+									<span>{.q}</span>
+								</div>
+							</div>
+							<div class="aa_faq" id="aa_no_faq_{.index_}" onClick="slide_hide('{.index_}');">
+								<div class="play_q">
+									<i>A.</i>
+								</div>
+								<div class="play_q">
+									<span>{.a}</span>
+								</div>
+							</div>
+						</li>
+						<!--{ / }-->						
+						
+					</ul>
+				</div>
+			</div>
+			<!--자주묻는 질문-->
+			
+		</div>
+	</div>
+	
+	<div style="clear:both;"></div>
+</div>
+
+<script>
+	function faq_move(catnm)
+	{
+		document.frm.catnm.value = catnm;
+		document.frm.submit();
+	}
+	function slide_view(idx){		
+		$("#aa_no_faq_" + idx).toggle();		
+	}
+	
+	function slide_hide(idx){
+		$("#aa_no_faq_" + idx).hide();
+	}
+</script>
+
+{ # footer }

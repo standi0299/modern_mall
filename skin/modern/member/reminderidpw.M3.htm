@@ -1,0 +1,101 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<div class="membership-wrap">
+			
+			<!--{ ? _POST.mode == "reminderid" }-->
+			
+				<h3>아이디찾기</h3>
+				<div class="input-wrap">
+					<div class="row">
+						{=__text("가입하신 아이디는")} <b>{=substr(_data.mid,0,-3)}***</b> {=__text("입니다.")}
+					</div>
+				</div>
+			
+			<!--{ : }-->
+			
+				<h3>아이디찾기</h3>
+				
+				<form name="frm_id" method="post" onsubmit="return form_encode_submit(this);">
+					<input type="hidden" name="mode" value="reminderid">
+					
+					<input type="hidden" name="email_en">
+				
+					<div class="input-wrap">
+						<div class="row">
+							<div class="th">이름</div>
+							<div class="td">
+								<input type="text" name="name" required {=__placeholder("이름")}>
+							</div>
+						</div>
+						<div class="row bottom-row">
+							<div class="th">이메일</div>
+							<div class="td">
+								<input type="text" name="email" required {=__placeholder("이메일")}>
+							</div>
+						</div>
+						<button class="membership_btn btn_find_id" type="submit"><span>아이디 찾기</span></button>
+					</div>
+				</form>
+			
+			<!--{ / }-->
+		</div>
+		
+		<div class="membership-wrap mt100">
+			<!--{ ? _POST.mode == "reminderpw" }-->
+				<h3>비밀번호찾기</h3>
+				<div class="input-wrap">
+					<div class="row">
+						{=__text("임시 비밀번호를 이메일로 전송하였습니다.")}
+						<br><br>
+						{=__text("임시 비밀번호 확인 후 로그인이 가능합니다.")}
+						<br>
+						{=__text("비밀번호 재설정은")} <span>{=__text("마이페이지-회원정보수정")}</span>{=__text("에서 가능합니다.")}
+					</div>
+				</div>
+			<!--{ : }-->
+	
+				<h3>비밀번호찾기</h3>
+				
+				<form name="frm_pw" method="post" onsubmit="return form_encode_submit(this);">
+					<input type="hidden" name="mode" value="reminderpw">
+					
+					<input type="hidden" name="mid_en">
+					<input type="hidden" name="email_en">
+					
+					<div class="input-wrap">
+						<div class="row">
+							<div class="th">아이디</div>
+							<div class="td">
+								<input type="text" name="mid" required {=__placeholder("아이디")}>
+							</div>
+						</div>
+						<div class="row bottom-row">
+							<div class="th">이메일</div>
+							<div class="td">
+								<input type="text" name="email" required {=__placeholder("이메일")}>
+							</div>
+						</div>
+						<button class="membership_btn btn_find_pw" type="submit"><span>비밀번호 찾기</span></button>
+					</div>
+				</form>
+			<!--{ / }-->
+		</div>
+		
+	</div>
+</div>
+
+<script type="text/javascript">
+/*
+$j("#reminderpw").click(function() {
+	location.href = "reminderpw.php";
+});
+*/
+$j(function() {
+	$j("body").attr("id", "find-account-page");
+	$j("body").attr("class", "");
+});
+</script>
+
+{ # footer }

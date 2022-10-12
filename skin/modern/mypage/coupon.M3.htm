@@ -1,0 +1,271 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h1 class="category-title">쿠폰/적립금</h1>
+		<div class="mypage-table">
+			<div class="row mypage-table-top">
+				<div class="td td-1">
+					<p class="gray">{_sess.name}님. 안녕하세요!</p>
+					<p class="black">구매하실 때 꼭 쿠폰/적립금 혜택을 누려보세요~!</p>
+				</div>
+				<div class="td td-2">
+					<span>사용가능 쿠폰</span>
+					<img src="../assets/M2/images/icon_coupon2.png" alt="" />
+					<b></b>{mycoupon.size_}<u>장</u>
+				</div>
+				<div class="td td-3">
+					<span>사용가능 적립금</span>
+					<img src="../assets/M2/images/icon_won.png" alt="" />
+					<b>{=number_format(myemoney)}</b><u>P</u>
+				</div>
+			</div>
+		</div>
+		<div class="mypage-table-bottom">
+			<div class="mypage-table-bottom-inner">
+				<p>쿠폰 등록</p>
+				<div class="coupon-add">
+					<form name="coupon_issue" method="post" action="indb.php" onsubmit="return form_chk(this);">
+						<input type="hidden" name="mode" value="coupon_get_offline">
+						
+						<input type="text" name="coupon_issue_code" placeholder="보유하고 계신 쿠폰의 인증번호(PIN번호)를 포함하여 입력하세요." />
+						<a href="#" class="btn_coupon_add" onclick="set_coupon_issue();">쿠폰 등록</a>
+					</form>
+				</div>
+			</div>
+		</div>
+		<!--
+		<script>
+			$(function(){
+				$('.tab-coupon-mileage li').each(function(idx){
+					$(this).click(function(){
+						$('.tab-coupon-mileage li').removeClass('on');
+						$(this).addClass('on');
+						$('.coupon-mileage').hide();
+						$('.coupon-mileage').eq(idx).show();
+					});
+				});
+			});
+		</script>
+		-->
+		<div class="tab-coupon-mileage tab-50p">
+			<ul>
+				<li class="on"><a href="#">쿠폰</a></li>
+				<li><a href="/mypage/emoney.php?mycoupon={mycoupon.size_}">적립금</a></li>
+			</ul>
+		</div>
+		<!-- 쿠폰영역 -->
+		<div class="coupon-wrap coupon-mileage">
+			<h3 class="table-title">다운로드 가능 쿠폰</h3>
+			<table class="coupon-table">
+				<colgroup>
+					<col width="*" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>쿠폰명</th>
+						<th>쿠폰종류</th>
+						<th>적용상품</th>
+						<th>할인혜택</th>
+						<th>다운로드 유효기간<br><span>(사용 유효기간)</span></th>
+						<th>다운로드</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{ @ downcoupon }-->
+					<tr>
+						<td class="coupon-name">{.coupon_name}<br />({.coupon_code})</td>
+						<td>{=_r_coupon_type[.coupon_type]}</td>
+						<td>포토북 > 카탈로그</td>
+						<td>
+							<!--{ ? .coupon_type == "coupon_money" }-->
+								{=number_format(.coupon_able_money)}{=__text("원 할인")} 
+							<!--{ : }-->
+								<!--{ ? .coupon_way == "price" }-->
+								{=number_format(.coupon_price)}{=__text("원")} 
+								<!--{ : .coupon_way == "rate" }-->
+								{=number_format(.coupon_rate)}% 
+								<!--{ / }-->
+								
+								<!--{ ? .coupon_type == "discount" }-->
+								{=__text("할인")} 
+								<!--{ : .coupon_type == "saving" }-->
+								{=__text("적립")} 
+								<!--{ / }-->
+							
+								<!--{ ? .coupon_way == "rate" && .coupon_price_limit }-->
+								<br>{=__text("최대")}<!--{ ? .coupon_type == "discount" }-->{=__text("할인")}<!--{ : .coupon_type == "saving" }-->{=__text("적립")}<!--{ / }--> : {=number_format(.coupon_price_limit)}{=__text("원")}<br>
+								<!--{ / }-->
+							<!--{ / }-->
+						</td>
+						<td>
+							<!--{ ? .coupon_issue_unlimit }-->
+								{=__text("무제한")} 
+							<!--{ : }-->
+								{.coupon_issue_edate} 까지 
+							<!--{ / }--><br>
+							<span>
+								<!--{ ? .coupon_period_system == "date" }-->
+									({.coupon_period_edate} 까지)
+								<!--{ : .coupon_period_system == "deadline" }-->
+									{=__text("발급후")} {.coupon_period_deadline}{=__text("일이내")} 
+								<!--{ : .coupon_period_system == "deadline_date" }-->
+									~{.coupon_period_deadline_date} 
+								<!--{ / }-->
+							</span>
+						</td>
+						<td><a href="indb.php?mode=coupon&coupon_code={.coupon_code}" class="btn_down">다운로드</a></td>
+					</tr>
+					<!--{ / }-->
+					
+					
+					<tr>
+						<td class="coupon-name"></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+					</tr>
+				</tbody>
+			</table>
+			<h3 class="table-title">쿠폰 목록</h3>
+			<table class="coupon-table">
+				<colgroup>
+					<col width="*" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+					<col width="150" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>쿠폰명</th>
+						<th>쿠폰종류</th>
+						<th>적용상품</th>
+						<th>할인혜택</th>
+						<th>사용 유효기간</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{ @ mycoupon }-->
+					<tr>
+						<td class="coupon-name">{.coupon_name}<br />({.coupon_code})</td>
+						<td>{=_r_coupon_type[.coupon_type]}</td>
+						<td>
+							<a href="#" class="btn_view_product" onclick="get_coupon_apply_list('{.coupon_code}');">적용상품 보기</a>
+						</td>
+						<td>
+							<!--{ ? .coupon_type == "coupon_money" }-->
+								{=number_format(.coupon_able_money)}{=__text("원 할인")} 
+							<!--{ : }-->
+								<!--{ ? .coupon_way == "price" }-->
+								{=number_format(.coupon_price)}{=__text("원")} 
+								<!--{ : .coupon_way == "rate" }-->
+								{=number_format(.coupon_rate)}% 
+								<!--{ / }-->
+								
+								<!--{ ? .coupon_type == "discount" }-->
+								{=__text("할인")} 
+								<!--{ : .coupon_type == "saving" }-->
+								{=__text("적립")} 
+								<!--{ / }-->
+							
+								<!--{ ? .coupon_way == "rate" && .coupon_price_limit }-->
+								<br>{=__text("최대")}<!--{ ? .coupon_type == "discount" }-->{=__text("할인")}<!--{ : .coupon_type == "saving" }-->{=__text("적립")}<!--{ / }--> : {=number_format(.coupon_price_limit)}{=__text("원")}<br>
+								<!--{ / }-->
+							<!--{ / }-->
+						</td>
+						<td>
+							<!--{ ? .coupon_period_system == "date" }-->
+								{.coupon_period_sdate}
+							<!--{ : }-->
+								{=substr(.coupon_setdt, 0, 10)}
+							<!--{ / }-->
+								~{.usabledt} {=__text("까지")}
+						</td>
+					</tr>
+					<!--{ / }-->
+				</tbody>
+			</table>
+		
+			<div class="operation-guide">
+				<!--{ @ f_banner_s2( 'M2_coupon_banner' ) }-->{.banner}<!--{ / }-->
+			</div>
+		</div>
+	</div>
+</div>
+
+<div id="pop-view-product">
+	
+</div>
+
+<div class="pupa-bg"></div>
+
+<!--<script src="/js/calendar.js"></script>-->
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+
+function get_coupon_apply_list(coupon_code){
+	$j("#pop-view-product").children().remove();
+	$j.ajax({
+		type: "post",
+		url: "indb.php",
+		data: "mode=get_coupon_apply_list&coupon_code="+ coupon_code,
+		success: function(ret) {
+			if(ret == "all"){
+				alert("전 상품 적용입니다.");
+			} else {
+				
+				$j("#pop-view-product").append(ret);
+				popOpen('#pop-view-product');
+				
+				$('.close').click(function(e){
+					e.preventDefault();
+					$('.pupa-bg').fadeOut();
+					$(this).parent().hide();
+					$("html").css({
+						"overflow-y":"scroll"
+					});
+				});
+			}
+		}
+	});
+}
+
+function autoDate(o1,o2,v1,v2){
+	//$(o1).value = v1;
+	//$(o2).value = v2;
+	
+	$j("#"+o1).val(v1);
+	$j("#"+o2).val(v2);
+}
+
+/*function auto_focus(obj, idx) {
+	if ($j(obj).val().length == $j(obj).attr("maxlength")) {
+		obj.form[obj.name][idx].focus();
+	}
+}*/
+
+function set_coupon_issue(){
+	document.coupon_issue.submit();
+}
+</script>
+
+{ # footer }

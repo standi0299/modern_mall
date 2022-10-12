@@ -1,0 +1,56 @@
+<section class="content-container detail-content review-list-wrap">
+	<div class="h-group detail-list-title">
+		<div class="col"><h4>{=__text("이용후기")}</h4></div>
+		<div class="col right">
+			<!--<a href="../mypage/review.php" target="_top" class="write-form-btn">후기작성</a>-->
+		</div>
+	</div>
+	<div class="accordion-list">
+		<ul>
+
+		<!--{ ? review }-->		
+		
+			<!--{ @ review }-->
+			
+			<li>
+				<div class="h-group question-title">
+					<!--<div class="col text-center review-thumbnail" style="background-image: url('https://lorempixel.com/97/97/food/1/97x97')"></div>-->
+					<div class="col text-left review-summary">
+						<div class="review-tag">[{=__text("트래블북")}]</div>
+						<div class="review-subject h-group">
+							<div class="col">
+								{.subject}
+							</div>
+							<div class="col">
+								{=f_degreeIcon(.degree)}
+							</div>
+						</div>
+						<p>
+							{.content}...
+						</p>
+					</div>
+					<div class="col text-right review-created-at">{.name} ({.regdt})</div>
+				</div>
+				<div class="answer-text">
+					<h2>{.opt}</h2>
+					{.content}
+				</div>
+			</li>
+			
+			<!--{ / }-->
+		
+		<!--{ : }-->
+			<li>
+				<div class="h-group question-title">{=__text("등록된 상품사용기가 없습니다.")}</div>
+			</li>		
+		<!--{ / }-->
+		
+		</ul>
+	</div>
+	<div class="h-group detail-list-title">
+		<div class="col right">
+			<a href="/mypage/orderlist.php" target="_top" class="write-form-btn">{=__text("후기작성")}</a>
+		</div>
+	</div>
+	{=pg_review->page['navi']}
+</section>

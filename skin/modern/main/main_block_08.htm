@@ -1,0 +1,46 @@
+<!--main_block_08-->
+
+<link rel="stylesheet" href="/skin/modern/assets/css/istorybook.main.board.css">
+
+<div id="customer">
+	<ul class="cust_board_wrap">
+		<!--{ ? board_left_data }-->
+		<li class="cust_board notice">
+     		<p><a href="#">{board_left_set_data.board_name}</a><span><a href="../board/list.php?board_id={board_left_set_data.board_id}">more</a></span></p>
+        	<ul>
+        	<!--{ @ board_left_data }-->
+      			<li class="cust_board_list notice1">
+          		<ul>
+                 	<li class="notice_title"><a href="../board/view.php?board_id={.board_id}&no={.no}">{.subject}</a></li>
+                 	<li class="notice_date">{=substr(.regdt,0,10)}</li>
+                	<li class="notice_writer">{.name}</li>
+				</ul>
+            	</li>
+            <!--{ / }-->
+			</ul>
+		</li>
+		<!--{ / }-->
+		
+		<!--{ ? board_right_data }-->
+		<li class="cust_board qna">
+			<p><a href="#">{board_right_set_data.board_name}</a><span><a href="../board/list.php?board_id={board_right_set_data.board_id}">more</a></span></p>
+			<ul>
+			<!--{ @ board_right_data }-->
+	   			<li class="cust_board_list qna1">
+	    		<ul>
+	           		<li class="qna_title"><a href="../board/view.php?board_id={.board_id}&no={.no}">{.subject}</a></li>
+	              	<li class="qna_date">{=substr(.regdt,0,10)}</li>
+	              	<li class="qna_writer">{.name}</li>
+	          	</ul>
+				</li>
+			<!--{ / }-->
+     		</ul>
+		</li>
+		<!--{ / }-->
+	</ul>
+</div>
+
+<!--main_block_08-->
+
+
+

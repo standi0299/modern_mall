@@ -1,0 +1,108 @@
+{ # header }
+<div class="login-payment-page">
+<div class="content-container" id="payment-done">
+	<section class="text-center" id="payment-done-text">
+		<h2>{=__text("주문이 완료되었습니다")}</h2>
+		<div>
+			<label>{=__text("주문일")}</label>
+			<span class="label-text">{orddt}</span>
+			<span class="label-bar">|</span>
+			<label>{=__text("주문번호")}</label>
+			<span class="label-text">{payno}</span>
+		</div>
+	</section>
+
+	<section class="h-group" id="payment-info">
+		<div class="col">
+			<h3 class="payment-title">{=__text("받는사람정보")}</h3>
+			<hr>
+			<div class="payment-content">
+				<p>{receiver_name}</p>
+				<p>{receiver_mobile}</p>
+				<p>[{receiver_zipcode}] {receiver_addr} {receiver_addr_sub}</p>
+				<!--{ ? request }-->  
+				<p>{=__text("배송요청사항")}: <span class="text-primary text-bold">{request}</span></p>
+				<!--{ / }-->
+			</div>
+		</div>
+		<div class="col right">
+			<h3 class="payment-title">{=__text("결제정보")}</h3>
+			<hr>
+			<div class="payment-content">
+				<p>{_r_paymethod[paymethod]}</p>
+				<!--{ ? paymethod == "b" || paymethod == "v" }-->
+				<p>{=__text("계좌 정보")}: <span class="text-primary text-bold">{bankinfo}</span></p>
+				<p>{=__text("입금자명")}: <span class="text-primary text-bold">{payer_name}</span></p>
+				<!--{ / }-->
+				<div class="h-group" id="payment-cost">
+					<div class="col">
+						{=__text("결제금액")}:
+					</div>
+					<div class="col">
+						<span class="text-primary text-bold">{=number_format(payprice)}{=__text("원")}</span>
+						<span class="text-readonly text-bold">({=__text("배송비")}{=number_format(shipprice)}{=__text("원 포함")})</span>
+					</div>
+				</div>
+			</div>
+			<p class="text-primary" id="payment-notify">
+
+			</p>
+		</div>
+	</section>
+
+	<section id="order-list">
+		<h3 class="payment-title">{=__text("주문내역")}</h3>
+		<ul>
+			<!--{ @ ord }--><!--{ @ .item }-->
+			<li class="h-group">
+				<div class="col">
+					<div class="thumbnail" >{=goodsListImg(..goodsno,'100','','border:1px solid #dedede')}</div>
+				</div>
+				<div class="col">
+					<p>
+						<span>
+							{..goodsnm}
+							<!--{ ? ..title }-->
+							<b>{=__text("타이틀")}</b> : {..title}
+							<!--{ / }-->
+						</span>
+						
+						<!--{ ? ..cover_range_data }-->
+							<p>{..cover_range_data}</p>
+						<!--{ / }-->
+
+						<!--{ ? ..opt }-->
+						<span>/</span>
+						<span>{=__text("옵션")} [ {..opt} ] (+{..aprice})</span>
+						<!--{ / }-->
+						
+						<!--{ @ ..addopt }-->
+						<span>/</span>
+						<span>{...addopt_bundle_name} : {...addoptnm} (+{=number_format(...addopt_aprice)})</span>
+						<!--{ / }-->
+						
+						<!--{ @ ..printopt }-->
+						<span>/</span>
+						<span>{...printoptnm} : {...ea} (+{=number_format(...print_price)})</span>
+						<!--{ / }-->
+					</p>
+					<p>
+						{=__text("수량")} : {..ea}
+					</p>
+					<p>
+						{=number_format(..payprice)}{=__text("원")}
+					</p>
+				</div>
+			</li>
+			<!--{ / }--><!--{ / }-->
+		</ul>
+	</section>
+
+	<section class="content-container" id="payment-btn">
+		<a href="/main/index.php" class="btn btn-primary btn-lg">{=__text("쇼핑하러가기")}</a>
+		<a href="/mypage/orderview.php?payno={payno}" class="btn btn-primary btn-lg">{=__text("주문내역 상세보기")}</a>
+	</section>
+</div>
+</div>
+
+{ # footer }

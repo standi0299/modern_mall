@@ -1,0 +1,103 @@
+{ # header_popup }
+
+<style>body {padding:10px;}</style>
+<div style="margin-bottom:10px;"><img src="./dc_partnership_tworld.gif"></div>
+
+<table class="tb1">
+<!--
+<tr>
+	<td>Message Type</td>
+	<td>{messageType}</td>
+</tr>
+<tr>
+	<td>거래 구분 코드</td>
+	<td>{ordCode}</td>
+</tr>
+<tr>
+	<td>거래 금액</td>
+	<td>{price}</td>
+</tr>
+<tr>
+	<td>전문 전송 일시</td>
+	<td>{senddt}</td>
+</tr>
+-->
+<!--
+성공시반환되는카드번호상이함 추후확인요망
+<tr>
+	<td>멤버십카드번호</td>
+	<td>
+	{=substr(card_num,0,4)}-{=substr(card_num,4,4)}-{=substr(card_num,8,4)}-{=substr(card_num,12,4)}
+	</td>
+</tr>
+-->
+<tr>
+	<td>거래 고유 번호</td>
+	<td>{ordSerialNumber}</td>
+</tr>
+<!--
+<tr>
+	<td>단말#</td>
+	<td>{terminal}</td>
+</tr>
+<tr>
+	<td>가맹점#</td>
+	<td>{franchise}</td>
+</tr>
+<tr>
+	<td>상품 유형</td>
+	<td>{prize}</td>
+</tr>
+-->
+<tr>
+	<td>응답 코드</td>
+	<td>
+	<!--{ ? resCode!=52 }-->
+	{resCodeStr}
+	<!--{ : }-->
+	사용불가카드
+	<!--{ / }-->
+	</td>
+</tr>
+<tr>
+	<td>승인 번호</td>
+	<td>{approvalNumber}</td>
+</tr>
+<!--{ ? resCode=="00"}-->
+<tr>
+	<td>레인보우포인트 여부</td>
+	<td>{isRainbowPointStr}</td>
+</tr>
+<!--{ / }-->
+<!--
+<tr>
+	<td>할인금액</td>
+	<td>{dcPoint}</td>
+</tr>
+<tr>
+	<td>지불금액</td>
+	<td>{payPoint}</td>
+</tr>
+-->
+<!--{ ? resCode=="00"}-->
+<!--  T멤버십 포인트 차감 서비스 종료로 인해 해당기능 주석 처리 210218 jtkim -->
+<!--<tr>-->
+<!--	<td>잔여한도</td>-->
+<!--	<td>{totPoint}</td>-->
+<!--</tr>-->
+<!--{ / }-->
+</table>
+
+<div class="page">
+	<a href="javascript:_submit()"><img src="../../img/sbtn_submit.jpg" class="hand"></a>
+	<a href="javascript:close()"><img src="../../img/sbtn_close.jpg"></a>
+</div>
+
+<script>
+function _submit(){
+	var res = opener.dc_partnership_tworld_callback({no},{totPoint});
+	if (res) close();
+}
+</script>
+
+{ # footer_popup }

@@ -1,0 +1,293 @@
+<!--낱장(책자)_프리셋2_100106-->
+<div style="width:560px; min-height:500px;padding-bottom:40px;">
+	<div class="estimateq">
+		<div class="estimateC">
+        
+			<!--est_title-->
+			<!--{ ? OrderMemoArr[98] == 'Y' }-->
+			<div class="box">
+				<table cellpadding="0" cellspacing="0" class="estTable2">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th>{=__text("주문 제목")}</th>
+						<td><input type="text" class="textType inp-w-300" name="est_title" value="{est_title}" /></td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+			<div class="space"> </div>
+			<!--{ / }-->				
+
+			<!--내지-->
+			<div class="box">
+				<h3 class="est_title">{=__text("기본")}</h3>
+				<div id="option_item_select_PP">
+				<table cellpadding="0" cellspacing="0" class="estTable">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>						
+					<tbody>
+					<tr>
+						<th><span name="item_select_PP_1">{adminExtraOption->getDisplayName("2")}</span></th>
+						<td class="won_area">								
+							{adminExtraOption->MakePageSelectOption(preset, "F-FIX")}
+						  	<span class="won">
+								<span class="price-view">
+									<input type='hidden' name='option_supply_price_PP' id='option_supply_price_PP'>
+									<input type='hidden' name='option_price_PP' id='option_price_PP'>
+									<div id='price_text_PP'>0{=__text("원")}</div>
+								</span>			  		
+						  	</span>								
+						</td>
+					</tr>						
+					</tbody>
+				</table>
+				</div>
+				<div id="option_item_select_OP">					
+				<table cellpadding="0" cellspacing="0" class="estTable1">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th><span name="item_select_DOCUMENT_1">{adminExtraOption->getDisplayName("1")}</span></th>
+					  	<td>{adminExtraOption->MakeSelectOptionTag("1","","documentOnchange","inp-w-80")}</td>
+					</tr>
+					<!--{ ? adminExtraOption->getOptionKindUse("17") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_PT_17">{adminExtraOption->getDisplayName("17")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("17","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<!--{ ? adminExtraOption->getOptionKindUse("18") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_IC_18">{adminExtraOption->getDisplayName("18")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("18","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->						
+					<!--{ ? adminExtraOption->getOptionKindUse("19") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_CT_19">{adminExtraOption->getDisplayName("19")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("19","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->		
+					<!--{ ? adminExtraOption->getOptionKindUse("20") !== 'N' }-->
+					<tr>
+						<th><span name="item_select_ET_20">{adminExtraOption->getDisplayName("20")}</span></th>
+						<td>{adminExtraOption->MakeSelectOptionTag("20","","forwardAction","inp-w-150")}</td>
+					</tr>
+					<!--{ / }-->
+					<tr>
+						<th>&nbsp;<span>{adminExtraOption->MakeOrderCntDisplayName(goodsno,"OCNT")}</span></th>
+						<td class="won_area">
+							<span>{adminExtraOption->MakeOrderCntSelect(goodsno,"OCNT","order_cnt_select")}</span>
+						  	<span class="won">
+								<span class="price-view">
+									<input type='hidden' name='option_supply_price_OP' id='option_supply_price_OP'>
+									<input type='hidden' name='option_price_OP' id='option_price_OP'>
+									<div id='price_text_OP'>0{=__text("원")}</div>
+								</span>			  		
+						  	</span>
+						</td>
+					</tr>
+					</tbody>
+				</table>
+				</div>					
+			</div>
+			<div class="space"> </div>						
+
+			<!--후가공-->
+			<div id="after_option" class="box">
+				<h3 class="est_title">{=__text("후가공")}</h3>	
+				<table cellpadding="0" cellspacing="0" class="estTable">
+					<colgroup><col class="inp-w-120" /><col width="*" /></colgroup>
+					<tbody>
+					<!--{ @ afterOptionSelectArr }-->
+							
+					<tr>
+						<th>
+							<input type="checkbox" name="chk_item_select_{.code}_0" id="chk_item_select_{.code}_0" onclick="onClickChkAfterOption();" />
+							<span name="item_select_{.code}_{.optionKindIndex}">{.name}</span>								
+						</th>
+						<td class="won_area">
+							<div id="option_item_select_{.code}">		
+							{adminExtraOption->MakeSelectOptionTag(.optionKindIndex,"","forwardAction","inp-w-150")}&nbsp;{=AfterOptionHelpInfo(.code)}
+						  	<span class="won">
+								<span class="price-view">
+									<input type='hidden' name='option_supply_price_{.code}' id='option_supply_price_{.code}'>
+									<input type='hidden' name='option_price_{.code}' id='option_price_{.code}'>
+									<div id='price_text_{.code}'>0{=__text("원")}</div>
+								</span>			  		
+						  	</span>
+							</div>	  	
+						</td>
+					</tr>
+					
+					<!--{ / }-->	
+					</tbody>
+				</table>
+			</div>
+			<div class="space"> </div>
+							
+			<!--price box-->
+			<div class="estBox type3 price-view">
+				<div>
+					<span class="amount" id="select_option_sum" >0 {=__text("원")}</span>
+					<!--{? horizon_view_flag == "1" }--><!--2단가로상품보이기--><br><!--{ / }-->
+					<span class="amount2" id="select_option_sum_desc">0 {=__text("원")}</span>
+				</div>
+				<input type="hidden" id="select_option_supply_price" name="select_option_supply_price" />
+	        	<input type="hidden" id="select_option_sum_price" name="select_option_sum_price" />
+			</div>
+			<div class="space"> </div>
+			
+			<!--est_order_memo-->
+			<!--{ ? OrderMemoArr[99] == 'Y' }-->
+			<div class="box">
+				<table cellpadding="0" cellspacing="0" class="estTable2">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>
+					<tbody>
+					<tr>
+						<th>{=__text("주문 메모")}</th>
+						<td><textarea name="est_order_memo" style="width: 300px;height: 60px;">{est_order_memo}</textarea></td>
+					</tr>
+				</tbody>
+				</table>
+			</div>
+			<!--{ / }-->
+
+			<div class="estbtn">
+				<a href="javascript:;" onclick="initOrder('{order_type}', 'UPDATE')" class="estimate_btn"><span class="btn_05"></span>{=__text("주문하기")}</a>
+			</div>
+        
+		</div>		
+	</div>
+</div>
+
+<script type="text/javascript"> 
+$(window).load(function(){
+	//전체 수량
+	$("#unit_order_cnt").removeAttr("onchange");
+    $("#unit_order_cnt").change(function(){
+    	//마지막 항목 가격을 기본적으로 뿌려준다.
+  		//forwardOrderCntAction();
+  		priceSum();
+    });
+
+    //sub select
+	$("#item_select_PP_1").each(function(){
+		forwardAction(this);
+	});
+	//sub select
+	
+   	//수량 사용자 직접 입력 관련 이벤트 처리
+	$("input[name^='input_']").each(function(){
+		//console.log($(this));
+		$(this).val("1");
+		$(this).attr("style","width: 30px;");
+		$(this).bind('focusout', function(){
+			getRangeSelectCnt(this);
+		});
+		// onkeyup="this.value=number_filter(this.value);"
+		$(this).bind('keyup', function(){
+			this.value = number_filter(this.value);
+		});
+	});
+
+	//수량 사용자 직접 입력 창
+	if('{adminExtraOption->getUserCntInputFlage(goodsno, "OCNT")}' == 'Y') {
+		$("#unit_order_cnt").attr("style","display:none;");
+		$("#order_cnt_select").attr("style","display:none;");
+	}
+	else {
+		$("#input_unit_order_cnt").attr("style","display:none;");
+		$("#input_order_cnt_select").attr("style","display:none;");
+	}
+
+	//////////수정하기 값설정//////////
+	var json_data = '{orderOptionData}';
+	var object = $.parseJSON(json_data);
+	//console.log("json_data: " + json_data);
+	$.each(object , function(key, value){
+		//console.log(key + ": " + object [key]);
+		
+		//if($("#"+key))
+		//	$("#"+key).val(object [key]);
+			
+		if(key == "option_group_code") { 
+			group_code = object [key];
+			$("input[name='option_group_code']").val(object [key]);
+	  		//console.log($("input[name='option_group_code']").val());
+	  	}
+	});	
+	
+  	//값 설정
+	$.each(object , function(key, value){
+		//console.log(key + ": " + object [key]);
+		
+		if($("#"+key))
+			$("#"+key).val(object [key]);
+			
+		//후가공 선택 표시해주기.
+		if (key.indexOf('chk_') > -1) {
+			//console.log(key + ": " + object [key]);
+			if(object [key] == "Y") {
+				$("#"+key).attr("checked", true);
+				onVisibleAfterOption(key.replace("chk_",""));
+			}
+			else $("#"+key).attr("checked", false);
+		}
+	});
+	
+	//규격 설정
+	$("select[option_group_type='DOCUMENT']").each(function(){
+		//console.log(document_size);
+		var document_x = $("input[id='document_x'][option_group_type='DOCUMENT'][code='DOCUMENT']");
+		var document_y = $("input[id='document_y'][option_group_type='DOCUMENT'][code='DOCUMENT']");
+		
+		//console.log(document_x);
+		//console.log(document_y);
+		//console.log($(document_x).is("input"));
+		//console.log($(document_y).is("input"));
+
+		if (!$(document_x).is("input")) document_x = $("input[id='document_x'][option_group_type='DOCUMENT']");
+		if (!$(document_y).is("input")) document_y = $("input[id='document_y'][option_group_type='DOCUMENT']");
+		
+    	$(document_x).attr("readonly",false);
+    	$(document_y).attr("readonly",false);
+
+    	for(document_key in document_size) {
+
+			if($("select[option_group_type='DOCUMENT']").val() == {=__java("비규격")}) {
+				$(document_x).val("");
+				$(document_y).val("");
+			}    		
+    						
+			if (document_key == $("select[option_group_type='DOCUMENT']").val()) {
+				
+    			$(document_x).val(document_size[document_key].substr(0, document_size[document_key].indexOf('x')));
+    			$(document_y).val(document_size[document_key].substr(document_size[document_key].indexOf('x')+1, document_size[document_key].length));
+				
+				if ($(document_x).val())
+					$(document_x).attr("readonly",true);
+				
+				if ($(document_y).val())
+					$(document_y).attr("readonly",true);
+			}
+		}
+	});
+	//////////수정하기 값설정//////////
+
+	//마지막 항목 가격을 기본적으로 뿌려준다.   
+	forwardOrderCntAction();
+});
+</script>
+<!--내지추가-->
+
+<!--내지추가-->
+		

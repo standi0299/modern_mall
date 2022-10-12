@@ -1,0 +1,241 @@
+{ # header_popup }
+
+<style>
+#titlebox {
+	padding:10px;
+	background-color:#333333;
+	height:20px;
+	font-weight:bold;
+	color:white;
+	}
+#titlebox a {
+	color:white;
+	}
+
+#wrap {padding:20px;}
+
+
+/*** Table tb_address ***/
+table.tb_address {
+	width: 100%; margin: 0; padding: 0;
+	border-top: 2px solid #222222;
+	border-bottom: 1px solid #d2d2d2;
+	border-collapse: collapse;
+}
+table.tb_address th{
+	padding:10px 0; text-align:center;
+	border-bottom: 1px solid #d2d2d2;
+	font: bold 8pt nanumG,nanumG2; letter-spacing: -1px; text-align: center;
+	color: #444444; background: #F2F2F2;
+}
+
+table.tb_address td{
+	border-bottom: 1px solid #d2d2d2;
+	padding: 6px 5px;
+}
+</style>
+
+
+<div id="titlebox" class="ibox">
+	<div class="left" style="margin-left:10px;">{=__text("내 배송지 관리")}</div>
+	<div class="right"><a href="javascript:window.close();">{=__text("닫기")} X</a></div>
+</div>
+
+<div id="wrap">
+<img src="../img/tit_address1.gif" style="margin:10px 0;">
+
+
+<table class="tb_address" style="table-layout:fixed;">
+<tr>
+	<th width="60"></th>
+	<th width="80">{=__text("닉네임")}</th>
+	<th width="80">{=__text("받는사람")}</th>
+	<th>{=__text("주소")}</th>
+	<th width="100">{=__text("전화번호")}</th>
+	<th width="100">{=__text("휴대폰번호")}</th>
+	<th width="50"></th>
+	<th width="50"></th>
+</tr>
+<!--{ @ loop }-->
+<tr align="center">
+	<td><a href="javascript:selectAddress('{.addressno}')">
+		<img src="../img/cbtn_choice.png">
+	</a></td>
+	<td>{.addressnm}</td>
+	<td>{.receiver_name}</td>
+	<td class="c1">
+		<div>{.receiver_addr}</div>
+		<div>{.receiver_addr_sub} ({.receiver_zipcode})</div>
+	</td>
+	<td>{.receiver_phone}</td>
+	<td>{.receiver_mobile}</td>
+	<td><a href="javascript:void(0);" onclick="viewAddressBox('addressBox_{.addressno}','show')">
+		<img src="../img/cbtn_mod.png">
+		</a></td>
+	<td><a href="indb.address.php?mode=address_delete&addressno={.addressno}" {=__onclick_confirm("정말로 삭제하시겠습니까?")}>
+		{=__text("삭제")}
+		</a></td>
+</tr>
+<tr class="hidden addressBox" id="addressBox_{.addressno}">
+	<td align="center"><img src="../img/icn_reply.gif"></td>
+	<td colspan="7">
+
+	<form action="indb.address.php" method="POST" onsubmit="return form_chk(this)">
+	<input type="hidden" name="mode" value="address_modify">
+	<input type="hidden" name="addressno" value="{.addressno}">
+
+	<table class="tb1">
+	<tr>
+		<th>{=__text("닉네임")}</th>
+		<td colspan="3"><input type="text" name="addressnm" value="{.addressnm}" required></td>
+	</tr>
+	<tr>
+		<th>{=__text("받으시는 분")}</th>
+		<td colspan="3"><input type="text" name="receiver_name" value="{.receiver_name}" required></td>
+	</tr>
+	<tr>
+		<th>{=__text("전화번호")}</th>
+		<td>		
+		<input type="text" name="receiver_phone[0]" value="{.r_receiver_phone[0]}" pt="_pt_numplus" size="4">
+		- <input type="text" name="receiver_phone[1]" value="{.r_receiver_phone[1]}" pt="_pt_numplus" size="4">
+		- <input type="text" name="receiver_phone[2]" value="{.r_receiver_phone[2]}" pt="_pt_numplus" size="4">
+		
+		</td>
+
+		<th>{=__text("휴대전화번호")}</th>
+		<td>
+		<input type="text" name="receiver_mobile[0]" value="{.r_receiver_mobile[0]}" pt="_pt_numplus" size="4">
+		- <input type="text" name="receiver_mobile[1]" value="{.r_receiver_mobile[1]}" pt="_pt_numplus" size="4">
+		- <input type="text" name="receiver_mobile[2]" value="{.r_receiver_mobile[2]}" pt="_pt_numplus" size="4">
+		
+		</td>
+	</tr>
+	<tr>
+		<th>{=__text("주소")}</th>
+		<td colspan="3">
+		
+		<input type="text" name="receiver_zipcode" id="receiver_zipcode_{.addressno}" size="6" value="{.r_receiver_zipcode}" readonly class="readonly abs" pvalue="orderer_zipcode" required pt="_pt_numplus">
+		<a href="javascript:popupZipcode('_zcrn_r')"><img src="../img/bt_zip.png" class="absmiddle" id="zipcode_button"/></a>
+			
+		<br>
+		<input type="text" name="receiver_addr" id="receiver_addr_{.addressno}" value="{.receiver_addr}" class="readonly abs w500" pvalue="orderer_addr" required readonly style="margin:4px 0" pt="_pt_txt"/><br/>
+		<input type="text" name="receiver_addr_sub" value="{.receiver_addr_sub}" class="readonly w500" pvalue="orderer_addr_sub" pt="_pt_txt" required onkeyup="chkTextByte(this,50)"/>
+
+		</td>
+	</tr>
+	</table>
+	<div class="btn"><input type="image" src="../img/btn_submit.gif"></div>
+	</form>
+
+	</td>
+</tr>
+<!--{ / }-->
+</table>
+
+<img src="../img/tit_address2.gif" style="margin:30px 0 10px 0;">
+
+<form name="fm" action="indb.address.php" method="POST" onsubmit="return form_chk(this)">
+<input type="hidden" name="mode" value="address_insert">
+
+<table class="tb_address" style="table-layout:fixed;">
+<tr>
+	<th>{=__text("닉네임")}</th>
+	<td colspan="3"><input type="text" name="addressnm" required></td>
+</tr>
+<tr>
+	<th>{=__text("받으시는분")}</th>
+	<td colspan="3"><input type="text" name="receiver_name" required></td>
+</tr>
+<tr>
+	<th>{=__text("전화번호")}</th>
+	<td>
+
+	<input type="text" name="receiver_phone[0]" pt="_pt_numplus" size="4">
+	<input type="text" name="receiver_phone[1]" pt="_pt_numplus" size="4">
+	- <input type="text" name="receiver_phone[2]" pt="_pt_numplus" size="4">
+	
+	</td>
+	<th>{=__text("휴대폰번호")}</th>
+	<td>
+	<input type="text" name="receiver_mobile[0]" pt="_pt_numplus" size="4">
+	<input type="text" name="receiver_mobile[1]" pt="_pt_numplus" size="4">
+	- <input type="text" name="receiver_mobile[2]" pt="_pt_numplus" size="4">
+		
+	</td>
+</tr>
+<tr>
+	<th>{=__text("주소")}</th>
+	<td colspan="3">
+	
+	<input type="text" name="receiver_zipcode" id="receiver_zipcode" size="6" readonly class="readonly abs" pvalue="orderer_zipcode" required>
+		<a href="javascript:popupZipcode('_zcrn_r2')"><img src="../img/bt_zip.png" class="absmiddle" id="zipcode_button"/></a>
+	<br>
+	<input type="text" name="receiver_addr" id="receiver_addr" class="readonly abs" pvalue="orderer_addr" required readonly style="margin:4px 0;width:480px;" pt="_pt_txt"/><br/>
+	<input type="text" name="receiver_addr_sub" class="readonly" pvalue="orderer_addr_sub" style="width:480px;" pt="_pt_txt" required onkeyup="chkTextByte(this,50)"/>&nbsp;&nbsp;{=__text("나머지 주소")}
+
+	</td>
+</tr>
+</table>
+
+<div class="btn">
+	<input type="image" src="../img/btn_add_new.png">
+</div>
+
+</form>
+
+<div class="page">{=pg->page['navi']}</div>
+
+
+</div>
+
+
+<script>
+function _zcrn_r(){
+	var zipcode = arguments[0];
+	var receiver_addr = arguments[1];
+	
+	$j(".addressBox").each(function(){
+		if ($j(this).css("display")!="none"){
+			$j("[name=receiver_zipcode]",$j(this)).val(zipcode);
+			//$j("[name=receiver_zipcode[1]]",$j(this)).val(zipcode[1]);
+			$j("[name=receiver_addr]",$j(this)).val(receiver_addr);
+			$j("[name=receiver_addr_sub]",$j(this)).val("");
+			$j("[name=receiver_addr_sub]",$j(this)).trigger("focus");
+		}
+	});
+
+	return;	
+}
+
+function _zcrn_r2(){
+	var zipcode = arguments[0];
+	var receiver_addr = arguments[1];
+	
+	var fm = document.fm;
+
+	$j("[name=receiver_zipcode]",$j(fm)).val(zipcode);
+	//$j("[name=receiver_zipcode[1]]",$j(fm)).val(zipcode[1]);
+	$j("[name=receiver_addr]",$j(fm)).val(receiver_addr);
+	$j("[name=receiver_addr_sub]",$j(fm)).val("");
+	$j("[name=receiver_addr_sub]",$j(fm)).trigger("focus");
+
+	return;	
+}
+
+function viewAddressBox(obj,mode){
+	$j(".addressBox").each(
+	function(){
+		$j(this).css("display","none");
+	});
+
+	if (mode=="show") $j("#"+obj).show();
+	if (mode=="hide") $j("#"+obj).hide();
+	
+	return;
+}
+
+function selectAddress(addressno){
+	opener._address(addressno);
+	window.close();
+}
+</script>

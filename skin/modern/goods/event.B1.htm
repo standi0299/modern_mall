@@ -1,0 +1,45 @@
+{ # header }
+
+<section class="content-container">
+	<h2>Event <span>{header}</span></h2>
+	
+	
+	
+	<div class="circle_pg_box" style="float:right;width: 350px;">
+		<div class="col right" id="event-nav">
+			<div class="h-group" style="float: right;">
+			<!--{ @ list }-->	
+				<div class="col">
+					<a href="/goods/event.php?eventno={.eventno}" class="normal-event-nav-btn">{.index_+1}</a>
+				</div>
+			<!--{ / }-->	
+			</div>
+		</div>
+	</div>
+	
+	<div style="clear:both;text-align:center;">
+		<!--{ ? _GET.eventno }-->
+		{contents}
+		<!--{ : }-->
+		<div class="text-center" style="height:200px;padding-top:90px;">{=__text("진행중인 이벤트가 없습니다.")}</div>
+		<!--{ / }-->
+	</div>
+	
+	<!-- 댓글 -->
+	<!--{ ? use_comment && header == "진행중인 이벤트" }-->
+	<div><iframe id="event_comment" frameborder="0" style="width:100%;" src="event.comment.php?eventno={eventno}"></iframe></div>
+	<!--{ / }-->
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "event-page");
+});
+
+function eventSelect(obj) {
+	location.href = "../../goods/event.php?eventno=" + $j(obj).val();
+}
+</script>
+
+{ # footer }

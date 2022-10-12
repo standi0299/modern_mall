@@ -1,0 +1,79 @@
+<!--{ ? _GET.mobile_type == "Y" }-->
+	<!--{ ? loop }-->
+	<div u="loading" style="position: absolute; top: 0px; left: 0px;">
+	<div style="filter: alpha(opacity=70); opacity:0.7; position: absolute; display: block; background-color: #000000; top: 0px; left: 0px;width: 100%;height:100%;"></div>
+	<div style="position: absolute; display: block; background: url(../img/loading.gif) no-repeat center center; top: 0px; left: 0px;width: 100%;height:100%;"></div>
+	</div>
+	<div class="slider" u="slides" style="cursor: move; position: absolute; left: 0px; top: 0px; width: {_GET.preview_width}px; height: {_GET.preview_height}px; overflow: hidden; margin: 20px 10px 0 10px;">
+		<!--{ @ loop }-->
+		<div><img u="image" src="{.value_}" style="width:{_GET.preview_width}px; height:{_GET.preview_height}px;" /></div>
+		<!--{ / }-->
+	</div>
+	<!--{ : }-->
+	<span>{=__text("미리보기 지원되지 않는 편집입니다.")}</span>
+	<!--{ / }-->
+<!--{ : }-->
+{ # header_popup }
+
+<table style="margin:50px auto;">
+<tr>
+	<td></td>
+	<td id="page_td" class="eng" valign="top">
+	page : 
+	<!--{ @ loop }-->
+	<span {?.index_==0}style="font-weight:bold;color:red;"{/} onclick="viewImgDirect(this,{.index_})" class="hand">{.index_+1}</span>
+	<!--{ / }-->
+	</td>
+	<td></td>
+</tr>
+<tr>
+	<td style="font:bold 30pt tahoma" onclick="viewImg(-1)" class="hand">◀</td>
+	<td id="img_td" style="position:relative;" align="center">
+	<!--{ @ loop }-->
+	<img src="{.value_}" style="position:absolute;"/>
+	<!--{ / }-->
+	<img src="{loop[0]}" style="visiblity:hidden"/>
+	</td>
+	<td style="font:bold 30pt tahoma" onclick="viewImg(1)" class="hand">▶</td>
+</tr>
+</table>
+
+<script>
+
+var num = 0;
+function viewImg(dir){
+	num = num+dir;
+	if (num < 0){
+		num = 0;
+	}
+	if (num > {=count(loop)-1}){
+		num = {=count(loop)-1};
+	}
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(200,1);
+
+	$j("span",$j("#page_td")).css("font-weight","normal");
+	$j("span",$j("#page_td")).css("color","#000000");
+	$j("span:eq("+num+")",$j("#page_td")).css("font-weight","bold");
+	$j("span:eq("+num+")",$j("#page_td")).css("color","red");
+
+}
+function viewImgDirect(span,no){
+	num = no;
+	var obj = $j("#img_td");
+	$j("img",obj).fadeTo(0,0);
+	$j("img:eq("+num+")",obj).fadeTo(300,1);
+	
+	$j("span",$j("#page_td")).css("font-weight","normal");
+	$j("span",$j("#page_td")).css("color","#000000");
+	$j(span).css("font-weight","bold");
+	$j(span).css("color","red");
+}
+$j(function(){
+	viewImg(0);
+});
+</script>
+
+{ # footer_popup }
+<!--{ / }-->

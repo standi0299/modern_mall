@@ -1,0 +1,84 @@
+{ # header }
+<div id="container-pupa">
+	<div class="sub-img">
+		<!--{ @ f_banner_s2('list_main_M2_banner_1')}-->{.banner}<!--{ / }-->
+	</div>
+	<div class="sub-img" style="margin-top:20px;">
+		<!--{ @ f_banner_s2('list_main_M2_banner_2')}-->{.banner}<!--{ / }-->
+	</div>
+
+	<div class="container_inner">
+		<div class="product-list">
+			<h3 class="menu-title"><span>MD's choice</span></h3>
+			<ul>
+				<!--{ ? _blockDataArr.main_block_13.goods }-->
+					<!--{ @ _blockDataArr.main_block_13.goods }-->
+						<li>
+							<a href="/goods/view.php?goodsno={.goodsno}">
+								<div class="thumbnail-wrap">
+									<div class="thumbnail">
+										<div class="thumbnail-img" style="background-image: url('{.clistimg}'), url('/skin/modern/img/noimg.png')">
+										</div>
+										<button type="button" class="btn_wish <!--{ ? .goods_like == 'Y' }-->on<!--{ / }-->" onclick="set_goods_like('{.goodsno}');"></button>
+									</div>
+								</div>
+								<div class="thumbnail-info">
+									<p class="product-name">{.goodsnm}</p>
+									<p class="product-price">{=number_format(.cprice)}원</p>
+									<p class="product-reduced-price">{=number_format(.price)}원</p>	
+								</div>
+							</a>
+						</li>
+					<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+		</div>
+	</div>
+
+	<div class="sub-img" style="margin-top:80px;">
+		<!--{ @ f_banner_s2('list_main_M2_banner_3')}-->{.banner}<!--{ / }-->
+	</div>
+	<div class="sub-img" style="margin-top:20px;">
+		<!--{ @ f_banner_s2('list_main_M2_banner_4')}-->{.banner}<!--{ / }-->
+	</div>
+</div>
+
+<form name="searchFm">
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="orderby" value=""/>
+</form>
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+</form>
+
+<script src="/js/plugin/jquery.cycle.js"></script>
+<script>
+$j(function(){
+	$j("div", "#goods_sort").each(function(){
+		if("{_GET.orderby}" == $j(this).attr("sort"))  $j(this).css({"color":"#5F87D1","font-weight":"bold"});
+	});
+	$j("a", "#goods_sort").click(function(){
+		$j("input[name=orderby]").val($j(this).attr("sort"));
+		document.searchFm.submit();
+	});
+});
+
+//tab-content 를 강제로 변경해 준다.
+function tabActive(tabID)
+{	
+	if (tabID != "tab0")
+	{
+		$('#tab0').hide();
+		$('#' + tabID).show();
+	}
+}
+</script>
+<script type="text/javascript">  
+var pod_signed = ""; //### 복수 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+{ # footer }

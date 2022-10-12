@@ -1,0 +1,35 @@
+{ # header }
+
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">찜 목록</h2>
+		<div class="bdt mb60"></div>
+		<div class="product-list">
+			<ul>
+				<!--{ ? list }-->
+					<!--{ @ list }-->
+					<li onclick="move_goods_view('{.goodsno}')" style="cursor: pointer">
+						<a>
+							
+							<div class="thumbnail-wrap">
+								<div class="thumbnail">
+									<div class="thumbnail-img" style="background-image: url('http://{_cfg_center.host}/data/goods/{_cid}/s/{.goodsno}/{.listimg}'), url('/skin/modern/img/noimg.png');">
+									</div>
+									<button type="button" class="btn_wish <!--{ ? .goods_like == 'Y' }-->on<!--{ / }-->" onclick="set_goods_like('{.goodsno}', 'reload');"></button>
+								</div>
+							</div>
+							<div class="thumbnail-info">
+								<p class="product-name">{.goodsnm}</p>
+								<p class="product-price">{=number_format(.cprice)}원</p>
+								<p class="product-reduced-price">{=number_format(.price)}원</p>	
+							</div>
+						</a>
+					</li>
+					<!--{ / }-->
+				<!--{ / }-->
+			</ul>
+		</div>
+	</div><!-- container_inner End -->
+</div>
+
+{ # footer }

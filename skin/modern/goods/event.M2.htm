@@ -1,0 +1,61 @@
+{ # header }
+
+	<div id="container-pupa">
+		<div class="container_inner">
+			<h2 class="category-title">이벤트</h2>
+			<script>
+			/*
+				$(function(){
+					$('.tab-event li').each(function(idx){
+						$(this).click(function(){
+							$('.tab-event li').removeClass('on');
+							$(this).addClass('on');
+							$('.event-list').hide();
+							$('.event-list').eq(idx).show();
+						});
+					});
+				});
+			*/
+			</script>
+			<div class="tab-event tab-50p">
+				<ul>
+					<li class="on"><a href="#">진행중인 이벤트</a></li>
+					<li><a href="/goods/event_end.php">종료된 이벤트</a></li>
+				</ul>
+			</div>
+			<!-- 진행중인 이벤트 -->
+
+			<!-- li 3개씩 ul 생성 -->
+			<div class="event-list event-list-ing">
+				<ul>
+					<!--{ @ list }-->
+					
+					<!--{ ? .index_ && .index_ % 3 == 0 }-->
+					</ul><ul>
+					<!--{ / }-->
+					
+					<li>
+						<a href="event_view.php?eventno={.eventno}">
+							<div class="event-img" style="background-image:url(/data/event/{_cid}/{.eventno}/{.eventno});"></div>
+							<div class="event-date">
+								<span class="ing">진행중</span>
+								<u>{.sdate} ~ {.edate}</u>
+							</div>
+							<div class="event-title">
+								{.title}
+							</div>
+						</a>
+					</li>
+					<!--{ / }-->
+				</ul>
+				
+
+				<div class="paging-wrap">
+					{pg->page['navi_m2']}
+				</div>
+			</div>
+		</div>
+	</div><!-- container-pupa End -->
+	
+
+{ # footer }

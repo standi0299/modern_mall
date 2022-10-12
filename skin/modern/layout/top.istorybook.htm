@@ -1,0 +1,80 @@
+<link href="/skin/modern/assets/css/istorybook_main.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" charset='utf-8' src="//code.jquery.com/jquery-1.9.0.min.js"></script>
+<script src="/skin/modern/assets/js/istorybook_main.js"></script>
+
+<div id="header">
+	<div id="header_wrap">
+		<div class="title">
+			<h1 class="h9">{_cid}</h1>            
+			<!--{ ? _cfg.top_logo_type == "img" }-->
+				<a href="/"><img src = "/data/top_logo/{_cid}/top_logo.png" {=__alt("타이틀,로고")} class="main_logo"></a>
+			<!--{ : _cfg.top_logo_type == "txt" }-->
+				<a href="/">{_cfg.top_logo}</a>
+			<!--{ : }-->
+				<a href="/">BLUEPOD</a>
+			<!--{ / }-->
+  		</div>
+
+			<nav id="main_nav">
+				<ul class="main_menu">
+					<!--{ @ f_category("class='menu_name'") }-->
+					<li class="menu_{.index_ + 1} sub_menu">
+						<!--{ ?.img }-->
+							{.category_link_tag}{.img}</a>
+						<!--{ : }-->
+							{.category_link_tag}{.catnm}</a>
+						<!--{ / }-->
+					
+						<!--{ ? .sub && !_cfg.top_category_sub_off }-->
+							<ul class="menu_slide" style="display: none;">
+							<!--{ @ .sub }-->
+					
+								<!--{ ? ..img }-->
+									<li class="in_menu_img">{..category_link_tag}{..img}</a>
+								<!--{ : }-->
+									<li class="in_menu">{..category_link_tag}{..catnm}</a>
+								<!--{ / }-->
+
+									</li>
+							<!--{ / }-->
+							</ul>
+						<!--{ / }-->
+					</li>
+					<!--{ / }-->   
+				</ul>
+			</nav>
+
+			<nav id="top_nav">
+				<ul>
+	      <!--{ ? !_sess }-->
+					<li><a href="/member/login.php">{=__text("로그인")}</a></li>
+					<li><a href="/member/register.php">{=__text("회원가입")}</a></li>
+					
+					<!--{ ? _cfg.editlist_use != "N" }-->
+					<li><a href="/order/editlist.php">{=__text("편집보관함")}</a></li>
+					<!--{ / }-->
+					
+					<!--{ ? _cfg.local_storage_use == "Y"}-->
+					<li><a href="javascript:void(0)" {=__onclick_alert("로그인하여주시기 바랍니다.")} >{=__text("로컬보관함")}</a></li>
+					<!--{ / }-->
+				<!--{ : }-->
+					
+					<li><a href="/member/logout.php">{=__text("로그아웃")}</a></li>
+					<li><a href="/mypage/index.php">{=__text("마이페이지")}</a></li>
+					<!-- 기본값을 모두 보임으로 설정, 사용안함 설정일 때만 나오지 않도록 수정 / 17.02.28 / kjm -->
+					<!--{ ? _cfg.editlist_use != "N" }-->
+					<li><a href="/order/editlist.php">{=__text("편집리스트")}</a></li>
+					<!--{ / }-->
+	
+					<!--{ ? _cfg.local_storage_use == "Y"}-->
+					<li><a href="javascript:popupLayer('/module/open_storage_new.php');">{=__text("로컬보관함")}</a></li>			
+					<!--{ / }-->
+				<!--{ / }-->
+					<li><a href="/order/cart.php">{=__text("장바구니")}</a></li>
+					<li><a href="/service/faq.php">{=__text("고객센터")}</a></li>
+         	<li><a href="/goods/search.php"><img src="/skin/modern/assets/images/istorybook/top_seach.png" width="12" height="12" alt="#" /></a></li>
+				</ul>
+			</nav>
+	</div>
+</div>
+

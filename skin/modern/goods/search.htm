@@ -1,0 +1,61 @@
+{ # header }
+
+<section id="search-form">
+	<form action="search.php" id="frm">
+		<div class="form-group">
+			<input type="text" name="sw" class="input" {=__placeholder("원하는 상품이나 해시태그 키워드를 입력하세요!")}>
+			<i>
+				<a href="javascript:document.getElementById('frm').submit();"><img src="../assets/images/search-dark-icon.png" alt=""></a>
+			</i>
+		</div>
+	</form>
+	<div id="recommend-keyword">
+		<i> </i>
+		<div id="keyword-box">
+			<h3>{=__text("추천 검색어")}</h3>
+			<ul class="h-group">
+				<!--{ @ _word }-->
+				<li class="col">
+					<a href="?sw={.value_}">#{.value_}</a>
+				</li>
+				<!--{ / }-->
+			</ul>
+		</div>
+	</div>
+</section>
+
+<form name="searchFm">
+<input type="hidden" name="catno" value="{_GET.catno}"/>
+<input type="hidden" name="orderby" value=""/>
+</form>
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+</form>
+
+<script src="/js/plugin/jquery.cycle.js"></script>
+<script>
+$j(function(){
+	$j("div", "#goods_sort").each(function(){
+		if("{_GET.orderby}" == $j(this).attr("sort"))  $j(this).css({"color":"#5F87D1","font-weight":"bold"});
+	});
+	$j("a", "#goods_sort").click(function(){
+		$j("input[name=orderby]").val($j(this).attr("sort"));
+		document.searchFm.submit();
+	});
+});
+</script>
+
+<section class="content-container">
+	<div class="list-container">
+		{p.i->inc('/goods/_list.htm')}
+		{=pg->page['navi']}
+		{p.i->inc('/goods/_previewLayer.htm')}
+	</div>
+</section>
+
+{ # footer }

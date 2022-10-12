@@ -1,0 +1,159 @@
+
+<div class="quick-option-wrap">
+	<button type="button" id="quick-toggle-btn">
+		{=__text("옵")}<br/>{=__text("션")}<br/>{=__text("보")}<br/>{=__text("기")}<br/>&rsaquo;
+	</button>
+	
+	<div class="detail-data thumbnail-data">
+		<h2>{goodsnm}</h2>
+
+		<!--{ ? pageprice }-->
+		<div class="h-group detail-option">
+			<div class="col">{=__text("페이지추가 가격")}</div>
+			<div class="col select-box">
+				<label>{=number_format(pageprice)}{=__text("원")} ({=__text("본 가격은 추가단위당의 가격입니다.")})</label>					
+			</div>
+		</div>			
+		<!--{ / }-->
+					
+		<!--{ ? !in_array(podskind,array(28,3180)) }-->
+		<!--{ @ r_opt }-->
+		<div class="h-group detail-option">
+			<div class="col">{?optnm[.index_]}{optnm[.index_]}{:}{=__text("옵션")}{.index_+1}{/}</div>
+			<div class="col">
+				<label></label>
+				<select name="quick-optno[]" onchange="updateOption(this)" required>
+				<option value="">{=__text("선택")}</option>
+				<!--{ ? .index_==0 }-->
+				<!--{ @ .item }-->
+				<option value="{..optno}" title="{..optnm}" stock="{..stock}" podoptno="{..podoptno}" productid="{..podsno}" <!--{?..optnm == f_getCaseNm(cgoods_size)}--> selected <!--{/}-->>{..optnm}<!--{ ? ..aprice && count(r_opt)==1 }--> (+{=number_format(..aprice)}{=__text("원")})<!--{ / }--></option>
+				<!--{ / }-->
+				<!--{ / }-->
+				</select>
+			</div>
+		</div>
+		<!--{ / }-->
+		<!--{ / }-->
+		
+		<!--{ @ r_addopt }-->
+		<div class="h-group detail-option">
+			<div class="col">{.addopt_bundle_name}</div>
+			<div class="col">
+				<label></label>
+				<select name="quick-addopt[]" { ? .addopt_bundle_required }required{/}>
+				<option value="">{=__text("선택")}</option>
+				<!--{ @ .addopt }-->
+				<option value="{..addoptno}">{..addoptnm}<!--{ ? ..addopt_aprice && count(r_addopt)==1 }--> (+{=number_format(..addopt_aprice)}{=__text("원")})<!--{ / }--></option>
+				<!--{ / }-->
+				</select>
+			</div>
+		</div>			
+		<!--{ / }-->
+
+		<!--{ ? !podskind }-->
+		<div class="h-group detail-option">
+			<div class="col">{=__text("수량")}</div>
+			<div class="col">
+				<label></label>
+				<input type="text" name="quick-ea" value="1" size="2" pt="_pt_numplus"/>  {?unitword}{unitword}{:}ea{/}
+			</div>
+		</div>
+		<!--{ / }-->
+
+		<!--{ @ exp }-->
+		<div class="h-group detail-option">
+			<div class="col">{.name}</div>
+			<div class="col">
+				<label>{.value}</label>
+			</div>
+		</div>			
+		<!--{ / }-->
+	
+		<!--{ ? r_printopt }-->
+		<div class="h-group detail-option">
+			<div class="col">{=__text("인화옵션")}</div>
+			<div class="col">
+				<label> </label>
+				<table class="tb_printopt">
+				<tr>
+					<th>{=__text("사이즈")}</th>
+					<th>{=__text("가격")}</th>
+					<th>{=__text("적립금")}</th>
+				</tr>
+				<!--{ @ r_printopt }-->
+				<tr>
+					<th>{.printoptnm}</th>
+					<td>￦ {=number_format(.print_price)}</td>
+					<td>￦ {=number_format(.print_reserve)}</td>
+				</tr>
+				<!--{ / }-->
+				</table>					
+			</div>
+		</div>
+		<!--{ / }-->
+
+			<div class="detail-sell-data2">
+				<div class="detail-price">	
+					<!--{? cprice}-->
+						<div class="price-normal">{=__text("소비자가격")} <span id="goods_cprice">{=number_format(cprice)}{=__text("원")}</span></div>
+					<!--{ / }-->	
+		
+					<div class="price-discount">{=__text("판매가격")} 
+						<!--{ ? strprice }-->
+							<span>{strprice}</span>
+						<!--{ : }-->
+							<span id="quick-goods_price">{=number_format(price)}{=__text("원")}</span>
+							<!--{? cprice}-->
+								<div class="price-normal" id="quick-goods_cprice_x">(▼ {=number_format(cprice-price)}{=__text("원 할인")})</div>
+							<!--{ / }-->
+						<!--{ / }-->
+					</div>
+				</div>
+
+				<!--{ ? podskind > 0 }-->
+				<div class="h-group detail-option">
+					<div class="col">
+						<a href="#" {=__onclick_alert("제작상품은 제작 후 장바구니에 담을 수 있습니다.")}>
+							<img src="../assets/images/cart-btn.png" alt="">
+						</a>
+					</div>
+					<!-- <div class="col">
+						<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn btn-lg edit-btn">{=__text("편집 시작하기")}</a>
+					</div> -->
+
+					<!--{ ? pods_editor_type && (podskind == "3040" || podskind == "3041" || podskind == "3050" || podskind == "3051" || podskind == "3052" || podskind == "3055") }-->
+						<!--{ ? pods_editor_type.editor_active_exe == "active" || pods_editor_type.editor_active_exe == "exe" }-->
+						<div class="col">
+							<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn btn-lg edit-btn">{=__text("편집 시작하기")}</a>
+						</div>
+					<!--{ / }-->
+					
+					<!--{ ? pods_editor_type.editor_web == "web" }-->
+						<div class="col">
+							<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}', 'web');" class="btn btn-lg edit-btn"><!--{ @ f_banner_text('goods_view_edit_button2')}-->{.banner}<!--{ / }--></a>
+						</div>
+					<!--{ / }-->
+
+				<!--{ : }-->
+					<div class="col">
+						<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{templateSetIdx}', '{templateIdx}');" class="btn btn-lg edit-btn">{=__text("편집 시작하기")}</a>
+					</div>
+				<!--{ / }-->
+
+				</div>
+				<!--{ : }-->
+				<div class="h-group detail-option">
+					<div class="col">
+						<a href="javascript:exec('buy');">
+							<img src="../assets/images/cart-btn.png" alt="">
+						</a>
+					</div>
+					<div class="col">
+						<a href="javascript:exec('cart');" class="btn btn-lg edit-btn">{=__text("주문 하기")}</a>
+					</div>
+				</div>				
+				<!--{ / }-->				
+			</div>
+		
+	</div>		
+</div>

@@ -1,0 +1,137 @@
+{ # header }
+
+<section class="content-container">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col">
+				<a href="../../board/list.php?board_id=notice">{=__text("공지사항")}</a>
+			</li>
+			<li class="col">
+				<a href="../../service/faq.php">{=__text("자주 묻는 질문")}</a>
+			</li>
+			<li class="col active">
+				<a href="../../mypage/mycs.php">{=__text("문의하기")}</a>
+			</li>
+			<!--{ ? board_list }-->
+				<!--{ @ board_list }-->
+				<li class="col">
+					<a href="../../board/list.php?board_id={.value_['id']}">{.value_['name']}</a>
+				</li>
+				<!--{ / }-->
+			<!--{ / }-->
+		</ul>
+		<div class="tab-content-wrap">
+			<div class="tab-content" id="inquiry">
+				<div class="inquiry-content h-group" id="inquiry-tab">
+					<div class="col text-center">
+						<i><img src="../img/inquiry-bullet.png" alt=""></i>
+						<p>{=__text("운영시간")}</p>
+						<p>
+							<span style="width:300px;display:inline-block;overflow:hidden;white-space:nowrap;line-height:1.8em;">
+								{ _cfg.cstime }
+							</span>
+						</p>
+					</div>
+					<div class="col" id="tab-bar">
+						<i></i>
+					</div>
+					<div class="col">
+						<a href="../../mypage/mycs_write.php">
+							{=__text("문의하기")}
+						</a>
+					</div>
+					<div class="col">
+						<a href="../../mypage/mycs.php" class="active">
+							{=__text("1:1 문의내역")}
+						</a>
+					</div>
+				</div>
+				<div class="inquiry-content" id="inquiry-history">
+					<div id="inquiry-list-wrap">
+						<div class="h-group" id="inquiry-list-head" style="width:1000px;margin:0;">
+							<div class="col text-center inquiry-data">{=__text("문의유형")}</div>
+							<div class="col text-center inquiry-title">{=__text("제목")}</div>
+							<div class="col text-center inquiry-created-at">{=__text("문의일시")}</div>
+							<div class="col text-center inquiry-status">{=__text("답변여부")}</div>
+						</div>
+						<div class="accordion-list" style="width:1000px;margin:0;">
+							<ul>
+								<!--{ @ loop }-->
+								<li>
+									<div class="h-group question-title">
+										<div class="col text-center inquiry-data">
+											{.category}&nbsp;
+										</div>
+										<div class="col inquiry-title">
+											<!--{ ? .payno }-->[{.payno}] <!--{ / }-->
+											{.subject}
+										</div>
+										<div class="col text-center inquiry-created-at">
+											{.regdt}
+										</div>
+										<div class="col text-center inquiry-status">
+											<!--{ ? .reply }-->
+											<b>{=__text("답변완료")}</b>
+											<!--{ : }-->
+											{=__text("답변대기")}<br>
+											<a href="mycs_write.php?no={.no}">{=__text("수정하기")}</a>
+											<!--{ / }-->
+										</div>
+									</div>
+									<div class="answer-text">
+										<!--질문 본문 시작 -->
+										<!--{ ? .img }-->
+										<div class="inquiry-text" style="margin-bottom:-40px;">
+											<div class="col" style="margin:-20px 0 10px -20px;font-weight:bold;">{=__text("첨부파일")}</div>
+											<a href="../data/board/{.cid}/cs/{.img}" target="_blank">{.img}</a>
+										</div>
+										<!--{ / }-->
+										<div class="inquiry-text">
+											<div class="col" style="margin:-20px 0 10px -20px;font-weight:bold;">{=__text("내용")}</div>
+											{=nl2br(.content)}
+										</div>
+										<!--질문 끝 -->
+										<!--질문 답변 시작 -->
+										<!--{ ? .reply }-->
+										<div class="inquiry-answer">
+											<div class="col" style="margin:-20px 0 10px -20px;font-weight:bold;">{=__text("답변")}</div>
+											{=nl2br(.reply)}
+										</div>
+										<!--{ / }-->
+										<!--질문 답변 끝 -->
+									</div>
+								</li>
+								<!--{ : }-->
+								<li>
+									<div class="text-center" style="height:200px;padding-top:90px;">{=__text("문의내역이 없습니다.")}</div>
+								</li>
+								<!--{ / }-->
+							</ul>
+						</div>
+						<div class="list-pagination" style="margin:10px 0 -20px;">
+							<ul>
+								<li>{pg->page['navi']}</li>
+							</ul>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "cs-layout");
+	$j(".inquiry-data,.inquiry-status").css("width", "150px");
+	$j(".inquiry-title").css("width", "500px");
+	$j(".inquiry-created-at").css("width", "200px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }

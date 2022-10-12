@@ -1,0 +1,86 @@
+{ # header }
+
+<section class="section-container">
+	<div class="tab-container tab-default">
+		<ul class="h-group tab-menu">
+			<li class="col active" rel="tab1">{=__text("비밀번호 재설정")}</li>
+		</ul>
+		<div class="tab-content-wrap" id="find-account-form">
+			<div id="tab1" class="tab-content">
+				<form name="password_change" method="post" action="indb.php">
+					<input type="hidden" name="mode" value="pw_resetting">
+					<input type="hidden" name="mid" value="{_GET.mid}">
+					<input type="hidden" name="chkPassword">
+					
+					<div class="form-horizontal">
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("비밀번호")}</label>
+							<div class="col">
+								<input type="password" class="form-control" name="password" pt="_pt_pw" {=__msg("비밀번호는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.")} required onchange="chk_password();" {=__placeholder("비밀번호")}>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<label class="col label-control">{=__text("비밀번호 확인")}</label>
+							<div class="col">
+								<input type="password" class="form-control" name="password2" pt="_pt_pw" {=__label("비밀번호")} samewith="password" required onchange="chk_password();" {=__placeholder("비밀번호 확인")}>
+							</div>
+						</div>
+						<div class="form-group h-group">
+							<span id="vPass" class="text-primary"></span>
+							<div>{=__text("띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.")}</div>
+						</div>
+						<div class="form-group h-group">
+							<div class="col"></div>
+							<div class="col right">
+								<button type="submit" class="btn btn-primary btn-block btn-lg">{=__text("확인")}</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</section>
+
+<script type="text/javascript">
+var fm = document.password_change;
+
+function chk_password() {
+	var ret = $('vPass');
+
+	if (!fm.password.value) {
+		alert({=__java("비밀번호를 입력해주세요.")});
+		fm.password.focus();
+		return;
+	} else if (!_pattern(fm.password)) {
+		alert({=__java("비밀번호는 띄어쓰기 없이 영소문자/숫자/-/_ 6~20자로 입력해주세요.")});
+		fm.password.value = "";
+		fm.password.focus();
+		return;
+	}
+
+	if (!fm.password2.value) {
+		alert({=__java("비밀번호 확인을 위해 한번 더 입력해주세요.")});
+		fm.password2.focus();
+		return;
+	}
+	
+	ret.innerHTML = (fm.password.value != fm.password2.value) ? {=__java("비밀번호 불일치")} : {=__java("비밀번호 일치")};
+	fm.chkPassword.value = (fm.password.value != fm.password2.value) ? "" : "chk";
+	
+	//비밀번호와 비밀번호확인이 다르면 비밀번호확인 텍스트박스 값을 지워줌 / 14.04.25 / kjm
+	if(!fm.chkPassword.value) {
+		alert({=__java("비밀번호가 일치하지 않습니다.")}+"\n"+{=__java("다시 입력해주세요.")});
+		fm.password.value = '';
+		fm.password2.value = '';
+		fm.password.focus();
+	}
+}
+
+$j(function() {
+	$j("body").attr("id", "find-account-page");
+	$j("body").attr("class", "");
+});
+</script>
+
+{ # footer }

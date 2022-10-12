@@ -1,0 +1,296 @@
+<!-- _cart_order_pay_info.html -->
+<table class="set-table">
+	<thead>
+	<tr>
+		<!--{ ? _cartpage }-->
+		<td class="text-center item-size">{=__text("선택")}<input type="checkbox" name="chkBoxAll" onclick="chkBox('cartno[]','rev');getCartPrice();" checked></td>
+		<!--{ / }-->
+		<td class="text-center item-title">{=__text("상품명")}</td>
+		<td class="text-center item-cost">{=__text("가격")}</td>
+		<td class="text-center item-count">{=__text("수량")}</td>
+		<td class="text-center item-cover">{=__text("판매가")}</td>
+		<td class="text-center item-cover">{=__text("할인액")}</td>
+		<td class="text-center item-cover">{=__text("적립예정액")}</td>
+		<td class="text-center item-cover">{=__text("배송비")}</td>
+		<!--{ ? _cartpage }-->
+		<td class="text-center item-cover">-</td>
+		<!--{ / }-->
+	</tr>
+	</thead>
+
+	<script type="text/javascript">
+		var kidsnote_selected_center_id = false;
+
+		function kidsnotePodCallExec(pods_use,podskind,podsno,goodsno,optno,storageid,podsno2,podoptno,r_addoptno,ea,aaa,baa,caa,daa,eaa,faa,gaa,cover_id,haa,cartno,kn_token,selectKey){
+
+			var kidsnote_CenterId_SelectList_Id = document.getElementById("kidsnoteCenterListId"+selectKey).id;
+			var kidsnote_selected_center_id = document.getElementById("kidsnoteCenterListId"+selectKey).value;
+			if(kidsnote_selected_center_id){
+				//PodsCallEditorUpdate(pods_use, podskind, podsno,templateSetIdx,templateIdx,wpod,kn_token,kidsnote_selected_center_id);
+				kidPodsCallEditorUpdate(pods_use,podskind,podsno,goodsno,optno,storageid,podsno2,podoptno,r_addoptno,ea,aaa,baa,caa,daa,eaa,faa,gaa,cover_id,haa,cartno,kn_token,kidsnote_selected_center_id);
+			}else{
+				alert('소속기관을 선택해주세요.');
+			}
+		}
+	</script>
+
+	<tbody>
+	<!--{ @ cart->item }-->
+		<!--{ @ .value_ }-->
+		<tr>
+
+			<!--{ ? _cartpage }-->
+			<td class="text-center item-size">
+				<input type="checkbox" name="cartno[]" value="{..cartno}" {?..error}disabled{:}checked{/} onclick="getCartPrice();">
+			</td>
+			<!--{ / }-->
+
+			<td class="text-left item-size">
+				<table border="0" width="100%">
+					<tbody>
+						<tr>
+							<td style="padding-top: 0px; padding-bottom: 0px;" width="30%" align="center"><img width="124px" height="124px" src="{=goodsListImgSrc(..goodsno,'','','border:1px solid #dedede')}" /></td>
+							<td style="padding-top: 0px; padding-bottom: 0px; padding-left: 10px;">
+								<p class="ellipsis">
+									<!--{ ? ..package_flag == "2" }-->
+										<span class="package-flag">[{=__text("패키지")}]</span>
+									<!--{ / }-->
+									{..goodsnm}
+								</p>
+								<!--{ ? ..title }-->
+									<span> - {..title}</span><br>
+								<!--{ / }-->
+
+								<!--{ ? ..est_order_option_desc_str }-->
+									<div class="blue small" style="line-height:150%;margin-top:5px;">
+										<!--<b>{=__text("견적옵션")}</b><br/>-->
+
+										<div style="padding-left:10px">{..est_order_option_desc_str}</div>
+
+										<!--{ ? ..files }-->
+										<div style="padding-left:10px">{=__text("첨부 파일")} : {..files}</div>
+										<!--{ / }-->
+
+										<!--{ ? ..est_order_memo }-->
+										<div style="padding-left:10px"><b>{=__text("주문 메모")}</b> : {..est_order_memo}</div>
+										<!--{ / }-->
+
+										<!--{ ? _cartpage }-->
+											<!--{ ? ..extra_auto_pay_flag != "0" }-->
+												<!--{ ? !..est_goodsnm }-->
+													<input type="button" {=__value("옵션변경")} class="btn btn-primary btn-xs" onclick="popup('/order/cart_extra_option_update_pop.php?goodsno={..goodsno}&cartno={..cartno}',600,800)">
+												<!--{ / }-->
+											<!--{ / }-->
+										<!--{ / }-->
+									</div>
+								<!--{ / }-->
+
+								<!--{ ? ..goods_group_code == "60" }-->
+									<br><input type="button" {=__value("견적옵션정보")} class="btn btn-primary btn-xs" onclick="popup('/order/cart_print_option_pop.php?goodsno={..goodsno}&cartno={..cartno}',600,500)" style="margin-right:5px;">
+								<!--{ / }-->
+
+								<!--{ ? ..opt }-->
+									{..opt}<span>(+{..aprice})</span>
+								<!--{ / }-->
+								<!--{ ? ..addopt }-->
+									<!--{ @ ..addopt }-->
+										<br>{...addopt_bundle_name} : {...addoptnm} <span class="eng">(+{=number_format(...addopt_aprice)})</span>
+									<!--{ / }-->
+								<!--{ / }-->
+
+								<!-- 장바구니에서 옵션 변경추가 / 21.07.15 / jtkim -->
+								<!--{ ? _cartpage }-->
+									<!--{ ? ..change_add_options }-->
+									<br><input type="button" {=__value("옵션변경")} class="btn btn-primary btn-xs" onclick="popup('addopt_change.php?cartno={..cartno}&goodsno={..goodsno}',600,500)">
+									<!--{ / }-->
+								<!--{ / }-->
+
+								<!--{ @ ..printopt }-->
+									<div class="red desc">{...printoptnm} : {...ea} <span class="eng">(+{=number_format(...print_price)})</span></div>
+								<!--{ / }-->
+
+								<!--{ ? ..cover_range_data }-->
+									<br><span>{..cover_range_data}</span>
+								<!--{ / }-->
+
+								<!--{ ? ..error }-->
+									<br><span style="color: red;">- {=__text("구매가 불가능합니다.")} <br/>{=__text("사유")} : {..errmsg} {?..error==6}<br/>({=__text("주문가능량")} : {..enabled_ea} ){/}</span>
+								<!--{ / }-->
+							</td>
+						</tr>
+					</tbody>
+					<tbody>
+						<tr>
+							<td colspan="2" style="padding-top: 0px; padding-bottom: 0px;">
+							<!--{ ? _cartpage }-->
+								<!--{ ? ..est_order_type == "UPLOAD" }-->
+								<div class="col">
+									<input type="button" {=__value("업로드 원본")} class="btn btn-primary btn-xs" onclick="popup('/module/download.est.php?storageid={..storageid}',1000,650, 1);" style="margin-right:5px;">
+								</div>
+								<!--{ / }-->
+							<!--{ / }-->
+
+								<!--{ ? ..storageid && !in_array(..podskind,array(8,9)) && ..goodsno!='-1' && ..est_order_type!='UPLOAD' && ..goods_group_code=='10' }-->
+									<div class="col">
+										<input type="button" {=__value("편집내용 미리보기")} class="btn btn-primary btn-xs" onclick="popup('../module/preview.php?goodsno={..goodsno}&storageid={..storageid}',1000,650, 1);" style="margin-right:5px;">
+									</div>
+									<div class="col">
+										{=__text("최종수정")} : <span>{..updatedt}</span>
+									</div>
+								<!--{ / }-->
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+
+			<td class="text-right item-cost">
+				<!--{ ? ..package_flag == "2" && ..package_parent_cartno != '0' }-->
+				<!--{ : }-->
+					<div><span class="stxt">{=__text("상품가")}</span> : {=number_format(..price)}</div>
+					<!--{ ? ..aprice }-->
+						<div class="blue"><span class="stxt">{=__text("옵션")}</span> : +{=number_format(..aprice)}</div>
+					<!--{ / }-->
+					<!--{ ? ..addopt_aprice }-->
+						<div class="green"><span class="stxt">{=__text("추가")}</span> : +{=number_format(..addopt_aprice)}</div>
+					<!--{ / }-->
+					<!--{ ? ..print_aprice }-->
+						<div class="red"><span class="stxt">{=__text("인화")}</span> : +{=number_format(..print_aprice)}</div>
+					<!--{ / }-->
+					<!--{ ? ..addpage }-->
+						<div class="orange"><span class="stxt">{=__text("페이지추가")} {..addpage}p</span> : +{=number_format(..addpage_price)}</div>
+					<!--{ / }-->
+					<div style="border-top:1px solid #DEDEDE;margin-top:3px;padding-top:3px;"><b>{=number_format(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price)}</b></div>
+				<!--{ / }-->
+			</td>
+
+			<td class="text-right item-count">
+				<!--{ ? ..package_flag == "2" && ..package_parent_cartno != '0' }-->
+				<!--{ : }-->
+					<!--{ ? _cartpage && ..ea_mod_enabled  }-->
+						<input type="text" name="ea" value="{..ea}" size=1 style="border:solid #CCCCCC;border-width:1 1 1px;margin-right:5px;">
+						<input type="button" {=__value("수정")} class="btn btn-primary btn-xs" onclick="set_cart_ea(this,'{..cartno}')" style="margin-right:5px;">
+					<!--{ : }-->
+						{=number_format(..ea)}
+					<!--{ / }-->
+				<!--{ / }-->
+			</td>
+
+			<td class="text-center item-cover">
+				<!--{ ? ..package_flag == "2" && ..package_parent_cartno != '0' }-->
+				<!--{ : }-->
+				<b>
+					{=number_format(..saleprice)}
+						<!--{ ? ..cut_display.money.value == 1 && ..org_saleprice.res_mod != 0}-->
+							<!--{ ? ..org_saleprice.res_mod > 0 }-->
+							<br><p id="cutmoney_{..cartno}">(+<!--{=number_format(..org_saleprice.res_mod)}-->원)</p>
+							<!--{ : }-->
+							<br><p id="cutmoney_{..cartno}">(<!--{=number_format(..org_saleprice.res_mod)}-->원)</p>
+							<!--{ / }-->
+						<!--{ / }-->
+				</b>
+				<!--{ / }-->
+			</td>
+
+			<td class="text-center item-cover">
+				<!--{ ? ..package_flag == "2" && ..package_parent_cartno != '0' }-->
+				<!--{ : }-->
+					<!--{ ? ..grpdc }-->
+						<div><span class="stxt">{=__text("회원할인")}</span> : -{=number_format(..grpdc * ..ea)}</div>
+					<!--{ / }-->
+					<!--{ ? ..dc_coupon }-->
+						<div><span class="stxt">{=__text("쿠폰할인")}</span> : -{=number_format(..dc_coupon)}</div>
+					<!--{ / }-->
+				<!--{ / }-->
+			</td>
+
+			<td class="text-right item-cover">
+				<!--{ ? ..package_flag == "2" && ..package_parent_cartno != '0' }-->
+				<!--{ : }-->
+					<div><span class="stxt">{=__text("상품")}</span> : {=number_format(..reserve * ..ea)}</div>
+					<!--{ ? ..areserve }-->
+						<div class="blue"><span class="stxt">{=__text("옵션")}</span> : +{=number_format(..areserve * ..ea)}</div>
+					<!--{ / }-->
+					<!--{ ? ..addopt_areserve }-->
+						<div class="green"><span class="stxt">{=__text("추가")}</span> : +{=number_format(..addopt_areserve * ..ea)}</div>
+					<!--{ / }-->
+					<!--{ ? ..print_areserve }-->
+						<div class="red"><span class="stxt">{=__text("인화")}</span> : +{=number_format(..print_areserve * ..ea)}</div>
+					<!--{ / }-->
+					<!--{ ? ..addpage_reserve }-->
+						<div class="orange"><span class="stxt">{=__text("페이지추가")} {..addpage}p</span> : +{=number_format(..addpage_reserve * ..ea)}</div>
+					<!--{ / }-->
+					<!--{ ? ..reserve_coupon }-->
+						<div class="orange"><span class="stxt">{=__text("쿠폰")}</span> : +{=number_format(..reserve_coupon)}</div>
+					<!--{ / }-->
+					<div style="border-top:1px solid #DEDEDE;margin-top:3px;padding-top:3px;"><b>{=number_format((..reserve + ..areserve + ..addopt_areserve + ..print_areserve) * ..ea + ..reserve_coupon)}</b></div>
+				<!--{ / }-->
+			</td>
+
+			<!--{ ? !..index_ }-->
+			<td class="text-center item-cover" rowspan="{=count(.value_)}">
+				<div class="desc">{..release}</div>
+				<div class="eng" style="margin-top:2px">
+				<!--{ ? cart->shipprice[..rid]}-->
+					{=number_format(cart->shipprice[..rid])}{=__text("원")}
+				<!--{ : }-->
+					<!--{ ? cart->shipfree[..rid] == '1' || cart->shipfree[..rid] == ''}-->
+						<span class="stxt">
+							{=__text("무료")}
+						</span>
+					<!--{ / }-->
+				<!--{ / }-->
+
+				{_r_order_shiptype[..order_shiptype]}
+
+				</div>
+			</td>
+			<!--{ / }-->
+
+			<!--{ ? _cartpage }-->
+			<td class="text-center item-cover">
+				<!--{ ? ..package_flag == "2" && ..package_parent_cartno != '0' }-->
+				<!--{ : }-->
+					<input type="button" {=__value("삭제")} class="btn btn-primary btn-xs" onclick="set_mode('delete', '{..cartno}')">
+				<!--{ / }-->
+				<!--{ ? kn_centerList.size_ > 0 }-->
+				<input type="button" {=__value("편집")} class="btn btn-primary btn-xs" onclick="kidsnotePodCallExec('{..pods_use}','{..podskind}','{..podsno}','{..goodsno}','{..optno}','{..storageid}','{..podsno}','{..podoptno}','{..r_addoptno}','{..ea}','','','','','','','','{..cover_id}','','{..cartno}','{kn_token}','{..key_}')">
+				<!--{:}-->
+
+				<!--{ ? ..goodsno != '-1' }-->
+				<!--{ ? ..podskind > 0 }-->
+				<!--{ ? f_decode_json_data(..pods_editor_type, "editor_web") == "web" }-->
+							<input type="button" {=__value("편집")} class="btn btn-primary btn-xs" onclick="PodsCallEditorUpdate('{..pods_use}','{..podskind}','{..podsno}','{..goodsno}','{..optno}','{..storageid}','{..podsno}','{..podoptno}','{..r_addoptno}','{..ea}','','','','','','','','{..cover_id}','web','{..cartno}')">
+				<!--{ : }-->
+					<!--{ ? ..storageid}-->
+								<input type="button" {=__value("편집")} class="btn btn-primary btn-xs" onclick="PodsCallEditorUpdate('{..pods_use}','{..podskind}','{..podsno}','{..goodsno}','{..optno}','{..storageid}','{..podsno}','{..podoptno}','{..r_addoptno}','{..ea}','','','','','','','','{..cover_id}')">
+					<!--{ / }-->
+				<!--{ / }-->
+				<!--{ / }-->
+				<!--{ / }-->
+
+				<!--{ / }-->
+
+				<!--{ ? kn_centerList.size_ > 0 }-->
+				<div class="h-group detail-option">
+					<div class="col" style=" width: 100%; margin: 0 auto;"> 소속기관 </div>
+					<div class="col select-box" style="  width: 100%;   margin: 0 auto; ">
+						<label></label>
+						<select id="kidsnoteCenterListId{..key_}" onchange="kidsnoteSelectedCenter(this.value)">
+							<option value="">{=__text("선택")}</option>
+							<!--{ @ kn_centerList}-->
+							<option value={ ..value_['center_id'] }>{ ...value_['center_name'] }</option>
+							<!--{ / }-->
+						</select>
+					</div>
+				</div>
+
+				<!--{ / }-->
+			</td>
+			<!--{ / }-->
+
+		</tr>
+	<!--{ / }-->
+	<!--{ / }-->
+	</tbody>
+</table>

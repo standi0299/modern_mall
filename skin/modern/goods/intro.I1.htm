@@ -1,0 +1,143 @@
+{ # header }
+<!--intro.htm-->
+<div id="photo-book-intro-page" class="intro-page">
+	
+<!--{ ? _ici_admin  || _bCatIntro600 }-->	
+<section class="content-container">
+	<div class="h-group intro-cover-wrap">		
+		<div class="col text-center intro-cover" id="intro-hard-cover">
+			<div class="_banner" code="category_intro_600x600_1_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+			<!--{ @ f_banner_s2('category_intro_600x600_1_'+ _GET.catno)}-->
+			<a href="{.url}">
+				<div class="intro-focus"></div>
+				<div class="intro-box" style="background-image: url('{.img}'), url('https://placehold.it/600x600')">
+					<span>{.comment}</span>
+				</div>
+			</a>
+			<!--{ / }-->
+			</div>
+		</div>
+		<div class="col text-center intro-cover" id="intro-soft-cover">
+			<div class="_banner" code="category_intro_600x600_2_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+			<!--{ @ f_banner_s2('category_intro_600x600_2_'+ _GET.catno)}-->
+			<a href="{.url}">
+				<div class="intro-focus"></div>
+				<div class="intro-box" style="background-image: url('{.img}'), url('https://placehold.it/600x600')">
+					<span>{.comment}</span>
+				</div>
+			</a>
+			<!--{ / }-->
+			</div>
+		</div>		
+	</div>
+</section>
+<!--{ / }-->
+
+<section class="content-container" id="intro-banner">
+	<div class="_banner" code="category_intro_1200x1789_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+	<!--{ @ f_banner_s2('category_intro_1200x1789_'+ _GET.catno)}-->
+	<a href="{.url}"><img src="{.img}" width="1200" alt="{.comment}"></a>
+	<!--{ / }-->
+	</div>
+</section>
+</div>
+
+<div id="brand-intro-page" class="intro-page">
+<section class="content-container" id="brand-intro-list">
+	<ul>
+			
+		<!--{ @ f_banner_s2('category_intro_1200x292_1_'+ _GET.catno)}-->
+		<li class="intro-cover">
+			<div class="_banner" code="category_intro_1200x292_1_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+			<a href="{.url}" class="brand-intro-link">
+				<div class="intro-focus"></div>
+				<div class="intro-box" style="background-image: url('{.img}'), url('https://placehold.it/1200x292')">
+					<span>{.comment}</span>
+				</div>
+			</a>
+			</div>
+		</li>
+		<!--{ / }-->
+
+		<!--{ @ f_banner_s2('category_intro_1200x292_2_'+ _GET.catno)}-->
+		<li class="intro-cover">
+			<div class="_banner" code="category_intro_1200x292_2_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+			<a href="{.url}" class="brand-intro-link">
+				<div class="intro-focus"></div>
+				<div class="intro-box" style="background-image: url('{.img}'), url('https://placehold.it/1200x292')">
+					<span>{.comment}</span>
+				</div>
+			</a>
+			</div>
+		</li>
+		<!--{ / }-->
+
+		<!--{ @ f_banner_s2('category_intro_1200x292_3_'+ _GET.catno)}-->
+		<li class="intro-cover">
+			<div class="_banner" code="category_intro_1200x292_3_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+			<a href="{.url}" class="brand-intro-link">
+				<div class="intro-focus"></div>
+				<div class="intro-box" style="background-image: url('{.img}'), url('https://placehold.it/1200x292')">
+					<span>{.comment}</span>
+				</div>
+			</a>
+			</div>
+		</li>
+		<!--{ / }-->
+
+		<!--{ @ f_banner_s2('category_intro_1200x292_4_'+ _GET.catno)}-->		
+		<li class="intro-cover">
+			<div class="_banner" code="category_intro_1200x292_4_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+			<a href="{.url}" class="brand-intro-link">
+				<div class="intro-focus"></div>
+				<div class="intro-box" style="background-image: url('{.img}'), url('https://placehold.it/1200x292')">
+					<span>{.comment}</span>
+				</div>
+			</a>
+			</div>
+		</li>
+		<!--{ / }-->
+
+		<!--{ @ f_banner_s2('category_intro_1200x292_5_'+ _GET.catno)}-->		
+		<li class="intro-cover">
+			<div class="_banner" code="category_intro_1200x292_5_{_GET.catno}" banner_type="img" add_type="N" add_css="">
+			<a href="{.url}" class="brand-intro-link">
+				<div class="intro-focus"></div>
+				<div class="intro-box" style="background-image: url('{.img}'), url('https://placehold.it/1200x292')">
+					<span>{.comment}</span>
+				</div>
+			</a>
+			</div>
+		</li>
+		<!--{ / }-->
+		
+	</ul>
+</section>
+</div>
+
+<script>
+function pods_editor_main(goodsno){
+
+	document.fmView.goodsno.value = goodsno;
+	popupLayer("../module/popup_calleditor.php?mode=view&goodsno="+goodsno);
+
+	return;
+
+}
+
+function exec(mode){
+	var fm = document.fmView;
+	fm.action = "../order/cart.php";
+	fm.mode.value = "cart";
+	fm.submit();
+}
+
+</script>
+
+<form name="fmView">
+<input type="hidden" name="mode"/>
+<input type="hidden" name="goodsno" value=""/>
+<input type="hidden" name="storageid"/>
+</form>
+
+{ # footer }

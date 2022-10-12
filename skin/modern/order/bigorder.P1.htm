@@ -1,0 +1,333 @@
+{ # header }
+<div class="sab_body">
+	<!--대량 주문 배너-->
+	<div id="ogg_b">
+		<ul class="digg_b">	
+			<li class="active_px">
+				<input type="radio" class="but_md" name="reo" onClick="main_order_img(1)" checked><label>견적요청</label>
+			</li>
+			<li  class="active_px">
+				<input type="radio" class="but_md" name="reo" onClick="main_order_img(2)" ><label>샘플신청</label>
+			</li>
+		</ul>
+	</div>
+	<!--대량 주문 배너-->
+	<!--대량주문 견적요청-->
+	<div class="big_ordd" id="pro_or_1">
+		<div class="dd_sp">
+			<span class="sang">희망하는 상품과 수량을 입력해 주세요.</span>
+			<ul>
+				<li>
+					<select class="sel_text" id="sel_text_o" onchange="auto_sel">
+						<option value="1">상품선택</option>
+						<option value="2">포토북</option>
+						<option value="3">포토달력</option>
+						<option value="4">포토엽서/카드</option>
+						<option value="5">기타 상품</option>
+					</select>
+				</li>
+				<li>
+					<select class="sel_text2" id="sel_text2">
+						<option value="a">사이즈 선택</option>
+						<option value="b">8x6</option>
+						<option value="c">8x8</option>
+						<option value="d">8x10</option>
+					</select>
+				</li>
+				<li>
+					<select class="sel_text3" id="sel_text3" style="display:none;" >
+						<option value="11">사이즈 선택</option>
+						<option value="12">라지</option>
+						<option value="13">스탠다드</option>
+						<option value="14">세로</option>
+						<option value="15">정사각</option>
+						<option value="16">라지(벽걸이)</option>
+						<option value="17">스몰(벽걸이)</option>
+					</select>
+				</li>
+				<li>
+					<input type="text"placeholder="수량을 입력하세요." class="sel_or"/>
+				</li>
+			</ul>
+		</div>
+		
+		<div class="monn_bo"></div>
+		<div class="dd_sp2">
+			<span class="sang">요청한 단체의 정보를 입력해주세요.</span>
+		</div>	
+		<div class="basong_list">
+			<div class="basong_f">
+				<div class="basong_span">
+					<span class="ba_f">학교/단체명</span>
+				</div>
+				
+				<div class="basong_s">
+					<ul style="margin:0; padding-left:45px;">
+						<li><input type="text" class="sel_or"/></li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_f">
+				<div class="basong_span">
+					<span class="ba_f">담당자</span>
+				</div>
+				
+				<div class="basong_s">
+					<ul style="margin:0;">
+						<li><input type="text" class="rip1"></li>
+						<li style="width:140px; position:relative; left:40px;">연락처
+						<li style="width:100px;">
+							<input type="text" class="number_p">
+						</li>
+						<li style="width:100px;">
+							<input type="text" class="number_p">
+						</li>
+						<li style="width:100px;">
+							<input type="text" class="number_p">
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_f">
+				<div class="basong_span">
+					<span class="ba_f">이메일</span>
+				</div>
+				
+				<div class="basong_s">
+					<ul style="margin:0;">
+						<li>
+							<input type="text" class="order_pp" name="oneone"/>	
+						</li>
+						<li style="width:10px; padding-left:10px;">@</li>
+						
+						<li>	
+							<input type="text" class="order_pp" name="oneone"/>	
+						</li>
+						<li>
+							<select class="order_add"  onchange="auto_set_email">
+								<option value>선택</option>
+								<option value="naver.com">naver.com</option>
+								<option value="daum.net">daum.net</option>
+								<option value="nate.com">nate.com</option>
+								<option value="gmail.com">gmail.com</option>
+								<option value="hotmail.com">hotmail.com</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_add">
+				<div class="basongadd_span">
+					<span class="ba_f">받으실 주소</span>
+				</div>
+				
+				<div class="basong_sadd">
+					<ul style="margin:0;">
+						<li style="width:150px; float:left; padding:10px 10px 3px 15px;"><input type="text" class="rip" style="width:150px;"></li>
+						<li class="ciask"><button>우편번호 찾기</button></li>
+						<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" style="width:500px;"></li>
+						<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" style="width:500px;"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_lid">
+				<div class="basongadd_span">
+					<span class="ba_f">요청사항</span>
+				</div>
+				
+				<div class="basong_two">
+					<textarea  class="my_two" name="oneone" placeholder="내용을 입력하세요."></textarea>	
+				</div>
+			</div>
+			<div class="basong_fdd">
+				<div class="basongfdd_span">
+					<span class="ba_f">자동 등록 방지</span>
+				</div>
+				
+				<div class="basongfdd_s">
+					<ul style="margin:0;">
+						<li style="width:60px;" ><img src="./img/sub/code_img.png" style="vertical-align:middle; display:inline-block; padding:2px;x"alt="보안코드"/></li>
+						<li><input type="text" class="sel_ord"/></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="plas">
+			<span class="sang">개인정보 수집 /이용 동의</span>
+			<div class="plastic">
+				<ul>
+					<li>개인정보의 수집 및 이용목적 : 제휴 프로그램 서비스에 대한 정보 제공</li>
+					<li>개인정보 수집 항목 : 회사명, 담당자명, 연락처, 이메일등</li>
+					<li>개인정보의 보유 및 이용기간 : 문의내용을 확인 할 수 있도록 3년간 보관 </li>
+				</ul>
+			</div>
+			<div class="14_add" style="width:650px; font-size:13px; margin-top:5px;">
+				<input type="checkbox" name="oneone" />	
+					<label><a href="#" class="showMask"><button type="button" style="border:none; background:0;outline:0;">이용약관</button></a> 및 
+					<a href="#" class="showMask_gain"><button type="button"  style="border:none; background:0; outline:0;">개인정보 수집 및 이용</button></a>에 대한 내용을 확인하고 동의 합니다.</label>
+			</div>
+		</div>
+		<div class="outding">
+			<button class="button_pay_rleft">견적요청</button>
+		</div>
+	</div>
+	<!--대량주문 견적요청-->
+	<!--샘플신청-->
+	<div class="big_ordd" id="pro_or_2" style="display:none;">
+		<div class="dd_sp">
+			<span class="sang">샘플 신청하실 상품 선택해주세요</span>
+			<ul>
+				<li>
+					<select class="sel_text">
+						<option value="1">상품선택</option>
+						<option value="2">포토북</option>
+						<option value="3">달력</option>
+					</select>
+				</li>
+			</ul>
+		</div>
+		<div class="monn_bo"></div>
+		<div class="dd_sp2">
+			<span class="sang">요청한 단체의 정보를 입력해주세요.</span>
+		</div>	
+		<div class="basong_list">
+			<div class="basong_f">
+				<div class="basong_span">
+					<span class="ba_f">학교/단체명</span>
+				</div>
+				
+				<div class="basong_s">
+					<ul style="margin:0; padding-left:45px;">
+						<li><input type="text" class="sel_or"/></li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_f">
+				<div class="basong_span">
+					<span class="ba_f">담당자</span>
+				</div>
+				
+				<div class="basong_s">
+					<ul style="margin:0;">
+						<li><input type="text" class="rip1"></li>
+						<li style="width:140px; position:relative; left:40px;">연락처
+						<li style="width:100px;">
+							<input type="text" class="number_p">
+						</li>
+						<li style="width:100px;">
+							<input type="text" class="number_p">
+						</li>
+						<li style="width:100px;">
+							<input type="text" class="number_p">
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_f">
+				<div class="basong_span">
+					<span class="ba_f">이메일</span>
+				</div>
+	
+				<div class="basong_s">
+					<ul style="margin:0;">
+						<li>
+							<input type="text" class="order_pp" name="oneone"/>
+						</li>
+						<li style="width:10px; padding-left:10px;">@
+						</li>
+	
+						<li>
+							<input type="text" class="order_pp" name="oneone"/>
+						</li>
+						<li>
+							<select class="order_add"  onchange="auto_set_email">
+								<option value>선택</option>
+								<option value="naver.com">naver.com</option>
+								<option value="daum.net">daum.net</option>
+								<option value="nate.com">nate.com</option>
+								<option value="gmail.com">gmail.com</option>
+								<option value="hotmail.com">hotmail.com</option>
+							</select>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_add">
+				<div class="basongadd_span">
+					<span class="ba_f">받으실 주소</span>
+				</div>
+				
+				<div class="basong_sadd">
+					<ul style="margin:0;">
+						<li style="width:150px; float:left; padding:10px 10px 3px 15px;"><input type="text" class="rip" style="width:150px;"></li>
+						<li class="ciask"><button>우편번호 찾기</button></li>
+						<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" style="width:500px;"></li>
+						<li style="width:300px; clear:both; padding:3px 15px;"><input type="text" class="rip" style="width:500px;"></li>
+					</ul>
+				</div>
+			</div>
+			<div class="basong_lid">
+				<div class="basongadd_span">
+					<span class="ba_f">요청사항</span>
+				</div>
+				
+				<div class="basong_two">
+					<textarea  class="my_two" name="oneone" placeholder="내용을 입력하세요."></textarea>	
+				</div>
+			</div>
+			<div class="basong_fdd">
+				<div class="basongfdd_span">
+					<span class="ba_f">자동 등록 방지</span>
+				</div>
+				
+				<div class="basongfdd_s">
+					<ul style="margin:0;">
+						<li style="width:60px;" ><img src="./img/sub/code_img.png" style="vertical-align:middle; display:inline-block; padding:2px;x"alt="보안코드"/></li>
+						<li><input type="text" class="sel_ord"/></li>
+					</ul>
+				</div>
+			</div>			
+		</div>
+		<div class="plas">
+			<span class="sang">개인정보 수집 /이용 동의</span>
+			<div class="plastic">
+				<ul>
+					<li>개인정보의 수집 및 이용목적 : 제휴 프로그램 서비스에 대한 정보 제공</li>
+					<li>개인정보 수집 항목 : 회사명, 담당자명, 연락처, 이메일등</li>
+					<li>개인정보의 보유 및 이용기간 : 문의내용을 확인 할 수 있도록 3년간 보관 </li>
+				</ul>
+			</div>
+			<div class="14_add" style="width:650px; font-size:13px; margin-top:5px;">
+				<input type="checkbox" name="oneone" />
+				<label><a href="#" class="showMask"><button type="button" style="border:none; background:0;outline:0;">이용약관</button></a> 및 
+				<a href="#" class="showMask_gain"><button type="button"  style="border:none; background:0; outline:0;">개인정보 수집 및 이용</button></a>에 대한 내용을 확인하고 동의 합니다.</label>
+			</div>
+		</div>
+		<div class="outding">
+			<button class="button_pay_rleft">샘플신청</button>
+		</div>
+	</div>
+	<!--샘플신청-->
+</div>
+
+<script>
+	
+/*대량주문문의*/
+function main_order_img( butt ){
+	$(".big_ordd ").hide();
+	$("#pro_or_"+butt).show();
+};
+
+function auto_sel(){
+var stat = jQuery('#sel_text_o option:selected').val();
+	if(stat == '2'){
+		$(".sel_text2").show();
+		$(".sel_text3").hide();
+	}else if(stat == '3'){
+		$(".sel_text3").show();
+		$(".sel_text2").hide();
+	}
+};
+
+</script>
+{ # footer }

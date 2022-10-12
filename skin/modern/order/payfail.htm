@@ -1,0 +1,30 @@
+{ # header }
+
+<style>
+dl {margin:50px; border:#c1c1c1 3px dotted; padding:25px; text-align:center; }
+dt {font-weight:bold;}
+dd {padding:5px 0;}
+</style>
+
+<div style="margin:20px -18px 0 20px">
+
+	<!--{ @ f_banner('bar_payfail')}-->{.banner}<!--{ / }--><p>
+
+	<table width="100%" style="margin:20px 0">
+	<tr align="center">
+		<td width="280"></td>
+	<td><!--{ @ f_banner('bar_payfail_step')}-->{.banner}<!--{ / }--></td>
+	<td width="50"></td>
+	</tr>
+	</table>
+
+	<dl>
+		<dt>{=__text("결제를 취소하셨거나 결제도중 에러가 발생하였습니다.")}</dt>
+		<dd style="padding:20px 0;">{=__text("오류메세지")} : {pglog}</dd>
+		<dd>{=__text("결제를 취소하신 고객님께서는")} <a href="../order/cart.php"><span class="blue">{=__text("장바구니")}</span></a>{=__text("에서 다시 주문 하실 수 있습니다.")}</dd>
+		<dd>{=__text("결제시 오류가 반복되시는 고객님께서는 고객센터로 문의하시면 친절히 안내해 드리겠습니다.")}</dd>
+	</dl>
+
+</div>
+
+{ # footer }

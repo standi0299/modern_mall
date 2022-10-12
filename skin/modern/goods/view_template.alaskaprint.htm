@@ -1,0 +1,267 @@
+{ # header }
+
+<!-- view_template.alaskaprint.htm -->
+
+<!--
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/indigo.css">
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/jquery.bxslider.css">
+<link rel="stylesheet" href="/skin/modern/assets/alaskaprint/css/font-awesome/css/font-awesome.min.css">
+
+<script src="/skin/modern/assets/alaskaprint/js/jquery-1.11.1.min.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/jquery.easing.1.3.min.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/jquery.sticky-kit.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/gnb.js"></script>
+<script src="/skin/modern/assets/alaskaprint/js/indigo.js"></script>
+-->
+
+        <!-- CONTAINER START -->	
+		<div id="container_idg">
+			<div class="inner_idg">
+				<div class="indicator_template">
+					<span>업종별 디자인</span>
+					<span class="current">{tcatnm}</span>
+				</div>
+			</div>
+			
+			<div class="template_wrap">
+				<!-- 템플렛 좌측 메뉴 START -->
+				
+				<div class="temp_menu_wrap">
+					<h2>{tcatnm}</h2>
+					<ul class="temp_menu">
+						<!--{ @ f_getCategoryTemplate(tcatno) }-->
+						<!--{ ? .sub && !_cfg.top_category_sub_off }-->
+	                    <!--{ @ .sub }-->
+						<li class="tm_1dp">
+							<a href="#">{..catnm}</a>
+							<ul class="tm_2dpul">
+								<!--{ @ ..sub }-->
+								<li><a href="#" onclick="{...category_link_tag}">{...catnm}</a></li>
+								<!--{ / }-->
+							</ul>
+						</li>
+						<!--{ / }-->
+						<!--{ / }-->
+						<!--{ / }-->
+					</ul>
+				</div>
+				<!-- 템플렛 좌측 메뉴 END -->
+				
+				<!-- 템플렛 리스트 START -->
+				<div class="temp_list_wrap">
+					<section class="temp_contents zoom-gallery">
+
+					<!--{ @ loop[_editor[0].podsno] }-->
+					
+						<article class="temp_atc {temp_atc_class}">
+							<div class="atc_info">
+								<div class="atc_image">
+									<a href="#"><img src="{.templateURL}" width="{_cfg.listimg_w}" height="{_cfg.listimg_h}" alt="{.templateName}"/></a>
+									<div class="image_share_buttons">
+										<a class="btn_zoom" href="{.templateURL}" title="{.templateName}"><span class="tooltiptext">확대보기</span></a>
+									</div>	
+								</div>
+								<p class="atc_title">{.templateName}</p>
+								
+								<!--{ ? come_back == "web_view" }-->
+									<a href="javascript:selectTemplate('{.templateSetIdx}','{.templateIdx}', '{.templateName}', '{.templateURL}');" class="atc_btn">이 디자인 선택</a>
+								<!--{ : }-->
+									<!--{ ? data.pods_editor_type.editor_active_exe == "active" || data.pods_editor_type.editor_active_exe == "exe" }-->
+										<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{.templateSetIdx}', '{.templateIdx}','');" class="atc_btn">이 디자인 선택</a>
+						
+									<!--{ : data.pods_editor_type.editor_web == "web" }-->
+										<a href="javascript:call_exec('{_editor[0].pods_use}', '{_editor[0].podskind}', '{_editor[0].podsno}','{.templateSetIdx}', '{.templateIdx}','{data.pods_editor_type.editor_web}');" class="atc_btn">이 디자인 선택</a>
+									<!--{ / }-->								
+								<!--{ / }-->	
+							</div>
+						</article>
+
+					<!--{ : }-->
+
+						<article class="temp_atc type_1">
+							<div class="atc_info">
+								<div class="atc_image">
+									<img src="/skin/{_cfg.skin}/img/temp_img.png" alt="" />
+								</div>								
+							</div>
+						</article>
+		
+					<!--{ / }-->
+
+					</section>
+					
+					<script>
+					$(document).ready(function() {
+						$('.zoom-gallery').each(function () {
+							$(this).magnificPopup({
+								delegate: '.btn_zoom',
+								type: 'image',
+								closeOnContentClick: false,
+								closeBtnInside: true,
+								image: {
+									verticalFit: true,
+									titleSrc: function(item) {
+										return item.el.attr('title');
+									}
+								},
+								gallery: {
+									enabled: true
+								}
+							});
+						});
+
+						/*$('.open_social_link').magnificPopup({
+							type: 'inline',
+							midClick: true,
+							mainClass: 'mfp-fade'
+						});*/
+					});
+					</script>
+					
+					<div class="paging_wrap">
+						{=pg->page['navi']}
+						<!--<a href="#" class="first"></a>
+						<a href="#" class="prev"></a>
+						<a href="#">1</a>
+						<a href="#">2</a>
+						<a href="#" class="on">3</a>
+						<a href="#">4</a>
+						<a href="#">5</a>
+						<a href="#">6</a>
+						<a href="#">7</a>
+						<a href="#">8</a>
+						<a href="#">9</a>
+						<a href="#">10</a>
+						<a href="#" class="next"></a>
+						<a href="#" class="last"></a>-->
+					</div>
+				</div>
+				<!-- 템플렛 리스트 END -->
+			</div>
+		</div>
+		<!-- CONTAINER END -->
+
+<script type="text/javascript">  
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var pod_signed = "{_pod_signed}"; //### 편집기 견적 정보 임시 저장을 20160325 by kdk
+</script>
+
+<form name="fm_print" id="fm_print">
+	<input type="hidden" name="mode" value="{_POST.mode}" />
+	<input type="hidden" name="catno" value="{_POST.catno}"/>	
+	<input type="hidden" name="goodsno" value="{_POST.goodsno}" />
+	<input type="hidden" name="goodsnm" value="{_POST.goodsnm}" />
+	<input type="hidden" name="goods_group_code" value="{_POST.goods_group_code}" />
+	<input type="hidden" name="print_goods_type" value="{_POST.print_goods_type}" />
+	<input type="hidden" name="productid" value="{_POST.productid}"/>
+	<input type="hidden" name="podoptno" value="{_POST.podoptno}" />
+	<input type="hidden" name="ea" value="{_POST.ea}" />
+	<input type="hidden" name="storageid" />
+	<input type="hidden" name="est_order_type" value="{_POST.est_order_type}" />
+	<input type="hidden" name="est_goodsnm" value="{_POST.est_goodsnm}" />
+	<input type="hidden" name="est_file_upload_json" value="{_POST.est_file_upload_json}" />
+	<input type="hidden" name="option_json" value='{_POST.option_json}' />
+	<input type="hidden" name="preset" value="{_POST.preset}" />	
+	<input type="hidden" name="select_option_supply_price" value="{_POST.select_option_supply_price}" />
+	<input type="hidden" name="select_option_sum_price" value="{_POST.select_option_sum_price}" />	
+</form>
+
+<form name="fmView">
+	<input type="hidden" name="mode"/>
+	<input type="hidden" name="goodsno" value="{_GET.goodsno}"/>
+	<input type="hidden" name="productid" value=""/>
+	<input type="hidden" name="podoptno"/>
+	<input type="hidden" name="storageid"/>
+	<input type="hidden" name="mid" value="{_sess.mid}"/>
+	<input type="hidden" name="ea" value="1"/>
+		
+	<input type="hidden" name="ret" value='{_ret}'/>
+</form>
+
+<!--검색-->
+<form name="searchFm">
+	<input type="hidden" name="catno" value="{_GET.catno}"/>
+	<input type="hidden" name="goodsno" value="{_GET.goodsno}"/>
+	<input type="hidden" name="editor_type" value="{_GET.editor_type}"/>
+	<input type="hidden" name="categoryidx" value=""/>
+	<input type="hidden" name="searchtype"/>
+	<input type="hidden" name="searchtext" value="{_GET.searchtext}"/>
+	<input type="hidden" name="searchjson" value="{_GET.searchjson}"/>	
+</form>
+<!--검색-->  
+
+<form name="fmTemp" method="post">
+	<input type="hidden" name="templateSetIdx" />
+	<input type="hidden" name="templateIdx" />
+	<input type="hidden" name="templateName" />
+	<input type="hidden" name="templateURL" />
+</form>
+
+<script src="/js/plugin/jquery.cycle.js"></script>
+<script>
+//템플릿을 선택하고 상품 상세 페이지로 이동.
+function selectTemplate(tsidx,tidx,tname,turl)
+{
+	//상품 상세 페이지 이동	
+	var fm = document.fmTemp;
+	fm.action = "/goods/view.php?catno={_GET.catno}&goodsno={_GET.goodsno}";
+	fm.target = "_self";
+	fm.templateSetIdx.value = tsidx;
+	fm.templateIdx.value = tidx;
+	fm.templateName.value = tname;
+	fm.templateURL.value = turl;
+	fm.submit();
+}
+
+//iframe에서 받은 sid를 전달하기 위해 부모 창 함수 호출.
+function frameRetValue(sid) {
+	//alert("framaRetWpodAction sid:"+ sid);
+    try {
+        window.opener.retWpodAction(sid); 
+        self.close();
+    }catch(e) { 
+        alert("Error:"+e);
+    }
+}
+
+$(function(){
+	$("div", "#goods_sort").each(function(){
+		if("{_GET.orderby}" == $(this).attr("sort")) $(this).css({"color":"#5F87D1","font-weight":"bold"});
+	});
+	$("a", "#goods_sort").click(function(){
+		$("input[name=orderby]").val($(this).attr("sort"));
+		document.searchFm.submit();
+	});
+
+	if("{_GET.searchtext}" != "") {
+		$(".temp_menu li > a").each(function(){
+			
+			var st = "{_GET.searchtext}";
+			var ht = $(this).html();
+			
+			if (ht.indexOf(st) > -1) {
+				//console.log($(this).html() +":"+ "{_GET.searchtext}");
+				$(this).toggleClass('active').next('ul').slideToggle();
+				$(this).parent().siblings().children('ul').slideUp();
+				$(this).parent().siblings().children('.active').removeClass('active');
+			}
+		});
+	}
+	
+	//템플릿 이미지 크기에 맞추어 설정함.
+	if("{temp_atc_class}" == "") {
+		$(".temp_atc").css("width","{_css_img_w}");
+		$(".temp_atc").css("height","{_css_img_h}");
+		$(".temp_atc").css("background","#fff");
+		$(".temp_atc").css("box-sizing","border-box");
+	}
+});
+
+function searchTags(tag) {
+    $("input[name=searchtype]").val("tags");
+    $("input[name=searchtext]").val(tag);
+    document.searchFm.submit();
+}
+</script>
+{ # footer }

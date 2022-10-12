@@ -1,0 +1,25 @@
+{ # header }
+
+<section class="contents bgArea">
+	<!--{ ? 0 == 1 }-->
+	<section id="mainWrap">
+		<nav>
+			<div align="center" style="padding:10px 10px 0 10px;"><!--{ @ f_banner_s2('bar_completion')}-->{.banner}<!--{ / }--></div>
+		</nav>
+	</section>
+	<!--{ / }-->
+	
+	<div class="orderArea" style="padding-bottom:0px;overflow:hidden;">
+		<div class="part">
+			<p class="tit">{=__text("결제완료")}</p>
+			<div class="paymentResult">
+				<strong>{=__text("주문하신 상품이 성공적으로 결제 되었습니다.")}</strong>
+				<span>{=__text("주문해주셔서 감사합니다.")}<br />{=__text("상품의 배송기간은 각 상품설명에 표시된")}<br /> {=__text("제작기간을 참고해주세요. (근무일 기준)")}</span>
+				<br />
+				<a href="../mypage/orderlist.php?guest=1&mobile_type=Y" target="_self"><!--{ @ f_banner_s2('btn_mobile_go_orderlist2','img')}-->{.banner}<!--{ / }--></a>
+			</div>
+		</div>
+	</div>
+</section>
+
+{ # footer }

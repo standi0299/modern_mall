@@ -1,0 +1,138 @@
+{ # header }
+
+<script src="/js/board.js" type="text/javascript"></script>
+
+<section id="review-foam-layout">
+		
+		<div class="tab-content-wrap">
+			<h3>{board.board_name}</h3>
+			<!-- align="{board.board_align}" style="padding:100px;" -->
+			
+				<div style="width:1200px;margin:0 auto;">{board.header_html}</div>
+				<table class="set-table">
+					<tbody>
+					<tr class="important">
+					<!--{ @ loop }-->
+					<!--{ ? .index_ && (!board.gallery_num || .index_ % board.gallery_num == 0) }-->
+					</tr>
+					<tr class="important">
+					<!--{ / }-->
+						<td width="{?board.gallery_num}{=100/board.gallery_num}%{/}" align="center" style="padding:10px 0;" valign="bottom">
+							<div style="width:{board.gallery_w}px">
+								<div>{.link_view}<img src="{=f_get_board_first_file(board.board_id,.no)}" width="{board.gallery_w}" onerror="$j(this).attr('src','/skin/modern/img/noimg.png')"/></a></div>
+								<div style="margin-top:5px;nowrap;text-overflow:ellipsis;overflow:hidden;width:{board.gallery_w}px;">
+									<!--{ ? .depth }--><img src="img/icn_reply.gif" align="absmiddle" style="margin-left:{=.depth*15}px"><!--{ / }-->
+									<!--{ ? .notice }--><span>{=__text("알림")}!</span><!--{ / }-->
+									<!--{ ? .secret }--><img src="img/icn_lock.gif" align="absmiddle"><!--{ / }-->
+									{.link_view}<div style="display:inline-block;{.subject_deco}">{.subject}</div></a>
+								</div>
+								<!--{ ? board.on_category }--><div style="margin-top:5px;">{.category}</div><!--{ / }-->
+								<div style="margin-top:5px;"><!--{ ? .mid }--><b>{.writer}</b><!--{ : }-->{.writer}<!--{ / }--></div>
+								<div style="margin-top:5px;">{=substr(.regdt,0,10)}</div>
+							</div>
+						</td>
+					<!--{ : }-->
+						<td class="text-center" height="200">{=__text("등록된 게시물이 존재하지 않습니다.")}</td>
+					<!--{ / }-->
+					
+					<!--{ ? loop && board.gallery_num && count(loop) % board.gallery_num }-->
+						<!--{ @ range(0, board.gallery_num - (count(loop) % board.gallery_num) - 1) }-->
+						<td width="{?board.gallery_num}{=100/board.gallery_num}%{/}" align="center" style="padding:10px 0;"></td>
+						<!--{ / }-->
+					<!--{ / }-->
+					</tr>
+					</tbody>
+				</table>
+				<div class="board-list-pagination" style="margin:0;">
+					<ul>
+						<li>{pg->page['navi']}</li>
+					</ul>
+				</div>
+				<div id="board-search" style="width:1000px;text-align: center;">
+					<form>
+						<input type="hidden" name="board_id" value="{_GET.board_id}">
+						
+						<div class="h-group" style="display:inline-block;">
+							<div class="col" style="margin-right:10px;">
+								<!--{ ? board.on_category }-->
+								<select name="category">
+									<option value="">{=__text("분류검색")}</option>
+									<!--{ @ board.category }-->
+									<option value="{.value_}" {_selected.category[.value_]}>{.value_}</option>
+									<!--{ / }-->
+								</select>
+								<!--{ / }-->
+							</div>
+							<div class="col">
+								<input type='checkbox' id="writer-check" name="search[{board.writer_type}]" {_checked['search'][board.writer_type]} />
+								<label for="writer-check"></label>
+							</div>
+							<div class="col check-label-text">
+								<label for="writer-check">{=__text("작성자")}</label>
+							</div>
+							<div class="col">
+								<input type='checkbox' id="title-check" name="search[subject]" {_checked['search']['subject']} />
+								<label for="title-check"></label>
+							</div>
+							<div class="col check-label-text">
+								<label for="title-check">{=__text("제목")}</label>
+							</div>
+							<div class="col">
+								<input type='checkbox' id="content-check" name="search[content]" {_checked['search']['content']} />
+								<label for="content-check"></label>
+							</div>
+							<div class="col check-label-text">
+								<label for="content-check">{=__text("내용")}</label>
+							</div>
+							<div class="col">
+								<input type="text" name="search[word]" value="{search.word}" required {=__label("검색어")}>
+							</div>
+							<div class="col">
+								<input type="submit" id="notice_search-submit" style="display:none;">
+								<a href="#" id="notice_search-btn" class="btn-primary">{=__text("검색")}</a>
+							</div>
+							<!--{ ? !_deny.write }-->
+							<div class="col">
+								<a href="write.php?board_id={_GET.board_id}" class="btn-blue-link">{=__text("글쓰기")}</a>
+							</div>
+							<!--{ / }-->
+						</div>
+					</form>
+				</div>
+				<div style="width:1200px;margin:0 auto;">{board.footer_html}</div>
+			
+		</div>
+	
+</section>
+
+<script type="text/javascript">
+$j("#notice_search-btn").click(function() {
+	$j("#notice_search-submit").click();
+});
+
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "cs-layout");
+	$j(".btn-blue-link").css("color", "#1a9bfc");
+	$j("div.col a").css("font-family", "Noto Sans KR,Apple SD Gothic Neo,Malgun Gothic,sans-serif");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+</script>
+
+{ # footer }
+
+<div id="pwLayer" style="border:3px double;padding:5px;position:absolute;top:0;left:0;">
+	<form name="pwLayer_form" action="view.php?board_id={_GET.board_id}" method="post">
+		<input type="hidden" name="board_id" value="{board.board_id}" required>
+		<input type="hidden" name="no" required>
+		
+		{=__text("비밀번호를 입력해주세요.")}<p></p>
+		<input type="password" name="password">
+		<a href="#" id="pwLayer_submit" class="btn-primary" onclick="chkPassword('password_view', 'kor')">{=__text("확인")}</a>
+		<a href="#" id="pwLayer_cancel" class="btn-blue-link" onclick="$j(this).parent().parent().fadeTo(500,0);$j(this).parent().parent().css('left','-10000px')">{=__text("취소")}</a>
+		<div id="pwLayer_result"></div>
+	</form>
+</div>

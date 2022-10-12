@@ -1,0 +1,84 @@
+{ # header }
+
+<div class="ct_mapre" style="margin-top:80px; height:auto;">
+	<div class="tab_review">
+		<ul>
+			<li><span>이용후기</span></li>
+			<li><button type="button" onclick="location.href='/goods/review_write_pix.php'">후기쓰기</button></li>
+		</ul>	
+	</div>
+	<div  class="ct_content">
+		<div class="ct_content_head">
+			<ul>
+				<li style="width:860px;">후기내용</li>
+				<li style="width:120px;">작성일</li>
+				<li style="width:100px;">작성자</li>
+			</ul>
+		</div>
+		<!--1문단-->
+		<!--{ @ loop }-->
+		<div class="cere_cont">
+			<div class="ce_cont_map">
+				<div class="cere_cont1">
+					<div class="view_imges">{=goodsListImg(.goodsno,'','', "width: 150px; height: 150px")}</div>
+					<div class="cere_list">
+						<ul style="padding:0;">
+							<li><span><strong>{.subject}</strong></span></li>
+							<li><span>[{.goodsnm}]</span></li>
+							<li>
+								<span class="design_text">
+								{.content_line[0]}<br>{.content_line[1]}
+								</span>
+							</li>
+							<li style="width:30px; position:relative; top:10px;">
+								<input type="radio" class="down_btn_re" id="down_um" name="ked">
+								<label style="border:none;"><img src="/skin/modern/assets/P1/img/more.png" alt="더보기"  onclick="design_re('{.no}')"/></label>
+							</li>
+						</ul>	
+					</div>
+				</div>
+			</div>
+			<div class="vase_re">
+				<div class="vasere_map">
+					<ul style="padding:0;">
+						<li><span class="vasere_list">{.regdt}</span></li>
+					</ul>
+				</div>
+			</div>
+			<div class="vasere_1">
+				<div class="vasere_map_1">
+					<ul style="padding:0;">
+						<li><span class="vasere_list_1">{=substr(.mid,0,-3)}***</span></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<!--1문단-->
+		<!--펼쳐보기 글후기-->
+		<div class="0807_img" id="{.no}" style="width:1140px; height:auto; border-bottom:1px solid #ccc; display:none;" >
+			<p style="width:830px; position:relative; left:185px;">
+				{=nl2br(.content)}
+				<br>
+				<!--{ ? .img }-->
+					<!--{ ? .payno > 0 && .ordno > 0 && .ordseq > 0 }-->
+						<img src="/data/review/{.cid}/{.payno}/{.ordno}/{.ordseq}/{.img}" width="240px">
+					<!--{ : }-->
+						<img src="/data/review/{.cid}/{.img}" width="240px">
+					<!--{ / }-->
+				<!--{ / }-->
+				</p>
+		</div>
+		<!--펼쳐보기-->
+		<!--{ / }-->
+	</div>
+	
+	<div style="margin:30px 60px 30px 0; width:1140px; text-align:center; clear:both;">{=pg->page['navi_p1']}</div>
+</div>
+
+<script>
+	function design_re(no){
+		$("#"+no).toggle();
+	}
+</script>
+
+{ # footer }

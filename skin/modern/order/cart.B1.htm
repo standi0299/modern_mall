@@ -1,0 +1,287 @@
+{ # header }
+<!--cart.B1.htm-->
+
+<!--본 컨텐츠 시작-->
+<link rel="stylesheet" href="/skin/modern/assets/B1/css/mypage_20190110.css">
+<script src="/skin/modern/assets/B1/js/script_20190110.js"></script>
+
+<!-- 팝업시작 -->
+<script src="/skin/modern/assets/B1/js/jquery.simplePopup.js" type="text/javascript"></script>
+<div id="ordspChng" class="simplePopup">
+    <p class="ordspCTxt1">고객님의 주문 사양을 변경하실 수 있습니다.</p>
+    <div class="pd_detail_form_order">
+        <ul>
+            <li>
+                <span class="form_tit2" name="item_select_ETC1_1_text">출력물</span>
+                <div class="custom_select2">
+                    <select class="selectType " name="item_select_ETC1_1" id="item_select_ETC1_1" code="ETC1" option_group_type="FIXOPTION" onchange="forwardAction(this)"><option value="60cm x 180cm_ 패트단면">60cm x 180cm_ 패트단면</option><option value="60cm x 180cm_ 패트양면(2장)">60cm x 180cm_ 패트양면(2장)</option><option value="출력물 없음">출력물 없음</option></select>
+                </div>
+            </li>
+            <li>
+                <span class="form_tit2" name="item_select_ETC2_2_text">마감가공</span>
+                <div class="custom_select2">
+                    <select class="selectType " name="item_select_ETC2_2" id="item_select_ETC2_2" code="ETC2" option_group_type="FIXOPTION" onchange="forwardAction(this)"><option value="아일렛(금속링)">아일렛(금속링)</option><option value="큐방(유리접착고무)">큐방(유리접착고무)</option><option value="재단마감">재단마감</option><option value="마감 없음">마감 없음</option></select>
+                </div>
+            </li>
+            <li>
+                <span class="form_tit2" name="item_select_ETC3_3_text">거치대</span>
+                <div class="custom_select2">
+                    <select class="selectType " name="item_select_ETC3_3" id="item_select_ETC3_3" code="ETC3" option_group_type="FIXOPTION" onchange="forwardAction(this)"><option value="거치대 없음">거치대 없음</option><option value="X배너 실내용">X배너 실내용</option><option value="Y배너 외부용_단면">Y배너 외부용_단면</option><option value="Y배너 외부용_양면">Y배너 외부용_양면</option><option value="Y배너 라이트_단면">Y배너 라이트_단면</option><option value="Y배너 라이트_양면">Y배너 라이트_양면</option></select>
+                </div>
+            </li>
+
+            <li>
+                <span class="form_tit2">수량</span>
+                <div class="custom_select2">
+                    <select class="selectType" id="order_cnt_select" name="order_cnt_select" code="OCNT" option_kind_code="OCNT" onchange="orderCntChange(this)"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="5">5</option><option value="6">6</option><option value="7">7</option><option value="8">8</option><option value="9">9</option><option value="10">10</option></select>
+                </div>
+            </li>
+        </ul>
+    </div>
+    <button class="botbtn order simplePopupClose">닫기</button>&nbsp;&nbsp;&nbsp;<button class="botbtn">옵션 변경하기</button>
+    <div style="height:30px;"></div>
+</div>
+<!-- 팝업끝 -->
+
+<form name="fm_cart" method="post" onsubmit="return isChked('cartno[]')" action="order.php">
+    <input type="hidden" name="mode" value="order">
+
+    <section class="content-container order-layout">
+
+        <div class="orderStep">
+            <ul>
+                <li><img src="/skin/modern/assets/B1/img/order-step-icon1-on.jpg"></li>
+                <li><img src="/skin/modern/assets/B1/img/order-step-icon2.jpg"></li>
+                <li><img src="/skin/modern/assets/B1/img/order-step-icon3.jpg"></li>
+            </ul>
+        </div>
+        <div class="clear"></div>
+        <div class="myPageOrderInfo">
+            <div class="myPageodif draftRequest">
+                <h1>{=__text("장바구니 정보")}</h1>
+                <!--상품정보-->
+                {p.i->inc('/order/_cart_order_pay_info.B1.htm')}
+                <!--상품정보-->
+            </div>
+
+            <div class="orderlist-btn">
+                <button type="button" onclick="set_del();">{=__text("모두 삭제")}</button>
+                <button type="button" onclick="set_mode('truncate');">{=__text("선택 삭제")}</button>
+                <!--{ ? _cfg.bill_yn }-->
+                <button type="button" onclick="set_bill();">{=__text("견적서 출력")}</button>
+                <!--{ / }-->
+            </div>
+
+            <div class="totalPriceWrap">
+                <div class="totalPrice">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                        <tr>
+                            <th>{=__text("총 판매가")}</th>
+                            <td id="cart_itemprice">
+                                <div>{=number_format(cart->itemprice)}{=__text("원")}</div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>{=__text("총 할인금액")}</th>
+                            <td>
+                                <div id="cart_dcprice">{=number_format(cart->dc + cart->dc_coupon)}{=__text("원")}</div>
+                            </td>
+                        </tr>
+                        <tr class="totalTr1">
+                            <th>{=__text("배송비")}</th>
+                            <td>
+                                <div id="cart_shipprice">{=number_format(cart->totshipprice)}{=__text("원")}</div>
+                            </td>
+                        </tr>
+                        <tr class="totalTr2">
+                            <th>{=__text("합계금액")}</th>
+                            <td>
+                                <div id="cart_totprice">
+                                    {=number_format(cart->itemprice + cart->totshipprice - cart->dc - cart->dc_coupon)}{=__text("원")}
+                                </div>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="clear"></div>
+            </div>
+
+            <div class="buttonBar">
+                <button type="submit" class="botbtn order" onclick="set_mode('order');">{=__text("선택주문하기")}</button>&nbsp;&nbsp;&nbsp;&nbsp;<button type="submit" class="botbtn List" onclick="set_all();">{=__text("전체주문하기")}</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-container" id="payment-btn">
+        <!--{ ? (_cfg.pg.npay_use=='1' && _cfg.pg.npay_test_flag!='1') || (_cfg.pg.npay_test_flag=='1' && _cfg.pg.npay_test_mid==_sess.mid) }-->
+        <script type="text/javascript" src="//pay.naver.com/customer/js/naverPayButton.js" charset="UTF-8"></script>
+        <script type="text/javascript" src="/js/naverpay_lib.js" charset="UTF-8"></script>
+        <script type="text/javascript">
+            //<![CDATA[
+            naver.NaverPayButton.apply({
+                BUTTON_KEY: "{_cfg.pg.npay_btnkey}",
+                TYPE: "{_cfg.pg.npay_button_type}",
+                COLOR: {
+                    _cfg.pg.npay_button_color
+                },
+                COUNT: 1,
+                ENABLE: "Y",
+                BUY_BUTTON_HANDLER: buy_npay,
+                "": ""
+            });
+            //]]>
+        </script>
+        <!--{ / }-->
+    </section>
+</form>
+
+<form name="cart_ea_fm">
+    <input type="hidden" name="mode" value="mod" />
+    <input type="hidden" name="cartno" />
+    <input type="hidden" name="ea" />
+</form>
+
+<script>
+    function cartExtraOptionUpdate(goodsno, cartno) {
+        //console.log("goodsno:" + goodsno + ",cartno:" + cartno);
+        //'/order/cart_extra_option_update_pop.php'
+        popup("/order/cart_extra_option_update_pop.php?goodsno=" + goodsno + "&cartno=" + cartno, 600, 800);
+    }
+
+    function getCartPrice() {
+        var cartnoArr = [];
+        var cartno = "";
+
+        $j(":input[name=cartno[]]:checked").each(function() {
+            cartnoArr.push($j(this).val());
+        });
+
+        if (cartnoArr.length > 0) {
+
+            cartno = cartnoArr.join(',');
+
+            $j.ajax({
+                url: "indb.php",
+                type: "POST",
+                data: "mode=getcartprice&cartno=" + cartno,
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.error) {
+                        alert(data.error);
+                        return false;
+                    }
+
+                    $j("#cart_totprice").text(data.totprice);
+                    $j("#cart_itemprice").text(data.itemprice);
+                    $j("#cart_dcprice").text(data.dcprice);
+                    $j("#cart_shipprice").text(data.shipprice);
+
+                }
+            });
+        } else {
+            $j("#cart_totprice").text("0원");
+            $j("#cart_itemprice").text("0원");
+            $j("#cart_dcprice").text("0원");
+            $j("#cart_shipprice").text("0원");
+        }
+    }
+
+    function set_del() {
+        $j("input[name=chkBoxAll]").attr("checked", true);
+        $j("input[name=cartno[]]").each(function() {
+            $j(this).attr("checked", true);
+        });
+        set_mode('truncate_all');
+    }
+
+    function set_all() {
+        $j("input[name=chkBoxAll]").attr("checked", true);
+        $j("input[name=cartno[]]").each(function() {
+            $j(this).attr("checked", true);
+        });
+        set_mode('order');
+    }
+
+
+    function set_mode(mode, cartno) {
+        var fm = document.fm_cart;
+        fm.mode.value = mode;
+        if (mode == "truncate" || mode == "truncate_all") {
+            fm.action = 'cart.php';
+            //일괄삭제 클릭시 confirm값이 false일때 fm.mode.value값 초기화 / 14.11.13 / kjm
+
+            var msg = '<?=_("선택하신 장바구니상품을 삭제하시겠습니까?")?>';
+            if (mode == "truncate_all") {
+                msg = '<?=_("장바구니상품을 삭제하시겠습니까?")?>';
+                fm.mode.value = "truncate";
+            }
+
+            if (confirm(msg) == true) fm.submit();
+            else fm.mode.value = '';
+        } else if (mode == "continue") {
+            location.href = "../main/index.php";
+        } else if (mode == "delete") {
+            if (confirm('<?=_("해당상품을 삭제하시겠습니까?")?>') == true) {
+                location.href = "?mode=del&cartno=" + cartno;
+            }
+        } else {
+            fm.action = 'orderpayment.php';
+            return true;
+        }
+    }
+
+    //명세서/견적서 신청
+    function set_bill() {
+        var cartnoArr = [];
+        var cartno = "";
+
+        $j(":input[name=cartno[]]:checked").each(function() {
+            cartnoArr.push($j(this).val());
+        });
+
+        if (cartnoArr.length > 0) {
+            //if (confirm('<?=_("선택하신 상품에 대한 견적서를 확인하시겠습니까?")?>')) {
+            cartno = cartnoArr.join(',');
+            popup('../module/bill_cart_print.php?cartno=' + cartno, 800, 800);
+            //}
+        } else {
+            alert('<?=_("선택한 상품이 없습니다.")?>');
+        }
+    }
+
+    function set_cart_ea(obj, cartno) {
+        var ea = $j(obj).prev().val();
+        document.cart_ea_fm.cartno.value = cartno;
+        document.cart_ea_fm.ea.value = ea;
+        document.cart_ea_fm.submit();
+    }
+
+    function goods_view(goodsno, catno) {
+        var url = "../goods/view.php?goodsno=" + goodsno + "&catno=" + catno;
+        location.href = url;
+    }
+
+    function pods_editor_itembox(goodsno, optno, storageid, productid, optionid, addopt, ea, podsuse) {
+        if (!optionid) {
+            optionid = 1;
+        }
+
+        if (podsuse == "3") {
+            CrossDomainCartOpenEditor(goodsno, optno, storageid, productid, optionid, addopt, ea, '');
+            return;
+        } else {
+            popupLayer("../module/popup_calleditor.php?mode=edit&goodsno=" + goodsno + "&productid=" + productid + "&optionid=" + optionid + "&addopt=" + addopt + "&storageid=" + storageid, "", "", "", 1);
+        }
+    }
+
+    $j(document).ready(function() {
+        getCartPrice();
+    });
+</script>
+<!--본 컨텐츠 끝-->
+<!--{? in_cart_script}-->
+	<!--{=in_cart_script}-->
+<!--{ / }-->
+{ # footer }

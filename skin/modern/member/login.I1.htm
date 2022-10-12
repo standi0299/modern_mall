@@ -1,0 +1,77 @@
+{ # header }
+
+<div id="content-wrapper">
+	<div id="content" style="padding-top: 217px;">
+	<!--본 컨텐츠 시작-->
+
+	<script>
+		$j(document).ready(function(){
+			$j('[name="mid"]').val('');
+		});
+	</script>
+
+	<h2 class="text-center"><a href="/" style="color: #000000;">{=getCfg('nameSite')}</a></h2>
+	<section class="content-container login-content">
+		<form name="fmLogin" method="post" <!--{ ? _cfg.ssl_use == 'Y' }--> action="{ssl_action}" <!--{ : }--> action="indb.php" <!--{ / }--> onsubmit="return form_encode_submit(this);">
+			<input type="hidden" name="mode" value="login">	
+			<input type="hidden" name="rurl" value="{rurl}">
+			<!--{ ? _GET.mode == "order" }-->
+			<input type="hidden" name="mode2" value="{_GET.mode}">
+			<input type="hidden" name="cartno" value="{_GET.cartno}">
+			<!--{ / }-->
+			
+			<input type="hidden" name="mid_en">
+			<input type="hidden" name="password_en">
+			
+			<div class="h-group">
+				<div class="col">
+					<h3>로그인</h3>
+				</div>
+				<div class="col right">
+					<div class="h-group" id="save-id-checked">
+						<!--
+						<div class="col">
+							<label for="save-id">로그인 유지</label>
+						</div>
+						<div class="col checkbox-bullet">
+							<input type="checkbox" id="save-id" name="logining_flag" value="Y">
+							<label for="save-id"></label>
+						</div>
+						-->
+					</div>
+				</div>
+			</div>
+			<div class="form-group">
+				<input type="text" class="input" name="mid" label="아이디" required="" tabindex="1" placeholder="아이디">
+			</div>
+			<div class="form-group">
+				<input type="password" class="input" name="password" label="비밀번호" required="" tabindex="2" placeholder="비밀번호">
+			</div>
+			
+			<button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="3">로그인</button>
+		</form>
+
+		<div class="text-center" id="link-wrap">
+			<a href="../member/reminderid.php">아이디찾기</a>
+			<span>|</span>
+			<a href="../member/reminderpw.php">비밀번호찾기</a>
+			<span>|</span>
+			<a href="../member/register.php">간편회원가입</a>
+		</div>
+	</section>
+	
+	<script type="text/javascript">
+	$j(function() {
+		$j("body").attr("id", "login-page");
+		$j("body").attr("class", "");
+		
+		if ("0" == "1") $j("#est_option").show();
+		else $j("#est_option").hide();
+	});
+	</script>
+
+	<!--본 컨텐츠 끝-->	
+	</div>
+</div>
+
+{ # footer }

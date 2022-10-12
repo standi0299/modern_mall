@@ -1,0 +1,49 @@
+<section id="sideNav" style="display:none;">
+	<h1>
+		<!--{ @ f_banner_s2('bar_slide_menu_logo','img')}-->{.banner}<!--{ / }-->
+		<span><!--{ @ f_banner_s2('btn_mobile_menu_hide','img')}-->{.banner}<!--{ / }--></span>
+		<!--{ ? _cfg.mobile_member_use == "Y" }-->
+		<div>
+			<!--{ ? _sess }-->
+			<a href="../member/myinfo.php?mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_go_myinfo','img')}-->{.banner}<!--{ / }--></a>
+			<a href="../member/logout.php"><!--{ @ f_banner_s2('btn_mobile_go_logout','img')}-->{.banner}<!--{ / }--></a>
+			<!--{ : }-->
+			<a href="../member/login.php"><!--{ @ f_banner_s2('btn_mobile_go_login','img')}-->{.banner}<!--{ / }--></a>
+			<!--{ / }-->
+		</div>
+		<!--{ / }-->
+	</h1>
+	<nav>
+		<a href="../main/index.php"><!--{ @ f_banner_s2('btn_mobile_go_home','img')}-->{.banner}<!--{ / }--></a>
+		<a href="../order/cart.php"><!--{ @ f_banner_s2('btn_mobile_go_cart','img')}-->{.banner}<!--{ / }--></a>
+		<a href="../mypage/orderlist.php?guest=1&mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_go_orderlist','img')}-->{.banner}<!--{ / }--></a>
+		<!--{ ? _sess && _cfg.mobile_member_use == "Y" }--><a href="../mypage/coupon.php?mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_go_coupon','img')}-->{.banner}<!--{ / }--></a><!--{ / }-->
+	</nav>
+	<ul>
+		<!--{ ? _sess && _cfg.mobile_member_use == "Y" }--><li><a href="../mypage/mycs.php?mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_go_mycs','img')}-->{.banner}<!--{ / }--></a></li><!--{ / }-->
+		<li><a href="../service/faq.php?mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_go_faq','img')}-->{.banner}<!--{ / }--></a></li>
+		<li><a href="../board/list.php?board_id=notice&mobile_type=Y"><!--{ @ f_banner_s2('btn_mobile_go_notice','img')}-->{.banner}<!--{ / }--></a></li>
+		<li><a href="mpod.{_COOKIE.domain_code}.{_cid}://configapp?version=1.0"><!--{ @ f_banner_s2('btn_mobile_go_configapp','img')}-->{.banner}<!--{ / }--></a></li>
+	</ul>
+</section>
+
+<!--<script>
+function slideMenu() {
+	if ($j("#sideNav").css("display") == "none") {
+		$j("#sideNav").show();
+		$("#wrap").addClass("dimed_on");
+	} else if ($j("#sideNav").css("display") == "block") {
+		$j("#sideNav").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+}
+$("#sideNav h1 span").on({
+	click : function(e){
+		e.preventDefault();
+		if ('{_ici_admin}' == 1) {
+			$("#sideNav").hide();
+			$("#wrap").removeClass("dimed_on");
+		}
+	}
+});
+</script>-->

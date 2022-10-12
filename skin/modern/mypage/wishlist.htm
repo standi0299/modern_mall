@@ -1,0 +1,126 @@
+{ # header }
+
+<section class="content-container my-page-layout">
+	<div class="tab-container tab-primary">
+		<ul class="h-group tab-menu">
+			<li class="col">
+				<a href="../../mypage/orderlist.php">{=__text("주문/배송관리")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/cancellist.php">{=__text("주문/취소관리")}</a>
+			</li>
+			<li class="col active">
+				<a href="../../mypage/wishlist.php">{=__text("위시리스트")}</a>
+			</li>
+			<li class="col">
+				<a href="../../mypage/coupon.php">{=__text("쿠폰/적립금조회")}</a>
+			</li>
+			<li class="col">
+				<a href="../../member/myinfo.php">{=__text("회원정보수정")}</a>
+			</li>
+		</ul>
+		<form name="fm" method="post">
+			<input type="hidden" name="mode" value="">
+
+			<div class="tab-content-wrap">
+				<div class="tab-content" id="order-history">
+					<div class="title-wrap" style="margin-top:60px;">
+						<h2>
+							{=__text("위시리스트")}
+						</h2>
+					</div>
+
+					<table class="set-table" id="order-table">
+						<thead>
+						<tr>
+							<td class="text-center order-id" onclick="chkBox('no[]','rev')">{=__text("선택")}</td>
+							<td class="text-center order-title">{=__text("상품")}</td>
+							<td class="text-center order-id">{=__text("삭제")}</td>
+						</tr>
+						</thead>
+						<tbody>
+						<!--{ @ list }-->
+						<tr align="center">
+							<td class="text-center order-id">
+								<input type="checkbox" name="no[]" value="{.no}">
+							</td>
+							<td class="order-title" align="left">
+								<div class="h-group">
+									<div class="col" onclick="location.href='../../goods/view.php?catno={.catno}&goodsno={.goodsno}'" style="cursor:pointer;">{=goodsListImg(.goodsno, 115)}</div>
+									<div class="col" onclick="location.href='../../goods/view.php?catno={.catno}&goodsno={.goodsno}'" style="cursor:pointer;">
+										<p style="font-size:18px;">{.catnm}</p>
+										<p>{.goodsnm}</p>
+									</div>
+								</div>
+							</td>
+							<td class="text-center order-id">
+								<a href="indb.php?mode=del_each_wishlist&no={.no}" {=__onclick_confirm("해당 찜 상품을 삭제하시겠습니까?")}><img src="../img/cbtn_del.gif"></a>
+							</td>
+						</tr>
+						<!--{ : }-->
+						<tr>
+							<td class="text-center order-id" colspan="3" align="center" height="200" style="padding-top:80px;">{=__text("찜한 상품이 없습니다.")}</td>
+						</tr>
+						<!--{ / }-->
+						</tbody>
+					</table>
+					<div class="list-pagination" style="margin-bottom: -50px;">
+						<ul>
+							<li>{pg->page['navi']}</li>
+						</ul>
+					</div>
+					<div class="text-center" style="margin:0 auto;">
+						<!--{ ? cid !=  kidsnote }--> //(kidsnote)
+						<button  class="btn btn-primary btn-lg" style="width:203px;margin-top:30px;margin-bottom:70px;" onclick="wish_list_multi_cart_check()">{=__text("장바구니 이동")}</button>
+						<!--{ / }-->
+						<button  class="btn btn-primary btn-lg" style="width:203px;margin-top:30px;margin-bottom:70px;" onclick="deleteWishList()">{=__text("일괄삭제")}</button>
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	//$j("body").attr("class", "my-page-layout");
+	$j(".tab-menu li").css("width", "240px");
+	$j(".tab-menu li").css("height", "61px");
+	$j(".tab-menu li a").css("font-size", "16px");
+	$j(".order-id").css("width", "100px");
+});
+
+$j(".tab-menu li").click(function() {
+	location.href = $j(this).children().attr("href");
+});
+
+function noChk(mode) {
+	if ($j("input[name=no[]]:checked").val() == undefined) {
+		if(mode == 'delete'){
+			alert({=__java("삭제할 찜 상품을 선택해주세요.")});
+		}else if(mode == 'cart'){
+			alert({=__java("장바구니로 이동할 상품을 선택해주세요.")});
+		}
+		return false;
+	} else {
+		return true;
+	}
+}
+
+function wish_list_multi_cart_check(){
+	if(!noChk('cart')){
+		return;
+	}
+	wish_list_multi_cart();
+}
+
+function deleteWishList(){
+	var fm = document.fm;
+	fm.mode.value = "del_wishlist";
+	fm.action="indb.php";
+	{=__onsubmit_confirm("선택하신 찜 상품을 삭제하시겠습니까?", "noChk('delete')")}
+}
+</script>
+
+{ # footer }

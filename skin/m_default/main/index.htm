@@ -1,0 +1,57 @@
+{ # header }
+
+<!--{ ? !_cfg.design[_cfg.skin].top_disable_top_menu }-->
+	<section id="mainWrap" class="contents">
+		<nav>
+			<!--{ @ f_category() }-->
+			<!--{ ?.img }-->
+			<div align="center">{.category_link_tag}{.img}</a></div>
+			<!--{ : }-->
+			<div align="center" style="padding: 5px 0 5px 0;">{.category_link_tag}{.catnm}</a></div>
+			<!--{ / }-->
+			<!--{ / }-->
+			
+			<div id="bottom_div" style="bottom: 0;left: 0;right: 0;margin: 0 0 -51px 0;">
+				<!--{ @ f_banner_s2('bottom_banner')}-->{.banner}<!--{ / }-->
+				<div style="margin:5px 0;text-align:center;"><a href="#layerBox2" class="agreeBtn" value="policy" style="color:#27a6c7!important;">{=__text("개인정보처리방침")}</a></div>
+				<!--{ @ f_banner_s2('bottom_banner2')}-->{.banner}<!--{ / }-->
+			</div>
+		</nav>
+	</section>
+<!--{ / }-->
+
+<div id="layerBox2" class="pop alertBox" style="top:30%;">
+	<div class="noteTxt2">
+		<textarea style="overflow:auto;height:300px;-ms-overflow-style:none;" readonly>{_cfg.policy}</textarea>
+	</div>
+	<a href="#" class="default" target="_self"><center><!--{ @ f_banner_s2('btn_mobile_confirm','img')}-->{.banner}<!--{ / }--></center></a>
+</div>
+
+<script>
+$j(window).ready(function(){
+	var uaType = navigator.userAgent;
+	setRegistrationID(uaType);
+});
+
+$j(window).load(function(){
+	var position_value = (document.body.scrollHeight > document.body.clientHeight) ? "static" : "absolute";
+	$j("#bottom_div").css("position", position_value);
+});
+
+$(".agreeBtn").on({
+	click : function(e){
+		e.preventDefault();
+		$($(this).attr("href")).show();
+		$("#wrap").addClass("dimed_on");
+	}
+});
+$("#layerBox2 a").on({
+	click : function(e){
+		e.preventDefault();
+		$(".pop").hide();
+		$("#wrap").removeClass("dimed_on");
+	}
+});
+</script>
+
+{ # footer }

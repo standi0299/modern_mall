@@ -1,0 +1,742 @@
+{ # header }
+<!-- 절사 금액 합계 초기화-->
+<!--<? {total_cuttingmoney} = 0 ?>-->
+<form name="fm_cart" method="post" onsubmit="return isChked('cartno[]')" <!--{ ? _cfg.ssl_use == 'Y' && ssl_action}--> action="{ssl_action}" <!--{ : }--> action="orderpayment.php" <!--{ / }--> >
+    <input type="hidden" name="mode" value="order">
+
+    <div class="ct_map">
+        <div class="ctheader">
+            <!--
+            <span style="position:relative; left:-206px; width:200px; height:36px; font-size:1.7em; margin:26px 10px; display:inline-block;">장바구니</span>
+            -->
+            <span style="position:relative; left:-206px; width:200px; height:36px; font-size:1.7em; margin:26px 10px; float:left; display:inline-block; top:20px;">장바구니</span>
+            <span  style="display:inline-block; position:relative; left:-300px; top:60px; font-size:15px;">취소후 재구매 원하실경우 마이페이지>편집보관함에서 확인 해주세요.</span>
+            <div class="step_location">
+                <img src="/skin/modern/assets/P1/img/page.png" alt="장바구니" />
+            </div>
+        </div>
+        <div class="ct_content">
+            <div class="ct_content_head">
+                <input type="checkbox" class="checkall" name="chkBoxAll" onclick="chkBox('cartno[]','rev');getCartPrice();" style="display:inline-block; position:relative; height:40px; margin-left:15px; top:-17px;" checked>
+                <ul>
+                    <li style="width:440px;">상품정보</li>
+                    <li style="width:153px;">편집정보</li>
+                    <li style="width:110px;">상품금액</li>
+                    <li style="width:165px;">수량</li>
+                    <li style="width:154px;">주문금액</li>
+                </ul>
+            </div>
+
+            <!--{ @ cart->item }-->
+            <!--{ @ .value_ }-->
+            <div class="ce_cont">
+                <!--1문단-->
+                <div class="ce_cont_map">
+                    <div class="ce_cont1">
+                        <input type="checkbox" name="cartno[]" class="check_ch" value="{..cartno}" {?..error}disabled{:}checked{/} onclick="getCartPrice();">
+                        <div class="ce_img">
+                            {=goodsListImg(..goodsno, "", "", "width: 120px; height: 120px")}
+                        </div>
+                        <div class="ce_list_c">
+                            <ul style="padding:0;">
+                                <li><span><strong>{..goodsnm}</strong></span></li>
+                                <li>
+                                    <span style="font-size:13px;">
+										<!--{ ? ..catno1 == "002" || ..catno1 == "014" }-->
+											{..catnm1}
+											
+											<!--{ ? ..mobile_opt }-->
+												 / {..mobile_opt}
+											<!--{ / }-->
+											
+											<!--{ ? ..addopt }-->
+												<!--{ @ ..addopt }-->
+													 / {...addoptnm}
+                                                <!--{ / }-->
+                                                <button type="button" type="button" class="ce_btn" onclick="popup('addopt_change.php?cartno={..cartno}&goodsno={..goodsno}',600,500)">변경</button>
+											<!--{ / }-->
+											
+											<!--{ ? ..addpage }-->
+												 / <!--{ ? ..addpage > 0 }-->+<!--{ / }-->{..addpage}p
+											<!--{ : }-->
+												 / +0p
+											<!--{ / }-->
+										<!--{ : ..catno1 == "006" || ..catno1 == "016" || ..catno1 == "019" }-->
+											{..catnm1}
+											
+											<!--{ ? ..catnm2 }-->
+												 / {..catnm2}
+											<!--{ / }-->
+											
+											<!--{ ? ..catnm3 }-->
+												 / {..catnm3}
+											<!--{ / }-->
+											
+											<!--{ ? ..catnm4 }-->
+												 / {..catnm4}
+											<!--{ / }-->
+										<!--{ : ..catno1 == "023" || ..catno1 == "020" }-->
+											{..catnm1}
+											
+											<!--{ ? ..mobile_opt }-->
+												 / {..mobile_opt}
+											<!--{ / }-->
+											
+											<!--{ ? ..addopt }-->
+												<!--{ @ ..addopt }-->
+													 / {...addoptnm}
+                                                <!--{ / }-->
+                                                <button type="button" type="button" class="ce_btn" onclick="popup('addopt_change.php?cartno={..cartno}&goodsno={..goodsno}',600,500)">변경</button>
+
+											<!--{ / }-->
+										<!--{ : ..catno1 == "018" || ..catno1 == "025" }-->
+											{..catnm1}
+										<!--{ : }-->
+											<!--{ ? ..mobile_opt }-->
+												{..mobile_opt}
+												<!--{ ? ..addopt || ..printopt }-->
+													 / 
+												<!--{ / }-->
+											<!--{ / }-->
+											
+											<!--{ ? ..addopt }-->
+												<!--{ @ ..addopt }-->
+													<!--{ ? ...index_ == 0 }-->
+														{...addoptnm}
+													<!--{ : }-->
+														 / {...addoptnm}
+                                                    <!--{ / }-->                                                    
+                                                    <button type="button" type="button" class="ce_btn" onclick="popup('addopt_change.php?cartno={..cartno}&goodsno={..goodsno}',600,500)">변경</button>
+                                                    
+												<!--{ / }-->
+											<!--{ / }-->
+											
+											<!--{ ? ..printopt }-->
+												<!--{ @ ..printopt }-->
+													<!--{ ? ...index_ == 0 }-->
+														{...printoptnm} {...ea}{=__text("장")}
+													<!--{ : }-->
+														 / {...printoptnm} {...ea}{=__text("장")}
+													<!--{ / }-->
+												<!--{ / }-->
+											<!--{ / }-->
+										<!--{ / }-->
+									</span>
+                                </li>
+
+                                <!--{ ? ..error }-->
+                                <li>
+                                    <span style="color: red; font-size:13px;">
+											<!--{ ? ..error == 7 }-->
+											{=__text("비어있는 사진틀이 있어 주문이 불가능합니다.")}
+											<!--{ : }-->
+											{=__text("구매가 불가능합니다.")} ({=__text("사유")} : {..errmsg}) {?..error==6}<br/>({=__text("주문가능량")} : {..enabled_ea}){/}
+											<!--{ / }-->
+										</span>
+                                </li>
+                                <!--{ / }-->
+
+                                <!--{ ? ..storageid }-->
+                                <!--{ ? ..title }-->
+
+                                <li style="display:inline-block; padding-top:10px;"><input type="text" class="ce_id" placeholder="메모" value="{..title}" id="{..storageid}_title" /></li>
+                                <li style="display:inline-block;"><button type="button" type="button" class="ce_btn" onclick="javascript:editTitle('{..storageid}','{..storageid}_title','modify');">수정</button></li>
+
+                                <!--{ : }-->
+
+                                <li style="display:inline-block; padding-top:10px;"><input type="text" class="ce_id" placeholder="메모" value="{..title}" id="{..storageid}_title" /></li>
+                                <li style="display:inline-block;"><button type="button" type="button" class="ce_btn" onclick="javascript:editTitle('{..storageid}','{..storageid}_title','add');">추가</button></li>
+
+                                <!--{ / }-->
+                                <!--{ / }-->
+
+                                <li style="font-size:12px; color:#999;"><span>최종 편집 {..updatedt}</span></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="vase">
+                    <div class="vase_map">
+                        <ul style="padding:0;">
+                            <!--{ ? _cartpage }-->
+                            <!--{ ? ..goodsno=='-1' }-->
+                            <!--{ : ..storageid && !in_array(..podskind,array(8,9)) && ..est_order_type!='UPLOAD' }-->
+                            <!--{ ? strlen(..storageid)=='22' }-->
+                            <li><button type="button" class="vase_btn" onclick="javascript:PodsCallEditorUpdate('{..pods_use}','{..podskind}','{..podsno}','{..goodsno}','{..optno}','{..storageid}','{..podsno}','{..podoptno}','{..r_addoptno}','{..ea}');">편집하기</button></li>
+                            <li><button type="button" class="vase_btn" onclick="javascript:popup('../module/preview.php?goodsno={..goodsno}&storageid={..storageid}',1000,650, 1);">미리보기</button></li>
+                            <!--{ ? ..pods_use != 3 && !in_array(..podskind,array(1,2,3010,3011,3020)) }-->
+                            <li><button type="button" class="vase_btn" onclick="javascript:pods_editor_itembox_saveas('{..goodsno}','{..optno}','{..storageid}','{..podsno}','{..podoptno}','{..r_addoptno}','{..ea}','{..pods_use}','{..podskind}','{..cover_id}');">복사하기</button></li>
+                            <!--{ / }-->
+                            <!--{ / }-->
+                            <!--{ / }-->
+                            <li><button type="button" class="vase_btn" onclick="javascript:set_mode('delete', '{..cartno}');">삭제하기</button></li>
+                            <!--{ / }-->
+
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="vase_1">
+                    <div class="vase_map_1" style="padding:43px 6px;">
+                        <ul style="padding:0;">
+                            <li><span class="vase_list_1">{=number_format(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - ..grpdc)}{=__text("원")}</span></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="vase_3">
+                    <div class="vase_map_3">
+                        <ul style="padding:0;">
+                            <!--{ ? _cartpage && ..ea_mod_enabled }-->
+                            <li style="width:39px; float:left"><button type="button" class="vase_btn4">-</button></li>
+                            <li style=" width:50px; float:left"><input type="text" name="ea" value="{=number_format(..ea)}" id="ea_{..cartno}" class="vase_btn3" price="{=(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price - ..grpdc)}" onblur="chk_num(this)" /></li>
+                            <li style="width:30px; float:left"><button type="button" class="vase_btn2">+</button></li>
+                            <li><button type="button" class="bungun" onclick="set_cart_ea('{..cartno}')">변경</button></li>
+                            <!--{ : }-->
+							<li><p class="vase_map_inner">{=number_format(..ea)}</p></li>
+                            <!--{ / }-->
+                        </ul>
+                    </div>
+                </div>
+                <div class="vase_4">
+                    <div class="vase_map_4">
+                        <ul style="padding:0;">
+                            <li>
+                                <span class="vase_list_4" id="price_{..cartno}">
+                                {=number_format(..saleprice - (..grpdc * ..ea))}{=__text("원")}
+                                </span>
+                                <span class="cutmoney_cart_price" id="cutmoney_{..cartno}">
+                                    <!--{ ? cutmoney_money == 1 && ..org_saleprice.res_mod != 0}-->
+                                        <!--{ ? ..org_saleprice.res_mod > 0 }-->
+                                        +<!--{=number_format(..org_saleprice.res_mod)}-->원
+                                        <!--{ : }-->
+                                        <!--{=number_format(..org_saleprice.res_mod)}-->원
+                                        <!--{ / }-->
+                                        <!--<? {total_cuttingmoney} += {=..org_saleprice.res_mod}; ?>-->
+                                    <!--{ / }-->
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <!--1문단-->
+            <!--{ / }-->
+            <!--{ / }-->
+
+            <div class="toon">
+                <!--선택 버튼-->
+                <div class="toon_list">
+                    <ul style="padding:0;">
+                        <li><button type="button" class="toon_btn" onclick="chkBox('cartno[]','rev');getCartPrice();">전체선택</button></li>
+                        <li class="il_br"><img src="../assets/P1/img/border.png" alt="줄" /></li>
+                        <li><button type="button" class="toon_btn" onclick="javascript:set_mode('truncate');">선택삭제</button></li>
+                    </ul>
+                </div>
+            </div>
+            <!--선택 버튼-->
+            <div class="monn">
+                <div class="monn_list">
+                    <div class="theid">
+                        <ul>
+                            <li><span class="penop">상품금액</span></li>
+                            <li><span class="penop_text" id="cart_goodsprice">{=number_format(cart->itemprice - cart->dc - cart->dc_coupon)}{=__text("원")}</span></li>
+                            <!--{ ? total_cuttingmoney != 0 }-->
+                                <!--{ ? total_cuttingmoney > 0 }-->
+                                <li><span class="cutmoney_total_price" id="total_cut_money">(+<!--{=number_format(total_cuttingmoney)}-->원)</span></li>
+                                <!--{ : }-->
+                                <li><span class="cutmoney_total_price" id="total_cut_money">(<!--{=number_format(total_cuttingmoney)}-->원)</span></li>
+                                <!--{ / }-->
+                            <!--{ / }-->
+                            <li class="img_pip1"><img src="../assets/P1/img/k2.png" alt="더하기" /></li>
+                            <li><span class="penop">배송비</span></li>
+                            <li><span class="penop_text_1" id="cart_shipprice">{=number_format(cart->totshipprice)}{=__text("원")}</span></li>
+                            <li class="img_pip2"><img src="../assets/P1/img/k3.png" alt="합계" /></li>
+                            <li><span class="penop">총 주문 금액</span></li>
+                            <li><span class="penop_text" id="cart_totprice">
+                                {=number_format(cart->itemprice - cart->dc - cart->dc_coupon + cart->totshipprice)}{=__text("원")}
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <span class="buy_px2">(50,000원 이상 무료배송 / 제주도 및 도서산간지역 운임추가 )</span>
+                </div>
+            </div>
+            <div class="monn_bo">
+                <div class="monn_bt">
+                    <div class="sale_img"></div>
+                    <!--{ ? _sess.mid }-->
+                    <button type="submit" class="monn_btn">주문하기</button>
+                    <!--{ : }-->
+                    <button type="submit" class="monn_btn">주문하기</button>
+                    <!--<button type="button" class="monn_btn showMask">주문하기</button>-->
+                    <!--{ / }-->
+                </div>
+            </div>
+            <!--{ ?cutmoney_flag == "1" }-->
+            <p class="total_cutmoney_price_caution">{=__text(cutmoney_text)}</p>
+			<!--{ / }-->
+
+            <!--견적서-->
+            <!--{ ? _cfg.bill_yn }-->
+            <div class="dosu">
+                <span style="width:900px; height:36px; font-size:1.4em; margin:19px 0 10px 0; display:inline-block;">견적서 신청</span>
+                <div class="dosu_name">
+                    <span>견적서 필요한 상품은 체크하시고 견적서 출력을 클릭해주세요.</span>
+                </div>
+                <div class="dosu_text">
+                    <ul>
+                        <li><span>회사/발급자명</span></li>
+                        <li><input type="text" class="dosu_put" name="set_bill_name"><button type="button" onclick="set_bill();">견적서 출력</button></li>
+                    </ul>
+                </div>
+                <div class="dosu_btn">
+                    <ul>
+                        <li><button type="button" onclick="location.href='../module/file_download.php?mode=bank';">통장사본</button></li>
+                        <li><button type="button" onclick="location.href='../module/file_download.php?mode=tax';">사업자등록증</button></li>
+                    </ul>
+                </div>
+            </div>
+            <!--{ / }-->
+            <!--견적서-->
+
+            <div style="clear:both;">
+                <!--{ @ f_banner_s2('pix_cart') }-->{.banner}
+                <!--{ / }-->
+            </div>
+
+        </div>
+    </div>
+</form>
+
+<form name="cart_ea_fm">
+    <input type="hidden" name="mode" value="mod" />
+    <input type="hidden" name="cartno" />
+    <input type="hidden" name="ea" />
+</form>
+
+<form name="fmView">
+    <input type="hidden" name="mode" />
+    <input type="hidden" name="mode2" />
+    <input type="hidden" name="goodsno" />
+    <input type="hidden" name="productid" />
+    <input type="hidden" name="podoptno" />
+    <input type="hidden" name="storageid" />
+    <input type="hidden" name="storageids" />
+    <input type="hidden" name="optno" />
+    <input type="hidden" name="addopt" />
+    <input type="hidden" name="ea" />
+    <input type="hidden" name="mid" value="{_sess.mid}" />
+</form>
+
+<!--레이어 팝업-->
+<div class="mask"></div>
+<div class="window_order" style="position:absolute; top:1480px;">
+    <div class="btn_agg">
+        <h2>로그인</h2>
+        <input type="button" class="close" value="X" />
+    </div>
+    <div class="agg_text">
+    	
+    </div>
+</div>
+
+<script type="text/javascript">
+    $j(function() {
+        $j(".window_order").css("width", "710px");
+        $j(".window_order").css("height", "560px");
+
+        $j(".baapa").css("top", "-130px");
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+        // showMask를 클릭시 작동하며 검은 마스크 배경과 레이어 팝업을 띄웁니다.
+        $('.showMask').click(function(e) {
+            // preventDefault는 href의 링크 기본 행동을 막는 기능입니다.
+            e.preventDefault();
+            wrapWindowByMask('.mask', '.window_order');
+        });
+
+        // 닫기(close)를 눌렀을 때 작동합니다.
+        $('.window_order .close').click(function(e) {
+            e.preventDefault();
+            $('.mask, .window_order').hide();
+        });
+
+        // 뒤 검은 마스크를 클릭시에도 모두 제거하도록 처리합니다.
+        $('.mask').click(function() {
+            $(this).hide();
+            $('.window_order').hide();
+        });
+    });
+
+    function wrapWindowByMask(val, val2) {
+        // 화면의 높이와 너비를 변수로 만듭니다.
+        var maskHeight = $(document).height();
+        var maskWidth = $(window).width();
+
+        // 마스크의 높이와 너비를 화면의 높이와 너비 변수로 설정합니다.
+        $(val).css({
+            'width': maskWidth,
+            'height': maskHeight
+        });
+
+        // fade 애니메이션 : 1초 동안 검게 됐다가 80%의 불투명으로 변합니다.
+        $(val).fadeIn(1000);
+        $(val).fadeTo("slow", 0.8);
+
+        // 레이어 팝업을 가운데로 띄우기 위해 화면의 높이와 너비의 가운데 값과 스크롤 값을 더하여 변수로 만듭니다.
+        var left = ($(window).scrollLeft() + ($(window).width() - $(val2).width()) / 2);
+        var top = ($(window).scrollTop() + ($(window).height() - $(val2).height()) / 2);
+
+        // css 스타일을 변경합니다.
+        $(val2).css({
+            'left': left,
+            'top': top,
+            'position': 'absolute'
+        });
+
+        // 레이어 팝업을 띄웁니다.
+        $(val2).show();
+    }
+</script>
+
+
+<script>
+    function getCartPrice() {
+        var cartnoArr = [];
+        var cartno = "";
+        var cutmoney_arr = [];
+	    var cutmoney_sum = 0;
+
+        $j(":input[name=cartno[]]:checked").each(function() {
+            cartnoArr.push($j(this).val());
+
+            cutmoney_selector = $j("#cutmoney_"+$j(this).val()).text();
+            cutmoney_selector_val = cutmoney_selector.replace(/[^0-9]/g,"");
+            cutmoney_selector_val = parseInt(cutmoney_selector_val);
+            if(cutmoney_selector.match('-')) cutmoney_selector_val *= -1;
+            if(!isNaN(cutmoney_selector_val)) cutmoney_arr.push(cutmoney_selector_val);
+        });
+
+        if(cutmoney_arr.length > 0) {
+            $.each(cutmoney_arr,function(i,v){
+                cutmoney_sum += v;
+            });
+        }
+
+
+        if(cutmoney_sum < 0){
+            cutmoney_sum = String(cutmoney_sum);
+            cutmoney_sum = cutmoney_sum.replace("-","");
+            cutmoney_sum = "(-"+comma(cutmoney_sum)+"원)";
+        }else if(cutmoney_sum == 0){
+            cutmoney_sum = "";
+        }else{
+            cutmoney_sum = String(cutmoney_sum);
+            cutmoney_sum = "(+"+comma(cutmoney_sum)+"원)";
+        }
+        
+        $j("#total_cut_money").text(cutmoney_sum);
+
+        if (cartnoArr.length > 0) {
+
+            cartno = cartnoArr.join(',');
+
+            $j.ajax({
+                url: "indb.php",
+                type: "POST",
+                data: "mode=getcartprice&cartno=" + cartno,
+                async: false,
+                cache: false,
+                dataType: "json",
+                success: function(data) {
+                    if (data.error) {
+                        alert(data.error);
+                        return false;
+                    }
+
+                    $j("#cart_totprice").text(data.totprice);
+                    $j("#cart_itemprice").text(data.itemprice);
+                    $j("#cart_dcprice").text(data.dcprice);
+                    $j("#cart_shipprice").text(data.shipprice);
+                    $j("#cart_goodsprice").text(data.goodsprice);
+
+                    if (data.couponuse == "Y") $j(".sale_img").show();
+                    else $j(".sale_img").hide();
+                }
+                
+            });
+        } else {
+            $j("#cart_totprice").text("0원");
+            $j("#cart_itemprice").text("0원");
+            $j("#cart_dcprice").text("0원");
+            $j("#cart_shipprice").text("0원");
+            $j("#cart_goodsprice").text("0원");
+            $j(".sale_img").hide();
+            $j("#total_cut_money").text("");
+        }
+    }
+
+    function set_del() {
+        $j("input[name=chkBoxAll]").attr("checked", true);
+        $j("input[name=cartno[]]").each(function() {
+            $j(this).attr("checked", true);
+        });
+        set_mode('truncate');
+    }
+
+    function set_mode(mode, cartno) {
+        var fm = document.fm_cart;
+        fm.mode.value = mode;
+        if (mode == "truncate") {
+            fm.action = 'cart.php';
+            //일괄삭제 클릭시 confirm값이 false일때 fm.mode.value값 초기화 / 14.11.13 / kjm
+            if (confirm({ = __java("선택하신 장바구니상품을 삭제하시겠습니까?")
+                }) == true) fm.submit();
+            else fm.mode.value = '';
+        } else if (mode == "continue") {
+            location.href = "../main/index.php";
+        } else if (mode == "delete") {
+            if (confirm({ = __java("해당상품을 삭제하시겠습니까?")
+                }) == true) {
+                location.href = "?mode=del&cartno=" + cartno;
+            }
+        } else if (mode == "orderpayment") {
+            {? _cfg.ssl_use == 'Y' && ssl_action} 
+                fm.action='{ssl_action}';
+            {:} 
+                fm.action = 'orderpayment.php';
+            {/}
+            return true;
+        } else {
+            fm.action = 'order.php';
+            return true;
+        }
+
+    }
+
+    //명세서/견적서 신청
+    function set_bill() {
+        var cartnoArr = [];
+        var cartno = "";
+        var name = "";
+
+        $j(":input[name=cartno[]]:checked").each(function() {
+            cartnoArr.push($j(this).val());
+        });
+
+        if (cartnoArr.length > 0) {
+            if ($j(":input[name=set_bill_name]").val()) {
+                cartno = cartnoArr.join(',');
+                name = $j(":input[name=set_bill_name]").val();
+                popup('../module/bill_cart_print.php?cartno=' + cartno + "&name=" + name, 800, 800);
+            } else {
+                alert({ = __java("회사/발급자명을 입력해주세요.")
+                });
+                $j(":input[name=set_bill_name]").focus();
+            }
+        } else {
+            alert({ = __java("선택한 상품이 없습니다.")
+            });
+        }
+    }
+
+    //, 넣기.
+    function commify(n) {
+        var reg = /(^[+-]?\d+)(\d{3})/; // 정규식
+        n += ''; // 숫자를 문자열로 변환
+
+        while (reg.test(n))
+            n = n.replace(reg, '$1' + ',' + '$2');
+
+        return n;
+    }
+
+    function set_cutmoney(cartno,c){ 
+            $j.ajax({
+            url: "indb.php",
+            type: "POST",
+            data: "mode=setcuttingmoney&cartno=" + cartno + "&cutmoney=" + c,
+            async: false,
+            cache: false,
+            dataType: "json",
+            success: function(data) {
+                switch(data.cut_flag){
+                    case "1" : 
+                        if(data.cutmoney_mod==0){
+                            $j("#cutmoney_" + cartno).text("");
+                        }else{
+                            $j("#cutmoney_" + cartno).text(commify(data.cutmoney_mod) + "원");
+                        }
+                        $j("#price_" + cartno).text(commify(data.cutmoney) + "원");
+                        break;
+                    case "2" :
+                        $j("#cutmoney_" + cartno).text("");
+                        $j("#price_" + cartno).text(commify(data.cutmoney) + "원");
+                        break;
+                    case "N" :
+                        $j("#cutmoney_" + cartno).text("");
+                        $j("#price_" + cartno).text(commify(c) + "원");
+                        break;
+                    defualt : 
+                        alert({ = __java("수량 변경에 실패했습니다.")
+                        });
+                        return false;
+                }
+            },
+            error:function(request,status,error){
+                alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+            },
+        });
+
+    }
+
+    function set_cart_ea(cartno) {
+        var ea = $j("#ea_" + cartno).val();
+        var price = $j("#ea_" + cartno).attr("price");
+
+        //document.cart_ea_fm.cartno.value = cartno;
+        //document.cart_ea_fm.ea.value = ea;
+        //document.cart_ea_fm.submit();
+
+        $j.ajax({
+            url: "indb.php",
+            type: "POST",
+            data: "mode=setcartea&cartno=" + cartno + "&ea=" + ea,
+            async: false,
+            cache: false,
+            dataType: "json",
+            success: function(data) {
+                if (data.result == "OK") {
+                    //$j("#price_" + cartno).text(commify(price * ea) + "원");
+                    set_cutmoney(cartno,price * ea);
+                    getCartPrice();
+                } else {
+                    alert({ = __java("수량 변경에 실패했습니다.")
+                    });
+                    return false;
+                }
+            },
+            error:function(request,status,error){
+                alert("code = "+ request.status + " message = " + request.responseText + " error = " + error); // 실패 시 처리
+            },
+        });
+
+    }
+
+    /*function get_templateset() {
+        //var podsurl = "http://localhost:8580/pods2/WebService/tempset_product_list_json.aspx";
+        var podsurl = "http://podstation20.ilark.co.kr/WebService/tempset_product_list_json.aspx";
+        $j.ajax({
+            url: podsurl + "?siteid=swadpia&p_siteid=swadpia&spid=C_DF_NA02EXE",
+            dataType: "jsonp",
+            success: function(data) {
+                console.log(data);
+
+                console.log(data.success);
+                console.log(data.TotalCount);
+                console.log(data.PageSize);
+                console.log(data.PageNum);
+                console.log(data.data);
+            },
+                error: function(xhr) {      
+                console.log('실패 - ', xhr);    
+            }
+        });
+    }*/
+
+
+    function goods_view(goodsno, catno) {
+        var url = "../goods/view.php?goodsno=" + goodsno + "&catno=" + catno;
+        location.href = url;
+    }
+
+    function pods_editor_itembox(goodsno, optno, storageid, productid, optionid, addopt, ea, podsuse) {
+        if (!optionid) {
+            optionid = 1;
+        }
+
+        if (podsuse == "3") {
+            CrossDomainCartOpenEditor(goodsno, optno, storageid, productid, optionid, addopt, ea, '');
+            return;
+        } else {
+            popupLayer("../module/popup_calleditor.php?mode=edit&goodsno=" + goodsno + "&productid=" + productid + "&optionid=" + optionid + "&addopt=" + addopt + "&storageid=" + storageid, "", "", "", 1);
+        }
+    }
+
+    $j(document).ready(function() {
+        getCartPrice();
+    });
+
+    function editTitle(storageid, id, mode) {
+        var storageid = storageid;
+        var title = document.getElementById(id).value;
+
+        if (!title) {
+            alert({ = __java("내용이 없습니다.")
+            });
+            return;
+        }
+
+        var word = "";
+        if (mode == "modify") word = { = __java("수정")
+        };
+        else word = { = __java("추가")
+        };
+
+        if (confirm({ = __java("편집타이틀을")
+            } + ' ' + word + { = __java("하시겠습니까?")
+            }) == true) {
+            location.href = "?mode=edittitle&storageid=" + storageid + "&title=" + title;
+        } else {
+            return;
+        }
+    }
+
+    function pods_editor_itembox_saveas(goodsno, optno, storageid, productid, optionid, addopt, ea, podsuse, podskind, cover_id) {
+        $j("input[name=cartno[]]").each(function() {
+            $j(this).attr("checked", false);
+        });
+
+        if (!optionid) {
+            optionid = 1;
+        }
+
+        var fm = document.fmView;
+        fm.goodsno.value = goodsno;
+        fm.optno.value = optno;
+        fm.productid.value = productid;
+        fm.podoptno.value = optionid;
+        fm.addopt.value = addopt;
+        fm.ea.value = ea;
+
+        popupLayer("../module/popup_calleditor_v2.php?editmode=saveas&mode=edit&goodsno=" + goodsno + "&optno=" + optno + "&productid=" + productid + "&podsno=" + productid + "&optionid=" + optionid + "&addopt=" + addopt + "&storageid=" + storageid + "&podskind=" + podskind + "&pods_use=" + podsuse + "&cover_id=" + cover_id, "", "", "", 1);
+    }
+
+    function exec(mode, saveas) {
+        var saveas = saveas;
+
+        if (saveas != "saveas" && !form_chk(document.fmView)) {
+            return;
+        }
+
+        var fm = document.fmView;
+        fm.action = "../order/cart.php";
+        fm.mode.value = mode;
+        fm.submit();
+    }
+
+    function chk_num(obj) {
+        if (obj.value < 1) {
+            alert("최소 수량은 1 입니다.");
+            obj.value = 1;
+        }
+    }
+</script>
+<!--{? in_cart_script}-->
+	<!--{=in_cart_script}-->
+<!--{ / }-->
+{ # footer }

@@ -1,0 +1,57 @@
+{# header_popup}
+
+<!--estimate-->
+<link href="/css/estimate.css" rel="stylesheet" type="text/css" />
+<!--estimate-->
+
+<form method="post" action="indb.php">
+<input type="hidden" name="mode" value="cartaddoptupdate">
+<input type="hidden" name="cartno" value="{_GET.cartno}">
+<input type="hidden" name="showMessage" value="Y">
+
+<div style="width:560px; min-height:500px;padding-bottom:40px;">
+	<div class="estimateq">
+		<div class="estimateC">
+
+			<!--옵션변경-->
+			<div class="box">
+				<h3 class="est_title">{=__text("옵션변경")}</h3>
+				<div id="option_item_select_PP">
+				<table cellpadding="0" cellspacing="0" class="estTable">
+					<colgroup>
+						<col class="inp-w-80" /><col width="*" />
+					</colgroup>						
+					<tbody>
+
+					<!-- { @ loop } -->
+						<!-- { @ .value_ } -->
+							<tr>
+								<td>
+									{..addopt_bundle_name}
+								</td>
+								<td>
+									<select name="addoptno[]">
+										<!-- { @ ..addopt } -->
+										<option value="{...addoptno}" <!--{ ? data[..key_] == ...addoptno }--> selected <!--{ / }-->>{...addoptnm}</option>
+										<!-- { / } -->
+									</select>
+								</td>
+							</tr>
+						<!-- { / } -->
+					<!-- { / } -->						
+					
+					</tbody>
+				</table>
+				</div>					
+			</div>
+			<div class="space"> </div>						
+
+			<div class="estbtn">
+				<input type="submit" {=__value("전송")}>
+			</div>
+        
+		</div>		
+	</div>
+</div>
+
+</form>

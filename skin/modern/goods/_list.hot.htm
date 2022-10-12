@@ -1,0 +1,33 @@
+		<ul class="h-group list-type-tile">
+
+			<!--{ @ _hotitem }-->
+			<li class="col tile-content">
+				<div class="thumbnail-link">
+					<div class="zoom-focus">
+						<a href="javascript:setWishlist('{_sess.mid}', '{.catno}', '{.goodsno}');" class="focus-btn pick-btn {.wishlist_check}"></a>
+						<!--<a class="focus-btn zoom-btn" href="javascript:previewLayer('{.catno}','{.goodsno}','{.templateset_id}');"></a>-->
+						<a class="focus-btn zoom-btn" href="../goods/view.php?catno={.catno}&goodsno={.goodsno}"></a>						
+					</div>
+					<div class="thumbnail" style="background: url('{.clistimg}'), url('/skin/modern/img/noimg.png')"></div>
+				</div>
+				<div class="title text-center ellipsis">
+					<a href="../goods/view.php?catno={.catno}&goodsno={.goodsno}">{.goodsnm}</a>
+				</div>
+				<div class="price text-center">
+					<!--{ ? .cprice && .cprice > .price }-->
+					<del>{=number_format(.cprice)}{=__text("원")}</del> →
+					<!--{ / }-->
+					{=number_format(.price)}{=__text("원")}
+					<!--{ ? .state == 1 }--><br/><del>[{=__text("품절")}]</del><!--{ / }-->					
+				</div>
+				<div class="tags text-center">
+					<!--{ ? .hash_tag }-->
+						{.hash_tag}
+					<!--{ : }-->
+						&nbsp;<a href="#"></a>
+					<!--{ / }-->
+				</div>
+			</li>			
+			<!--{ / }-->			
+			
+		</ul>

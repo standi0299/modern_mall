@@ -1,0 +1,71 @@
+{ # header }
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">자주묻는 질문 (FAQ)</h2>
+		<script>
+			$(function(){
+				$('.custom-select-wrap > a').click(function(e){
+					e.preventDefault();
+					$(this).next().toggle();
+				});
+				$('.custom-select-wrap .custom-select li a').click(function(e){
+					e.preventDefault();
+					var txt = $(this).text();
+					$(this).parents('.custom-select').siblings('a').text(txt);
+					$(this).parents('.custom-select').hide();
+				});
+			});
+		</script>
+		<div class="board-table-top faq">
+			<div class="board-table-top-inner">
+				<p>검색으로 빠르게 도움말을 찾아보세요.</p>
+				<div class="search-wrap">
+					<form action="faq.php" method="post" name="frm">
+						<select name="catnm" class="custom-select-wrap">
+							<option value="">ALL</option>
+							<!--{ @ faq_catnm }-->	
+								<option value="{.key_}" {faq_selected.catnm[.key_]}>{.key_}</option>
+							<!--{ / }-->
+						</select>
+						<input type="text" name="sword" {=__placeholder("검색으로 빠르게 도움말을 찾아보실 수 있습니다.")}>
+					</form>
+					
+					<a href="#" class="btn_search" onclick="document.frm.submit();">검색</a>					
+				</div>
+			</div>
+		</div>
+		<script>
+			$(function(){
+				$('.faq-list .td a').click(function(){
+					$(this).next().slideToggle();
+				});
+			});
+		</script>
+		<div class="faq-list">
+			<ul>
+				<!--{ @ loop }-->
+				<li>
+					<div class="table">
+						<div class="th">{.catnm}</div>
+						<div class="td">
+							<a href="#">{.q}</a>
+							<div class="faq-answer">
+							{.a}
+						</div>
+						</div>
+
+					</div>
+				</li>
+				<!--{ / }-->
+			</ul>
+			<div class="paging-wrap">
+				{pg->page['navi_m2']}
+			</div>
+			<div class="faq-table-bottom">
+				<span>원하는 질문과 답변이 없으신가요?</span>
+				<a href="/mypage/mycs.php" class="btn_oneonone">1:1 문의하기</a>
+			</div>
+		</div>
+	</div>
+</div>
+{ # footer }

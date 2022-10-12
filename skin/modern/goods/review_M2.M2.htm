@@ -1,0 +1,118 @@
+{ # header }
+
+<div id="container-pupa">
+		<div class="container_inner">
+			<h2 class="category-title">나의 후기</h2>
+			<h3 class="table-title">후기를 작성해 주세요.</h3>
+
+			<!-- 후기 테이블일 때 class="review"추가 -->
+			<table class="cart-table review">
+				<colgroup>
+					<col width="*" />
+					<col width="118" />
+					<!--
+					<col width="145" />
+					-->
+					<col width="118" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>상품 정보</th>
+						<th>주문일자</th>
+						<!--
+						<th>후기 작성기한</th>
+						-->
+						<th>후기작성</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<!--{ @ loop }-->
+					<tr>
+						<td class="info">
+							<div class="cart-product-img">{=goodsListImg(.goodsno,155)}</div>
+							<div class="cart-product-info">
+								<div class="cart-product-name-wrap">
+									<a href="/goods/review_write.php?payno={.payno}&ordno={.ordno}&ordseq={.ordseq}" class="cart-product-name">
+										{.goodsnm}
+									</a>
+									<div class="cart-product-name-edit">
+										{.title}
+									</div>
+								</div>
+							</div>
+						</td>
+						<td class="date">{.paydt}</td>
+						<!--
+						<td class="until">2018.02.22 까지</td>
+						-->
+						<td class="write">
+							<a href="/goods/review_write.php?payno={.payno}&ordno={.ordno}&ordseq={.ordseq}" class="btn_write">상품평 작성</a>
+						</td>
+					</tr>
+					<!--{ / }-->
+				</tbody>
+			</table>
+			
+			<h3 class="table-title mt120">내가 작성한 후기</h3>
+
+			<!-- 후기 테이블일 때 class="review"추가 -->
+			<table class="cart-table review">
+				<colgroup>
+					<col width="*" />
+					<col width="118" />
+					<col width="145" />
+					<col width="118" />
+				</colgroup>
+				<thead>
+					<tr>
+						<th>상품 정보</th>
+						<th>주문일자</th>
+						<th>만족도 평가</th>
+						<th>작성일자</th>
+					</tr>
+				</thead>
+				<tbody>
+					<!--{ @ my_review_list }-->
+					<tr>
+						<td class="info">
+							<div class="cart-product-img">{=goodsListImg(.goodsno,155)}</div>
+							<div class="cart-product-info">
+								<div class="cart-product-name-wrap">
+									<a href="#" class="cart-product-name">
+										{.goodsnm}
+									</a>
+									<div class="cart-product-name-edit">
+										
+									</div>
+								</div>
+								<a href="/goods/review_view.php?payno={.payno}&ordno={.ordno}&ordseq={.ordseq}" class="review-title">{.subject}</a>
+							</div>
+						</td>
+						<td class="date">{.paydt}</td>
+						<td class="grade-wrap">
+							{=f_get_degree(.degree, "M2")}
+						</td>
+						<td class="preparation">{.regdt}</td>
+					</tr>
+					<!--{ / }-->
+				</tbody>
+			</table>
+			<div class="paging-wrap">
+				{pg_my->page['navi_m2']}
+			</div>
+		</div>
+	</div>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "review-list-page");
+	$j("body").attr("class", "");
+});
+
+$j("#review-btn").click(function() {
+	$j("#review-submit").click();
+});
+</script>
+
+{ # footer }

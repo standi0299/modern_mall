@@ -1,0 +1,168 @@
+	<div id="header-pupa">
+		<div class="header-top">
+			<div class="header-top-inner clearfix">
+				<div class="header-top-logo">					
+					<!--{ @ f_banner_s2( 'top_img_logo_1' ) }-->{.banner}<!--{ / }-->					
+				</div>
+				
+				<div class="header-top-menu">
+					<ul class="clearfix">
+						<!--{ ? _sess.mid }-->
+							<li class="header-top-menu-mypage">
+								<a href="/main/index.php">
+									<!--{ ? _sess.name }-->
+										{_sess.name}
+									<!--{ : }-->
+										{_sess.mid}
+									<!--{ / }-->
+								</a>
+								<div class="header-top-menu-mypage-pop">
+									<ul>
+										<li><a href="/goods/review_M2.php">나의 리뷰</a></li>
+										<li><a href="/mypage/mycs.php">1:1 문의하기</a></li>
+										<!--{ ? _cid == 'miodio' }-->
+										<li><a href="/mypage/bigorder.php">대량구매 문의하기</a></li>
+										<!--{ / }-->
+										<!--{ ? _cid != 'slrphoto' }-->
+										<li><a href="/member/myinfo.php">회원정보수정</a></li>
+										<!--{ / }-->
+										<li><a href="/member/logout.php">로그아웃</a></li>
+									</ul>
+								</div>
+							</li>
+							<!--{ ? _cfg.local_storage_use == "Y"}-->
+								<!--{ ? f_chkBrowser() == "IE" }-->
+									<li><a href="javascript:popupLayer('/module/open_storage_new.php','','','',1)">로컬보관함</a></li>
+								<!--{ : }-->
+									<li><a href="javascript:popupLayer('/module/open_storage_exe.php','','','',1)">로컬보관함</a></li>
+								<!--{ / }-->
+							<!--{ / }-->
+						<!--{ : }-->
+							<li>
+								<a href="/member/login.php">로그인</a>
+							</li>
+							<li>
+								<!--{ ? _cid == 'slrphoto' }-->
+								<a href="http://www.slrclub.com/service/registration/registration.php">회원가입</a>
+								<!--{ : }-->
+								<a href="/member/register.php">회원가입</a>
+								<!--{ / }-->
+							</li>
+							
+							<!--{ ? _cfg.local_storage_use == "Y"}-->
+								<li><a href="javascript:void(0)" onclick="alert('로그인하여주시기 바랍니다.')">로컬보관함</a></li>
+							<!--{ / }-->
+						<!--{ / }-->
+						
+						<!--{ ? _cfg.editlist_use != "N"}-->
+							<li><a href="../order/editlist.php">편집리스트</a></li>
+						<!--{ / }-->
+						<li>
+							<a href="/mypage/coupon.php">쿠폰·적립금</a>
+						</li>
+						<li>
+							<a href="/order/cart.php">장바구니</a>
+						</li>
+						<li>
+							<a href="/mypage/orderlist.php">주문·배송</a>
+						</li>
+						<li>
+							<a href="/goods/event.php">이벤트</a>
+						</li>
+					</ul>
+				</div>
+			</div>
+		</div><!-- header-top End -->
+		<div class="header-bottom">
+			<div class="header-bottom-inner">
+				<div class="header-bottom-logo">
+					
+					<h1 class="main-logo">
+						<a href="/">
+							<!--{ ? _cfg.top_logo_type == "img" }-->
+							<img src = "/data/top_logo/{_cid}/top_logo.png">
+							<!--{ : _cfg.top_logo_type == "txt" }-->
+								{_cfg.top_logo}
+							<!--{ : }-->
+								BLUEPOD
+							<!--{ / }-->
+						</a>
+					</h1>
+					
+					<ul class="shortcut clearfix">
+						<!-- 쿠폰 -->
+						<li>
+							<a href="/mypage/coupon.php"><span>{_use_coupon_cnt}</span></a>
+						</li>
+						<!-- 장바구니 -->
+						<li>
+							<a href="/order/cart.php"><span>{_cart_cnt}</span></a>
+						</li>
+						<!-- 위시리스트 -->
+						<li>
+							<a href="/mypage/poke_list.php"><span>{_poke_goods_cnt}</span></a>
+						</li>
+					</ul>
+				</div><!-- header-bottom-logo End -->
+			</div>
+		</div><!-- header-bottom End -->
+		<div id="pupa-nav">
+			<div class="pupa-nav-inner">
+				<!-- depth1메뉴 추가 -->
+				<ul class="pupa-nav-depth1">
+					<!-- 해당 페이지일때 <li class="depth1_on"> -->
+					<!--{ @ f_category() }-->
+					<li>
+						<!--{ ?.img }-->
+						{.category_link_tag}{.img}</a>
+						<!--{ : }-->
+						{.category_link_tag}{.catnm}</a>
+						<!--{ / }-->
+						<div class="pupa-nav-depth2">
+							<!-- depth2 메뉴 ul로 구분 -->
+
+							<!--{ ? .sub && !_cfg.top_category_sub_off }-->
+								<ul>
+									<!--{ @ .sub }-->
+									<!--{ ? ..index_ && (..index_ % 5 == 0) }-->
+									</ul><ul>
+									<!--{ / }-->
+										<!--{ ? ..img }-->
+											<li>{..category_link_tag}{..img}</a></li>
+										<!--{ : }-->
+											<li>{..category_link_tag}{..img}{..catnm}</a></li>
+										<!--{ / }-->
+									<!--{ / }-->
+								</ul>
+							<!--{ / }-->
+							
+							<div class="nav_banner" code="category_{.catno}">
+								<a><!--{ @ f_banner_s2( 'category_left_'+ .catno )}-->{..banner}<!--{ / }--></a>
+								<a><!--{ @ f_banner_s2( 'category_right_'+ .catno )}-->{..banner}<!--{ / }--></a>
+							</div>
+						</div>
+					</li>
+					<!--{ / }-->
+				</ul>
+				<ul class="fixed_ul">
+					<li><a href="/goods/event.php">이벤트</a></li>
+					<li><a href="/goods/trend.php">트랜드</a></li>
+				</ul>
+				
+				<!--{ ? _cid == 'slrphoto' }-->
+				<a href="http://www.slrclub.com" class="btn_magazine">
+					<!--{ @ f_banner_s2('main_block_08')}-->{.banner}<!--{ / }-->
+				</a>
+				<!--{ : }-->
+				<a href="/main/page.php?type=magazine" class="btn_magazine">
+					<!--{ @ f_banner_s2('main_block_08')}-->{.banner}<!--{ / }-->
+					<img src="/skin/modern/assets/M2/images/common/icon_magazine.png" alt="" />
+					<span>캔디카메라</span>
+				</a>
+				<!--{ / }-->
+			</div>
+			<!-- depth2-bg -->
+			<div class="pupa-nav-bottom"></div>				
+		</div><!-- pupa-nav End -->
+	</div><!-- header-pupa End -->
+

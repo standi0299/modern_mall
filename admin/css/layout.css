@@ -1,0 +1,13 @@
+#lay_body {background:url('../img/layout/bg.png') repeat-y;min-height:100%;width:1259px;margin:0 auto;background-color:#fffde9;}
+
+
+#lay_body_popup {background:url('../img/layout/bg_popup.png') repeat-y;min-height:100%;width:1024px;margin:0 auto;background-color:#fffde9;}
+
+#lay_top {height:107px;background:url('../img/layout/topmenu_bg.png') repeat-x;}
+
+#lay_wrap {margin-left:227px;background-color:#fffde9;min-height:100%;}
+
+#lay_aside {width:227px;float:left; text-align:right;padding-bottom:29px;background:#656263;}
+#lay_content {padding:2% 4% 60px;width:92%;}
+
+html,body {height:100%; repeat-y center;background-color:#000000;padding:0;margin:0;}

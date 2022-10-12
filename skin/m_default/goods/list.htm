@@ -1,0 +1,96 @@
+{ # header }
+
+<!--{ ? f_getCategorySub(_GET.catno) }-->
+	{ # category }
+<!--{ : }-->
+	<!--{ ? _category.header }-->
+	<section id="mainWrap" class="contents">
+		<nav>
+			<div align="center">{_category.header}</div>
+		</nav>
+	</section>
+	<!--{ / }-->
+
+	<section class="contents bgArea">
+		<div class="disignArea">
+			<div id="goods_sort">
+				<a href="javascript:;" sort="b.hit desc">{=__text("인기상품순")}</a>
+				<span> | </span>
+				<a href="javascript:;" sort="b.goodsno desc">{=__text("최신순")}</a>
+				<span> | </span>
+				<a href="javascript:;" sort="b.price desc">{=__text("높은가격순")}</a>
+				<span> | </span>
+				<a href="javascript:;" sort="b.price">{=__text("낮은가격순")}</a>
+			</div>
+			<ul>
+				<div id="postswrapperScroll" class="plist"></div>
+			</ul>
+		</div>
+
+		<center>
+				<img src="../img/btn_more_img01.png" id="add_goods_button" onclick="mobile_goods_list('{_GET.catno}');">
+		</center>
+	</section>
+
+	<div id="loadmoreajaxloader" style="display:none;">
+		<center><img src="../img/loading_s.gif" /></center>
+	</div>
+
+	<form name="searchFm">
+		<input type="hidden" name="catno" value="{_GET.catno}">
+		<input type="hidden" name="orderby" value="">
+	</form>
+
+	<script>
+	var addFlag = true;
+	var catno = '{_GET.catno}';
+	var orderby = '{_GET.orderby}';
+	var page = 1;
+	$j(document).ready(function() {
+		mobile_goods_list(catno);
+	});
+	/*
+	$j(window).scroll(function() {
+		if ($j(window).scrollTop() == $j(document).height() - $j(window).height()) {
+			if (addFlag) {
+				addFlag = false;
+				$j('div#loadmoreajaxloader').show();
+				mobile_goods_list(catno, page);
+				page++;
+			}
+		}
+	});
+	 */
+	function mobile_goods_list(catno) {
+		$j.ajax({
+			type : "POST",
+			url : "indb.php",
+			data : "mode=mobile_goods_list&catno=" + catno + "&orderby=" + orderby + "&page=" + page,
+			success : function(html) {
+				if (html) {
+					$j("#postswrapperScroll").append(html);
+					$j('div#loadmoreajaxloader').hide();
+					addFlag = true;
+					page++;
+				} else {
+					$j('div#loadmoreajaxloader').hide();
+					alert("더이상 상품이 없습니다.");
+					$j('#add_goods_button').hide();
+					addFlag = false;
+				}
+			}
+		});
+	}
+	$j(function() {
+		$j("a", "#goods_sort").each(function() {
+			if (orderby == $j(this).attr("sort")) $j(this).css({"color":"#27a6c7"});
+		});
+		$j("a", "#goods_sort").click(function() {
+			$j("input[name=orderby]").val($j(this).attr("sort"));
+			document.searchFm.submit();
+		});
+	});
+	</script>
+<!--{ / }-->
+
+{ # footer }

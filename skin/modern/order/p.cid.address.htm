@@ -1,0 +1,180 @@
+{ # header_popup }
+
+<style>
+    #titlebox {
+        padding: 10px;
+        background-color: #333333;
+        height: 20px;
+        font-weight: bold;
+        color: white;
+    }
+
+    #titlebox a {
+        color: white;
+    }
+
+    #wrap {
+        padding: 20px;
+    }
+
+
+    /*** Table tb_address ***/
+    table.tb_address {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+        border-top: 2px solid #222222;
+        border-bottom: 1px solid #d2d2d2;
+        border-collapse: collapse;
+    }
+
+    table.tb_address th {
+        padding: 10px 0;
+        text-align: center;
+        border-bottom: 1px solid #d2d2d2;
+        font: bold 8pt nanumG, nanumG2;
+        letter-spacing: -1px;
+        text-align: center;
+        color: #444444;
+        background: #F2F2F2;
+    }
+
+    table.tb_address td {
+        border-bottom: 1px solid #d2d2d2;
+        padding: 6px 5px;
+    }
+
+    .search_form {
+        padding: 15px;
+        width: 98%;
+        overflow: hidden;
+    }
+
+    .search_address {
+        -webkit-border-radius: 3px;
+        display: block;
+        width: 70%;
+        height: 20px;
+        padding: 6px 12px;
+        font-size: 14px;
+        line-height: 1.42857143;
+        color: #555;
+        background-color: #fff;
+        background-image: none;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+        -webkit-box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+        box-shadow: inset 0 1px 1px rgb(0 0 0 / 8%);
+        -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+        float: left;
+    }
+
+    .search_btn {
+        text-align: right;
+        margin-left: 20px;
+        float: left;
+        height: 32px;
+        cursor: pointer;
+    }
+
+    .paging-wrap {
+        margin: 30px 60px 30px 0;
+        width: 100%;
+        text-align: center;
+        clear: both;
+    }
+
+		.paging-wrap a{
+			padding: 7px;
+			font-size: 15px;
+			color: #555;
+		}
+		.paging-wrap .on{
+			padding: 7px;
+			font-size: 15px;
+			color: #d81b60;
+		}
+
+    .paging-wrap a.first {width:30px;height:30px;background:url(/skin/modern/assets/images/paging-first.png) no-repeat center;margin-right:2px;}
+    .paging-wrap a.prev {width:30px;height:30px;background:url(/skin/modern/assets/images/paging-prev.png) no-repeat center;margin-left:0;}
+    .paging-wrap a.next {width:30px;height:30px;background:url(/skin/modern/assets/images/paging-next.png) no-repeat center;}
+    .paging-wrap a.last {width:30px;height:30px;background:url(/skin/modern/assets/images/paging-last.png) no-repeat center;margin-left:2px;}
+</style>
+
+
+<div id="titlebox" class="ibox">
+  <div class="left" style="margin-left:10px;">{=__text("배송지 관리")}</div>
+  <div class="right"><a href="javascript:window.close();">{=__text("닫기")} X</a></div>
+</div>
+
+<div id="wrap">
+  {=__text("검색")}
+  <div style="margin:10px auto">
+    <div class="search_form">
+      <input type="text" class="search_address" id="addressSearch" placeholder="대리점명, 받는사람 , 주소 , 전화번호, 휴대폰번호를 입력하세요."
+             value="">
+      <button class="search_btn" onclick="addrSearch();">조 회</button>
+    </div>
+  </div>
+
+  <!--{ ? _languages == "ko" }-->
+  <img src="../img/tit_address1.gif" style="margin:10px 0;">
+  <!--{ : }-->
+  {=__text("배송지")}
+  <!--{ / }-->
+
+  <table class="tb_address" style="table-layout:fixed; margin:10px auto">
+    <tr>
+      <th width="60"></th>
+      <th width="80">{=__text("대리점명")}</th>
+      <th width="80">{=__text("받는사람")}</th>
+      <th>{=__text("주소")}</th>
+      <th width="100">{=__text("전화번호")}</th>
+      <th width="100">{=__text("휴대폰번호")}</th>
+    </tr>
+    <!--{ @ loop }-->
+    <tr align="center">
+      <td><a href="javascript:selectAddress('{.addressno}')">
+        <!--{ ? _languages == "ko" }-->
+        <img src="../img/cbtn_choice.png">
+        <!--{ : }-->
+        {=__text("선택")}
+        <!--{ / }-->
+      </a></td>
+      <td>{.addressnm}</td>
+      <td>{.receiver_name}</td>
+      <td class="c1">
+        <div>{.receiver_addr}</div>
+        <div>{.receiver_addr_sub} ({.receiver_zipcode})</div>
+      </td>
+      <td>{.receiver_phone}</td>
+      <td>{.receiver_mobile}</td>
+    </tr>
+    <!--{ / }-->
+  </table>
+
+  {=pg->page['navi_m2']}
+
+
+</div>
+
+<script type='text/javascript' src='http://api.zipaddress.net/sdk/zipaddr.js'></script>
+<script type='text/javascript' src='/js/jp_zipcode_script.js'></script>
+
+<script>
+
+  function selectAddress(addressno) {
+    opener._address(addressno);
+    window.close();
+  }
+
+  function addrSearch() {
+    var searchValue = document.getElementById('addressSearch').value;
+    if (searchValue == "") {
+      alert('검색 값을 입력해주세요');
+      return false;
+    }
+    location.href = 'p.cid.address.php?addressSearch=' + searchValue;
+  }
+</script>

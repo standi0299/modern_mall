@@ -1,0 +1,121 @@
+<script type="text/javascript" src="/js/jquery-1.12.0.min.js"></script>
+<script type="text/javascript" src="/skin/modern/assets/js/jcarouse_1.0.1.js"></script>
+<script type="text/javascript" src="/skin/modern/assets/js/fotocube_topgnb.js"></script>
+<link rel="stylesheet" href="/skin/modern/assets/css/fotocube_main.css" />
+
+<div id="hd"> 
+  <div id="topWrap"> 
+    <div class="left"> 
+      <!--{ @ f_banner_s2('top_banner_left')}-->{.banner}<!--{ / }-->
+      <!--
+      <ul>
+        <li><a href="#" onclick="{window.external.AddFavorite('http://www.fotocube.com','포토큐브')}" {=__title("포토큐브 즐겨찾기추가")}><i class="fa fa-star" aria-hidden="true"></i> 
+          {=__text("즐겨찾기")}</a></li>
+        <li><a href="/main/page.php?type=fotocubeAPP_guide">{=__text("모바일앱")}</a></li>
+      </ul>
+      -->
+    </div>
+    <div class="right"> 
+      <ul>
+   	<!--{ ? !_sess }-->
+        <li><a href="/member/login.php">{=__text("로그인")}</a></li>
+        <li><a href="/member/register.php">{=__text("회원가입")}</a></li>
+		<!--{ : }-->
+		<li><a href="/member/logout.php">{=__text("로그아웃")}</a></li>
+		<li><a href="/mypage/index.php">{=__text("마이페이지")}</a></li>
+		<!--{ / }-->        
+        <li><a href="/mypage/coupon.php">{=__text("쿠폰등록")}</a></li>
+        <li><a href="/order/cart.php">{=__text("장바구니")}</a></li>
+        <li><a href="/mypage/orderlist.php">{=__text("주문정보")}</a></li>
+        <li><a href="/service/faq.php">{=__text("고객센터")}</a></li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<div id="hd_logo"> 
+  <div class="left">
+	<!--{ ? _cfg.top_logo_type == "img" }-->
+		<a href="/"><img src = "/data/top_logo/{_cid}/top_logo.png" {=__alt("타이틀,로고")} class="main_logo"></a>
+	<!--{ : _cfg.top_logo_type == "txt" }-->
+		<a href="/">{_cfg.top_logo}</a>
+	<!--{ : }-->
+		<a href="/">BLUEPOD</a>
+	<!--{ / }-->  	
+  </div>
+  <div class="right"> <span><!--{ ? !_sess }-->Welcome!<!--{ : }-->{_sess.name}{=__text("님!")}<!--{ / }--> {_cfg.nameSite}</span>{=__text("에 방문해주셔서 감사합니다.")} </div>
+</div>
+<div style="border-bottom:1px solid #ddd;"></div>
+
+
+
+<script type=text/javascript>
+$(document).ready(function(){
+
+    var nav = $('.headfix');
+    var navoffset = $('.headfix').offset();  
+    /* offset을 이용하여 .menu(메뉴영역)의 위치값을 알아내어 navoffset에 넣어둔다 */
+
+    $(window).scroll(function () {
+        if ($(this).scrollTop() >= navoffset.top) {  /* 화면 스크롤 값이 메뉴영역의 top보다 값이 커지면 */
+            nav.css('position','fixed').css('top',0); /* 화면 위쪽에 고정시킨다. */
+        }else {
+            nav.css('position','absolute').css('top',0); /* 처음 메뉴영역의 top 값으로 돌리기 */
+        }
+    });
+});
+</script>
+
+<div id="wrapfix"> 
+<div class="headfix">
+	
+<!-- gnb -->	
+<div id="naviWrap"> 
+	<ul id="gnb">
+		<!--{ @ f_category() }-->	
+			<li><span><a href="/goods/list.php?catno={.catno}" target="{.url_target}">{.catnm}</a></span>
+	      	<div class="depth2Wrap sub0{.index_ + 1}"> 
+	        		<div class="inner"> 
+	          		<div class="imgWrap">
+							<div code="category_{.catno}">
+								<!--{ @ f_banner_s2( 'category_'+ .catno )}-->{..banner}<!--{ / }-->
+							</div>
+						</div>
+	          	<div class="menuWrap">
+						<!--{ @ .sub }-->		
+	      			<ul class="depth2">
+		   				<!--{ ? ..img }-->
+								<li>{..category_link_tag}{..img}</a></a></li>
+							<!--{ : }-->
+								<li>{..category_link_tag}{..catnm}</a></li>
+							<!--{ / }-->
+						
+							<!--{ @ ..sub }-->
+			      			<!--{ ? ...img }-->
+									<li>{...category_link_tag}{...img}</a></li>
+								<!--{ : }-->
+									<li>{...category_link_tag}{...catnm}</a></li>
+								<!--{ / }-->
+							<!--{ / }-->
+						</ul>
+						<!--{ / }-->
+					</div>
+	        	</div>
+			</div>      
+		</li>
+		<!--{ / }-->
+	 	<li><span><!--{ @ f_banner_s2('top_banner_gnb_right1')}-->{.banner}<!--{ / }--><!--<a href="/goods/review.php" class="review">{=__text("상품후기")}</a>--></span></li>
+	 	<li><span><!--{ @ f_banner_s2('top_banner_gnb_right2')}-->{.banner}<!--{ / }--><!--<a href="#" class="review">{=__text("갤러리")}</a>--></span></li>
+	 	<li><span><a href="/goods/search.php" class="schbtn"><img src="/skin/modern/assets/images/fotocube/sch_btn.png"></a></span></li>
+  	</ul>
+</div> 
+<!-- //gnb -->
+</div>
+</div>
+
+
+	<!-- ### 메뉴 고정 시 클래스 menu_fixed 추가 ### -->
+	<div class="wrap">
+
+		<!-- ### content ### -->
+		<section class="content">

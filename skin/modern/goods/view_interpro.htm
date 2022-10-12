@@ -1,0 +1,601 @@
+{ # header }
+<!--view_interpro.htm-->
+
+<!--본 컨텐츠 시작-->
+<form name="fmView" method="post" action="view_template.php?catno={_GET.catno}&goodsno={goodsno}">
+<!--<input type="hidden" name="mode"/>-->
+<input type="hidden" id="catno" name="catno" value="{_GET.catno}"/>
+<input type="hidden" id="goodsno" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+
+<div id="index-page">
+   <!--sub_main_banner-->
+       <div class="sub_main_banner">
+		<!--{? _category.header }-->
+			{_category.header}
+		<!--{ / }-->
+       </div>
+   <!--sub_main_banner-->
+   <!--sub_selector-->
+       <div class="sub_selector">
+           <div class="content-container">
+               <div class="h-group">
+                   <div class="xs-6-12 cf">
+                       <div class="selector_img">
+                           <img id="imageToSwap" src="/skin/modern/assets/images/interpro/big_bu_hand.png" {=__alt("옵션이미지")}>
+                       </div>
+                   </div>
+                   <div class="xs-6-12">
+                       <div class="selector_text">
+                           <h2>{goodsnm}</h2>
+                           <!--{ ? preset == '100114' }-->
+                           <ul>
+							<!--{ ? extraOption->getOptionKindUse("1") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("1")}
+									{extraOption->MakeSelectOptionTag("1","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+
+							<!--{ ? extraOption->getOptionKindUse("2") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("2")}
+									{extraOption->MakeSelectOptionTag("2","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+
+							<!--{ ? extraOption->getOptionKindUse("3") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("3")}
+									{extraOption->MakeSelectOptionTag("3","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+							
+							<!--{ ? extraOption->getOptionKindUse("4") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("4")}
+									{extraOption->MakeSelectOptionTag("4","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+
+							<!--{ ? extraOption->getOptionKindUse("5") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("5")}
+									{extraOption->MakeSelectOptionTag("5","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+
+							<!--{ ? extraOption->getOptionKindUse("6") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("6")}
+									{extraOption->MakeSelectOptionTag("6","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+
+							<!--{ ? extraOption->getOptionKindUse("7") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("7")}
+									{extraOption->MakeSelectOptionTag("7","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+							
+							<!--{ ? extraOption->getOptionKindUse("8") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("8")}
+									{extraOption->MakeSelectOptionTag("8","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+
+							<!--{ ? extraOption->getOptionKindUse("9") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("9")}
+									{extraOption->MakeSelectOptionTag("9","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+
+							<!--{ ? extraOption->getOptionKindUse("10") !== 'N' }-->
+								<li>
+									{extraOption->getDisplayName("10")}
+									{extraOption->MakeSelectOptionTag("10","","forwardAction","")}
+								</li>
+							<!--{ / }-->
+							
+								<li>
+									{extraOption->MakeOrderCntDisplayName(goodsno,"OCNT")}
+									{extraOption->MakeOrderCntSelect(goodsno,"OCNT","order_cnt_select")}
+								</li>						
+                           </ul>
+                           <div class="selector_order">
+                               <div class="price">
+								<!--extra price box-->
+								<div class="price">
+									<div id='price_text'>0{=__text("원")}</div>
+
+									<input type="hidden" id="select_option_supply_price" name="select_option_supply_price" />
+						        	<input type="hidden" id="select_option_sum_price" name="select_option_sum_price" />
+								</div>
+								<!--extra price box-->
+                               </div>
+                               <a href="#layer2" class="btn_example"><button class="order">{=__text("주문하기")}</button></a>
+                               <input type="hidden" id="limit_flag" name="limit_flag" />
+                           </div>
+                           <!--{ / }-->
+                       </div>
+                       <div class="dim_layer"><!--popup-->
+                            <div class="dimBg"></div>
+                            <div id="layer2" class="pop_layer">
+                                <div class="pop_container">
+                                    <div class="pop_conts">
+                                        <!--content //-->
+                                        <div class="btn_r">
+                                            <a href="#" class="btn_layerClose"><img src="/skin/modern/assets/images/interpro/ic_close.png" alt=""></a>
+                                        </div>
+                                        <!--<h3>업종별 카테고리</h3>-->
+                                        <h3>{goodsnm}</h3>
+                                        <div class="separator"></div>
+                                        <ul class="text-center">
+                                        	<li>{=__text("키다리프린트의")} {goodsnm}{=__text("입니다.")}</li>
+                                        </ul>
+                                        <!--<ul class="pop_cat cf">
+                                            <li>
+                                                <a href="#">
+                                                <img src="img/cat_korean_food.jpg" alt="한식">
+                                                <p>한식</p></a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                <img src="img/cat_chiness_food.jpg" alt="중식">
+                                                <p>중식</p></a>
+                                            </li>
+
+                                            <li>
+                                                <a href="#">
+                                                <img src="img/cat_japaness_food.jpg" alt="일식">
+                                                <p>일식</p></a>
+                                            </li>
+                                        </ul>-->
+                                        <ul class="pop_cat_nav">
+                                            <li class="pc_nav_left"></li>
+                                            <li class="pc_nav_right"></li>
+                                        </ul>
+                                        <h3>{=__text("주문방법선택")}</h3>
+                                        <div class="separator"></div>
+                                        <ul class="pop_select">
+                                            <li>
+                                                <a href="javascript:searchDesign();"><img src="/skin/modern/assets/images/interpro/ic_search_white.png" {=__alt("디자인찾기")}><p>{=__text("디자인 찾기")}</p></a>
+                                            </li>
+                                            <li>
+                                                <a href="#" {=__onclick_alert("준비중입니다.")}><img src="/skin/modern/assets/images/interpro/ic_fullscreen.png" {=__alt("로고편집하기")}><p>{=__text("로고편집하기")}</p></a>
+                                            </li>
+                                            <li>
+                                                <a href="javascript:void(0);" onclick="fileInfoOpenLayer(this);"><img src="/skin/modern/assets/images/interpro/ic_check.png" {=__alt("고객님의 디자인 사용하기")}><p>{=__text("고객님의 디자인 사용하기")}</p></a>
+                                            </li>
+                                        </ul>
+                                        <!--// content-->
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!--popup-->
+                   </div>
+               </div>
+           </div>
+       </div>
+   <!--sub_selector-->
+   
+	<div style="text-align: center;">{desc}</div>   
+   
+    <!--sub_main_block_01-->
+    <!--<section class="section section-primary section-padding">
+        <div  class="content-container">
+            <h2>용지안내</h2>
+            <div class="list-container">
+                <div class="h-group list-type-tile tile-row-3">
+                     <div class="xs-12-12 text-center">
+                         <ul class="paper_select">
+                             <li>
+                                 <img src="img/SQBC-PP-Stacks-comparison_Original.png" alt="일반지">
+                                 <dl>
+                                     <dt>일반지</dt>
+                                     <dd>용지 소개<br>lorem ipsum<br>lorem ipsum</dd>
+                                 </dl>
+                             </li>
+                             <li>
+                                 <img src="img/SQBC-PP-Stacks-comparison_Green.png" alt="특수지">
+                                 <dl>
+                                     <dt>특수지</dt>
+                                     <dd>용지 소개<br>lorem ipsum<br>lorem ipsum</dd>
+                                 </dl>
+                             </li>
+                             <li>
+                                 <img src="img/SQBC-PP-Stacks-comparison_Super.png" alt="고급지">
+                                 <dl>
+                                     <dt>고급지</dt>
+                                     <dd>용지 소개<br>lorem ipsum<br>lorem ipsum</dd>
+                                 </dl>
+                             </li>
+                             <li>
+                                 <img src="img/SQBC-PP-Stacks-comparison_Luxe.png" alt="펄지">
+                                 <dl>
+                                     <dt>펄지</dt>
+                                     <dd>용지 소개<br>lorem ipsum<br>lorem ipsum</dd>
+                                 </dl>
+                             </li>
+                             <li>
+                                 <img src="img/SQBC-PP-Stacks-comparison_Oreo.png" alt="쿠키">
+                                 <dl>
+                                     <dt>쿠키</dt>
+                                     <dd></dd>
+                                 </dl>
+                             </li>
+                         </ul>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+    <!--sub_main_block_01-->
+    
+    <!--sub_main_block_02-->
+    <!--<section class="section section-primary section-padding make_tip">
+        <div class="content-container">
+            <h2>제작TIP</h2>
+            <div class="list-container">
+                <div class="h-group list-type-tile tile-row-3">
+                     <div class="xs-6-12 text-left">
+                        <div class="tip_big">
+                              <a href="#">
+                                 <img src="img/business_test2.jpg" alt="용지선택">
+                                 <dl>
+                                     <dt>용지선택법</dt>
+                                     <dd>키다리프린트에서 용지 선택법에 대해서 설명해드립니다.<br>
+                             용도에 따른 용지선택법 한번 알아보고 가세요. 감사합니다.<br>
+                             키다리프린트에서 용지 선택법에 대해서 설명해드립니다.<br>
+                             용도에 따른 용지선택법 한번 알아보고 가세요. 감사합니다.</dd>
+                                     <dd class="more">더 알아보기...</dd>
+                                 </dl>
+                             </a>
+                         </div>
+                     </div>
+                     <div class="xs-6-12 text-left">
+                         <div class="tip_small">
+                             <ul>
+                                 <li class="cf s_00">
+                                     <a href="#">
+                                         <dl>
+                                             <dt>용지선택법</dt>
+                                             <dd>키다리프린트에서 용지 선택법에 대해서 설명
+해드립니다.<br>
+용도에 따른 용지선택법 한번 알아보고 가세요.
+감사합니다.</dd>
+                                         </dl>
+                                          <img src="img/small_business_test2.jpg" alt="용지선택2">
+                                     </a>
+                                 </li>
+                                 <li class="cf s_01">
+                                     <a href="#">
+                                         <dl>
+                                             <dt>용지선택법</dt>
+                                             <dd>키다리프린트에서 용지 선택법에 대해서 설명
+해드립니다.<br>
+용도에 따른 용지선택법 한번 알아보고 가세요.
+감사합니다.</dd>
+                                         </dl>
+                                          <img src="img/small_business_test2.jpg" alt="용지선택2">
+                                     </a>
+                                 </li>
+                                 <li class="cf s_02">
+                                     <a href="#">
+                                         <dl>
+                                             <dt>용지선택법</dt>
+                                             <dd>키다리프린트에서 용지 선택법에 대해서 설명
+해드립니다.<br>
+용도에 따른 용지선택법 한번 알아보고 가세요.
+감사합니다.</dd>
+                                         </dl>
+                                          <img src="img/small_business_test2.jpg" alt="용지선택2">
+                                     </a>
+                                 </li>
+                             </ul>
+                         </div>
+                     </div>
+                </div>
+            </div>
+        </div>
+    </section>-->
+    <!--sub_main_block_02-->
+    
+    <!--sub_main_block_03-->
+    <!--<section class="section section-primary section-padding">
+        <div class="content-container">
+            <h2>업종카테고리</h2>
+            <div class="list-container business_cat">
+                <div class="business_cat_case">
+                    <ul class="h-group list-type-tile tile-row-3">
+                         <li>
+                             <a href="category.html">
+                                 <dl>
+                                     <img src="img/korean_food.jpg" alt="한식" >
+                                     <dt>한식</dt>
+                                     <dd>한식에 관련된 템플릿을 한데 모아 보여드립니다.</dd>
+                                 </dl>
+                             </a>
+                         </li>
+                         <li>
+                             <a href="category.html">
+                                <dl>
+                                     <img src="img/korean_food.jpg" alt="한식" >
+                                     <dt>한식</dt>
+                                     <dd>한식에 관련된 템플릿을 한데 모아 보여드립니다.</dd>
+                                 </dl>
+                             </a>
+                         </li>
+                         <li>
+                             <a href="category.html">
+                                <dl>
+                                     <img src="img/korean_food.jpg" alt="한식" >
+                                     <dt>한식</dt>
+                                     <dd>한식에 관련된 템플릿을 한데 모아 보여드립니다.</dd>
+                                 </dl>
+                             </a>
+                         </li>
+                    </ul>
+                </div>
+                <button id="arrowLeft" class="arrowLeft"><img src="img/ic_chevron_left.png" alt="이전" ></button>
+                <button id="arrowRight" class="arrowRight"><img src="img/ic_chevron_right.png" alt="다음" ></button>
+            </div>
+        </div>
+    </section>-->
+    <!--sub_main_block_03-->
+    
+</div>
+
+</form>
+
+<!--본 컨텐츠 끝-->
+
+<form name="frmView" id="frmView" method="post">
+<input type="hidden" name="mode"/>
+<input type="hidden" name="goodsno" value="{goodsno}"/>
+<input type="hidden" name="productid" value="{podsno}"/>
+<input type="hidden" name="podoptno"/>
+<input type="hidden" name="storageid"/>
+<input type="hidden" name="ea" value="1"/>
+<input type="hidden" name="option_json"/>
+<input type="hidden" name="est_order_type" value="{order_type}" />
+<input type="hidden" name="goodskind" value="{goodskind}"/>
+<input type="hidden" name="option_group_code"/>
+<input type="hidden" id="preset" name="preset" value="{preset}"/>
+<input type="hidden" id="selector" name="selector"/>
+<input type="hidden" id="optionjson" name="optionjson"/>
+<input type="hidden" id="extra_auto_pay_flag" name="extra_auto_pay_flag" value="{extra_auto_pay_flag}"/>
+<input type="hidden" id="extra_price_view_flag" name="extra_price_view_flag" value="{extra_price_view_flag}"/>	
+<input type="hidden" id="extra_price_vat_flag" name="extra_price_vat_flag" value="{extra_price_vat_flag}"/>
+<input type="hidden" id="est_order_info" name="est_order_info" />
+<input type="hidden" id="goods_group_code" name="goods_group_code" value="{goods_group_code}" />
+<input type="hidden" id="templateSetIdx" name="templateSetIdx" value="{templateSetIdx}" />
+<input type="hidden" id="templateIdx" name="templateIdx" value="{templateIdx}" />
+<input type="hidden" id="optmode" name="optmode" value="{_GET.optmode}" />
+</form>
+
+<script type="text/javascript">  
+var cid = '{_cid}';
+var center_id = '{_cfg_center.center_cid}';
+var center_host = '{_cfg_center.host}';
+var display_name = { {_displayNameArrTag} };
+var cnt_display_name = '{_cntDisplayName}';
+var opt_img = '{opt_img}';
+</script>
+
+<script type="text/javascript" src="/js/extra_option/goods.extra.option.call.100114.js"></script>
+
+<script>
+$j(window).load(function(){
+	//견적 두번째 수량(unit_order_cnt) 표시 여부 추가 2016.04.14 by kdk
+	if('{extra_unitcnt_view_flag}' == '1') {
+		//alert('{extra_unitcnt_view_flag}');
+		$j("#unit_order_cnt").attr("style","display:none;");
+		$j("#input_unit_order_cnt").attr("style","display:none;");
+		$j("span[name='x']").attr("style","display:none;");
+		$j("span[name='unit_order_cnt']").attr("style","display:none;");
+	}
+	
+	forwardAction();
+	
+	/*
+	$j("select[name='optno[]']").change(function(){
+		refresh_price();
+	});
+	$j("select[name='addopt[]']").change(function(){
+		refresh_price();
+	});
+	*/
+});
+</script>
+<script src="/js/webtoolkit.base64.js"></script>
+<script>
+function searchDesign() {
+	//console.log("searchDesign:");
+	//optionjson.
+	//var optionJson = escape(makeOptionJson());
+	var optionJson = makeOptionJson();
+	//console.log(optionJson);
+
+	$j('#optionjson').val(optionJson);
+	
+	$j("form[name=fmView]").append("<input type='hidden' name='optionjson' value='"+ $j('#optionjson').val() +"' />");
+	
+	/*
+	var optno = $j("select[name='optno[]']:last").val();
+	var addopt = [];
+	var addopt_idx = 0;
+	$j("select[name='addopt[]']").each(function(){
+		if ($j(this).val() && $j(this).val()!=""){
+			addopt[addopt_idx] = $j(this).val();
+		}
+		addopt_idx++;
+	});
+
+	addopt = addopt.join(",");
+	
+	$j("form[name=fmView]").append("<input type='hidden' name='optno' value='"+ optno +"' />"); 
+	$j("form[name=fmView]").append("<input type='hidden' name='addopt' value='"+ addopt +"' />");
+	*/
+	
+	document.fmView.submit();
+}
+
+jQuery(document).ready(function($){
+    $j('.btn_example').click(function(){
+        var fm = document.fmView;
+		if (!form_chk(fm)) return false;
+
+		//주문제한.
+		if($j("#limit_flag").val() == "1") {
+			alert({=__java("선택하신 옵션은 주문이 제한되었습니다.")}+"\n"+{=__java("자세한 사항은 관리자에게 문의하십시오.")});
+			return false;
+		}
+
+        var $href = $j(this).attr('href');
+        layer_popup($href);
+
+        return false;
+    });
+
+    function layer_popup(el){
+
+        var $el = $j(el);        //레이어의 id를 $el 변수에 저장
+        var isDim = $el.prev().hasClass('dimBg');   //dimmed 레이어를 감지하기 위한 boolean 변수
+
+        isDim ? $j('.dim_layer').fadeIn() : $el.fadeIn();
+
+        var $elWidth = ~~($el.outerWidth()),
+            $elHeight = ~~($el.outerHeight()),
+            docWidth = $j(document).width(),
+            docHeight = $j(document).height();
+
+        // 화면의 중앙에 레이어를 띄운다.
+        if ($elHeight < docHeight || $elWidth < docWidth) {
+            $el.css({
+                marginTop: -$elHeight /2,
+                marginLeft: -$elWidth/2
+            })
+        } else {
+            $el.css({top: 0, left: 0});
+        }
+
+        $el.find('a.btn_layerClose').click(function(){
+            isDim ? $j('.dim_layer').fadeOut() : $el.fadeOut(); // 닫기 버튼을 클릭하면 레이어가 닫힌다.
+            return false;
+        });
+
+        $j('.layer .dimBg').click(function(){
+            $j('.dim_layer').fadeOut();
+            return false;
+        });
+
+    }
+});
+
+/*
+function refresh_price(){
+	var goodsno = $j("#goodsno").val();
+	var optno = $j("select[name='optno[]']:last").val();
+	var addopt = [];
+	var addoptimg = [];
+	var addopt_idx = 0;
+	$j("select[name='addopt[]']").each(function(){
+		if ($j(this).val() && $j(this).val()!=""){
+			addopt[addopt_idx] = $j(this).val();
+
+			//상품 추가옵션 이미지를 사용 설정된 옵션만 처리
+			if ($j(this).attr("optimgview")!=undefined && $j(this).attr("optimgview")!==false) {
+				addoptimg[addopt_idx] = $j(this).children("option:selected").text();
+			}
+		}
+		addopt_idx++;
+	});
+
+	addopt = addopt.join(",");
+
+	addoptimg = addoptimg.join("|");
+	//상품 추가옵션 이미지 / 2017.10.10 / kdk
+	if (addoptimg != "") {
+		var optionImages = JSON.parse('{opt_img}');
+		//선택한 추가옵션과 등록된 상품 추가옵션을 검색하여 해당 이미지(src)를 변경한다.
+		if(optionImages.length > 0) {
+		    for (i = 0; i < optionImages.length; i++) {
+		    	if(addoptimg == optionImages[i].option_item) {
+	            	var img = "http://{_cfg_center.host}/data/goods/{_cid}/l/{goodsno}/"+optionImages[i].option_img;
+					$j("#imageToSwap").attr("src",img);
+	            }
+		    }
+		}
+	}
+
+	//common.defer.js
+	get_goods_price(goodsno,optno,addopt,"set_price_str"); //가격조회 ajax
+	get_goods_cprice(goodsno,optno,addopt,"set_cprice_str"); //소비자가 ajax
+	get_goods_reserve(goodsno,optno,addopt,"set_reserve_str"); //적립금 ajax
+}
+
+function set_price_str(ret){
+	$j("#goods_price").html(comma(ret)+"원");
+}
+
+function set_cprice_str(ret){
+	$j("#goods_cprice").html(comma(ret)+"원");
+	var cprice = 0;
+	var price = parseInt($j("#goods_price").html().replace(",",""));
+	if ($j("#goods_cprice").html()){
+		cprice = parseInt($j("#goods_cprice").html().replace(",",""));
+	}
+	var gap = cprice - price;
+	if (gap > 0){
+		$j("#goods_cprice_x").html("(▼ "+comma(gap)+"원 할인"+")");
+	} else {
+		$j("#goods_cprice_x").html("");
+	}
+}
+
+function set_reserve_str(ret){
+	$j("#goods_reserve").html(comma(ret));
+}
+
+function updateOption(obj){
+	var goodsno = $j("#goodsno").val();
+	var selected_opt = obj.options[obj.selectedIndex];
+
+	if ($j(selected_opt).attr("productid") && $j(selected_opt).attr("productid")!=0){
+		$j("input[name=productid]").val($j(selected_opt).attr("productid"));
+	} else {
+		$j("input[name=productid]").val("{podsno}");
+	}
+	if ($j(selected_opt).attr("podoptno")){
+		$j("input[name=podoptno]").val($j(selected_opt).attr("podoptno"));
+	} else {
+		$j("input[name=podoptno]").val("");
+	}
+
+	var opt = obj.form["optno[]"][1];
+	if (opt.tagName!="SELECT" || obj==opt) return;
+	opt.options.length = 1;
+
+	$j.post("indb.php", {mode:"ajax_updateOption", goodsno:goodsno, opt1:obj.options[obj.selectedIndex].title}, function(data){
+		data = evalJSON(data);
+		for (var i=0;i<data.length;i++){
+			var txt = data[i].opt2;
+			if (data[i].aprice!="0") txt += " (+" + comma(data[i].aprice) + "원"+")";
+			opt[i+1] = new Option(txt, data[i].optno);
+			opt[i+1].stock = data[i].stock;
+			opt[i+1].productid = data[i].podsno;
+			opt[i+1].podoptno = data[i].podoptno;
+		}
+	});	
+}
+*/
+</script>
+
+{ # footer }

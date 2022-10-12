@@ -1,0 +1,185 @@
+{ # header }
+
+<style type="text/css">
+.previewimg_div {
+	overflow: hidden;
+	background: url('../img/loading.gif') center center no-repeat;
+	min-height: 130px;
+	width: 168px;
+	margin: 0 auto;
+	border: 1px solid #b4b4b4;
+	cursor: pointer;
+}
+#edking_tb {
+	width: 700px;
+	border-collapse: collapse;	
+}
+#edking_tb > tbody > tr > td {
+	width: 25%;
+	vertical-align: bottom;
+	text-align: center;
+	padding-bottom: 20px;
+	line-height: 120%;
+}
+#edking_tb > tbody > tr > td > div + div {
+	margin-top: 10px;
+}
+#edking_tb_outter {
+	border: 1px solid #dddddd;
+	width: 762px;
+	margin: 0 auto;
+}
+#edking_tb_outter > div {
+	border: 10px solid #f5f5f5;
+	width: 760px;
+	padding: 20px;
+}
+.goods_outer {
+	margin: 10px 0;
+}
+#edking_best {
+	width: 762px;
+	height: 386px;
+	background-image: url('../img/edking_tab01_bg.jpg');
+	background-repeat: no-repeat;
+	position: relative;
+	margin: 0 auto;
+}
+#edking_best_img {
+	width: 200px;
+	min-height: 200px;
+	position: absolute;
+	top: 85px;
+	left: 70px;
+	display: block;
+}
+#edking_best_info {
+	width: 300px;
+	background: #f0efeb;
+	position: absolute;
+	top: 120px;
+	left: 345px;
+	padding: 30px;
+	line-height: 20px;
+}
+#edking_best_goodsnm {
+	font-weight: bold;
+}
+#edking_best_writer {
+	font-weight: bold;
+	background-image: url('../img/by_icon.jpg');
+	background-position-y: 4px;
+	background-repeat: no-repeat;
+	text-indent: 55px;
+}
+#edking_best_view {
+	display: block;
+	position: absolute;
+	right: 185px;
+	bottom: 120px;
+	cursor: pointer;
+}
+</style>
+
+<section class="content-container">
+	<h2>{=__text("포토갤러리")} <span>{=__text("이달의 베스트 편집왕")}</span></h2>
+	
+	<!--{ ? loop }-->
+	<div class="goods_outer">
+		<div class="content_part">
+			<!--{ ? data_best.goodsno }-->
+			<!-- 베스트 상품 출력 -->
+			<div id="edking_best">
+				<div id="edking_best_img" goodsno="{data_best.goodsno}" storageid="{data_best.storageid}" w="200" class="previewimg_div"></div>
+				<div id="edking_best_info">
+					<div id="edking_best_goodsnm">{data_best.goodsnm}</div>
+					<div id="edking_best_writer">{data_best.name}</div>
+				</div>
+				<img src="../img/view_btn01.jpg" id="edking_best_view" onclick="preview_popup('{data_best.no}','{data_best.goodsno}','{data_best.storageid}')">
+			</div>
+			<!--{ / }-->
+			
+			<div id="edking_tb_outter">
+				<div>
+					<table id="edking_tb">
+						<tbody>
+							<tr>
+							<!--{ @ loop }-->
+								<!--{ ? .index_ && .index_%4 == 0 }--></tr><tr><!--{ / }-->
+								<td>
+									<img src="../img/bookstyle.jpg" style="width:168px;margin-bottom:-5px;">
+									<div goodsno="{.goodsno}" storageid="{.storageid}" w="168" class="previewimg_div" onclick="preview_popup('{.no}','{.goodsno}','{.storageid}')"></div>
+									<div style="font-size:13px;">{.goodsnm}<br>{.name}<br>{=substr(.regdt, 0, 10)}</div>
+									<div style="font-size:13px;">
+										<img src="../img/hit_icon.jpg" align="absmiddle"> {.hit}&nbsp;&nbsp;
+										<img src="../img/comm_icon.jpg" align="absmiddle" onclick="chk_num('{.no}')" style="cursor:pointer;"> {.comment}
+									</div>
+								</td>
+								<!--{ / }-->
+							</tr>
+						</tbody>
+					</table>
+					
+					<div class="list-pagination" style="margin:0">
+						<ul>
+							<li>{pg->page['navi']}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<!--{ : }-->
+	<div class="text-center" style="height:200px;padding-top:80px;">{=__text("편집왕 데이터가 없습니다.")}</div>
+	<!--{ / }-->
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "");
+	$j("body").attr("class", "event-page");
+	
+	$j(".previewimg_div").each(function() {
+		get_previewimg(this);
+	});
+});
+
+function get_previewimg(obj) {
+	var goodsno = $j(obj).attr("goodsno");
+	var storageid = $j(obj).attr("storageid");
+	var w = $j(obj).attr("w");
+	
+	$j.post("indb.php", {mode:"edking_previewimg", goodsno:goodsno, storageid:storageid}, function(data) {
+		var img = document.createElement("img");
+		var ret = data.split("|");
+		
+		if (ret[0]) {
+			$j(img).css("width", (w*2)+"px");
+			$j(img).css("height", ((w/parseInt(ret[1])*parseInt(ret[2]))*2)+"px");
+			$j(img).attr("src", ret[0]);
+			$j(img).css("margin-left", w*-1);
+			$j(img).appendTo(obj);
+			
+			$j(obj).css("height", ((w/parseInt(ret[1])*parseInt(ret[2]))*2)+"px");
+			$j(obj).css("min-height", 0);
+		} else {
+			$j(obj).css("background", "url('../img/noimg.png') center center no-repeat");
+		}
+	});
+}
+
+function preview_popup(no,goodsno,storageid) {
+	var url = "../module/edking_preview.php?no="+no+"&goodsno="+goodsno+"&storageid="+storageid;
+	popupLayer2(url, 500);
+}
+
+function chk_num(no) {
+	if (!confirm({=__java("추천하시겠습니까?")})) {
+		return;
+	}
+	
+	location.href = "indb.php?mode=edking_comment&no="+no;
+}
+</script>
+
+{ # footer }

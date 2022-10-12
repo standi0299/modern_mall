@@ -1,0 +1,140 @@
+{ # header }
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">매거진</h2>
+		<div class="bdt mb30"></div>
+		<div class="magazine-list">
+			<ul class="clearfix">
+				<!--{ @ f_banner_s2('magazine_list') }-->{.banner}<!--{ / }-->
+				
+				<!--<li class="item">
+					<a href="#">
+						<div class="magazine-img">
+							<img src="images/magazine_ex1.jpg" alt="">
+						</div>
+						<div class="magazine-date">2018.02.15</div>
+						<div class="magazine-title">2018 설 선물 골든위크 보물찾기</div>
+						<div class="magazine-content">바쁜 아침시간에 양말 제 짝 찾는게 지겨운 분들께 추천해요. 어떤 룩에나 매치 가능한 블랙 컬러, 먼지가 많이 달라 붙지 않는 소재로 반려동물이 있는 집에서 신고 다녀도 문제 없어요.</div>
+					</a>
+				</li>-->
+			</ul>
+		</div>
+	</div>
+</div><!-- container-pupa End -->
+
+<!-- 매거진 리스트가 이러한 형식이라는 것을 보여주기위해서 임의로 ajax/json으로 만들었습니다. 수정하셔서 사용하셔도됩니다. -->
+<!--
+<script src="https://naver.github.io/egjs-infinitegrid/assets/html/../../release/latest/dist/infinitegrid.pkgd.min.js"></script>
+<script>
+	$(function(){
+
+		// 뿌려줄 갯수
+		var viewCount = 3;
+
+		url = '/skin/modern/service/magazine_ex.json';
+		$.ajax({
+			type:"GET",
+			url: url,
+			dataType : 'json',
+			success: function(data) {
+
+				var InfiniteGrid = eg.InfiniteGrid;
+				var JustifiedLayout = InfiniteGrid.JustifiedLayout;
+				var template = '<li class="item"><a href="#"><div class="magazine-img"><img src="'+data.link+'"}></div><div class="magazine-date">'+data.date+'</div><div class="magazine-title">{title}</div><div class="magazine-content">{content}</div></a></li>';
+				
+				function getItem(template, options) {
+					return template.replace(/\$\{([^\}]*)\}/g, function () {
+						var replaceTarget = arguments[1];
+
+						return options[replaceTarget];
+					});
+				}
+
+				// 기존
+				function getItems(length) {
+					var arr = [];
+
+					for (var i = 0; i < length; ++i) {
+						arr.push(getItem(template, {title:data.magazine[i].title, date:data.magazine[i].date,content:data.magazine[i].content, link:data.magazine[i].link}));
+					}
+
+					return arr;
+				}
+
+				// 변형
+				function getItems2(start) {
+					var arr = [];
+
+					var listLength = data.magazine.length;
+
+					for (var i = start; i < start + viewCount; ++i) {
+
+						if (i < listLength) {
+							arr.push(getItem(template, {title:data.magazine[i].title, date:data.magazine[i].date,content:data.magazine[i].content, link:data.magazine[i].link}));
+						}
+					}
+
+					return arr;
+				}
+
+				var ig = new eg.InfiniteGrid(".magazine-list ul");
+				var listLength = data.magazine.length;
+				var groups = {};
+
+				ig.setLayout(eg.InfiniteGrid.GridLayout, {
+					margin: 24,
+					align: "center"
+				});
+
+				ig.on({
+					"prepend": function(e) {
+						var groupKeys = ig.getGroupKeys(true);
+						var groupKey = (groupKeys[0] || 0) - 1;
+
+						if (!(groupKey in groups)) {
+							return;
+						}
+
+						//ig.prepend(groups[groupKey], groupKey);
+					},
+					"append": function(e) {
+						var groupKeys = ig.getGroupKeys(true);
+						var groupKey = (groupKeys[groupKeys.length - 1] || 0) + 1;
+						var start = groupKey * viewCount;
+
+						if (!(groupKey in groups)) {
+							// allow append
+							groups[groupKey] = getItems2(start);
+						}
+
+						ig.append(groups[groupKey], groupKey);
+					},
+					"layoutComplete": function(e) {
+
+						e.target.forEach(function(item) {
+							
+							if (!item.el) {
+								return;
+							}
+
+							// add abunatuib
+							item.el.setAttribute("class", "item animate");
+
+						});
+					}
+				});
+
+				//groups[0] = getItems(listLength);
+				groups[0] = getItems(viewCount);
+				ig.append(groups[0], 0);
+			},
+			error : function(xhr, status, error) {
+             	console.log(error);
+        		}
+		});
+
+	});
+
+</script>
+-->
+{ # footer }

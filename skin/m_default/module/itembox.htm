@@ -1,0 +1,114 @@
+<div class="cartArea <!--{ ? !_cartpage }-->orderArea<!--{ / }-->" <!--{ ? !_cartpage }-->id="orderGoods"<!--{ / }-->>
+	<!--{ ? _cartpage }--><div style="overflow:hidden;padding:0;background:#fff;margin-bottom:10px;font-family:'Noto CJKkr DemiLight';font-size:14px;color:#000;line-height:1.5em;text-align:center;">{=__text("장바구니에 담은 상품은")} {_cfg.source_save_days}{=__text("일간 보관합니다.")}</div><!--{ / }-->
+	<!--{ @ cart->item }-->
+	<!--{ @ .value_ }-->
+	<!--{ ? ..error > 0 && ..error < 3 }-->
+	<!--{ ? _cartpage }-->
+	<div class="cart">
+		<div class="cartCheck"><input id="{..cartno}" type="checkbox" name="cartno[]" value="{..cartno}" disabled class="checkbox" /><label for="{..cartno}">{=__text("선택")}</label></div>
+		<div style="position:relative;">
+			<span style="background:red;color:#FFFFFF;padding:2px;display:inline-block;line-height:1.5em;width:calc(100% - 74px);margin:18px 0 0 0;">{=__text("조회 및 구매가 불가능합니다.")}<br/>{=__text("사유")} : {..errmsg}</span>
+		</div>
+		<div class="cartBtn">
+			<a href="#layerCancel_{..cartno}" class="del" target="_self"><!--{ @ f_banner_s2('btn_mobile_cart_del','img')}-->{...banner}<!--{ / }--></a>
+		</div>
+	</div>
+	<!--{ / }-->
+	<!--{ : }-->
+	<!--{ ? _cartpage }-->
+	<!--{ @ ..addopt }-->
+	<input type="hidden" name="addopt_{..cartno}[]" value="{...addoptnm}" />
+	<!--{ / }-->
+	<!--{ / }-->
+
+	<div class="cart">
+		<!--{ ? _cartpage }--><div class="cartCheck"><input id="{..cartno}" type="checkbox" name="cartno[]" value="{..cartno}" {?..error}disabled{:}checked{/} class="checkbox" /><label for="{..cartno}">{=__text("선택")}</label></div><!--{ / }-->
+		<div class="cartDetail">
+			<!--{ ? _cartpage }-->
+			<figure style="height:100%;"><a href="../goods/view.php?catno={..catno}&goodsno={..goodsno}&mobile_type=Y">{=goodsListImg(..goodsno,'100','','border:1px solid #dedede')}</a></figure>
+			<!--{ : }-->
+			<figure style="height:100%;">{=goodsListImg(..goodsno,'100','','border:1px solid #dedede')}</figure>
+			<!--{ / }-->
+			<span class="cart_text">
+				<span class="desc">
+					<span class="icPC"><!--{ ? ..mobile_edit_flag == "1"}-->{=__text("모바일")}<!--{ : }-->{=__text("PC상품")}<!--{ / }--></span>
+					[{..goodsnm}]<br />
+					<span class="cart_etc">
+						<!--{ ? ..mobile_opt }-->{..mobile_opt}<!--{ ? ..addopt || ..printopt }--> / <!--{ : }--><br /><!--{ / }--><!--{ / }-->
+						<!--{ ? ..addopt }-->
+							<!--{ @ ..addopt }-->
+								<!--{ ? ...index_ == 0 }-->
+								{...addoptnm} 
+								<!--{ : }-->
+			 					 / {...addoptnm}
+								<!--{ / }-->
+							<!--{ / }--><br />
+						<!--{ / }-->
+						<!--{ ? ..printopt }-->
+							<!--{ @ ..printopt }-->
+								<!--{ ? ...index_ == 0 }-->
+								{...printoptnm} {...ea}{=__text("장")} 
+								<!--{ : }-->
+								 / {...printoptnm} {...ea}{=__text("장")}
+								<!--{ / }-->
+							<!--{ / }--><br />
+						<!--{ : }-->
+							{=number_format(..ea)}{=__text("개")}<br />
+						<!--{ / }-->
+					</span>
+				</span>
+				<span class="price">
+				<!--{ ? ..printopt }-->
+				<span class="price_dis" style="color:#000;">{=number_format(..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price)}{=__text("원")}</span><br />
+				<!--{ : }-->
+				<span class="price_dis" style="color:#000;">{=number_format((..price + ..aprice + ..addopt_aprice + ..print_aprice + ..addpage_price) * ..ea)}{=__text("원")}</span><br />
+				<!--{ / }-->
+				</span>
+			</span>
+		</div>
+		<!--{ ? _cartpage }-->
+		<!--{ ? ..error }-->
+		<div style="position:relative;left:50px;">
+			<span style="background:red;color:#FFFFFF;padding:2px;display:inline-block;line-height:1.5em;width:calc(100% - 74px);margin:8px 0 0 0;">{=__text("구매가 불가능합니다.")}<br />{=__text("사유")} : {..errmsg} {?..error==6}<br />({=__text("주문가능량")} : {..enabled_ea} ){/}</span>
+		</div>
+		<!--{ / }-->
+		<div class="cartBtn">
+			<!--{ ? ..storageid && !in_array(..podskind,array(8,9)) && ..goodsno!='-1' && ..est_order_type != 'UPLOAD' }-->
+				<!--{ ? ..printopt }-->
+				<a href="javascript:preview_layer_ajax('{..podskind}','{..storageid}','{..podsno}','{..siteid}','{..cartkey}','{..defaultpage}','{..minpage}','{..maxpage}','{..podoptno}','{..p_siteid}','{..ea}','{..cartno}','{..cid}','{..goodsno}','{..optno}','{..r_addoptno}','{..goodsnm}','{..catno}','{..pods_use}','{..printopt[0].printoptnm}','{..mobile_edit_flag}')" class=" default preview" target="_self"><!--{ @ f_banner_s2('btn_mobile_cart_preview','img')}-->{...banner}<!--{ / }--></a>
+				<!--{ ? ..mobile_edit_flag == "1"}--><a href="javascript:pods_editor_itembox('{..podskind}','{..storageid}','{..podsno}','{..siteid}','{..cartkey}','{..defaultpage}','{..minpage}','{..maxpage}','{..podoptno}','{..p_siteid}','{..ea}','{..cartno}','{..cid}','{..goodsno}','{..optno}','{..r_addoptno}','{..goodsnm}','{..catno}','{..pods_use}','{..printopt[0].printoptnm}')" class="default" target="_self"><!--{ @ f_banner_s2('btn_mobile_cart_edit','img')}-->{...banner}<!--{ / }--></a><!--{ / }-->
+				<!--{ : }-->
+				<a href="javascript:preview_layer_ajax('{..podskind}','{..storageid}','{..podsno}','{..siteid}','{..cartkey}','{..defaultpage}','{..minpage}','{..maxpage}','{..podoptno}','{..p_siteid}','{..ea}','{..cartno}','{..cid}','{..goodsno}','{..optno}','{..r_addoptno}','{..goodsnm}','{..catno}','{..pods_use}','','{..mobile_edit_flag}')" class=" default preview" target="_self"><!--{ @ f_banner_s2('btn_mobile_cart_preview','img')}-->{...banner}<!--{ / }--></a>
+				<!--{ ? ..mobile_edit_flag == "1"}--><a href="javascript:pods_editor_itembox('{..podskind}','{..storageid}','{..podsno}','{..siteid}','{..cartkey}','{..defaultpage}','{..minpage}','{..maxpage}','{..podoptno}','{..p_siteid}','{..ea}','{..cartno}','{..cid}','{..goodsno}','{..optno}','{..r_addoptno}','{..goodsnm}','{..catno}','{..pods_use}','')" class="default" target="_self"><!--{ @ f_banner_s2('btn_mobile_cart_edit','img')}-->{...banner}<!--{ / }--></a><!--{ / }-->
+				<!--{ / }-->
+			<!--{ / }-->
+			<a href="#layerCancel_{..cartno}" class="del" target="_self"><!--{ @ f_banner_s2('btn_mobile_cart_del','img')}-->{...banner}<!--{ / }--></a>
+			<!--{ ? !..printopt && !in_array(..podskind,array(3041)) }-->
+			<div class="varyBtn">
+				<a href="#" class="plus" onclick="set_cart_ea(1,'{..ea}','{..cartno}');return false;"><!--{ @ f_banner_s2('btn_mobile_cart_plus','img')}-->{...banner}<!--{ / }--></a>
+				<input type="tel" class="text" value="{=number_format(..ea)}" readonly />
+				<a href="#" class="minus" onclick="set_cart_ea(-1,'{..ea}','{..cartno}');return false;"><!--{ @ f_banner_s2('btn_mobile_cart_minus','img')}-->{...banner}<!--{ / }--></a>
+			</div>
+			<!--{ / }-->
+		</div>
+		<!--{ / }-->
+	</div>
+	<!--{ / }-->
+	<div id="layerCancel_{..cartno}" class="pop alertBox">
+		<div class="noteTxt">
+			<!--{ ? ..goodsnm }-->
+			<span>{=__text("선택한 상품")} [{..goodsnm}]{=__text("를(을)")}<br />{=__text("삭제하시겠습니까?")}</span>
+			<!--{ : }-->
+			<span>{=__text("선택한 상품을")}<br />{=__text("삭제하시겠습니까?")}</span>
+			<!--{ / }-->
+		</div>
+		<a href="#" id="cancelCart" class="inverse halfSize" target="_self"><center><!--{ @ f_banner_s2('btn_mobile_cancel','img')}-->{...banner}<!--{ / }--></center></a>
+		<a href="?mode=del&cartno={..cartno}" class="default halfSize" target="_self"><center><!--{ @ f_banner_s2('btn_mobile_confirm','img')}-->{...banner}<!--{ / }--></center></a>
+	</div>
+	<!--{ / }-->
+	<!--{ : }-->
+	<!--{ ? _cartpage }-->
+	<div id="cartEmpty" style="text-align:center;font-size:17px;">{=__text("장바구니에 담은 상품이 없습니다.")}</div>
+	<!--{ / }-->
+	<!--{ / }-->
+</div>

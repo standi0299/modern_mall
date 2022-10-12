@@ -1,0 +1,189 @@
+{ # header_popup }
+<!-- pupa 추가js -->
+<!--
+<script type="text/javascript" charset='utf-8' src="http://code.jquery.com/jquery-1.12.4.min.js"></script>
+<script language="JavaScript">
+$(window).load(function() {
+	var scollWidth = 17;
+	var strWidth = $('#pop-myAddress').outerWidth() + scollWidth + (window.outerWidth - window.innerWidth);
+
+	var strHeight = $('#pop-myAddress').outerHeight() + (window.outerHeight - window.innerHeight);
+	//resize 
+	alert(strWidth);
+	alert(strHeight);
+	window.resizeTo( strWidth, strHeight );
+});
+</script>
+-->
+<body>
+<!-- 내배송지관리 팝업 -->
+<div id="pop-myAddress" style="display:block;position:relative;">
+	<a href="#" onclick="window.close();" class="close">닫기</a>
+	<div class="pop-top">
+		<h2>내 배송지 관리</h2>
+	</div>
+	<div class="inner">
+		<form name="basic_address" action="indb.address.php" method="post">
+			<input type="hidden" name="mode" value="change_basic_address">
+			
+			<div class="myAddress-wrap">
+				<h3>내 배송지</h3>
+				<div class="myAddress-table-wrap">
+					<table class="table-myAddress">
+						<colgroup>
+							<col width="52" />
+							<col width="87" />
+							<col width="93" />
+							<col width="*" />
+							<col width="120" />
+							<col width="160" />
+						</colgroup>
+						<thead>
+							<tr>
+								<th>기본</th>
+								<th>배송지 명</th>
+								<th>받는 사람</th>
+								<th>주소</th>
+								<th>전화번호</th>
+								<th>배송지 선택</th>
+							</tr>
+						</thead>
+						<tbody>
+							<!--{ ? loop }-->
+								<!--{ @ loop }-->
+								<tr>
+									<td>
+										<label for="address1" class="radio inline"> 
+											<input type="radio" name="addressno" id="address1" value="{.addressno}" <!--{ ? .use_check == 'Y' }-->checked<!--{ / }-->>
+											<span></span>
+									   </label>
+									</td>
+									<td>{.addressnm}</td>
+									<td>{.receiver_name}</td>
+									<td>{.receiver_zipcode} {.receiver_addr} {.receiver_addr_sub}</td>
+									<td>{.receiver_mobile}</td>
+									<td>
+										<!--{ ? _GET.open_mode != "myinfo" }-->
+										<a href="javascript:selectAddress('{.addressno}')" class="btn_select">선택하기</a>
+										<!--{ / }-->
+										<a href="indb.address.php?mode=address_delete&addressno={.addressno}" {=__onclick_confirm("정말로 삭제하시겠습니까?")} class="btn_delete">삭제하기</a>
+									</td>
+								</tr>
+								<!--{ / }-->
+							<!--{ / }-->
+						</tbody>
+					</table>
+				</div>
+				<a onclick="basic_address.submit()" class="btn_myAddress_change">기본 배송지 변경하기</a>
+				<div class="paging-wrap">
+					{=pg->page['navi_m2']}
+				</div>
+			</div><!-- myAddress-wrap End -->
+		</form>
+
+		<form name="fm" action="indb.address.php" method="POST" onsubmit="return form_chk(this)">
+		<input type="hidden" name="mode" value="address_insert">
+		<div class="myAddress-add-wrap">
+			<h3>배송지 추가</h3>
+			<table>
+				<colgroup>
+					<col width="115" />
+					<col width="380" />
+					<col width="95" />
+					<col width="*" />
+				</colgroup>
+				<tbody>
+					<tr>
+						<th>배송지 명</th>
+						<td>
+							<input type="text" name="addressnm" class="wd200"required>
+						</td>
+						<th>받으시는 분</th>
+						<td>
+							<input type="text" name="receiver_name" class="wd200" required>
+						</td>
+					</tr>
+					<tr>
+						<th>휴대폰 번호</th>
+						<td colspan="3">
+							<div class="input-phone">
+								<input type="text" name="receiver_mobile[0]" pt="_pt_numplus">
+								<span>-</span>
+								<input type="text" name="receiver_mobile[1]" pt="_pt_numplus">
+								<span>-</span>
+								<input type="text" name="receiver_mobile[2]" pt="_pt_numplus">
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<th>주소</th>
+						<td colspan="3">
+							<div class="input-postcode-wrap">
+								<input type="text" name="receiver_zipcode" class="wd100 input-postcode" readonly class="readonly abs" pvalue="orderer_zipcode" required>
+								<a href="javascript:popupZipcode('_zcrn_r2')" class="btn_postcode">우편번호 찾기</a>
+							</div>
+							<div class="input-address-detail">
+								<input type="text" name="receiver_addr" class="readonly abs" pvalue="orderer_addr" required readonly style="margin:4px 0;width:480px;" pt="_pt_txt"/><br/>
+								<input type="text" name="receiver_addr_sub" class="readonly" pvalue="orderer_addr_sub" style="width:480px;" pt="_pt_txt" required onkeyup="chkTextByte(this,50)"/>&nbsp;&nbsp;{=__text("나머지 주소")}
+							</div>
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			<a onclick="fm.submit()" class="btn_myAddress_add">배송지 추가하기</a>
+		</div><!-- myAddress-add-wrap End -->
+		</form>
+	</div>
+</div>
+
+<script>
+
+function _zcrn_r(){
+	var zipcode = arguments[0];
+	var receiver_addr = arguments[1];
+	
+	$j(".addressBox").each(function(){
+		if ($j(this).css("display")!="none"){
+			$j("[name=receiver_zipcode]",$j(this)).val(zipcode);
+			//$j("[name=receiver_zipcode[1]]",$j(this)).val(zipcode[1]);
+			$j("[name=receiver_addr]",$j(this)).val(receiver_addr);
+			$j("[name=receiver_addr_sub]",$j(this)).val("");
+			$j("[name=receiver_addr_sub]",$j(this)).trigger("focus");
+		}
+	});
+
+	return;	
+}
+
+function _zcrn_r2(){
+	var zipcode = arguments[0];
+	var receiver_addr = arguments[1];
+
+	var fm = document.fm;
+
+	$j("[name=receiver_zipcode]",$j(fm)).val(zipcode);
+	//$j("[name=receiver_zipcode[1]]",$j(fm)).val(zipcode[1]);
+	$j("[name=receiver_addr]",$j(fm)).val(receiver_addr);
+	$j("[name=receiver_addr_sub]",$j(fm)).val("");
+	$j("[name=receiver_addr_sub]",$j(fm)).trigger("focus");
+
+	return;
+}
+
+function viewAddressBox(obj,mode){
+	$j(".addressBox").each(
+	function(){
+		$j(this).css("display","none");
+	});
+
+	if (mode=="show") $j("#"+obj).show();
+	if (mode=="hide") $j("#"+obj).hide();
+	
+	return;
+}
+
+function selectAddress(addressno){
+	opener._address(addressno);
+	window.close();
+}
+</script>

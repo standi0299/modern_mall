@@ -1,0 +1,94 @@
+{ # header }
+
+<div id="my_tqb_menu">
+	<ul style="padding:0;">
+		<li class="my_tab_active"><a href="orderlist.php">{=__text("주문배송")}</a><li>		
+		<li><a href="/order/editlist.php">{=__text("편집보관함")}</a><li>		
+		<li><a href="coupon.php">{=__text("쿠폰·적립금")}</a><li>		
+		<li><a href="/mypage/jjim_list.php">{=__text("찜목록")}</a><li>		
+		<li><a href="/mypage/payback_intro.php" class="under_bor14">{=__text("페이백")}</a></li>
+		<li><a href="document.php">{=__text("서류발급신청")}</a><li>		
+		<li><a href="/member/myinfo.php">{=__text("회원정보변경")}</a><li>
+	</ul>
+</div>
+
+<div class="si_body" style="height:auto;">
+	<div class="cu_radio">
+		<div class="cu_radio_1">
+			<input type="radio" class="lastbox1" name="oneone" onclick="location.href='/mypage/payback_write.php';"><label>신청하기</label>
+		</div>
+		<div class="cu_radio_1">
+			<input type="radio" class="lastbox1" name="oneone" checked><label>신청내역</label>
+		</div>
+	</div>
+	
+	<div class="gein_ne" id="geinoi_2" style="height:auto;">
+		<div class="neuck">
+			<ul>
+				<li style="width:90px;">주문번호</li>
+				<li style="width:395px;">제목</li>
+				<li style="width:80px;">신청일</li>
+				<li style="width:80px;">답변상태</li>
+			</ul>
+		</div>
+		
+		<!--{ @ loop }-->
+			<div class="neuck_con">
+				<ul>
+					<li style="width:100px; text-align:center; position:relative; top:3px;">{.payno}</li>
+					<li style="width:430px; text-align:left;">
+						<ul>
+							<li>
+								<div class="qq_re_1" id="qq_no_faq_{.index_}" onclick="slide_view('{.index_}');">
+									<div class="play_rev">
+										<span>{.subject}</span>
+									</div>
+								</div>
+								
+								<div class="aa_re_1" id="aa_no_faq_{.index_}" onclick="slide_view('{.index_}');">
+									<div class="play_revd">
+										<div class="play_riri">
+											<i>Q.</i>
+											<span>
+												{=nl2br(.content)}
+												<!--{ ? .img }--><div style="margin-top:10px;">{=__text("첨부파일")} : <a href="../data/board/{.cid}/cs/{.img}" target="_blank">{.img}</a></div><!--{ / }-->
+											</span>
+										</div>
+										<div class="play_riri">
+											<!--{ ? .reply }-->
+												<i>A.</i>
+												<span>{=nl2br(.reply)}</span>
+											<!--{ / }-->
+										</div>	
+									</div>
+									<div class="neuck_btn">
+										<!--{ ? !.reply }--><button type="button" onclick="location.href='payback_write.php?no={.no}';">수정</button><!--{ / }-->
+										<!--<button type="button">삭제</button>-->
+									</div>
+								</div>
+							</li>
+						</ul>			
+					</li>
+					<li style="width:95px; text-align:center; position:relative; top:3px;">{=substr(.regdt,0,10)}</li>
+					<li style="width:100px; text-align:center; position:relative; top:3px;">
+						<!--{ ? .reply }-->
+							{=__text("답변완료")}
+						<!--{ : }-->
+							{=__text("답변대기")}
+						<!--{ / }-->
+					</li>
+				</ul>
+			</div>
+		<!--{ / }-->
+	</div>
+	
+	<div style="margin:30px 60px 30px 0; width:1140px; text-align:center; clear:both;">{=pg->page['navi_p1']}</div>	
+</div>
+
+<script>
+	function slide_view(idx){
+		$("#aa_no_faq_"+idx).toggle();
+	}
+</script>
+
+{ # footer }

@@ -1,0 +1,51 @@
+{ # header }
+<div id="container-pupa">
+	<div class="container_inner">
+		<h2 class="category-title">{board.board_name}</h2>
+		
+		<table class="inquiry-table">
+			<colgroup>
+				<col width="140" />
+				<col width="*" />
+				<col width="140" />
+				<col width="140" />
+			</colgroup>
+			<thead>
+				<tr>
+					<th>번호</th>
+					<th>내용</th>
+					<th>작성일</th>
+					<th>조회수</th>
+				</tr>
+			</thead>
+			<tbody>
+				<!--{ @ loop }-->
+					<tr>
+						<td>
+							<!--{ ? .notice }-->
+							<span>{=__text("알림")}!</span>
+							<!--{ : }-->
+							{pg->idx-.index_}
+							<!--{ / }-->
+						</td>
+						<td class="inquiry-title">
+							{.link_view}{.subject}</a>
+						</td>
+						<td>{=substr(.regdt,0,10)}</td>
+						<td>{=number_format(.hit)}</td>
+					</tr>
+				<!--{ / }-->
+			</tbody>
+		</table>
+		<!--
+		<div class="btn_wrap list_btn_wrap">
+			<a href="write.php?board_id={_GET.board_id}" class="btn_list">쓰기</a>
+		</div>
+		-->
+		<div class="paging-wrap mt60">
+			{pg->page['navi_m2']}
+		</div>
+	</div><!-- container_inner End -->
+</div>
+
+{ # footer }

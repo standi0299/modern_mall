@@ -1,0 +1,338 @@
+{ # header }
+
+<div id="login-edit-storage-page" >
+	<section class="content-container">
+		
+		<div class="tablize">
+			<div class="table-row">
+				<div class="cell vertical-middle">
+					<h1 class="payment-title">{=__text("편집리스트")}</h1>
+				</div>
+				<div class="cell right vertical-middle text-right">
+
+				</div>
+			</div>
+		</div>
+		
+		<div id="order-page-menu">
+			<!--{ @ f_banner_s2('order_editlist_top_title')}-->{.banner}<!--{ / }-->
+		</div>
+		
+		<div class="order-page-menu">
+			※{=__text("편집보관함은")} {_cfg.source_save_days}{=__text("일동안 보관됩니다.")}
+		</div>
+		
+	</section>
+	<script type="text/javascript">
+		var kidsnote_selected_center_id = false;
+	</script>
+	<form name="fmView">
+	<input type="hidden" name="mode"/>
+	<input type="hidden" name="mode2"/>
+	<input type="hidden" name="goodsno"/>
+	<input type="hidden" name="productid"/>
+	<input type="hidden" name="podoptno"/>
+	<input type="hidden" name="storageid"/>
+	<input type="hidden" name="storageids"/>
+	<input type="hidden" name="optno"/>
+	<input type="hidden" name="addopt"/>
+	<input type="hidden" name="ea"/>
+	<input type="hidden" name="mid" value="{_sess.mid}"/>
+	
+	<section class="content-container">
+		<div class="h-group cart-list-nav">
+			<!--
+			<div class="col">
+				<a href="#" class="btn btn-blue-link">전체선택</a>
+			</div>
+			-->
+		</div>
+		<div class="list-container">
+			<ul class="h-group list-type-card">
+				<!--{ @ loop }-->
+				<li class="col card-content-wrap ">
+					<div class="card-content is-done">
+						<div class="thumbnail-wrap">
+							<div class="thumbnail">{=goodsListImg(.goodsno,'348','300','border:2px solid #dedede')}</div>
+						</div>
+						<div class="card-text-wrap">
+							<div class="bullet">
+								<input type="checkbox" name="cartno[]" value="{.storageid}" label="{=__text('편집상품')}" {? .state == 9}disabled{/} required>
+							</div>
+							<div class="title">
+								<a href="{.link}">
+									{.goodsnm}
+								</a><br/>
+								<!--{ ? .title }-->
+								<span class="desc"><!--<br>- {.title}<br>-->
+									<div id="{.storageid}_update" style="display: inline; ont-size: 12px; ">
+										<input type="text" id="{.storageid}_title1" value="{.title}" />
+										<a href="#" onclick="editTitle('{.storageid}','{.storageid}_title1');">{=__text("제목 수정")}</a>
+									</div>
+								</span>
+								<!--{ : }-->
+								<span class="desc">
+									<div id="{.storageid}_insert" style="display: inline;font-size: 12px; ">
+										<input type="text" id="{.storageid}_title2" />
+										<a href="#" onclick="editTitle('{.storageid}','{.storageid}_title2');">{=__text("제목 추가")}</a>
+									</div>
+								</span>
+								<!--{ / }-->
+							</div>
+							<div class="option">
+								<span class="option-text" style="font-size: 12px;">
+									<!--{ ? .opt }-->
+										<div class="blue desc">{=__text("옵션")} [ {.opt} ]</div>
+									<!--{ / }-->
+									<!--{ ? .addopt }-->
+										<!--{ @ .addopt }-->
+											<div class="desc">{..addopt_bundle_name} : {..addoptnm}</div>
+										<!--{ / }-->
+									<!--{ / }-->
+									<!--{ ? .printopt_desc}-->
+										<div class="desc">{.printopt_desc}</div>
+									<!--{ / }-->
+									<!--{ ? .cover_range_data }-->
+										<div class="desc">{.cover_range_data}</div>
+									<!--{ / }-->
+								</span>
+							</div>
+									
+							<!--<div class="progress">
+								<div class="progress-bar-wrap">
+									<div class="progress-bar" style="width: 10%"></div>
+									<div class="progress-bar-bg"></div>
+								</div>
+								<div class="progress-text progress-num">00%</div>
+								<div class="progress-text progress-done">
+									<a href="#">편집완료/미리보기</a>
+								</div>
+							</div>-->
+							<span class="desc">
+
+							<!-- Kidsnote에서 소속기관 선택하는 방법 -->
+							<!--{ ? _cid == 'kidsnote' }-->
+								<!--{ ? kn_centerList.size_ > 0 }-->
+									<div id="col select-box" style="display: inline;font-size: 14px; width: 100%; margin: 0 auto">
+										 {=__text("소속기관 : ")}
+										<select id="kidsnoteCenterListId{.key_}" onclick="">
+											<option value="">{=__text("선택")}</option>
+											<!--{ @ kn_centerList}-->
+											<option value={ ..value_['center_id'] }>{ ..value_['center_name'] }</option>
+											<!--{ / }-->
+										</select>
+									</div>
+								<!--{ : }-->
+									<div id="col select-box" style="display: inline;font-size: 14px; width: 100%; margin: 0 auto">
+										 {=__text("소속기관 : ")}
+										<select id="kidsnoteCenterListId{.key_}" onclick="">
+											<option value="1" selected >{=__text("선택")}</option>
+
+										</select>
+									</div>
+								<!--{ / }-->
+							<!--{ / }-->
+
+							</span>
+																
+							<div class="price-count h-group" style="font-size: 12px;">
+								{=__text("상태")} : 
+								<!--{ ? .PROGRESS!="" }-->
+								<td>{=_r_state[.state]}({.PROGRESS})</td>
+								<!--{ : }-->
+								<td>{=_r_state[.state]}</td>
+								<!--{ / }-->
+
+								<a href="?mode=del&storageid={.storageid}" {=__onclick_confirm("해당 상품을 삭제하시겠습니까?")}>{=__text("삭제")}</a>
+								<!--{ ? .goodsno!='-1' }-->
+									
+									<!--{ ? .pods_use != 3 && .pods_editor_type.editor_web != "web" }-->
+										<!--{ ? !.printopt_desc   }--> <!--복사기능 숨김_ !.printopt_desc 이거였음 !-->
+											<a href="javascript:pods_editor_itembox_saveas('{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','{.pods_use}','{.podskind}', '{.cover_id}','{kn_token}',{.key_})">{=__text("복사")}</a>
+										<!--{ / }-->
+									<!--{ / }-->
+
+								<!--{ ? kn_centerList != "" }-->
+										<!--{ ? .state != 9 && .pods_editor_type.editor_web != "web"  }-->
+											<a href="javascript:kidsnotePodCallExec('{.pods_use}','{.podskind}','{.podsno}','{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','','','','','','','','{.cover_id}','','{.cartno}','{kn_token}',{.key_})">{=__text("편집")}</a>
+										<!--{ :  }-->
+											<a href="javascript:PodsCallEditorUpdate('{.pods_use}','{.podskind}','{.podsno}','{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','','','','','','','','{.cover_id}','web','{.cartno}')">{=__text("편집")}</a>
+										<!--{ / }-->
+
+									<!--{:}-->
+										<!--{ ? .goodsno != '-1' }-->
+
+											<!--{ ? .state != 9 &&.podskind > 0 }-->
+
+												<!--{ ?  .pods_editor_type.editor_web == "web" }-->
+													<a href="javascript:PodsCallEditorUpdate('{.pods_use}','{.podskind}','{.podsno}','{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','','','','','','','','{.cover_id}','web','{.cartno}')">{=__text("편집")}</a>
+
+													<!--{ : }-->
+														<!--{ ? .storageid}-->
+													<a href="javascript:PodsCallEditorUpdate('{.pods_use}','{.podskind}','{.podsno}','{.goodsno}','{.optno}','{.storageid}','{.podsno}','{.podoptno}','{.r_addoptno}','{.ea}','','','','','','','','{.cover_id}','','{.cartno}')">{=__text("편집")}</a>
+														<!--{ / }-->
+												<!--{ / }-->
+											<!--{ / }-->
+										<!--{ / }-->
+								<!--{ / }-->
+
+										<a href="javascript:popup('../module/preview.php?goodsno={.goodsno}&storageid={.storageid}',1000,650, 1);">{=__text("미리보기")}</a>
+								<!--{ / }-->
+								<br>{=__text("수정")} : {.updatedt}
+								{=__text("/ 삭제")} : {.source_del_days}
+							</div>						
+						</div>
+					</div>
+				</li>
+				<!--{ / }-->
+			</ul>
+		</div>
+		<div id="btn-wrap">
+			<a href="/main/index.php" class="btn btn-primary">{=__text("쇼핑계속하기")}</a>
+			<a href="javascript:exec('cart_edit','move')" class="btn btn-primary">{=__text("주문하기")}</a>
+		</div>
+	</section>
+	</form>
+</div>
+
+<script type="text/javascript" >
+	//function kidsnoteSelectedCenter(v){
+	//	kidsnote_selected_center_id = v;
+	//}
+
+	function kidsnotePodCallExec(pods_use,podskind,podsno,goodsno,optno,storageid,podsno2,podoptno,r_addoptno,ea,aaa,baa,caa,daa,eaa,faa,gaa,cover_id,haa,cartno,kn_token,selectKey){
+
+		//var kidsnote_CenterId_SelectList_Id = document.getElementById("kidsnoteCenterListId"+selectKey).id;
+		let kidsnote_selected_center_id = document.getElementById("kidsnoteCenterListId"+selectKey).value;
+		if(kidsnote_selected_center_id){
+
+			kidPodsCallEditorUpdate(pods_use,podskind,podsno,goodsno,optno,storageid,podsno2,podoptno,r_addoptno,ea,aaa,baa,caa,daa,eaa,faa,gaa,cover_id,haa,cartno,kn_token,kidsnote_selected_center_id);
+
+		}else{
+			alert('소속기관을 선택해주세요.');
+		}
+	}
+
+	function pods_editor_itembox_savea_Kidsnote(goodsno,optno,storageid,productid,optionid,addopt,ea,podsuse,podskind,cover_id,kn_token,selectKey){
+//alert("클릭")
+		$j("input[name=cartno[]]").each(function(){
+			$j(this).attr("checked",false);
+		});
+
+		if (!optionid){
+			optionid = 1;
+		}
+
+		var fm = document.fmView;
+		fm.goodsno.value = goodsno;
+		fm.optno.value = optno;
+		fm.productid.value = productid;
+		fm.podoptno.value = optionid;
+		fm.addopt.value = addopt;
+		fm.ea.value = ea;
+
+		kidsnote_selected_center_id = document.getElementById("kidsnoteCenterListId"+selectKey).value;
+
+		if(kidsnote_selected_center_id){
+		var url = "../module/popup_calleditor_v2.php?editmode=saveas&mode=edit&goodsno="+goodsno+"&optno="+optno+"&productid="+productid+"&podsno="+productid+"&optionid="+optionid+"&addopt="+addopt+"&storageid="+storageid+"&podskind="+podskind+"&pods_use="+podsuse+"&cover_id="+cover_id+"&center_id="+kidsnote_selected_center_id
+
+			// kidsnote인경우 토큰및 센터아이디 넘김 211113 jtkim
+			if(typeof (kn_token) != undefined && kn_token != null && kn_token != ""){
+				url += "&token=" + kn_token;
+			}
+			popupLayer(url,"","","",1);
+
+		}else{
+			alert('소속기관을 선택해주세요.');
+		}
+	}
+
+	function pods_editor_itembox_saveas(goodsno,optno,storageid,productid,optionid,addopt,ea,podsuse,podskind,cover_id){
+//alert("클릭")
+		$j("input[name=cartno[]]").each(function(){
+			$j(this).attr("checked",false);
+		});
+
+		if (!optionid){
+			optionid = 1;
+		}
+
+		var fm = document.fmView;
+		fm.goodsno.value = goodsno;
+		fm.optno.value = optno;
+		fm.productid.value = productid;
+		fm.podoptno.value = optionid;
+		fm.addopt.value = addopt;
+		fm.ea.value = ea;
+
+
+		popupLayer("../module/popup_calleditor_v2.php?editmode=saveas&mode=edit&goodsno="+goodsno+"&optno="+optno+"&productid="+productid+"&podsno="+productid+"&optionid="+optionid+"&addopt="+addopt+"&storageid="+storageid+"&podskind="+podskind+"&pods_use="+podsuse+"&cover_id="+cover_id,"","","",1);
+
+	}
+
+
+
+	function pods_editor_itembox(goodsno,optno,storageid,productid,optionid,addopt,ea,podsuse){
+		if (!optionid){
+			optionid = 1;
+		}
+
+		if(podsuse == "3") {
+			CrossDomainCartOpenEditor(goodsno,optno,storageid,productid,optionid,addopt,ea,'');
+			return;
+		}
+		else {
+			popupLayer("../module/popup_calleditor_v2.php?mode=edit&goodsno="+goodsno+"&optno="+optno+"&productid="+productid+"&optionid="+optionid+"&addopt="+addopt+"&storageid="+storageid,"","","",1);
+		}
+	}
+
+	//photowiki skin의 기능을 수정해서 추가 / 17.01.31 / kjm
+	function editTitle(storageid,title){
+		var storageid = storageid;
+		var str = title.charAt(title.length - 1);
+		var title = document.getElementById(title).value;
+
+		if(!title){
+			alert({=__java("내용이 없습니다.")});
+			return;
+		}
+
+		var word = "";	
+		if(str == 1) word = {=__java("수정")};
+		else word = {=__java("추가")};
+
+		if(confirm({=__java("편집타이틀을")}+' '+word+{=__java("하시겠습니까?")}) == true){
+			location.href = "?mode=edittitle&storageid="+storageid+"&title="+title;
+		} else {
+			return;
+		}
+	}
+	
+	/*function exec(mode,mode2) {
+		if (!form_chk(document.fm)){
+			return;
+		}
+		var fm = document.fm;
+		fm.action =  "../order/cart.php";
+		fm.mode.value = mode;
+		fm.mode2.value = mode2;
+	
+		fm.submit();
+	}*/
+
+	function exec(mode, saveas) {
+		var saveas = saveas;
+
+		if (saveas != 'saveas' && !form_chk(document.fmView)){
+			return;
+		}
+		var fm = document.fmView;
+		fm.action =  "../order/cart.php";
+		fm.mode.value = mode;
+	
+		fm.submit();
+	}
+
+</script>
+
+{ # footer }

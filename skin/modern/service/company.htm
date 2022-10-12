@@ -1,0 +1,23 @@
+{ # header }
+
+<section id="review-foam-layout">
+	<div>
+		<!--{ ? f_banner_s2('service_company')}-->
+			<!--{ @ f_banner_s2('service_company')}-->{.banner}<!--{ / }-->
+		<!--{ : }-->					
+		<span>{=__text("회사소개")}</span>
+		<!--{ / }-->
+	</div>
+	<div>
+		{_company}
+	</div>
+</section>
+
+<script type="text/javascript">
+$j(function() {
+	$j("body").attr("id", "review-form-page");
+	$j("body").attr("class", "cs-layout");
+});
+</script>
+
+{ # footer }
